@@ -1,0 +1,44 @@
+import React, { Component } from 'react'
+import Validation from './Validation'
+import steem from 'steem'
+
+export default class LoginForm extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+       name: '',
+       wif: ''
+    }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleInputChange = this.handleInputChange.bind(this)
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    if(this.state.name.length < 3 || this.state.wif.length < 51) {
+
+      //placeholder for future alerts
+      return alert('Wrong username or password')
+    }
+    console.log(Validation(this.state))
+  }
+  handleInputChange(e) {
+    const target = e.target;
+    let value = e.target.value;
+    const name = target.name;
+
+    this.setState({
+        [name]: value
+    })
+  }
+  
+  render() {
+    return (
+        <form onSubmit={this.handleSubmit}>
+          <input name="name" value={this.state.name} onChange={this.handleInputChange} placeholder="Steem username" />
+          <input name="wif" value={this.state.wif} onChange={this.handleInputChange} placeholder="Private posting key" />
+          <button>Login</button>
+        </form>
+    )
+  }
+}

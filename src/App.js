@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
 import './App.css';
 import cookie from 'react-cookies'
-
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import LoginForm from './Components/LoginForm'
+import Validation from './Components/Validation'
 class App extends Component {
   constructor(props) {
     super(props)
-  
+
     this.state = {
-      cookies: cookie.load('login')
+      login: cookie.load('login') !== undefined ? true : false,
     }
-  }
-  componentWillMount() {
-    cookie.save('login', {userId:'admin', password:'admin1'})
-    cookie.loadAll()
     
+  }
+  componentDidMount() {
+
+    console.log(this.state.login)
+
   }
   render() {
     return (
       <div className="App">
-       
-
-         {this.state.cookies.userId + ' ' + this.state.cookies.password}
-       
+          <LoginForm checkLogin={this.checkLogin}/>
       </div>
     );
   }
 }
 
-export default App;
+export default App

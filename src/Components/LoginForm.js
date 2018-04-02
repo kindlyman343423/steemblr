@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Validation from './Validation'
-import steem from 'steem'
+
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -13,14 +13,22 @@ export default class LoginForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
   }
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
+    const validationPromise = await Validation(this.state)
     if(this.state.name.length < 3 || this.state.wif.length < 51) {
 
       //placeholder for future alerts
       return alert('Wrong username or password')
+    } else if(validationPromise === false) {
+      return alert('Wrong username or password')
+    } else if(validationPromise === true) {
+      return alert('Success!!')
     }
-    console.log(Validation(this.state))
+    
+    
+     
+
   }
   handleInputChange(e) {
     const target = e.target;

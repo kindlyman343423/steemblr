@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import cookie from 'react-cookies'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+//import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import LoginForm from './Components/LoginForm'
-import Validation from './Components/Validation'
 class App extends Component {
   constructor(props) {
     super(props)
@@ -21,7 +20,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <LoginForm checkLogin={this.checkLogin}/>
+          <LoginForm/>
       </div>
     );
   }

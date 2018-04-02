@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Validation from './Validation'
 import cookie from 'react-cookies'
-
 export default class LoginForm extends Component {
   constructor(props) {
     super(props)
@@ -14,6 +13,7 @@ export default class LoginForm extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
   }
   async handleSubmit(e) {
+    
     e.preventDefault();
     const validationPromise = await Validation(this.state)
     if(this.state.name.length < 3 || this.state.wif.length < 51) {
@@ -24,6 +24,7 @@ export default class LoginForm extends Component {
       return alert('Wrong username or password')
     } else if(validationPromise === true) {
       cookie.save('token', {name: this.state.name, wif: this.state.wif})
+      this.props.updateAppComponent()
       return alert('Success!!')
     }
     

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Validation from './Validation'
-
+import cookie from 'react-cookies'
 
 export default class LoginForm extends Component {
   constructor(props) {
@@ -23,6 +23,7 @@ export default class LoginForm extends Component {
     } else if(validationPromise === false) {
       return alert('Wrong username or password')
     } else if(validationPromise === true) {
+      cookie.save('token', {name: this.state.name, wif: this.state.wif})
       return alert('Success!!')
     }
     

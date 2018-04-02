@@ -8,12 +8,11 @@ class App extends Component {
     super(props)
 
     this.state = {
-      login: cookie.load('login') !== undefined ? true : false,
+      login: cookie.load('token') !== undefined ? true : false,
     }
     
   }
   componentDidMount() {
-
     console.log(this.state.login)
 
   }

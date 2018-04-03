@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Intro from './Components/Intro'
-import Header from './Components/Header'
+import Header from './Header/Header'
 //import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Portal from './Components/Portal'
 

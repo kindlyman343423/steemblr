@@ -1,0 +1,6 @@
+.Header { 
+  background-color: #455A64;
+  color: #fff;
+  display: grid;
+  grid-template-columns: repeat(3, 33% [col-start]) 5%;
+}

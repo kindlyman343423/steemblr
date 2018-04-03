@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import cookie from 'react-cookies'
+
 import Intro from './Components/Intro'
 import Header from './Components/Header'
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+//import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Portal from './Components/Portal'
 
 class App extends Component {

@@ -10,6 +10,9 @@ node_modules/
 
 # production
 /build
+#important files
+
+/src/environment.js*
 
 # misc
 .DS_Store

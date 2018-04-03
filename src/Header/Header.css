@@ -9,3 +9,12 @@ input {
   
   height: 20px;
 }
+.avatar {
+  display: inline-block;
+  position: relative;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  border-radius: 20%;
+  background-size: 100% 100%;
+}

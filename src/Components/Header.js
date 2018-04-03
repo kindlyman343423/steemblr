@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import LoginForm from './LoginForm'
-import cookie from 'react-cookies'
 
+import Dashboard from './Dashboard'
+import LoginModal from './LoginModal'
 
 export default class Header extends Component {
   constructor(props) {
@@ -10,15 +10,9 @@ export default class Header extends Component {
     this.state = {
       login: this.props.login
     }
-    this.updateAppComponent = this.updateAppComponent.bind(this)
 
   }
-  updateAppComponent() {
-    this.setState({
-      login: true
-    })
-    this.props.updateLoginStatus()
-  }
+
   render() {
     return (
       <div>
@@ -26,7 +20,7 @@ export default class Header extends Component {
 
         <div>
           <input placeholder="Search" />  
-          {this.state.login === true ? <h3>DASHBOARD</h3> : <LoginForm updateAppComponent={this.updateAppComponent}/>}
+          {this.state.login === true ? <Dashboard /> : <LoginModal updateAppComponent={this.updateAppComponent}/>}
         </div>
 
       </div>

@@ -1,11 +1,27 @@
 import React, { Component } from 'react'
 
-export default class Portal extends Component {
+
+
+class Portal extends Component {
+
+  constructor(props) {
+    
+    super(props)
+  
+    this.state = {
+      
+    }
+
+  }
+
   render() {
+    
     return (
       <div>
-        <h2>Portal</h2>
+        <h2>Portal Content</h2>
       </div>
     )
   }
 }
+
+export default Portal

@@ -13,7 +13,7 @@ node_modules/
 #important files
 
 /src/environment.js*
-
+/src/placeholder.js*
 # misc
 .DS_Store
 .env.local

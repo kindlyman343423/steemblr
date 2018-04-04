@@ -2,27 +2,34 @@ import React, { Component } from 'react'
 
 import Dashboard from './Dashboard'
 import LoginModal from './LoginModal'
-import './Header.css' 
+import { Input } from 'rebass'
+
+import './Header.css'
+
+
 export default class Header extends Component {
   constructor(props) {
     super(props)
-  
+
     this.state = {
-      login: this.props.login
+      login: this.props.login,
+      tags: ['music', 'story']
     }
 
   }
 
+
   render() {
     return (
+
       <div className="Header">
-        <h1>steemblr</h1>
-
+        <h2>steemblr</h2>
         
-          <input placeholder="Search" />  
-          {this.state.login === true ? <Dashboard /> : <LoginModal updateAppComponent={this.updateAppComponent}/>}
+          <Input bg='white' color="black"  placeholder="Search"/>
         
 
+
+        {this.state.login === true ? <Dashboard /> : <LoginModal updateAppComponent={this.updateAppComponent} />}
       </div>
     )
   }

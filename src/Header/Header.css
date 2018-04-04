@@ -1,10 +1,9 @@
 .Header { 
-  background-color: #273f54;
   color: #fff;
   display: grid;
   grid-template-columns: 25% 50% 25%;
   align-items: center;
-  
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 

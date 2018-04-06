@@ -7,6 +7,7 @@ import { Avatar } from 'rebass'
 import Header from './Header'
 
 import { MdHome, MdExplore, MdBorderColor} from 'react-icons/lib/md/'
+
 export default class componentName extends Component {
   constructor(props) {
     super(props)

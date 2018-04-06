@@ -15,6 +15,10 @@ node_modules/
 
 /src/environment.js*
 /src/placeholder.js*
+*serviceAccount.json*
+*cloud-functions-emulator.log*
+*firebase-debug.log*
+
 # misc
 .DS_Store
 .env.local

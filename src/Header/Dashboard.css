@@ -1,9 +1,18 @@
 svg {
   margin-right: 5px;
 }
-a {
-  color: white;
-}
 .selected {
   color: #607D8B;
+  text-decoration: none;
+}
+
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+.unselected {
+  text-decoration: none;
+  color: white;
 }

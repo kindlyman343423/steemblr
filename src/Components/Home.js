@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Provider, Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner } from 'rebass'
-import { injectGlobal } from 'styled-components'
+import { Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner } from 'rebass'
 
-class Portal extends Component {
+
+class Home extends Component {
 
   constructor(props) {
 
@@ -17,7 +17,7 @@ class Portal extends Component {
   render() {
 
     return (
-
+      
       <Flex alignItems='center' justifyContent='center' flexWrap='wrap' flexDirection='column'>
 
 
@@ -41,23 +41,15 @@ class Portal extends Component {
             </Blockquote>
           </Card>
         </Box>
-        <Box width={1 / 2} p={3}>
-          <Card >
-            <BackgroundImage
-              ratio={1}
-              src='https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20'
-            />
-            <Subhead p={2}>
-              Hello
-              </Subhead>
-          </Card>
-        </Box>
+        
 
 
+      
+      
       </Flex>
-
+      
     )
   }
 }
 
-export default Portal
+export default Home

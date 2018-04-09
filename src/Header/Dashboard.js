@@ -1,12 +1,16 @@
 import React, { Component } from 'react'
 import api from '../Api'
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 import './Dashboard.css'
-import { Avatar } from 'rebass'
-import Header from './Header'
 
+
+
+import ProfileMenu from './ProfileMenu'
 import { MdHome, MdExplore, MdBorderColor} from 'react-icons/lib/md/'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
 
 export default class componentName extends Component {
   constructor(props) {
@@ -36,24 +40,27 @@ export default class componentName extends Component {
   }
   render() {
     const dashboard = {
+   
+     
       padding: '20px',
       display: 'flex',
       alignItems:'center',
-      textDecoraton: 'none'
+      
     }
 
     return (
-      <Router >
+      
         <div style={dashboard}>
-        <NavLink activeClassName="selected" to="/home"><MdHome size={48}/></NavLink>
+        <NavLink activeClassName="selected" to="/home" ><MdHome size={48}/></NavLink>
         <NavLink activeClassName="selected" to="/explore"><MdExplore size={48}/></NavLink>
         <NavLink activeClassName="selected" to="/AddNew"><MdBorderColor size={36}/></NavLink>
-        <Avatar
-          size={48}
-          src={this.state.avatar}
-        />
+        <MuiThemeProvider><ProfileMenu avatar={this.state.avatar}/> </ MuiThemeProvider>
         </div>
-      </Router>
+     
     )
+  }
+
+  newMethod() {
+    return '5px';
   }
 }

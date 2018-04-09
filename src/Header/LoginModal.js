@@ -2,7 +2,15 @@ import React, { Component } from 'react'
 //import sc2 from 'sc2-sdk'
 import Modal from 'react-modal'
 import api from '../Api'
+import styled from 'styled-components'
+
+const Anchor = styled.a`
+  color: black;
+`
 const customStyles = {
+  a: {
+    color: 'red'
+  },
   content : {
     top                   : '50%',
     left                  : '50%',
@@ -63,7 +71,7 @@ export default class LoginModal extends Component {
           style={customStyles}
           contentLabel="Example Modal"
         >
-        <a href={link}>Login with steemconnect</a>
+        <Anchor a href={link}>Login with steemconnect</Anchor>
         </Modal>
       </div>
     )

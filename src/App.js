@@ -5,8 +5,9 @@ import Logout from './Components/Logout'
 import Intro from './Components/Intro'
 import Header from './Header/Header'
 
-
-
+import getFirebaseToken from './Functions/getFirebaseToken'
+import firebaseAuth from './Functions/firebaseAuth'
+import steemProfile from './Functions/steemProfile'
 
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom"
 
@@ -25,57 +26,37 @@ class App extends Component {
       cLogin: localStorage.getItem('cToken') !== null ? true : false,
 
     }
-    this.apiCall = this.apiCall.bind(this)
+    
     this.handleLogout = this.handleLogout.bind(this)
 
-    // Logging in with Token from firebase
+ 
 
-    /*firebase.auth().signInWithCustomToken(localStorage.getItem('cToken')).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-    }) 
    
-    // Example of simple post that only auth user can make
-
-    firebase.database().ref('users/' + 'snwolak').set({
-      blogName: 'Potęga Wiktorii i Pierwiastki Sajmonów',
-      profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png'
-    }) */
 
   }
-  componentWillMount() {
+  async componentWillMount() {
+
+    if(this.state.login) {
+      const profile = await steemProfile()
+  
+      getFirebaseToken(profile._id)
+      if(this.state.cLogin) {
+        firebaseAuth()
+          /*
+          // Example of simple post that only auth user can make
+
+          firebase.database().ref('users/' + profile._id).set({
+            blogName: 'Potęga Wiktorii i Pierwiastki Sajmonów',
+            profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png'
+          }) */
+      }
+    }
     //this.apiCall()
     //this.tokenCall()
   }
 
-  async tokenCall() {
-    const call = await fetch('http://localhost:5000/steady-dryad-163918/us-central1/sendBack?uuid=snwolak', {
-      method: 'GET', 
-      headers: {
-        Accept: 'application/json'
-      },
-    }).then(function(response) {
-        return response.json()
-    })
-      localStorage.setItem('cToken', call.token)
-  }
-  async apiCall() {
-
-    const test = await fetch('http://localhost:5000/steady-dryad-163918/us-central1/helloWorld ', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-    }).then(function (response) {
-      return response.json()
-    })
-    this.setState({
-      text: test.Profile
-    })
-
-  }
+  
+  
   handleLogout() {
     
     this.setState({

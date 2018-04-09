@@ -20,7 +20,7 @@ const serviceAccount = require('./serviceAccount.json')
     databaseURL:'https://steady-dryad-163918.firebaseio.com'
   })
   
-exports.sendBack = functions.https.onRequest((request, response) => {
+exports.reciveToken = functions.https.onRequest((request, response) => {
   response.set('Access-Control-Allow-Origin', '*')
   response.set('Access-Control-Allow-Methods', 'GET, POST')
   

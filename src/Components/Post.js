@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner } from 'rebass'
 
+
 const StyledDiv = styled.div`
     background-color: white;
-    width: 30%;
-    margin-bottom: 2.5em;
+    width: 24vw
+    margin-bottom: 10px;
     padding: 0.1em;
   `
 const Post = ({ props }) => (
-
+  
   <StyledDiv>
     <Card >
       <Banner

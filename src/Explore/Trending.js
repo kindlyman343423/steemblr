@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Post from '.././Components/Post'
 import getTrendingPosts from '.././Functions/getTrendingPosts'
 
 import Spinner from '.././Components/Spinner'
@@ -27,7 +28,7 @@ export default class Trending extends Component {
     return (
       <div>
         {this.state.posts.map((post) => {
-          return <p>{post.author}</p>
+          return <Post props={post}/>
         })}
       </div>
     )

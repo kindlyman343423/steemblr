@@ -8,6 +8,7 @@ import './Dashboard.css'
 
 import ProfileMenu from './ProfileMenu'
 import { MdHome, MdExplore, MdBorderColor} from 'react-icons/lib/md/'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -40,9 +41,9 @@ export default class componentName extends Component {
   }
   render() {
     const dashboard = {
-   
-     
-      padding: '20px',
+  
+      padding: '5px',
+      marginLeft: '4em',
       display: 'flex',
       alignItems:'center',
       

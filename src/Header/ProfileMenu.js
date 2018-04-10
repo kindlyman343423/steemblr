@@ -7,7 +7,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 
 import styled from 'styled-components'
-
+import  MdAccountBox from 'react-icons/lib/md/account-box'
 
 
 const StyledDiv = styled.div`
@@ -30,15 +30,15 @@ export default class ProfileMenu extends Component {
   handleClose = () => this.setState({open: false});
   
   render() {
- 
+    //<Avatar src={this.props.avatar} size={40} />
     return (
     
       <StyledDiv>
       
-      <Avatar src={this.props.avatar} size={40} onClick={this.handleToggle}/>
       
+      <MdAccountBox size={48} onClick={this.handleToggle}/>
         <Drawer open={this.state.open} openSecondary={true} docked={false}  onRequestChange={(open) => this.setState({open})} >
-         
+        
           <MenuItem>Profile</MenuItem>
           <MenuItem onClick={this.logout}><NavLink to="/logout">Logout</NavLink></MenuItem>
 

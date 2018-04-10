@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-//import sc2 from 'sc2-sdk'
 import Modal from 'react-modal'
 import api from '../Api'
 import styled from 'styled-components'

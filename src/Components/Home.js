@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner } from 'rebass'
 
-
+import getTrendingPosts from '.././Functions/getTrendingPosts'
+ 
 class Home extends Component {
 
   constructor(props) {
@@ -11,7 +12,7 @@ class Home extends Component {
     this.state = {
 
     }
-
+    getTrendingPosts('dsound')
   }
 
   render() {
@@ -26,10 +27,10 @@ class Home extends Component {
             <Banner
               color='white'
               bg='gray8'
-              backgroundImage='https://images.unsplash.com/photo-1462331940025-496dfbfc7564?w=2048&q=20'>
+              backgroundImage='https://78.media.tumblr.com/604ed3aaef4bb815dadc13dff8fede93/tumblr_oxw13gOF8g1vxwt7xo1_500.gif'>
               <Heading
                 f={[4, 5, 6, 7]}>
-                Ale to nie jest rozmowa na telefon
+                Ambitny tekst o życiu
               </Heading>
             </Banner>
 

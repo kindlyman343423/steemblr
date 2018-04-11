@@ -10,7 +10,6 @@ import InfiniteScroll from 'react-infinite-scroller'
 
 import styled from 'styled-components'
 
-
 const styles = {
 
   margin: '0 auto',
@@ -28,7 +27,7 @@ export default class Trending extends Component {
       posts: [],
       layoutReady: false
     }
-
+    
   }
   async loader() {
     const prevState = this.state.posts
@@ -71,11 +70,11 @@ export default class Trending extends Component {
           loadMore={this.loader.bind(this)}
           
           hasMore={true}
-          loader={<MuiThemeProvider><Spinner /></MuiThemeProvider>}
+          loader={<MuiThemeProvider  key={Math.random()} ><Spinner key={Math.random()}/></MuiThemeProvider>}
 
         >
 
-          <Masonry
+          <Masonry 
             style={styles}
             options={masonryOptions}
             threshold={0}
@@ -83,7 +82,8 @@ export default class Trending extends Component {
           >
 
           {this.state.posts.map((post) => {
-            return <Post props={post} />
+            
+            return <Post post={post} key={post.permlink}/>
           })}
             
 

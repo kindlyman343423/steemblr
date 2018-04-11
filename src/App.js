@@ -10,7 +10,7 @@ import Explore from './Explore/Explore'
 import getFirebaseToken from './Functions/getFirebaseToken'
 import firebaseAuth from './Functions/firebaseAuth'
 import steemProfile from './Functions/steemProfile'
-
+import getFollowing from './Functions/getFollowing'
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom"
 
 import environment from './environment'
@@ -28,6 +28,7 @@ class App extends Component {
     this.state = {
       login: localStorage.getItem('token') !== null ? true : false,
       cLogin: localStorage.getItem('cToken') !== null ? true : false,
+      steemProfile: []
 
     }
 
@@ -42,7 +43,12 @@ class App extends Component {
 
     if (this.state.login) {
       const profile = await steemProfile()
-
+      const following = await getFollowing(profile._id)
+      this.setState({
+        steemProfile: profile,
+        following: following
+      })
+      
       getFirebaseToken(profile._id)
       if (this.state.cLogin) {
         firebaseAuth()

@@ -3,14 +3,21 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-
 import { AppContainer } from 'react-hot-loader';
+
+import { Provider } from 'react-redux';
+import store from './store';
+
+
+
 
 const render = Component => {
   ReactDOM.render(
     // Wrap App inside AppContainer
     <AppContainer>
-      <App />
+      <Provider store={store}>
+        <App/>
+      </Provider>
     </AppContainer>,
     document.getElementById('root')
   );

@@ -25,9 +25,10 @@ export default class Trending extends Component {
     this.state = {
       isLoading: true,
       posts: [],
-      layoutReady: false
+      layoutReady: false,
+      following: this.props.following
     }
-    
+    //console.log(this.state.following)
   }
   async loader() {
     const prevState = this.state.posts
@@ -53,6 +54,12 @@ export default class Trending extends Component {
         layoutReady: true
       })
     }
+  }
+  checkFollowing(author) {
+    if(this.state.following === undefined) {
+      return false
+    }
+    return this.state.following.includes(author)
   }
   render() {
     const masonryOptions = {
@@ -83,7 +90,12 @@ export default class Trending extends Component {
 
           {this.state.posts.map((post) => {
             
-            return <Post post={post} key={post.permlink}/>
+            return <Post post={post} 
+                    username={this.props.username} 
+                    isFollowing={this.checkFollowing(post.author)} 
+                    key={post.permlink}
+                    
+                    />
           })}
             
 

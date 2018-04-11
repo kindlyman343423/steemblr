@@ -13,25 +13,37 @@ const StyledDiv = styled.div`
     margin-bottom: 10px;
     padding: 0.1em;
   `
+const Button = styled.button`
 
+`
 export default class Post extends Component {
   constructor(props) {
     super(props)
   
     this.state = {
-       isFollowing: false
+       isFollowing: this.props.isFollowing
     }
-
+    this.handleClick = this.handleClick.bind(this)
   }
+
+  handleClick() {
+    /*followSteem(this.props.username, this.props.post.author)
+    this.setState({
+      isFollowing: true
+    })
+    */
+  }
+
   render() {
     //console.log(this.props)
     return (
       <StyledDiv>
       <Card >
         {this.props.post.author}
-          <button onClick={() => {followSteem('test', this.props.post.author)}}>
-            {this.state.isFollowing ? '' : 'Follow'}
-          </button>
+        {this.state.isFollowing ? '' :
+          <button onClick={this.handleClick}>
+        Follow</button>}
+         
         <Banner
           color='white'
           bg='gray8'
@@ -39,7 +51,7 @@ export default class Post extends Component {
           <Heading
             f={[4, 5, 6, 7]}>
             {this.props.post.author}
-        </Heading>
+          </Heading>
         </Banner>
   
         <Subhead  textAlign='left'>
@@ -47,7 +59,7 @@ export default class Post extends Component {
         </Subhead>
         <Blockquote>
           {this.props.post.title}
-      </Blockquote>
+        </Blockquote>
       </Card>
     </StyledDiv>
     )

@@ -37,7 +37,6 @@ export default class componentName extends Component {
       avatar: avatar
     })
 
-    console.log(avatar)
   }
   render() {
     const dashboard = {

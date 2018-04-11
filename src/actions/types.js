@@ -1,0 +1,2 @@
+export const GET_LOGGED_PROFILE = 'GET_LOGGED_PROFILE';
+export const GET_FOLLOWING = 'GET_FOLLOWING';

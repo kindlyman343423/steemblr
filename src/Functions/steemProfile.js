@@ -7,7 +7,7 @@ const steemProfile = async () => {
     } else {
       return res
     }
-  });
+  })
   return profile
 }
 

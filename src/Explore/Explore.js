@@ -5,27 +5,32 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom"
 
 
-const place = ({ match }) => (
 
-  <div>
-  <h3>Section: {match.params.sectionName}</h3>
-</div>
+export default class Explore extends Component {
+  constructor(props) {
+    super(props)
   
-)
+    this.state = {
+       
+    }
 
-const Explore = ({ match }) => {
+    
+  }
   
-  return ( 
-    <div>
-      <HeaderTabs match={match}/>
-      
-      
-      
-      <Route path={`${match.url}/trending`} component={Trending} />
-    </div>
-  )
+  render() {
+    return (
+      <div>
+        <HeaderTabs match={this.props.match} />
+
+
+
+        <Route path={`${this.props.match.url}/trending`} render={(props) => (
+          <Trending {...props} following={this.props.following} username={this.props.username}/>
+        )} />
+      </div>
+    )
+  }
 }
 
 
-export default Explore
-  
+

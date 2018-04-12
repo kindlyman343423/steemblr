@@ -41,7 +41,6 @@ class Trending extends Component {
         items: store.getState()
       })
     })
-    console.log(this.state.items)
     
   }
   async loader() {
@@ -93,7 +92,7 @@ class Trending extends Component {
     const masonryOptions = {
       padding: 0,
       fitWidth: true,
-      gutter: 10,
+      gutter: 20,
       transitionDuration: 0,
       visibility: this.state.layoutReady ? 'visible' : 'hidden', 
     }
@@ -109,11 +108,11 @@ class Trending extends Component {
           loader={<MuiThemeProvider  key={Math.random()} ><Spinner key={Math.random()}/></MuiThemeProvider>}
 
         >
-
+          
           <Masonry 
             style={styles}
             options={masonryOptions}
-            threshold={0}
+            threshold={250}
             onLayoutComplete={this.handleLayoutReady.bind(this)}
           >
 

@@ -1,4 +1,4 @@
-import { GET_LOGGED_PROFILE, GET_FOLLOWING } from './types';
+import { GET_LOGGED_PROFILE, GET_FOLLOWING, CHANGE_LOGIN_STATUS } from './types';
 import api from '../Api'
 import steem from 'steem'
 
@@ -16,8 +16,8 @@ export const getUserProfile = () => async dispatch => {
       })
     );
 };
+
 export const getUserFollowing = (props) => async dispatch => {
-  console.log(props)
   let bucket = [];
   await steem.api.getFollowingAsync(props, 0, 'blog', 1000).then((result) => {
     result.map((item) => {
@@ -30,5 +30,10 @@ export const getUserFollowing = (props) => async dispatch => {
         payload: bucket
       })
     )
-
+}
+export const changeLoginStatus = (action) => dispatch => {
+  return dispatch({
+    type: CHANGE_LOGIN_STATUS,
+    payload: action
+  })
 }

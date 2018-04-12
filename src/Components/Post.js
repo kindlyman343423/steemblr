@@ -11,12 +11,16 @@ import followSteem from '.././Functions/followSteem'
 
 const StyledDiv = styled.div`
     background-color: white;
-    width: 24vw
+    width: 25vw
     margin-bottom: 10px;
-    padding: 0.1em;
+    padding: 0px !important;
+    border-radius: 1%;
+    
   `
 const Button = styled.button`
-
+    border-radius: 1%;
+`
+const StyledCard = Card.extend`
 `
 export default class Post extends Component {
   constructor(props) {
@@ -34,14 +38,15 @@ export default class Post extends Component {
     this.setState({
       isFollowing: true
     })
-    setTimeout(this.props.updateFollowingState, 5000);
+    setTimeout(this.props.updateFollowingState49
+      , 5000);
 
   }
 
   render() {
     return (
-      <StyledDiv>
-      <Card >
+    <StyledDiv>
+      <StyledCard p={0} >
         {this.props.post.author}
         {this.state.isFollowing ? '' :
           <button onClick={this.handleClick}>
@@ -63,7 +68,7 @@ export default class Post extends Component {
         <Blockquote>
           {this.props.post.title}
         </Blockquote>
-      </Card>
+      </StyledCard>
     </StyledDiv>
     )
   }

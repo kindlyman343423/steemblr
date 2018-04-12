@@ -17,9 +17,11 @@ import store from '.././store'
 const styles = {
 
   margin: '0 auto',
+
 }
 const Container = styled.div`
   margin-top: 2em;
+
 `
 
 class Trending extends Component {
@@ -89,6 +91,7 @@ class Trending extends Component {
   }
   render() {
     const masonryOptions = {
+      padding: 0,
       fitWidth: true,
       gutter: 10,
       transitionDuration: 0,

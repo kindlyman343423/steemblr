@@ -10,6 +10,10 @@ import InfiniteScroll from 'react-infinite-scroller'
 
 import styled from 'styled-components'
 
+//REDUX
+import { connect } from 'react-redux'
+import { getUserFollowing } from '.././actions/steemActions' 
+import store from '.././store'
 const styles = {
 
   margin: '0 auto',
@@ -18,7 +22,7 @@ const Container = styled.div`
   margin-top: 2em;
 `
 
-export default class Trending extends Component {
+class Trending extends Component {
   constructor(props) {
     super(props)
 
@@ -26,11 +30,20 @@ export default class Trending extends Component {
       isLoading: true,
       posts: [],
       layoutReady: false,
-      following: this.props.following
+      items: store.getState()
     }
-    //console.log(this.state.following)
+    this.updateFollowingState = this.updateFollowingState.bind(this)
+    
+    store.subscribe(() => {
+      this.setState({
+        items: store.getState()
+      })
+    })
+    console.log(this.state.items)
+    
   }
   async loader() {
+
     const prevState = this.state.posts
     const apiCall = await getTrendingPosts('dtube')
     const children = prevState.concat(apiCall)
@@ -38,28 +51,41 @@ export default class Trending extends Component {
     this.setState({
       posts: children
     })
+    
   }
   async componentWillMount() {
-  
     this.setState({
+      items: await store.getState(),
+      posts: await getTrendingPosts('dsound'), 
+      
+    })
+  }
+  async componentDidMount() {
     
-      posts: await getTrendingPosts('dsound'),
+    this.setState({
       isLoading: false
     })
     
   }
+ 
   handleLayoutReady() {
     if(!this.state.layoutReady) {
       this.setState({
-        layoutReady: true
+        layoutReady: true,
+       
       })
     }
   }
   checkFollowing(author) {
-    if(this.state.following === undefined) {
+    console.log()
+    if(this.state.items.following.users === undefined) {
       return false
     }
-    return this.state.following.includes(author)
+    return this.state.items.following.users.includes(author)
+  }
+  async updateFollowingState() {
+    await this.props.getUserFollowing(this.state.items.steemProfile.profile._id)
+    console.log('UPDEJTUJ')
   }
   render() {
     const masonryOptions = {
@@ -91,10 +117,10 @@ export default class Trending extends Component {
           {this.state.posts.map((post) => {
             
             return <Post post={post} 
-                    username={this.props.username} 
-                    isFollowing={this.checkFollowing(post.author)} 
-                    key={post.permlink}
-                    
+                    username={this.state.items.steemProfile.profile._id} 
+                    isFollowing={this.state.items.following.users.includes(post.author)} 
+                    key={post.permlink + Math.random()}
+                    updateFollowingState={this.updateFollowingState}
                     />
           })}
             
@@ -111,3 +137,9 @@ export default class Trending extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  steemProfile: state.steemProfile,
+  following: state.following,
+})
+
+export default connect(mapStateToProps, {getUserFollowing})(Trending)

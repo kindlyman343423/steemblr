@@ -14,7 +14,6 @@ export default class Explore extends Component {
        
     }
 
-    
   }
   
   render() {

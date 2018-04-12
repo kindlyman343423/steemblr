@@ -48,7 +48,7 @@ class App extends Component {
   async componentWillMount() {
 
     if (this.state.login) {
-     await this.props.getUserProfile()
+      await this.props.getUserProfile()
       await this.props.getUserFollowing(this.props.steemProfile.profile._id)
       const profile = await steemProfile()
       const followingBucket = await getFollowing(profile._id)
@@ -81,9 +81,7 @@ class App extends Component {
       cLogin: localStorage.getItem('cToken') !== null ? true : false,
     })
   }
-  onUpdateUser() {
-    this.props.onUpdateUser('Sammy')
-  }
+
   render() {
     return (
       
@@ -99,10 +97,7 @@ class App extends Component {
             <Logout {...props} handleLogout={this.handleLogout} />
           )} />
 
-          <Route path='/explore' component={(props) => (
-            <Explore following={this.props.following.users} username={this.state.steemProfile._id} {...props} />
-          )
-          } />
+          <Route path='/explore' component={Explore} />
 
         </div>
 

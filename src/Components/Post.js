@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+
 import styled from 'styled-components'
 import { Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner } from 'rebass'
 
 import { Link } from 'react-router-dom'
+
 import api from '.././Api'
 import followSteem from '.././Functions/followSteem'
 
@@ -26,16 +28,17 @@ export default class Post extends Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick() {
-    /*followSteem(this.props.username, this.props.post.author)
+  async handleClick() {
+    console.log(this.props.username)
+    followSteem(this.props.username, this.props.post.author)
     this.setState({
       isFollowing: true
     })
-    */
+    setTimeout(this.props.updateFollowingState, 5000);
+
   }
 
   render() {
-    //console.log(this.props)
     return (
       <StyledDiv>
       <Card >

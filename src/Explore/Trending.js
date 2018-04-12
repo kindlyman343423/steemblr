@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import Post from '.././Components/Post'
 import getTrendingPosts from '.././Functions/getTrendingPosts'
 

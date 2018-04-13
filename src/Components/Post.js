@@ -6,11 +6,16 @@ import { Avatar, MuiThemeProvider } from 'material-ui'
 
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText, Toggle } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-
+//ICONS
+import { MdInsertComment, MdFavorite } from 'react-icons/lib/md/'
+import { FaRetweet } from 'react-icons/lib/fa/'
+//ROUTER
 import { Link } from 'react-router-dom'
 
 import api from '.././Api'
 import followSteem from '.././Functions/followSteem'
+import steemVote from '.././Functions/steemVote'
+
 
 const AvatarStyles = {
   borderRadius: '0%',
@@ -36,13 +41,25 @@ const buttonStyles = {
   position: 'absolute',
   top: '0.5vw',
   right: '0vw'
-  
+
 }
 const textStyles = {
   padding: '0px'
 }
 const cardHeaderStyle = {
   paddingRight: '0px'
+}
+const CardActionStyles = {
+  textAlign: 'right',
+  paddingTop: '0px',
+  paddingBottom: '0px',
+  paddingRight: '0px',
+  paddingLeft: '8px'
+  
+}
+const sbdCounter = {
+  float: 'left',
+  textAlign: 'left'
 }
 export default class Post extends Component {
   constructor(props) {
@@ -52,6 +69,7 @@ export default class Post extends Component {
       isFollowing: this.props.isFollowing
     }
     this.handleClick = this.handleClick.bind(this)
+    this.handleVoting = this.handleVoting.bind(this)
   }
 
   async handleClick() {
@@ -61,7 +79,13 @@ export default class Post extends Component {
     })
     setTimeout(this.props.updateFollowingState
       , 5000);
+  }
 
+  async handleVoting() {
+    console.log(this.props)
+    await steemVote(this.props.username, this.props.post.author, this.props.post.permlink, 10000)
+    setTimeout(this.props.updateVotingState
+      , 3000);
   }
   randomImage() {
     const images = [
@@ -82,33 +106,44 @@ export default class Post extends Component {
 
     ]
     const randomNumber = Math.floor(Math.random() * images.length)
-    return images[randomNumber !== 0 ? randomNumber -1 : randomNumber]
+    return images[randomNumber !== 0 ? randomNumber - 1 : randomNumber]
   }
   render() {
     return (
       <MuiThemeProvider>
-      <StyledDiv>
-        <Card>
-          <CardHeader
-            titleStyle={cardHeaderStyle}
-            textStyles={textStyles}
-            title={this.props.post.author}
-            subtitle="Resteemed placeholder"
-            avatar={<Avatar size={32} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" style={AvatarStyles}/>}
-            children={ this.state.isFollowing ? '' : <FlatButton style={buttonStyles} onClick={this.handleClick}>Follow</FlatButton> }  
-          
-          />
-         
-          <CardMedia> 
-            <img src={this.randomImage()} alt="" />
-          </CardMedia>
-          
-          <CardText>
-            {this.props.post.title}
-          </CardText>
+        <StyledDiv>
+          <Card>
+            <CardHeader
+              titleStyle={cardHeaderStyle}
+              textStyles={textStyles}
+              title={this.props.post.author}
+              subtitle={this.props.isReblogged ? "Resteemed placeholder" : ''}
+              avatar={<Avatar size={32} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" style={AvatarStyles} />}
+              children={this.state.isFollowing ? '' : <FlatButton style={buttonStyles} onClick={this.handleClick}>Follow</FlatButton>}
 
-        </Card>
-      </StyledDiv>
+            />
+
+            <CardMedia>
+              <img src={this.randomImage()} alt="" />
+            </CardMedia>
+
+            <CardText>
+              {this.props.post.title}
+            </CardText>
+            <CardActions >
+              
+              <CardText style={CardActionStyles} >
+              
+              <span style={sbdCounter}>{'$' + Number(this.props.post.pending_payout_value.replace('SBD', '')).toFixed(2)} </span>
+              <MdInsertComment size={20}/>
+              <FaRetweet size={20} />
+              <MdFavorite size={20} onClick={this.handleVoting} color={this.props.voteStatus ? 'red': 'black'}/>
+              
+              </CardText>
+              
+            </CardActions>
+          </Card>
+        </StyledDiv>
       </MuiThemeProvider>
     )
   }

@@ -13,7 +13,7 @@ import styled from 'styled-components'
 
 //REDUX
 import { connect } from 'react-redux'
-import { getUserFollowing } from '.././actions/steemActions' 
+import { getUserFollowing, getProfileVotes } from '.././actions/steemActions' 
 import store from '.././store'
 const styles = {
 
@@ -36,7 +36,8 @@ class Trending extends Component {
       items: store.getState()
     }
     this.updateFollowingState = this.updateFollowingState.bind(this)
-    
+    this.updateVotingState = this.updateVotingState.bind(this)
+    this.loader = this.loader.bind(this)
     store.subscribe(() => {
       this.setState({
         items: store.getState()
@@ -58,7 +59,7 @@ class Trending extends Component {
   async componentWillMount() {
     this.setState({
       items: await store.getState(),
-      posts: await getTrendingPosts('dsound'), 
+      
       
     })
   }
@@ -79,15 +80,18 @@ class Trending extends Component {
     }
   }
   checkFollowing(author) {
-    console.log()
     if(this.state.items.following.users === undefined) {
       return false
     }
     return this.state.items.following.users.includes(author)
   }
+  
+  //UPDATING REDUX STORE
   async updateFollowingState() {
     await this.props.getUserFollowing(this.state.items.steemProfile.profile._id)
-    console.log('UPDEJTUJ')
+  }
+  async updateVotingState() {
+    await this.props.getProfileVotes(this.state.items.steemProfile.profile._id)
   }
   render() {
     const masonryOptions = {
@@ -103,7 +107,7 @@ class Trending extends Component {
 
         <InfiniteScroll
           pageStart={0}
-          loadMore={this.loader.bind(this)}
+          loadMore={this.loader}
           
           hasMore={true}
           loader={<MuiThemeProvider  key={Math.random()} ><Spinner key={Math.random()}/></MuiThemeProvider>}
@@ -118,12 +122,16 @@ class Trending extends Component {
           >
 
           {this.state.posts.map((post) => {
-            
+                    let fullPermlink = [post.root_author, post.root_permlink].join('/')
             return <Post post={post} 
+                   
                     username={this.state.items.steemProfile.profile._id} 
                     isFollowing={this.state.items.following.users.includes(post.author)} 
                     key={post.permlink + Math.random()}
                     updateFollowingState={this.updateFollowingState}
+                    updateVotingState={this.updateVotingState}
+                    voteStatus={this.state.items.steemProfileVotes.votes.includes(fullPermlink)}
+                    fullPermlink={fullPermlink}
                     />
           })}
             
@@ -143,6 +151,7 @@ class Trending extends Component {
 const mapStateToProps = state => ({
   steemProfile: state.steemProfile,
   following: state.following,
+  steemProfileVotes: state.steemProfileVotes
 })
 
-export default connect(mapStateToProps, {getUserFollowing})(Trending)
+export default connect(mapStateToProps, {getUserFollowing, getProfileVotes})(Trending)

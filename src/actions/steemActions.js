@@ -1,4 +1,4 @@
-import { GET_LOGGED_PROFILE, GET_FOLLOWING, CHANGE_LOGIN_STATUS } from './types';
+import { GET_LOGGED_PROFILE, GET_FOLLOWING, CHANGE_LOGIN_STATUS, GET_PROFILE_VOTES } from './types';
 import api from '../Api'
 import steem from 'steem'
 
@@ -36,4 +36,22 @@ export const changeLoginStatus = (action) => dispatch => {
     type: CHANGE_LOGIN_STATUS,
     payload: action
   })
+}
+
+export const getProfileVotes = props => async dispatch => {
+  let bucket = []
+  await steem.api.getAccountVotesAsync(props).then((result) => {
+
+    result.map((vote) => {
+      bucket.push(vote.authorperm)
+    })
+  }).then(res => 
+      dispatch({
+        type: GET_PROFILE_VOTES,
+        payload: bucket
+      })
+    )
+  
+
+
 }

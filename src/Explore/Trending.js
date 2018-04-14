@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
 import Post from '.././Components/Post'
-import getTrendingPosts from '.././Functions/getTrendingPosts'
+//import getTrendingPosts from '.././Functions/getTrendingPosts'
 
 import Spinner from '.././Components/Spinner'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -49,18 +49,18 @@ class Trending extends Component {
 
     this.updateFollowingState = this.updateFollowingState.bind(this)
     this.updateVotingState = this.updateVotingState.bind(this)
-    this.loader = this.loader.bind(this)
+    this.loadMorePosts = this.loadMorePosts.bind(this)
 
 
   }
-  async loader() {
-
-    if (Object.keys(this.state.items.trendingPosts.posts).length === 0) {
-
+  async loadMorePosts() {
+    //console.log(this.props)
+    if (Object.keys(this.state.items.trendingPosts.posts).length === 0 || this.state.items.trendingPosts.posts === undefined) {
+      
 
     } else {
 
-      await store.getState()
+      
  
 
       this.setState({
@@ -74,7 +74,7 @@ class Trending extends Component {
   }
   async componentWillMount() {
   
-    this.props.getSteemTrendingPosts()
+    await this.props.getSteemTrendingPosts('dtube')
 
     this.setState({
       paginationCounter: 10,
@@ -86,7 +86,7 @@ class Trending extends Component {
 
   componentWillReceiveProps() {
     setTimeout(this.setState({
-      shouldLoad: true,
+      shouldLoad: false,
       isLoading: false,
     }), 2000)
   }
@@ -127,7 +127,7 @@ class Trending extends Component {
 
         <InfiniteScroll
           pageStart={0}
-          loadMore={this.loader}
+          loadMore={this.loadMorePosts}
           initialLoad={this.state.shouldLoad}
           hasMore={true}
           loader={<MuiThemeProvider key={Math.random()} ><Spinner key={Math.random()} /></MuiThemeProvider>}

@@ -13,8 +13,10 @@ import styled from 'styled-components'
 
 //REDUX
 import { connect } from 'react-redux'
-import { getUserFollowing, getProfileVotes } from '.././actions/steemActions' 
+import { getUserFollowing, getProfileVotes, getSteemTrendingPosts } from '.././actions/steemActions' 
 import store from '.././store'
+import api from '../Api';
+
 const styles = {
 
   margin: '0 auto',
@@ -33,45 +35,73 @@ class Trending extends Component {
       isLoading: true,
       posts: [],
       layoutReady: false,
-      items: store.getState()
+      items: [],
+      shouldLoad: false,
+      paginationCounter: 5,
     }
-    this.updateFollowingState = this.updateFollowingState.bind(this)
-    this.updateVotingState = this.updateVotingState.bind(this)
-    this.loader = this.loader.bind(this)
+    
+    
     store.subscribe(() => {
       this.setState({
         items: store.getState()
       })
     })
     
+    this.updateFollowingState = this.updateFollowingState.bind(this)
+    this.updateVotingState = this.updateVotingState.bind(this)
+    this.loader = this.loader.bind(this)
+    
+    
   }
   async loader() {
+    
+      if(Object.keys(this.state.items.trendingPosts.posts).length === 0) {
+        
+        
+      } else {
+        console.log(typeof this.state.items.trendingPosts.posts)
 
     const prevState = this.state.posts
     const apiCall = await getTrendingPosts('dtube')
-    const children = prevState.concat(apiCall)
+    if(this.props.trendingPosts.posts === []) {
+     
+    }
    
     this.setState({
-      posts: children
+      posts: this.props.trendingPosts.posts.slice(0, this.state.paginationCounter),
+      paginationCounter: this.state.isLoading === true ? this.state.paginationCounter : this.state.paginationCounter + 5
     })
+    console.log(this.state.paginationCounter)
+      }
+
+      
+  }
+  componentWillMount() {
+    this.props.getSteemTrendingPosts()
     
   }
-  async componentWillMount() {
+  componentWillReceiveProps() {
     this.setState({
-      items: await store.getState(),
-      
-      
+      posts: this.props.trendingPosts.posts
     })
   }
   async componentDidMount() {
-    
+
     this.setState({
-      isLoading: false
+      items: await store.getState(),
+      posts: await this.props.trendingPosts.posts,
+
     })
-    
   }
- 
+  componentWillReceiveProps() {
+    console.log('test otrzymywania propsów')
+    setTimeout(this.setState({
+      shouldLoad: true,
+      isLoading: false,
+    }), 2000)
+  }
   handleLayoutReady() {
+
     if(!this.state.layoutReady) {
       this.setState({
         layoutReady: true,
@@ -108,7 +138,7 @@ class Trending extends Component {
         <InfiniteScroll
           pageStart={0}
           loadMore={this.loader}
-          
+          initialLoad={this.state.shouldLoad}
           hasMore={true}
           loader={<MuiThemeProvider  key={Math.random()} ><Spinner key={Math.random()}/></MuiThemeProvider>}
 
@@ -151,7 +181,9 @@ class Trending extends Component {
 const mapStateToProps = state => ({
   steemProfile: state.steemProfile,
   following: state.following,
-  steemProfileVotes: state.steemProfileVotes
+  steemProfileVotes: state.steemProfileVotes,
+  trendingPosts: state.trendingPosts
 })
 
-export default connect(mapStateToProps, {getUserFollowing, getProfileVotes})(Trending)
+
+export default connect(mapStateToProps, {getUserFollowing, getProfileVotes, getSteemTrendingPosts})(Trending)

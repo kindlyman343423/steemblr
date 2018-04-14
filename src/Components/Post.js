@@ -118,7 +118,7 @@ export default class Post extends Component {
               textStyles={textStyles}
               title={this.props.post.author}
               subtitle={this.props.isReblogged ? "Resteemed placeholder" : ''}
-              avatar={<Avatar size={32} src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png" style={AvatarStyles} />}
+              avatar={<Avatar size={32} src={`https://steemitimages.com/u/${this.props.post.author}/avatar`} style={AvatarStyles} />}
               children={this.state.isFollowing ? '' : <FlatButton style={buttonStyles} onClick={this.handleClick}>Follow</FlatButton>}
 
             />

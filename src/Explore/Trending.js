@@ -13,7 +13,7 @@ import styled from 'styled-components'
 
 //REDUX
 import { connect } from 'react-redux'
-import { getUserFollowing, getProfileVotes, getSteemTrendingPosts } from '.././actions/steemActions' 
+import { getUserFollowing, getProfileVotes, getSteemTrendingPosts } from '.././actions/steemActions'
 import store from '.././store'
 import api from '../Api';
 
@@ -37,64 +37,54 @@ class Trending extends Component {
       layoutReady: false,
       items: [],
       shouldLoad: false,
-      paginationCounter: 5,
+      paginationCounter: 10,
     }
-    
-    
+
+
     store.subscribe(() => {
       this.setState({
         items: store.getState()
       })
     })
-    
+
     this.updateFollowingState = this.updateFollowingState.bind(this)
     this.updateVotingState = this.updateVotingState.bind(this)
     this.loader = this.loader.bind(this)
-    
-    
+
+
   }
   async loader() {
-    
-      if(Object.keys(this.state.items.trendingPosts.posts).length === 0) {
-        
-        
-      } else {
-        console.log(typeof this.state.items.trendingPosts.posts)
 
-    const prevState = this.state.posts
-    const apiCall = await getTrendingPosts('dtube')
-    if(this.props.trendingPosts.posts === []) {
-     
+    if (Object.keys(this.state.items.trendingPosts.posts).length === 0) {
+
+
+    } else {
+
+      await store.getState()
+ 
+
+      this.setState({
+        posts: this.props.trendingPosts.posts.slice(0, this.state.paginationCounter),
+        paginationCounter: this.state.isLoading === true ? this.state.paginationCounter : this.state.paginationCounter + 10
+      })
+      console.log(this.state.paginationCounter)
     }
-   
-    this.setState({
-      posts: this.props.trendingPosts.posts.slice(0, this.state.paginationCounter),
-      paginationCounter: this.state.isLoading === true ? this.state.paginationCounter : this.state.paginationCounter + 5
-    })
-    console.log(this.state.paginationCounter)
-      }
 
-      
+
   }
-  componentWillMount() {
+  async componentWillMount() {
+  
     this.props.getSteemTrendingPosts()
-    
-  }
-  componentWillReceiveProps() {
-    this.setState({
-      posts: this.props.trendingPosts.posts
-    })
-  }
-  async componentDidMount() {
 
     this.setState({
+      paginationCounter: 10,
       items: await store.getState(),
       posts: await this.props.trendingPosts.posts,
 
     })
   }
+
   componentWillReceiveProps() {
-    console.log('test otrzymywania propsów')
     setTimeout(this.setState({
       shouldLoad: true,
       isLoading: false,
@@ -102,20 +92,20 @@ class Trending extends Component {
   }
   handleLayoutReady() {
 
-    if(!this.state.layoutReady) {
+    if (!this.state.layoutReady) {
       this.setState({
         layoutReady: true,
-       
+
       })
     }
   }
   checkFollowing(author) {
-    if(this.state.items.following.users === undefined) {
+    if (this.state.items.following.users === undefined) {
       return false
     }
     return this.state.items.following.users.includes(author)
   }
-  
+
   //UPDATING REDUX STORE
   async updateFollowingState() {
     await this.props.getUserFollowing(this.state.items.steemProfile.profile._id)
@@ -129,7 +119,7 @@ class Trending extends Component {
       fitWidth: true,
       gutter: 20,
       transitionDuration: 0,
-      visibility: this.state.layoutReady ? 'visible' : 'hidden', 
+      visibility: this.state.layoutReady ? 'visible' : 'hidden',
     }
     if (this.state.isLoading) return (<MuiThemeProvider><Spinner /></MuiThemeProvider>)
     return (
@@ -140,31 +130,31 @@ class Trending extends Component {
           loadMore={this.loader}
           initialLoad={this.state.shouldLoad}
           hasMore={true}
-          loader={<MuiThemeProvider  key={Math.random()} ><Spinner key={Math.random()}/></MuiThemeProvider>}
+          loader={<MuiThemeProvider key={Math.random()} ><Spinner key={Math.random()} /></MuiThemeProvider>}
 
         >
-          
-          <Masonry 
+
+          <Masonry
             style={styles}
             options={masonryOptions}
             threshold={250}
             onLayoutComplete={this.handleLayoutReady.bind(this)}
           >
 
-          {this.state.posts.map((post) => {
-                    let fullPermlink = [post.root_author, post.root_permlink].join('/')
-            return <Post post={post} 
-                   
-                    username={this.state.items.steemProfile.profile._id} 
-                    isFollowing={this.state.items.following.users.includes(post.author)} 
-                    key={post.permlink + Math.random()}
-                    updateFollowingState={this.updateFollowingState}
-                    updateVotingState={this.updateVotingState}
-                    voteStatus={this.state.items.steemProfileVotes.votes.includes(fullPermlink)}
-                    fullPermlink={fullPermlink}
-                    />
-          })}
-            
+            {this.state.posts.slice(0, this.state.paginationCounter).map((post) => {
+              let fullPermlink = [post.root_author, post.root_permlink].join('/')
+              return <Post post={post}
+
+                username={this.state.items.steemProfile.profile._id}
+                isFollowing={this.state.items.following.users.includes(post.author)}
+                key={post.permlink + Math.random()}
+                updateFollowingState={this.updateFollowingState}
+                updateVotingState={this.updateVotingState}
+                voteStatus={this.state.items.steemProfileVotes.votes.includes(fullPermlink)}
+                fullPermlink={fullPermlink}
+              />
+            })}
+
 
 
           </Masonry>
@@ -186,4 +176,4 @@ const mapStateToProps = state => ({
 })
 
 
-export default connect(mapStateToProps, {getUserFollowing, getProfileVotes, getSteemTrendingPosts})(Trending)
+export default connect(mapStateToProps, { getUserFollowing, getProfileVotes, getSteemTrendingPosts })(Trending)

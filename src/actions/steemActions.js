@@ -1,4 +1,4 @@
-import { GET_LOGGED_PROFILE, GET_FOLLOWING, CHANGE_LOGIN_STATUS, GET_PROFILE_VOTES } from './types';
+import { GET_LOGGED_PROFILE, GET_FOLLOWING, CHANGE_LOGIN_STATUS, GET_PROFILE_VOTES, GET_TRENDING_POSTS } from './types';
 import api from '../Api'
 import steem from 'steem'
 
@@ -51,7 +51,25 @@ export const getProfileVotes = props => async dispatch => {
         payload: bucket
       })
     )
+}
+
+export const getSteemTrendingPosts = props => async dispatch => {
+ 
+  const query = {
+    tag: props,
+    limit: 100,
+  };
+  let bucket = [];
+  await steem.api.getDiscussionsByTrendingAsync(query).then((result) => {
+    bucket.push(result)
+    dispatch({
+      type: GET_TRENDING_POSTS,
+      payload: bucket[0]
+    })
+  }).catch(function(error) {
+    console.log(error)
+  })
   
-
-
+  return bucket[0]
+ 
 }

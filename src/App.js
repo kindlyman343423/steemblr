@@ -21,7 +21,7 @@ import getFollowing from './Functions/getFollowing'
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom"
 //REDUX STUFF
 import { connect } from 'react-redux';
-import { getUserProfile, getUserFollowing, changeLoginStatus, getProfileVotes } from './actions/steemActions'
+import { getUserProfile, getUserFollowing, changeLoginStatus, getProfileVotes, getSteemTrendingPosts, } from './actions/steemActions'
 
 
 
@@ -113,7 +113,8 @@ const mapStateToProps = state => ({
   steemProfile: state.steemProfile,
   following: state.following,
   login: state.login,
-  steemProfileVotes: state.steemProfileVotes
+  steemProfileVotes: state.steemProfileVotes,
+  trendingPosts: state.trendingPosts
 })
 
-export default connect(mapStateToProps, {getUserProfile, getUserFollowing, changeLoginStatus, getProfileVotes})(App)
+export default connect(mapStateToProps, {getUserProfile, getUserFollowing, changeLoginStatus, getProfileVotes, getSteemTrendingPosts})(App)

@@ -40,21 +40,21 @@ export default class componentName extends Component {
   }
   render() {
     const dashboard = {
-  
       padding: '5px',
-      marginLeft: '4em',
+      marginRight: '3em',
       display: 'flex',
       alignItems:'center',
+      justifyContent: 'flex-end'
       
     }
 
     return (
       
         <div style={dashboard}>
-        <NavLink activeClassName="selected" to="/home" ><MdHome size={48}/></NavLink>
-        <NavLink activeClassName="selected" to="/explore"><MdExplore size={48}/></NavLink>
-        <NavLink activeClassName="selected" to="/AddNew"><MdBorderColor size={36}/></NavLink>
-        <MuiThemeProvider><ProfileMenu avatar={this.state.avatar}/> </ MuiThemeProvider>
+        <NavLink activeClassName="selected" to="/home" ><MdHome size={32}/></NavLink>
+        <NavLink activeClassName="selected" to="/explore"><MdExplore size={32}/></NavLink>
+        <NavLink activeClassName="selected" to="/AddNew"><MdBorderColor size={24}/></NavLink>
+        <MuiThemeProvider><ProfileMenu /> </ MuiThemeProvider>
         </div>
      
     )

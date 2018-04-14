@@ -35,7 +35,7 @@ export default class ProfileMenu extends Component {
       <StyledDiv>
       
       
-      <MdAccountBox size={48} onClick={this.handleToggle}/>
+      <MdAccountBox size={32} onClick={this.handleToggle}/>
         <Drawer open={this.state.open} openSecondary={true} docked={false}  onRequestChange={(open) => this.setState({open})} >
         
           <MenuItem>Profile</MenuItem>

@@ -16,6 +16,7 @@ import api from '.././Api'
 import followSteem from '.././Functions/followSteem'
 import steemVote from '.././Functions/steemVote'
 
+import Comments from './Comments'
 
 const AvatarStyles = {
   borderRadius: '0%',
@@ -87,6 +88,7 @@ export default class Post extends Component {
     setTimeout(this.props.updateVotingState
       , 3000);
   }
+
   randomImage() {
     const images = [
       'https://78.media.tumblr.com/9ef7b870f185e381ea2c66d7c4002009/tumblr_p4gx4eeK1a1w0f01do1_500.jpg',
@@ -102,7 +104,9 @@ export default class Post extends Component {
       'https://78.media.tumblr.com/425a60ec01e08ef97cdb3355b8318f7a/tumblr_p6py46NEl11xp47rro1_500.gif',
       'https://78.media.tumblr.com/379546c304cb8abb9b82c90c0c31b96c/tumblr_p5cm028D111x1qvoso1_500.jpg',
       'https://78.media.tumblr.com/ba0857c9dd089c7065a4e32e91b3dc69/tumblr_p6jizvoNB41u03r84o1_500.jpg',
-      'https://78.media.tumblr.com/06d1bd36a58bf2813021b9c1b5d9e8da/tumblr_inline_p6werdOchH1rhr1h4_540.png'
+      'https://78.media.tumblr.com/06d1bd36a58bf2813021b9c1b5d9e8da/tumblr_inline_p6werdOchH1rhr1h4_540.png',
+      'https://78.media.tumblr.com/ea744e5260008c81c7f1c5bb2fe3aa58/tumblr_p67nu0v5yj1teoi0jo1_500.jpg',
+      'https://78.media.tumblr.com/28eb7a94f83aa7366d66520768212846/tumblr_p5muoaJKDc1tulzyuo1_500.png'
 
     ]
     const randomNumber = Math.floor(Math.random() * images.length)
@@ -135,8 +139,10 @@ export default class Post extends Component {
               <CardText style={CardActionStyles} >
               
               <span style={sbdCounter}>{'$' + Number(this.props.post.pending_payout_value.replace('SBD', '')).toFixed(2)} </span>
-              <MdInsertComment size={20}/>
-              <FaRetweet size={20} />
+              
+              <Comments likesNumber={this.props.post.net_votes} author={this.props.post.author} permlink={this.props.post.permlink}/>
+              
+              
               <MdFavorite size={20} onClick={this.handleVoting} color={this.props.voteStatus ? 'red': 'black'}/>
               
               </CardText>

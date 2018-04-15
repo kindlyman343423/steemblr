@@ -13,6 +13,7 @@ const StyledDiv = styled.div`
   a {
     color: black
   }
+ 
 `
 
 export default class ProfileMenu extends Component {
@@ -35,7 +36,7 @@ export default class ProfileMenu extends Component {
       <StyledDiv>
       
       
-      <MdAccountBox size={32} onClick={this.handleToggle}/>
+      <MdAccountBox size={32} onClick={this.handleToggle} className="dashboardIcon"/>
         <Drawer open={this.state.open} openSecondary={true} docked={false}  onRequestChange={(open) => this.setState({open})} >
         
           <MenuItem>Profile</MenuItem>

@@ -23,7 +23,7 @@ export default class Header extends Component {
     return (
 
       <div className="Header">
-        <h2>steemblr</h2>
+        <h2 className="logo">steemblr</h2>
         
           <Input bg='white' color="black"  placeholder="Search"/>
         

@@ -4,11 +4,16 @@ svg {
 
 
 a {
-  color: white;
+  color: grey;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .unselected {
   text-decoration: none;
   color: white;
+}
+.dashboardIcons .dashboardIcon {
+  cursor: pointer;
+  margin-right: 0.6em;
 }

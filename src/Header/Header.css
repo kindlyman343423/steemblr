@@ -1,5 +1,5 @@
 .Header { 
-  color: #fff;
+  color: grey;
   display: grid;
   grid-template-columns: 20% 50% 30%;
   align-items: center;
@@ -7,3 +7,6 @@
 }
 
 
+.logo {
+  color: white;
+}

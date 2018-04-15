@@ -3,8 +3,7 @@ import HeaderTabs from './HeaderTabs'
 import Trending from './Trending'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom"
-
-
+import './Explore.css'
 
 export default class Explore extends Component {
   constructor(props) {
@@ -26,6 +25,7 @@ export default class Explore extends Component {
         <Route path={`${this.props.match.url}/trending`} render={(props) => (
           <Trending {...props} following={this.props.following} username={this.props.username}/>
         )} />
+     
       </div>
     )
   }

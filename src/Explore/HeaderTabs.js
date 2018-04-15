@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom"
-
+import './Explore.css'
 const NavBar = styled.div`
   display: inline-flex;
   a {
@@ -31,7 +31,7 @@ const HeaderTabs = ({match}) =>  {
   ]
   return(
     <Container>
-      <NavBar>
+      <NavBar className="navLinks">
 
       {
         content.map((name) => {

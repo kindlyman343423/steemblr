@@ -32,11 +32,7 @@ export default class componentName extends Component {
         return res
       }
     });
-    const avatar = JSON.parse(profile.account.json_metadata).profile.profile_image
-    this.setState({
-      avatar: avatar
-    })
-
+ 
   }
   render() {
     const dashboard = {
@@ -44,16 +40,15 @@ export default class componentName extends Component {
       marginRight: '3em',
       display: 'flex',
       alignItems:'center',
-      justifyContent: 'flex-end'
-      
+      justifyContent: 'flex-end',
     }
 
     return (
       
-        <div style={dashboard}>
-        <NavLink activeClassName="selected" to="/home" ><MdHome size={32}/></NavLink>
-        <NavLink activeClassName="selected" to="/explore"><MdExplore size={32}/></NavLink>
-        <NavLink activeClassName="selected" to="/AddNew"><MdBorderColor size={24}/></NavLink>
+        <div style={dashboard} className="dashboardIcons">
+        <NavLink activeClassName="selected" className="dashboardIcon" to="/home" ><MdHome size={32}/></NavLink>
+        <NavLink activeClassName="selected" className="dashboardIcon" to="/explore/"><MdExplore size={32}/></NavLink>
+        <NavLink activeClassName="selected" className="dashboardIcon" to="/AddNew"><MdBorderColor size={24}/></NavLink>
         <MuiThemeProvider><ProfileMenu /> </ MuiThemeProvider>
         </div>
      

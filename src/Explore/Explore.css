@@ -1,0 +1,6 @@
+.navLinks {
+  cursor: pointer;
+}
+.navLinks * {
+  margin-right: 0.5em;
+}

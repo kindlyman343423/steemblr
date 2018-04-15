@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import api from './Api'
 //CSS
 import './App.css';
 //COMPONENTS
@@ -23,7 +24,7 @@ import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-r
 import { connect } from 'react-redux';
 import { getUserProfile, getUserFollowing, changeLoginStatus, getProfileVotes, getSteemTrendingPosts, } from './actions/steemActions'
 
-
+import sendComment from './Functions/sendComment'
 
 firebase.initializeApp(environment)
 
@@ -42,7 +43,7 @@ class App extends Component {
 
     }
     this.handleLogout = this.handleLogout.bind(this)
-
+    this.handleClickCC = this.handleClickCC.bind(this)
 
   }
   async componentWillMount() {
@@ -82,7 +83,9 @@ class App extends Component {
       cLogin: localStorage.getItem('cToken') !== null ? true : false,
     })
   }
-
+  async handleClickCC() {
+    //sendComment()  <button onClick={this.handleClickCC}> Click to send Comment </button>
+  }
   render() {
     return (
       
@@ -90,7 +93,7 @@ class App extends Component {
         <div className="App">
           <Header key={this.state.login} login={this.state.login} />
 
-
+          
 
           <Route exact path='/home' component={Home} />
 

@@ -13,11 +13,15 @@ node_modules/
 /build
 #important files
 
+/src/environment-test.js*
 /src/environment.js*
 /src/placeholder.js*
 *serviceAccount.json*
+*serviceAccount-test.json*
 *cloud-functions-emulator.log*
 *firebase-debug.log*
+*index-test.js*
+*.firebaserc*
 
 # misc
 .DS_Store

@@ -72,8 +72,7 @@ class App extends Component {
         }) */
       }
     }
-    //this.apiCall()
-    //this.tokenCall()
+
   }
 
   handleLogout() {

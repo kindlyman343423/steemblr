@@ -5,11 +5,11 @@ const admin = require('firebase-admin')
 const serviceAccount = require('./serviceAccount.json')
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL:'https://steady-dryad-163918.firebaseio.com'
+    databaseURL:'https://steemblr.firebaseio.com"'
   })
   
 exports.reciveToken = functions.https.onRequest((request, response) => {
-  response.set('Access-Control-Allow-Origin', '*')
+  response.set('Access-Control-Allow-Origin', 'https://steemblr.com')
   response.set('Access-Control-Allow-Methods', 'GET, POST')
   
   

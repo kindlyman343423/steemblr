@@ -1,6 +1,5 @@
 import React from 'react';
 import CircularProgress from 'material-ui/CircularProgress';
-import styled from 'styled-components'
 
 const custom = {
   marginTop: '5em'

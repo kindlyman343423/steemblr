@@ -47,7 +47,7 @@ export default class componentName extends Component {
       
         <div style={dashboard} className="dashboardIcons">
         <NavLink activeClassName="selected" className="dashboardIcon" to="/home" ><MdHome size={32}/></NavLink>
-        <NavLink activeClassName="selected" className="dashboardIcon" to="/explore/"><MdExplore size={32}/></NavLink>
+        <NavLink activeClassName="selected" className="dashboardIcon" to="/explore"><MdExplore size={32}/></NavLink>
         <NavLink activeClassName="selected" className="dashboardIcon" to="/AddNew"><MdBorderColor size={24}/></NavLink>
         <MuiThemeProvider><ProfileMenu /> </ MuiThemeProvider>
         </div>

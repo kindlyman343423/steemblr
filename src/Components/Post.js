@@ -44,9 +44,7 @@ const buttonStyles = {
   top: "0.5vw",
   right: "0vw"
 };
-const textStyles = {
-  padding: "0px"
-};
+
 const cardHeaderStyle = {
   paddingRight: "0px"
 };
@@ -77,18 +75,22 @@ export default class Post extends Component {
     this.setState({
       isFollowing: true
     });
-    setTimeout(this.props.updateFollowingState, 5000);
+    this.props.updateFollowingState(this.props.post.author);
   }
 
   async handleVoting() {
-    console.log(this.props);
-    await steemVote(
+    /*await steemVote(
       this.props.username,
       this.props.post.author,
       this.props.post.permlink,
       10000
+    );*/
+    setTimeout(
+      this.props.updateVotingState(
+        this.props.post.author + "/" + this.props.post.permlink
+      ),
+      1000
     );
-    setTimeout(this.props.updateVotingState, 3000);
   }
 
   randomImage() {
@@ -120,7 +122,6 @@ export default class Post extends Component {
           <Card>
             <CardHeader
               titleStyle={cardHeaderStyle}
-              textStyles={textStyles}
               title={this.props.post.author}
               subtitle={this.props.isReblogged ? "Resteemed placeholder" : ""}
               avatar={

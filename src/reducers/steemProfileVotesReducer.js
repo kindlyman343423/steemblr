@@ -1,4 +1,4 @@
-import { GET_PROFILE_VOTES } from "../actions/types";
+import { GET_PROFILE_VOTES, POST_VOTES_TO_STATE } from "../actions/types";
 
 const initialState = {
   votes: []
@@ -11,6 +11,12 @@ export default function(state = initialState, action) {
         ...state,
         votes: action.payload
       };
+    case POST_VOTES_TO_STATE:
+      return {
+        ...state,
+        votes: action.payload
+      };
+
     default:
       return state;
   }

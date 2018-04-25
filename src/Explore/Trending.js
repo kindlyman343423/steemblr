@@ -10,7 +10,7 @@ import Masonry from "react-masonry-component";
 import InfiniteScroll from "react-infinite-scroller";
 
 import styled from "styled-components";
-
+import uuidv4 from "uuid/v4";
 //REDUX
 import { connect } from "react-redux";
 import {
@@ -18,8 +18,12 @@ import {
   getProfileVotes,
   getSteemTrendingPosts
 } from ".././actions/steemActions";
+import {
+  postFollowingToState,
+  postVotesToState
+} from "../actions/stateActions";
+
 import store from ".././store";
-import api from "../Api";
 
 const styles = {
   margin: "0 auto"
@@ -105,13 +109,12 @@ class Trending extends Component {
   }
 
   //UPDATING REDUX STORE
-  async updateFollowingState() {
-    await this.props.getUserFollowing(
-      this.state.items.steemProfile.profile._id
-    );
+  async updateFollowingState(props) {
+    await this.props.postFollowingToState(props);
   }
-  async updateVotingState() {
-    await this.props.getProfileVotes(this.state.items.steemProfile.profile._id);
+  async updateVotingState(props) {
+    this.props.postVotesToState(props);
+    //await this.props.getProfileVotes(this.state.items.steemProfile.profile._id);
   }
   render() {
     const masonryOptions = {
@@ -159,7 +162,7 @@ class Trending extends Component {
                     isFollowing={this.state.items.following.users.includes(
                       post.author
                     )}
-                    key={post.permlink + Math.random()}
+                    key={uuidv4()}
                     updateFollowingState={this.updateFollowingState}
                     updateVotingState={this.updateVotingState}
                     voteStatus={this.state.items.steemProfileVotes.votes.includes(
@@ -180,11 +183,14 @@ const mapStateToProps = state => ({
   steemProfile: state.steemProfile,
   following: state.following,
   steemProfileVotes: state.steemProfileVotes,
-  trendingPosts: state.trendingPosts
+  trendingPosts: state.trendingPosts,
+  postFollowingToState: state.postFollowingToState
 });
 
 export default connect(mapStateToProps, {
   getUserFollowing,
   getProfileVotes,
-  getSteemTrendingPosts
+  getSteemTrendingPosts,
+  postFollowingToState,
+  postVotesToState
 })(Trending);

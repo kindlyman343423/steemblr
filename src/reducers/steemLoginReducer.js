@@ -1,7 +1,7 @@
-import { CHANGE_LOGIN_STATUS } from '../actions/types';
+import { CHANGE_LOGIN_STATUS } from "../actions/types";
 
 const initialState = {
-  status: false,
+  status: false
 };
 
 export default function(state = initialState, action) {

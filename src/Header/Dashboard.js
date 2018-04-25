@@ -1,61 +1,73 @@
-import React, { Component } from 'react'
-import api from '../Api'
-import { NavLink } from "react-router-dom"
+import React, { Component } from "react";
+import api from "../Api";
+import { NavLink } from "react-router-dom";
 
-import './Dashboard.css'
+import "./Dashboard.css";
 
+import ProfileMenu from "./ProfileMenu";
+import { MdHome, MdExplore, MdBorderColor } from "react-icons/lib/md/";
 
-
-import ProfileMenu from './ProfileMenu'
-import { MdHome, MdExplore, MdBorderColor} from 'react-icons/lib/md/'
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 export default class componentName extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      avatar: ''
-    }
-
+      avatar: ""
+    };
   }
 
   async componentWillMount() {
-    const profile = await api.me(function (err, res) {
+    const profile = await api.me(function(err, res) {
       //console.log(err, res)
       if (err !== null) {
-        return err
+        return err;
       } else {
-        return res
+        return res;
       }
     });
- 
   }
   render() {
     const dashboard = {
-      padding: '5px',
-      marginRight: '3em',
-      display: 'flex',
-      alignItems:'center',
-      justifyContent: 'flex-end',
-    }
+      padding: "5px",
+      marginRight: "3em",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end"
+    };
 
     return (
-      
-        <div style={dashboard} className="dashboardIcons">
-        <NavLink activeClassName="selected" className="dashboardIcon" to="/home" ><MdHome size={32}/></NavLink>
-        <NavLink activeClassName="selected" className="dashboardIcon" to="/explore"><MdExplore size={32}/></NavLink>
-        <NavLink activeClassName="selected" className="dashboardIcon" to="/AddNew"><MdBorderColor size={24}/></NavLink>
-        <MuiThemeProvider><ProfileMenu /> </ MuiThemeProvider>
-        </div>
-     
-    )
+      <div style={dashboard} className="dashboardIcons">
+        <NavLink
+          activeClassName="selected"
+          className="dashboardIcon"
+          to="/home"
+        >
+          <MdHome size={32} />
+        </NavLink>
+        <NavLink
+          activeClassName="selected"
+          className="dashboardIcon"
+          to="/explore"
+        >
+          <MdExplore size={32} />
+        </NavLink>
+        <NavLink
+          activeClassName="selected"
+          className="dashboardIcon"
+          to="/AddNew"
+        >
+          <MdBorderColor size={24} />
+        </NavLink>
+        <MuiThemeProvider>
+          <ProfileMenu />{" "}
+        </MuiThemeProvider>
+      </div>
+    );
   }
 
   newMethod() {
-    return '5px';
+    return "5px";
   }
 }

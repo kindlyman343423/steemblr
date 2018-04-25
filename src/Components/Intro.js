@@ -1,14 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 export default class Intro extends Component {
   constructor(props) {
-    super(props)
-  
+    super(props);
+
     this.state = {
-       text: []
-    }
+      text: []
+    };
   }
-  
-  
+
   render() {
     return (
       <div>
@@ -16,6 +15,6 @@ export default class Intro extends Component {
 
         <p>{this.props.text}</p>
       </div>
-    )
+    );
   }
 }

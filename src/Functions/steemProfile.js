@@ -1,14 +1,14 @@
-import api from '.././Api'
+import api from ".././Api";
 
 const steemProfile = async () => {
-  const profile = await api.me(function (err, res) {
+  const profile = await api.me(function(err, res) {
     if (err !== null) {
-      return err
+      return err;
     } else {
-      return res
+      return res;
     }
-  })
-  return profile
-}
+  });
+  return profile;
+};
 
-export default steemProfile
+export default steemProfile;

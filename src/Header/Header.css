@@ -1,11 +1,10 @@
-.Header { 
+.Header {
   color: grey;
   display: grid;
   grid-template-columns: 20% 50% 30%;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 
 .logo {
   color: white;

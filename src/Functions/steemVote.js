@@ -1,10 +1,9 @@
-import api from '.././Api'
+import api from ".././Api";
 
 const steemVote = (voter, author, permlink, weight) => {
-  api.vote(voter, author, permlink, weight, function(err, res)  {
-    console.log(err, res)
-  })
+  api.vote(voter, author, permlink, weight, function(err, res) {
+    console.log(err, res);
+  });
+};
 
-}
-
-export default steemVote
+export default steemVote;

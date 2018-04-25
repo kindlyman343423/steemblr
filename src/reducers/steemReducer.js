@@ -1,7 +1,7 @@
-import { GET_LOGGED_PROFILE } from '../actions/types';
+import { GET_LOGGED_PROFILE } from "../actions/types";
 
 const initialState = {
-  profile: [],
+  profile: []
 };
 
 export default function(state = initialState, action) {

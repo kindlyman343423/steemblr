@@ -1,7 +1,7 @@
-import { GET_FOLLOWING } from '../actions/types';
+import { GET_FOLLOWING } from "../actions/types";
 
 const initialState = {
-  users: [],
+  users: []
 };
 
 export default function(state = initialState, action) {
@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         users: action.payload
-      }
+      };
     default:
       return state;
   }

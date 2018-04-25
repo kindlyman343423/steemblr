@@ -1,4 +1,4 @@
-import { GET_PROFILE_VOTES } from '../actions/types';
+import { GET_PROFILE_VOTES } from "../actions/types";
 
 const initialState = {
   votes: []

@@ -1,14 +1,10 @@
-
-import firebase from 'firebase'
-
-
+import firebase from "firebase";
 
 const firebaseAuth = async () => {
-  firebase.auth().signInWithCustomToken(localStorage.getItem('cToken')).catch(function(error) {
+  firebase
+    .auth()
+    .signInWithCustomToken(localStorage.getItem("cToken"))
+    .catch(function(error) {});
+};
 
-  })
-}
-
-
-
-export default firebaseAuth
+export default firebaseAuth;

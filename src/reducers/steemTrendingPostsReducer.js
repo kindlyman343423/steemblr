@@ -1,4 +1,4 @@
-import { GET_TRENDING_POSTS } from '../actions/types';
+import { GET_TRENDING_POSTS } from "../actions/types";
 
 const initialState = {
   posts: []

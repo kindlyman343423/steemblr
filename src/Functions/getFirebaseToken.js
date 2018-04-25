@@ -1,18 +1,17 @@
- const getFirebaseToken =  async (props) => {
-  
-     const call = await fetch(`https://us-central1-steemblr.cloudfunctions.net/reciveToken?uuid=${props}`, {
-      method: 'GET', 
+const getFirebaseToken = async props => {
+  const call = await fetch(
+    `https://us-central1-steemblr.cloudfunctions.net/reciveToken?uuid=${props}`,
+    {
+      method: "GET",
       headers: {
-        Accept: 'application/json'
-      },
-    }).then(function(response) {
-        return response.json()
-    })
-    localStorage.setItem('cToken', call.token)
-    return call.token
+        Accept: "application/json"
+      }
+    }
+  ).then(function(response) {
+    return response.json();
+  });
+  localStorage.setItem("cToken", call.token);
+  return call.token;
+};
 
-
-  
-}
-
-export default getFirebaseToken
+export default getFirebaseToken;

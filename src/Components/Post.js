@@ -3,7 +3,14 @@ import React, { Component } from "react";
 import styled from "styled-components";
 //import { Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner, Text , ButtonTransparent} from 'rebass'
 import { Avatar, MuiThemeProvider } from "material-ui";
-
+import {
+  AvatarStyles,
+  StyledDiv,
+  buttonStyles,
+  cardHeaderStyle,
+  CardActionStyles,
+  sbdCounter
+} from "./Post.styles";
 import {
   Card,
   CardActions,
@@ -17,54 +24,19 @@ import FlatButton from "material-ui/FlatButton";
 //ICONS
 import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
 //import { FaRetweet } from 'react-icons/lib/fa/'
-//ROUTER
-import { Link } from "react-router-dom";
 
-import api from ".././Api";
 import followSteem from ".././Functions/followSteem";
 import steemVote from ".././Functions/steemVote";
 
 import Comments from "./Comments";
 
-const AvatarStyles = {
-  borderRadius: "0%"
-};
-const StyledDiv = styled.div`
-  background-color: white;
-  width: 25vw;
-  margin-bottom: 20px;
-  padding: 0px !important;
-  border-radius: 1%;
-  text-align: left;
-`;
-
-const buttonStyles = {
-  fontSize: "10pt",
-  position: "absolute",
-  top: "0.5vw",
-  right: "0vw"
-};
-
-const cardHeaderStyle = {
-  paddingRight: "0px"
-};
-const CardActionStyles = {
-  textAlign: "right",
-  paddingTop: "0px",
-  paddingBottom: "0px",
-  paddingRight: "0px",
-  paddingLeft: "8px"
-};
-const sbdCounter = {
-  float: "left",
-  textAlign: "left"
-};
 export default class Post extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isFollowing: this.props.isFollowing
+      isFollowing: this.props.isFollowing,
+      voteWeight: 0
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleVoting = this.handleVoting.bind(this);
@@ -79,16 +51,17 @@ export default class Post extends Component {
   }
 
   async handleVoting() {
-    /*await steemVote(
+    await steemVote(
       this.props.username,
       this.props.post.author,
       this.props.post.permlink,
       10000
-    );*/
+    );
     setTimeout(
-      this.props.updateVotingState(
-        this.props.post.author + "/" + this.props.post.permlink
-      ),
+      this.props.updateVotingState({
+        permlink: this.props.post.author + "/" + this.props.post.permlink,
+        percent: 10000
+      }),
       1000
     );
   }
@@ -160,8 +133,9 @@ export default class Post extends Component {
 
                 <Comments
                   likesNumber={this.props.post.net_votes}
-                  author={this.props.post.author}
-                  permlink={this.props.post.permlink}
+                  postAuthor={this.props.post.author}
+                  postPermlink={this.props.post.permlink}
+                  username={this.props.username}
                 />
 
                 <MdFavorite

@@ -20,7 +20,8 @@ import {
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
-  postVotesToState
+  postVotesToState,
+  removeVoteFromState
 } from "../actions/stateActions";
 
 import store from ".././store";
@@ -72,7 +73,6 @@ class Trending extends Component {
             ? this.state.paginationCounter
             : this.state.paginationCounter + 10
       });
-      console.log(this.state.paginationCounter);
     }
   }
   async componentWillMount() {
@@ -107,14 +107,32 @@ class Trending extends Component {
     }
     return this.state.items.following.users.includes(author);
   }
-
+  checkVoteStatus(props) {
+    const find = this.state.items.steemProfileVotes.votes.find(
+      o => o.permlink === props
+    );
+    if (find) {
+      return {
+        status: true,
+        percent: find.percent
+      };
+    } else {
+      return {
+        status: false,
+        percent: 0
+      };
+    }
+  }
   //UPDATING REDUX STORE
   async updateFollowingState(props) {
     await this.props.postFollowingToState(props);
   }
-  async updateVotingState(props) {
-    this.props.postVotesToState(props);
-    //await this.props.getProfileVotes(this.state.items.steemProfile.profile._id);
+  async updateVotingState(props, action) {
+    if (action === true) {
+      this.props.postVotesToState(props);
+    } else if (action === false) {
+      this.props.removeVoteFromState(props);
+    }
   }
   render() {
     const masonryOptions = {
@@ -165,9 +183,7 @@ class Trending extends Component {
                     key={uuidv4()}
                     updateFollowingState={this.updateFollowingState}
                     updateVotingState={this.updateVotingState}
-                    voteStatus={this.state.items.steemProfileVotes.votes.includes(
-                      fullPermlink
-                    )}
+                    voteStatus={this.checkVoteStatus(fullPermlink)}
                     fullPermlink={fullPermlink}
                   />
                 );
@@ -192,5 +208,6 @@ export default connect(mapStateToProps, {
   getProfileVotes,
   getSteemTrendingPosts,
   postFollowingToState,
-  postVotesToState
+  postVotesToState,
+  removeVoteFromState
 })(Trending);

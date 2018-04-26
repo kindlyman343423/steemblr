@@ -4,10 +4,12 @@ import steemFollowingReducer from "./steemFollowingReducer";
 import steemLoginReducer from "./steemLoginReducer";
 import steemProfileVotesReducer from "./steemProfileVotesReducer";
 import steemTrendingPostsReducer from "./steemTrendingPostsReducer";
+import steemVotePowerReducer from "./steemVotePowerReducer";
 export default combineReducers({
   steemProfile: steemReducer,
   steemProfileVotes: steemProfileVotesReducer,
   following: steemFollowingReducer,
   login: steemLoginReducer,
-  trendingPosts: steemTrendingPostsReducer
+  trendingPosts: steemTrendingPostsReducer,
+  votePower: steemVotePowerReducer
 });

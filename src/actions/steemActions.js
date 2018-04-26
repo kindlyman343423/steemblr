@@ -3,7 +3,8 @@ import {
   GET_FOLLOWING,
   CHANGE_LOGIN_STATUS,
   GET_PROFILE_VOTES,
-  GET_TRENDING_POSTS
+  GET_TRENDING_POSTS,
+  CHANGE_VOTE_POWER
 } from "./types";
 import api from "../Api";
 import steem from "steem";
@@ -54,7 +55,6 @@ export const getProfileVotes = props => async dispatch => {
   await steem.api
     .getAccountVotesAsync(props)
     .then(result => {
-      console.log(result);
       result.map(vote => {
         bucket.push({
           permlink: vote.authorperm,
@@ -90,4 +90,10 @@ export const getSteemTrendingPosts = props => async dispatch => {
     });
 
   return bucket[0];
+};
+export const changeVotePower = props => async dispatch => {
+  dispatch({
+    type: CHANGE_VOTE_POWER,
+    payload: props
+  });
 };

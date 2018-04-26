@@ -54,8 +54,12 @@ export const getProfileVotes = props => async dispatch => {
   await steem.api
     .getAccountVotesAsync(props)
     .then(result => {
+      console.log(result);
       result.map(vote => {
-        bucket.push(vote.authorperm);
+        bucket.push({
+          permlink: vote.authorperm,
+          percent: vote.percent
+        });
       });
     })
     .then(res =>

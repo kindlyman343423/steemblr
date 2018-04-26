@@ -49,7 +49,7 @@ export default class componentName extends Component {
         <NavLink
           activeClassName="selected"
           className="dashboardIcon"
-          to="/explore"
+          to="/explore/trending"
         >
           <MdExplore size={32} />
         </NavLink>

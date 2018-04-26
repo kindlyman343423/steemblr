@@ -76,7 +76,7 @@ class Trending extends Component {
     }
   }
   async componentWillMount() {
-    await this.props.getSteemTrendingPosts("dtube");
+    await this.props.getSteemTrendingPosts("test");
 
     this.setState({
       paginationCounter: 10,

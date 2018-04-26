@@ -8,7 +8,7 @@ import Comment from "./Comment";
 import getContentReplies from ".././Functions/getContentReplies";
 import sendComment from ".././Functions/sendComment";
 import uuidv4 from "uuid/v4";
-
+import delay from "../Functions/delay";
 const dialogTitleStyle = {
   fontSize: "16px",
   fontWeight: "500"
@@ -33,6 +33,7 @@ export default class Comments extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleSendComment = this.handleSendComment.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.updateComments = this.updateComments.bind(this);
   }
   handleOpen = async () => {
     const apiCall = await getContentReplies(
@@ -49,21 +50,36 @@ export default class Comments extends Component {
   handleClose = () => {
     this.setState({ open: false });
   };
-
-  handleSendComment() {
-    if (this.state.comment === "") {
-      alert("Comment can't be empty");
-    }
-    sendComment(
+  async updateComments() {
+    console.log("Does it take");
+    await delay(3000);
+    const apiCall = await getContentReplies(
       this.props.postAuthor,
-      this.props.postPermlink,
-      this.props.username,
-      this.state.comment,
-      uuidv4()
+      this.props.postPermlink
     );
     this.setState({
-      comment: ""
+      comments: apiCall[0]
     });
+
+    console.log("4 seconds?");
+    console.log(this.state.comments);
+  }
+  async handleSendComment() {
+    if (this.state.comment === "") {
+      alert("Comment can't be empty");
+    } else {
+      sendComment(
+        this.props.postAuthor,
+        this.props.postPermlink,
+        this.props.username,
+        this.state.comment,
+        uuidv4()
+      );
+      this.setState({
+        comment: ""
+      });
+      this.updateComments();
+    }
   }
   handleInputChange(e) {
     const target = e.target;

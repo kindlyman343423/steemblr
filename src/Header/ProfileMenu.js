@@ -10,7 +10,6 @@ import MdAccountBox from "react-icons/lib/md/account-box";
 //REDUX
 import { connect } from "react-redux";
 import { changeVotePower } from "../actions/steemActions";
-import store from "../store";
 const StyledDiv = styled.div`
   a {
     color: black;

@@ -26,7 +26,6 @@ import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
 //import { FaRetweet } from 'react-icons/lib/fa/'
 
 import followSteem from ".././Functions/followSteem";
-import steemVote from ".././Functions/steemVote";
 
 import Comments from "./Comments";
 
@@ -41,7 +40,6 @@ export default class Post extends Component {
         : 0
     };
     this.handleClick = this.handleClick.bind(this);
-    this.handleVoting = this.handleVoting.bind(this);
   }
 
   async handleClick() {
@@ -51,45 +49,6 @@ export default class Post extends Component {
     });
     this.props.updateFollowingState(this.props.post.author);
   }
-
-  async handleVoting() {
-    if (this.state.votePercent === 0) {
-      await steemVote(
-        this.props.username,
-        this.props.post.author,
-        this.props.post.permlink,
-        10000
-      );
-      setTimeout(
-        this.props.updateVotingState(
-          {
-            permlink: this.props.post.author + "/" + this.props.post.permlink,
-            percent: 10000
-          },
-          true
-        ),
-        1000
-      );
-    } else if (this.state.votePercent > 0) {
-      await steemVote(
-        this.props.username,
-        this.props.post.author,
-        this.props.post.permlink,
-        0
-      );
-      setTimeout(
-        this.props.updateVotingState(
-          {
-            permlink: this.props.post.author + "/" + this.props.post.permlink,
-            percent: 0
-          },
-          false
-        ),
-        1000
-      );
-    }
-  }
-
   randomImage() {
     const images = [
       "https://78.media.tumblr.com/9ef7b870f185e381ea2c66d7c4002009/tumblr_p4gx4eeK1a1w0f01do1_500.jpg",
@@ -164,7 +123,14 @@ export default class Post extends Component {
 
                 <MdFavorite
                   size={20}
-                  onClick={this.handleVoting}
+                  onClick={() =>
+                    this.props.handleVoting(
+                      this.props.username,
+                      this.props.post.author,
+                      this.props.post.permlink,
+                      this.state.votePercent
+                    )
+                  }
                   color={this.state.votePercent > 0 ? "red" : "black"}
                 />
               </CardText>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import Post from ".././Components/Post";
+import steemVote from ".././Functions/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
 
 import Spinner from ".././Components/Spinner";
@@ -55,6 +56,7 @@ class Trending extends Component {
     this.updateFollowingState = this.updateFollowingState.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
     this.loadMorePosts = this.loadMorePosts.bind(this);
+    this.handleVoting = this.handleVoting.bind(this);
   }
   async loadMorePosts() {
     //console.log(this.props)
@@ -100,6 +102,30 @@ class Trending extends Component {
         layoutReady: true
       });
     }
+  }
+  async handleVoting(username, author, permlink, votePercent) {
+    if (votePercent === 0) {
+      await steemVote(username, author, permlink, 10000);
+
+      this.updateVotingState(
+        {
+          permlink: author + "/" + permlink,
+          percent: this.props.votePower.power
+        },
+        true
+      );
+    } else if (votePercent > 0) {
+      await steemVote(username, author, permlink, 0);
+
+      this.updateVotingState(
+        {
+          permlink: author + "/" + permlink,
+          percent: 0
+        },
+        false
+      );
+    }
+    console.log(username, author, permlink, votePercent);
   }
   checkFollowing(author) {
     if (this.state.items.following.users === undefined) {
@@ -185,6 +211,7 @@ class Trending extends Component {
                     updateVotingState={this.updateVotingState}
                     voteStatus={this.checkVoteStatus(fullPermlink)}
                     fullPermlink={fullPermlink}
+                    handleVoting={this.handleVoting}
                   />
                 );
               })}
@@ -200,7 +227,8 @@ const mapStateToProps = state => ({
   following: state.following,
   steemProfileVotes: state.steemProfileVotes,
   trendingPosts: state.trendingPosts,
-  postFollowingToState: state.postFollowingToState
+  postFollowingToState: state.postFollowingToState,
+  votePower: state.votePower
 });
 
 export default connect(mapStateToProps, {

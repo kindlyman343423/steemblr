@@ -1,21 +1,14 @@
 import React, { Component } from "react";
 import { MdInsertComment } from "react-icons/lib/md/";
 import Dialog from "material-ui/Dialog";
-import FlatButton from "material-ui/FlatButton";
-import RaisedButton from "material-ui/RaisedButton";
-import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
+
 import { Input } from "rebass";
-
 import { MdSend } from "react-icons/lib/md/";
-
 import Comment from "./Comment";
 import getContentReplies from ".././Functions/getContentReplies";
+import sendComment from ".././Functions/sendComment";
+import uuidv4 from "uuid/v4";
 
-const styles = {
-  radioButton: {
-    marginTop: 16
-  }
-};
 const dialogTitleStyle = {
   fontSize: "16px",
   fontWeight: "500"
@@ -34,31 +27,64 @@ export default class Comments extends Component {
 
     this.state = {
       open: false,
-      comments: []
+      comments: [],
+      comment: ""
     };
     this.handleOpen = this.handleOpen.bind(this);
+    this.handleSendComment = this.handleSendComment.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
   handleOpen = async () => {
     const apiCall = await getContentReplies(
-      this.props.author,
-      this.props.permlink
+      this.props.postAuthor,
+      this.props.postPermlink
     );
 
     this.setState({
       comments: apiCall[0],
       open: true
     });
-    console.log(this.state.comments);
   };
 
   handleClose = () => {
     this.setState({ open: false });
   };
 
+  handleSendComment() {
+    if (this.state.comment === "") {
+      alert("Comment can't be empty");
+    }
+    sendComment(
+      this.props.postAuthor,
+      this.props.postPermlink,
+      this.props.username,
+      this.state.comment,
+      uuidv4()
+    );
+    this.setState({
+      comment: ""
+    });
+  }
+  handleInputChange(e) {
+    const target = e.target;
+    let value = e.target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
   render() {
     const actions = [
-      <Input bg="white" color="black" placeholder="Reply" />,
-      <MdSend size={24} />
+      <Input
+        bg="white"
+        color="black"
+        placeholder="Reply"
+        name="comment"
+        value={this.state.comment}
+        onChange={this.handleInputChange}
+      />,
+      <MdSend size={24} onClick={this.handleSendComment} />
     ];
     return (
       <span>
@@ -80,7 +106,13 @@ export default class Comments extends Component {
           actionsContainerStyle={actionsStyle}
         >
           {this.state.comments.map(comment => {
-            return <Comment author={comment.author} body={comment.body} />;
+            return (
+              <Comment
+                author={comment.author}
+                body={comment.body}
+                key={uuidv4()}
+              />
+            );
           })}
         </Dialog>
       </span>

@@ -21,6 +21,7 @@ import {
   Toggle
 } from "material-ui/Card";
 import FlatButton from "material-ui/FlatButton";
+import Lightbox from "react-image-lightbox";
 //ICONS
 import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
 //import { FaRetweet } from 'react-icons/lib/fa/'
@@ -34,6 +35,7 @@ export default class Post extends Component {
     super(props);
 
     this.state = {
+      isOpen: false,
       isFollowing: this.props.isFollowing,
       votePercent: this.props.voteStatus.percent
         ? this.props.voteStatus.percent
@@ -69,7 +71,7 @@ export default class Post extends Component {
       "https://78.media.tumblr.com/28eb7a94f83aa7366d66520768212846/tumblr_p5muoaJKDc1tulzyuo1_500.png"
     ];
     const randomNumber = Math.floor(Math.random() * images.length);
-    return images[randomNumber !== 0 ? randomNumber - 1 : randomNumber];
+    return images[randomNumber !== 0 ? randomNumber : randomNumber];
   }
   render() {
     return (
@@ -101,7 +103,19 @@ export default class Post extends Component {
             />
 
             <CardMedia>
-              <img src={this.randomImage()} alt="" />
+              <img
+                src={this.randomImage()}
+                alt=""
+                onClick={() => {
+                  this.setState({ isOpen: true });
+                }}
+              />
+              {this.state.isOpen && (
+                <Lightbox
+                  mainSrc={this.randomImage()}
+                  onCloseRequest={() => this.setState({ isOpen: false })}
+                />
+              )}
             </CardMedia>
 
             <CardText>{this.props.post.title}</CardText>

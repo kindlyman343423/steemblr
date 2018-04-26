@@ -8,7 +8,7 @@ import ProfileMenu from "./ProfileMenu";
 import { MdHome, MdExplore, MdBorderColor } from "react-icons/lib/md/";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-
+import muiTheme from "../Components/muiTheme";
 export default class componentName extends Component {
   constructor(props) {
     super(props);
@@ -18,16 +18,6 @@ export default class componentName extends Component {
     };
   }
 
-  async componentWillMount() {
-    const profile = await api.me(function(err, res) {
-      //console.log(err, res)
-      if (err !== null) {
-        return err;
-      } else {
-        return res;
-      }
-    });
-  }
   render() {
     const dashboard = {
       padding: "5px",
@@ -60,7 +50,7 @@ export default class componentName extends Component {
         >
           <MdBorderColor size={24} />
         </NavLink>
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={muiTheme}>
           <ProfileMenu />{" "}
         </MuiThemeProvider>
       </div>

@@ -21,7 +21,7 @@ import {
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
-  postVotesToState,
+  postVoteToState,
   removeVoteFromState
 } from "../actions/stateActions";
 
@@ -59,7 +59,6 @@ class Trending extends Component {
     this.handleVoting = this.handleVoting.bind(this);
   }
   async loadMorePosts() {
-    //console.log(this.props)
     if (
       Object.keys(this.state.items.trendingPosts.posts).length === 0 ||
       this.state.items.trendingPosts.posts === undefined
@@ -79,7 +78,6 @@ class Trending extends Component {
   }
   async componentWillMount() {
     await this.props.getSteemTrendingPosts("test");
-
     this.setState({
       paginationCounter: 10,
       items: await store.getState(),
@@ -105,7 +103,7 @@ class Trending extends Component {
   }
   async handleVoting(username, author, permlink, votePercent) {
     if (votePercent === 0) {
-      await steemVote(username, author, permlink, 10000);
+      await steemVote(username, author, permlink, this.props.votePower.power);
 
       this.updateVotingState(
         {
@@ -149,13 +147,16 @@ class Trending extends Component {
       };
     }
   }
+  componentWillUnmount() {
+    console.log("Main Comp");
+  }
   //UPDATING REDUX STORE
   async updateFollowingState(props) {
     await this.props.postFollowingToState(props);
   }
   async updateVotingState(props, action) {
     if (action === true) {
-      this.props.postVotesToState(props);
+      this.props.postVoteToState(props);
     } else if (action === false) {
       this.props.removeVoteFromState(props);
     }
@@ -236,6 +237,6 @@ export default connect(mapStateToProps, {
   getProfileVotes,
   getSteemTrendingPosts,
   postFollowingToState,
-  postVotesToState,
+  postVoteToState,
   removeVoteFromState
 })(Trending);

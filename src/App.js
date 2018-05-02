@@ -66,7 +66,7 @@ class App extends Component {
         followings: followingBucket
       });
 
-      getFirebaseToken(profile._id);
+      /*getFirebaseToken(profile._id);
       if (this.state.cLogin) {
         firebaseAuth();
         /*
@@ -75,8 +75,8 @@ class App extends Component {
         firebase.database().ref('users/' + profile._id).set({
           blogName: 'Potęga Wiktorii i Pierwiastki Sajmonów',
           profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png'
-        }) */
-      }
+        })
+      }*/
     }
   }
 

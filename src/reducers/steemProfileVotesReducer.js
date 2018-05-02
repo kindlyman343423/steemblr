@@ -1,6 +1,6 @@
 import {
   GET_PROFILE_VOTES,
-  POST_VOTES_TO_STATE,
+  POST_VOTE_TO_STATE,
   REMOVE_VOTE_FROM_STATE
 } from "../actions/types";
 
@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
         ...state,
         votes: action.payload
       };
-    case POST_VOTES_TO_STATE:
+    case POST_VOTE_TO_STATE:
       return {
         ...state,
         votes: action.payload

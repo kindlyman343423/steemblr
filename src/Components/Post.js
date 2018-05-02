@@ -35,6 +35,7 @@ export default class Post extends Component {
     super(props);
 
     this.state = {
+      shouldOpenComments: false,
       isOpen: false,
       isFollowing: this.props.isFollowing,
       votePercent: this.props.voteStatus.percent
@@ -43,7 +44,9 @@ export default class Post extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
   }
-
+  componentWillUnmount() {
+    console.log("Unmounting");
+  }
   async handleClick() {
     followSteem(this.props.username, this.props.post.author);
     this.setState({
@@ -127,13 +130,23 @@ export default class Post extends Component {
                       this.props.post.pending_payout_value.replace("SBD", "")
                     ).toFixed(2)}{" "}
                 </span>
-
-                <Comments
-                  likesNumber={this.props.post.net_votes}
-                  postAuthor={this.props.post.author}
-                  postPermlink={this.props.post.permlink}
-                  username={this.props.username}
-                />
+                {this.state.shouldOpenComments ? (
+                  <Comments
+                    likesNumber={this.props.post.net_votes}
+                    postAuthor={this.props.post.author}
+                    postPermlink={this.props.post.permlink}
+                    username={this.props.username}
+                  />
+                ) : (
+                  <MdInsertComment
+                    size={20}
+                    onClick={() =>
+                      this.setState({
+                        shouldOpenComments: true
+                      })
+                    }
+                  />
+                )}
 
                 <MdFavorite
                   size={20}

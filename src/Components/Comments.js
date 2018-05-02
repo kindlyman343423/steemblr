@@ -9,6 +9,11 @@ import getContentReplies from ".././Functions/getContentReplies";
 import sendComment from ".././Functions/sendComment";
 import uuidv4 from "uuid/v4";
 import delay from "../Functions/delay";
+import steemVote from ".././Functions/steemVote";
+
+//REDUX
+import store from "../store";
+import { postVoteToState, removeVoteFromState } from "../actions/stateActions";
 const dialogTitleStyle = {
   fontSize: "16px",
   fontWeight: "500"
@@ -21,20 +26,38 @@ const actionsStyle = {
   display: "inline-flex",
   alignItems: "center"
 };
-export default class Comments extends Component {
+class Comments extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      open: false,
+      open: true,
       comments: [],
-      comment: ""
+      comment: "",
+      votedComments: [],
+      votesToPush: [],
+      votesToRemove: []
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleSendComment = this.handleSendComment.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.updateComments = this.updateComments.bind(this);
+    this.updateVotingState = this.updateVotingState.bind(this);
+    this.handleVoting = this.handleVoting.bind(this);
   }
+  async componentWillMount() {
+    const apiCall = await getContentReplies(
+      this.props.postAuthor,
+      this.props.postPermlink
+    );
+
+    this.setState({
+      comments: apiCall[0],
+      open: true,
+      votedComments: await store.getState().steemProfileVotes.votes
+    });
+  }
+  componentWillUnMount() {}
   handleOpen = async () => {
     const apiCall = await getContentReplies(
       this.props.postAuthor,
@@ -48,10 +71,18 @@ export default class Comments extends Component {
   };
 
   handleClose = () => {
+    this.state.votesToPush.map(vote => {
+      this.updateVotingState(vote, true);
+      return void 0;
+    });
+
+    this.state.votesToRemove.map(vote => {
+      return this.updateVotingState(vote, false);
+    });
     this.setState({ open: false });
   };
+
   async updateComments() {
-    console.log("Does it take");
     await delay(3000);
     const apiCall = await getContentReplies(
       this.props.postAuthor,
@@ -60,9 +91,6 @@ export default class Comments extends Component {
     this.setState({
       comments: apiCall[0]
     });
-
-    console.log("4 seconds?");
-    console.log(this.state.comments);
   }
   async handleSendComment() {
     if (this.state.comment === "") {
@@ -89,6 +117,66 @@ export default class Comments extends Component {
     this.setState({
       [name]: value
     });
+  }
+
+  async handleVoting(username, author, permlink, votePercent) {
+    const votePower = store.getState().votePower.power;
+    if (votePercent === 0 || votePercent === undefined) {
+      await steemVote(username, author, permlink, votePower);
+      const state = this.state.votedComments;
+      const newItem = [
+        {
+          permlink: author + "/" + permlink,
+          percent: votePower
+        }
+      ];
+      let newState = [];
+      await this.setState({
+        votedComments: newState.concat(state, newItem),
+
+        votesToPush: this.state.votesToPush.concat(newItem)
+      });
+    } else if (votePercent > 0) {
+      await steemVote(username, author, permlink, 0);
+
+      const state = this.state.votedComments;
+      const fullPermlink = author + "/" + permlink;
+      let newState = state.filter(item => {
+        return item.permlink !== fullPermlink;
+      });
+      const newItem = [
+        {
+          permlink: fullPermlink,
+          percent: votePercent
+        }
+      ];
+      this.setState({
+        votedComments: newState,
+        votesToRemove: this.state.votesToRemove.concat(newItem)
+      });
+    }
+  }
+  async updateVotingState(props, action) {
+    if (action === true) {
+      store.dispatch(postVoteToState(props));
+    } else if (action === false) {
+      store.dispatch(removeVoteFromState(props));
+    }
+  }
+  checkVoteStatus(props) {
+    const find = this.state.votedComments.find(o => o.permlink === props);
+
+    if (find) {
+      return {
+        status: true,
+        percent: find.percent
+      };
+    } else {
+      return {
+        status: false,
+        percent: 0
+      };
+    }
   }
   render() {
     const actions = [
@@ -120,6 +208,7 @@ export default class Comments extends Component {
           actions={actions}
           titleStyle={dialogTitleStyle}
           actionsContainerStyle={actionsStyle}
+          repositionOnUpdate={true}
         >
           {this.state.comments.map(comment => {
             return (
@@ -127,6 +216,13 @@ export default class Comments extends Component {
                 author={comment.author}
                 body={comment.body}
                 key={uuidv4()}
+                handleVoting={this.handleVoting}
+                username={this.props.username}
+                permlink={comment.permlink}
+                fullPermlink={comment.author + "/" + comment.permlink}
+                voteStatus={this.checkVoteStatus(
+                  comment.author + "/" + comment.permlink
+                )}
               />
             );
           })}
@@ -135,3 +231,5 @@ export default class Comments extends Component {
     );
   }
 }
+
+export default Comments;

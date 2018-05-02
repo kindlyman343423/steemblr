@@ -30,3 +30,6 @@
     transform: rotate(360deg);
   }
 }
+.ReactModal__Body--open {
+  overflow-y: hidden;
+}

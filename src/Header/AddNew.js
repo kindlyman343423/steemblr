@@ -11,6 +11,9 @@ import {
 import Modal from "react-modal";
 
 const modalStyle = {
+  postion: "fixed",
+  height: "100%",
+  ariaHidden: "true",
   overlay: {
     backgroundColor: "rgba(28, 49, 58, 0.95)"
   },
@@ -63,8 +66,8 @@ const colors = {
   orange: {
     backgroundColor: "#c88719"
   },
-  bronze: {
-    backgroundColor: "#725b53"
+  red: {
+    backgroundColor: "#af4448"
   }
 };
 
@@ -119,7 +122,7 @@ export default class AddNew extends Component {
             <MdMusicNote size={50} />
             <span style={{ width: "100%" }}>Audio</span>
           </IconDiv>
-          <IconDiv style={colors.bronze} onMouseEnter={e => console.log(e)}>
+          <IconDiv style={colors.red}>
             <MdVideocam size={50} />
             <span style={{ width: "100%" }}>Video</span>
           </IconDiv>

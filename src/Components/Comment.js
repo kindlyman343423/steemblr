@@ -20,7 +20,6 @@ export default class Comment extends Component {
       status: this.props.voteStatus.status,
       percent: this.props.voteStatus.percent
     });
-    console.log(this.state.percent);
   }
   async handleClick() {
     await this.props.handleVoting(

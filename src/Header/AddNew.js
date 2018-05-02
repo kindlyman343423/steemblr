@@ -25,45 +25,49 @@ const modalStyle = {
     border: "0"
   }
 };
-const divColors = {};
-const iconDiv = {
-  base: {
-    svg: {
-      marginRight: 0
-    },
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
-    justifyItems: "center",
-    color: "white",
-    textAlign: "center",
-    padding: "5px",
-    cursor: "pointer",
-    height: "100px",
-    width: "100px",
-    borderRadius: "20px",
-    margin: "20px"
+const IconDiv = styled.div`
+  svg: {
+    margin-right: 0px;
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+  border-radius: 20px;
+  margin: 20px;
+  transition: 0.5s;
+  &:hover {
+    transform: translate3d(0px, 4px, 0px);
+    transition: 0.5s;
+  }
+`;
+
+const colors = {
+  violet: {
+    backgroundColor: "#65499c"
   },
-  colors: {
-    violet: {
-      backgroundColor: "#65499c"
-    },
-    blue: {
-      backgroundColor: "#0093c4"
-    },
-    green: {
-      backgroundColor: "#a8b545"
-    },
-    orange: {
-      backgroundColor: "#c88719"
-    },
-    bronze: {
-      backgroundColor: "#725b53"
-    }
+  blue: {
+    backgroundColor: "#0093c4"
+  },
+  green: {
+    backgroundColor: "#a8b545"
+  },
+  orange: {
+    backgroundColor: "#c88719"
+  },
+  bronze: {
+    backgroundColor: "#725b53"
   }
 };
+
 export default class AddNew extends Component {
   constructor(props) {
     super(props);
@@ -98,27 +102,27 @@ export default class AddNew extends Component {
           onRequestClose={this.handleClose}
           style={modalStyle}
         >
-          <div style={Object.assign({}, iconDiv.base, iconDiv.colors.violet)}>
+          <IconDiv style={colors.violet}>
             <MdFormatAlignLeft size={50} />
             <span style={{ width: "100%" }}>Text</span>
-          </div>
-          <div style={Object.assign({}, iconDiv.base, iconDiv.colors.blue)}>
+          </IconDiv>
+          <IconDiv style={colors.blue}>
             <MdCameraAlt size={50} />
             <span style={{ width: "100%" }}>Photo</span>
-          </div>
-          <div style={Object.assign({}, iconDiv.base, iconDiv.colors.green)}>
+          </IconDiv>
+          <IconDiv style={colors.green}>
             <MdFormatQuote size={50} />
             <span style={{ width: "100%" }}>Quote</span>
-          </div>
+          </IconDiv>
 
-          <div style={Object.assign({}, iconDiv.base, iconDiv.colors.orange)}>
+          <IconDiv style={colors.orange}>
             <MdMusicNote size={50} />
             <span style={{ width: "100%" }}>Audio</span>
-          </div>
-          <div style={Object.assign({}, iconDiv.base, iconDiv.colors.bronze)}>
+          </IconDiv>
+          <IconDiv style={colors.bronze} onMouseEnter={e => console.log(e)}>
             <MdVideocam size={50} />
             <span style={{ width: "100%" }}>Video</span>
-          </div>
+          </IconDiv>
         </Modal>
       </div>
     );

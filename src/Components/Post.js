@@ -35,6 +35,7 @@ export default class Post extends Component {
     super(props);
 
     this.state = {
+      mockupImg: "",
       shouldOpenComments: false,
       isOpen: false,
       isFollowing: this.props.isFollowing,
@@ -43,6 +44,11 @@ export default class Post extends Component {
         : 0
     };
     this.handleClick = this.handleClick.bind(this);
+  }
+  componentWillMount() {
+    this.setState({
+      mockupImg: this.randomImage()
+    });
   }
   componentWillUnmount() {
     console.log("Unmounting");
@@ -107,7 +113,7 @@ export default class Post extends Component {
 
             <CardMedia>
               <img
-                src={this.randomImage()}
+                src={this.state.mockupImg}
                 alt=""
                 onClick={() => {
                   this.setState({ isOpen: true });
@@ -115,7 +121,7 @@ export default class Post extends Component {
               />
               {this.state.isOpen && (
                 <Lightbox
-                  mainSrc={this.randomImage()}
+                  mainSrc={this.state.mockupImg}
                   onCloseRequest={() => this.setState({ isOpen: false })}
                 />
               )}

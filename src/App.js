@@ -15,6 +15,7 @@ import firebaseAuth from "./Functions/firebaseAuth";
 import environment from "./environment";
 import firebase from "firebase";
 import "firebase/database";
+import uploadFiles from "./Functions/uploadFiles";
 //FUNCTIONS
 import steemProfile from "./Functions/steemProfile";
 import getFollowing from "./Functions/getFollowing";
@@ -37,7 +38,6 @@ import {
 } from "./actions/steemActions";
 
 import sendComment from "./Functions/sendComment";
-
 firebase.initializeApp(environment);
 
 class App extends Component {
@@ -66,17 +66,17 @@ class App extends Component {
         followings: followingBucket
       });
 
-      /*getFirebaseToken(profile._id);
+      this.state.cLogin === false ? getFirebaseToken(profile._id) : void 0;
       if (this.state.cLogin) {
         firebaseAuth();
-        /*
+
         // Example of simple post that only auth user can make
 
-        firebase.database().ref('users/' + profile._id).set({
+        /* firebase.database().ref('users/' + profile._id).set({
           blogName: 'Potęga Wiktorii i Pierwiastki Sajmonów',
           profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png'
-        })
-      }*/
+        }) */
+      }
     }
   }
 

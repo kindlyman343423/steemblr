@@ -1,7 +1,9 @@
 import {
   POST_FOLLOWING_TO_STATE,
   POST_VOTE_TO_STATE,
-  REMOVE_VOTE_FROM_STATE
+  REMOVE_VOTE_FROM_STATE,
+  POST_MEDIA,
+  CHANGE_POST_TYPE
 } from "./types";
 import store from ".././store";
 
@@ -33,5 +35,20 @@ export const removeVoteFromState = props => dispatch => {
   dispatch({
     type: REMOVE_VOTE_FROM_STATE,
     payload: newState
+  });
+};
+export const putPostMedia = props => dispatch => {
+  const state = store.getState().newPost.media;
+  const item = [props];
+  const newState = state.concat(item);
+  dispatch({
+    type: POST_MEDIA,
+    payload: newState
+  });
+};
+export const changePostType = props => dispatch => {
+  dispatch({
+    type: CHANGE_POST_TYPE,
+    payload: props
   });
 };

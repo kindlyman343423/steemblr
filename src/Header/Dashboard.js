@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import api from "../Api";
+
+import AddNew from "./AddNew";
 import { NavLink } from "react-router-dom";
 
 import "./Dashboard.css";
 
 import ProfileMenu from "./ProfileMenu";
 import { MdHome, MdExplore, MdBorderColor } from "react-icons/lib/md/";
-
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import muiTheme from "../Components/muiTheme";
 export default class componentName extends Component {
@@ -43,15 +43,12 @@ export default class componentName extends Component {
         >
           <MdExplore size={32} />
         </NavLink>
-        <NavLink
-          activeClassName="selected"
-          className="dashboardIcon"
-          to="/AddNew"
-        >
-          <MdBorderColor size={24} />
-        </NavLink>
+        <MuiThemeProvider>
+          <AddNew />
+        </MuiThemeProvider>
+
         <MuiThemeProvider muiTheme={muiTheme}>
-          <ProfileMenu />{" "}
+          <ProfileMenu />
         </MuiThemeProvider>
       </div>
     );

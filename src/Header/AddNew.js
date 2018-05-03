@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Text from "../newPost/Text";
 import styled from "styled-components";
 import {
   MdBorderColor,
@@ -13,7 +14,6 @@ import Modal from "react-modal";
 const modalStyle = {
   postion: "fixed",
   height: "100%",
-  ariaHidden: "true",
   overlay: {
     backgroundColor: "rgba(28, 49, 58, 0.95)"
   },
@@ -31,6 +31,9 @@ const modalStyle = {
 const IconDiv = styled.div`
   svg: {
     margin-right: 0px;
+  }
+  span: {
+    width: 100%;
   }
   display: flex;
   flex-direction: column;
@@ -76,19 +79,34 @@ export default class AddNew extends Component {
     super(props);
 
     this.state = {
-      open: false
+      open: false,
+      text: false
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleNewModal = this.handleNewModal.bind(this);
+    this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleOpen() {
     this.setState({
-      open: true
+      open: true,
+      text: false
     });
   }
   handleClose() {
     this.setState({
       open: false
+    });
+  }
+  handleNewModal(name) {
+    this.setState({
+      open: false,
+      [name]: true
+    });
+  }
+  unMountChildren(name) {
+    this.setState({
+      [name]: false
     });
   }
   render() {
@@ -99,32 +117,40 @@ export default class AddNew extends Component {
           size={24}
           onClick={this.handleOpen}
         />
-
+        {this.state.text === true ? (
+          <Text isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
         <Modal
           isOpen={this.state.open}
-          onRequestClose={this.handleClose}
+          onRequestClose={this.handleOpen}
           style={modalStyle}
         >
-          <IconDiv style={colors.violet}>
+          <IconDiv
+            style={colors.violet}
+            onClick={() => this.handleNewModal("text")}
+          >
             <MdFormatAlignLeft size={50} />
-            <span style={{ width: "100%" }}>Text</span>
+            <span>Text</span>
           </IconDiv>
+
           <IconDiv style={colors.blue}>
             <MdCameraAlt size={50} />
-            <span style={{ width: "100%" }}>Photo</span>
+            <span>Photo</span>
           </IconDiv>
           <IconDiv style={colors.green}>
             <MdFormatQuote size={50} />
-            <span style={{ width: "100%" }}>Quote</span>
+            <span>Quote</span>
           </IconDiv>
 
           <IconDiv style={colors.orange}>
             <MdMusicNote size={50} />
-            <span style={{ width: "100%" }}>Audio</span>
+            <span>Audio</span>
           </IconDiv>
           <IconDiv style={colors.red}>
             <MdVideocam size={50} />
-            <span style={{ width: "100%" }}>Video</span>
+            <span>Video</span>
           </IconDiv>
         </Modal>
       </div>

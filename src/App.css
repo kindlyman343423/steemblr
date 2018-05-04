@@ -36,3 +36,7 @@
 .container {
   background-color: white;
 }
+
+.md-add-button {
+  border: 0;
+}

@@ -4,6 +4,10 @@ import CustomImageSideButton from "./ImageSideButton";
 import styled, { injectGlobal } from "styled-components";
 import Modal from "react-modal";
 import mediumDraftExporter from "medium-draft/lib/exporter";
+import TagsInput from "react-tagsinput";
+
+import "./reactTagsInput.css";
+
 injectGlobal`
   .title {
     font-size: 32px;
@@ -76,13 +80,14 @@ export default class Text extends Component {
     super(props);
     this.state = {
       open: this.props.isOpen,
-      editorState: createEditorState()
+      editorState: createEditorState(),
+      tags: []
     };
 
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
-
+    this.handleTagsChange = this.handleTagsChange.bind(this);
     this.sideButtons = [
       {
         title: "Image",
@@ -119,7 +124,9 @@ export default class Text extends Component {
     );
     console.log(html2);
   }
-
+  async handleTagsChange(props) {
+    await this.setState({ tags: props });
+  }
   render() {
     const { editorState } = this.state;
     return (
@@ -131,7 +138,7 @@ export default class Text extends Component {
           onChange={this.onChange}
           sideButtons={this.sideButtons}
         />
-
+        <TagsInput value={this.state.tags} onChange={this.handleTagsChange} />
         <span styles="width: 100%">
           <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
           <SendBtn onClick={this.handleSave}>Send</SendBtn>

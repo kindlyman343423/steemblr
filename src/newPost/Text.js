@@ -33,10 +33,9 @@ const modalStyle = {
     top: "50%",
     left: "50%",
     marginRight: "-50%",
-    width: "45vw",
-    height: "45vh",
+    width: "40vw",
     bottom: "none",
-
+    maxHeight: "60vh",
     border: "0",
     transform: "translate(-50%, -50%)"
   }
@@ -44,6 +43,33 @@ const modalStyle = {
 
 const SendBtn = styled.button`
   outline: none;
+  align-self: flex-end;
+  float: right;
+  padding: 10px;
+  border: 0;
+  background-color: #29434e;
+  outline: none;
+  color: white;
+  font-weight: 700;
+  transition: 0.5s;
+  &:hover {
+    background-color: #1c313a;
+    transition: 0.5s;
+  }
+`;
+const CloseBtn = styled.button`
+  align-self: flex-end;
+  padding: 10px;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+
+  font-weight: 700;
+  transition: 0.5s;
+  &:hover {
+    background-color: #808e95;
+    transition: 0.5s;
+  }
 `;
 export default class Text extends Component {
   constructor(props) {
@@ -56,6 +82,7 @@ export default class Text extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleSave = this.handleSave.bind(this);
+
     this.sideButtons = [
       {
         title: "Image",
@@ -96,11 +123,7 @@ export default class Text extends Component {
   render() {
     const { editorState } = this.state;
     return (
-      <Modal
-        isOpen={this.state.open}
-        onRequestClose={this.handleClose}
-        style={modalStyle}
-      >
+      <Modal isOpen={this.state.open} style={modalStyle}>
         <input className="title" name="title" placeholder="Title" />
         <Editor
           ref="editor"
@@ -108,7 +131,11 @@ export default class Text extends Component {
           onChange={this.onChange}
           sideButtons={this.sideButtons}
         />
-        <SendBtn onClick={this.handleSave}>Send</SendBtn>
+
+        <span styles="width: 100%">
+          <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
+          <SendBtn onClick={this.handleSave}>Send</SendBtn>
+        </span>
       </Modal>
     );
   }

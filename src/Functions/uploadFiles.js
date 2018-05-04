@@ -7,7 +7,12 @@ const uploadFiles = async props => {
 
   const storageRef = storage.ref();
   const uploadTask = storageRef.child("images/" + uuidv4()).put(props);
-
+  let url = "";
+  await uploadTask.then(response => {
+    url = response.downloadURL;
+    return response.downloadURL;
+  });
+  return url;
   uploadTask.on(
     firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
     function(snapshot) {

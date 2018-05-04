@@ -8,17 +8,24 @@ class Home extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      text: ""
+    };
+
     this.handleUpload = this.handleUpload.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
   handleUpload(e) {
     store.dispatch(changePostType("photos"));
     uploadFiles(e.target.files[0]);
   }
+
+  handleChange(value) {}
   render() {
     return (
-      <div>
-        <input type="file" name="myFile" onChange={this.handleUpload} />
+      <div className="container">
+        <input type="file" name="myFile" onChange={this.handleUpload} /> <br />
       </div>
     );
   }

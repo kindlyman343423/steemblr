@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Text from "../newPost/Text";
+import Text from "../NewPost/Text";
 import styled from "styled-components";
 import {
   MdBorderColor,
@@ -124,7 +124,7 @@ export default class AddNew extends Component {
         )}
         <Modal
           isOpen={this.state.open}
-          onRequestClose={this.handleOpen}
+          onRequestClose={this.handleClose}
           style={modalStyle}
         >
           <IconDiv

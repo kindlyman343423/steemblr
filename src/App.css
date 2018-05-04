@@ -33,3 +33,6 @@
 .ReactModal__Body--open {
   overflow-y: hidden;
 }
+.container {
+  background-color: white;
+}

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import api from "./Api";
+import { hot } from "react-hot-loader";
 //CSS
 import "./App.css";
 //COMPONENTS
@@ -126,4 +127,4 @@ export default connect(mapStateToProps, {
   changeLoginStatus,
   getProfileVotes,
   getSteemTrendingPosts
-})(App);
+})(hot(module)(App));

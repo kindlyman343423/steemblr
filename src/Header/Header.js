@@ -3,10 +3,10 @@ import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import LoginModal from "./LoginModal";
 import { Input } from "rebass";
-
+import { hot } from "react-hot-loader";
 import "./Header.css";
 
-export default class Header extends Component {
+class Header extends Component {
   constructor(props) {
     super(props);
 
@@ -31,5 +31,5 @@ export default class Header extends Component {
       </div>
     );
   }
-  s;
 }
+export default hot(module)(Header);

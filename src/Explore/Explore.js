@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import HeaderTabs from "./HeaderTabs";
 import Trending from "./Trending";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  NavLink,
-  Redirect
-} from "react-router-dom";
+import { Route } from "react-router-dom";
 import "./Explore.css";
-
+import styled from "styled-components";
+import Header from "../Header/Header";
+import colors from "../styles/colors";
+const Container = styled.div``;
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+`;
 export default class Explore extends Component {
   constructor(props) {
     super(props);
@@ -20,9 +23,11 @@ export default class Explore extends Component {
 
   render() {
     return (
-      <div>
-        <HeaderTabs match={this.props.match} />
-
+      <Container>
+        <HeaderContainer>
+          <Header login={true} />
+          <HeaderTabs match={this.props.match} />
+        </HeaderContainer>
         <Route
           path={`${this.props.match.url}/trending`}
           render={props => (
@@ -33,7 +38,7 @@ export default class Explore extends Component {
             />
           )}
         />
-      </div>
+      </Container>
     );
   }
 }

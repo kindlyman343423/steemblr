@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import uploadFiles from "../Functions/uploadFiles.js";
 import store from "../store";
 import { changePostType } from "../actions/stateActions";
-
+import Header from "../Header/Header";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +25,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
+        <Header login={true} />
         <input type="file" name="myFile" onChange={this.handleUpload} /> <br />
       </div>
     );

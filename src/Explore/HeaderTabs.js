@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import colors from "../styles/colors";
+import { hot } from "react-hot-loader";
 import {
   BrowserRouter as Router,
   Route,
@@ -10,7 +12,11 @@ import {
 import "./Explore.css";
 const NavBar = styled.div`
   display: inline-flex;
+  background-color: ${colors.background};
+  justify-content: center;
+  width: 100%;
   a {
+    text-align: center;
     padding: 5px;
     align-self: center;
   }
@@ -54,4 +60,4 @@ const HeaderTabs = ({ match }) => {
   );
 };
 
-export default HeaderTabs;
+export default hot(module)(HeaderTabs);

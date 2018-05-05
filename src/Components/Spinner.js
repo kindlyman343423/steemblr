@@ -2,7 +2,7 @@ import React from "react";
 import CircularProgress from "material-ui/CircularProgress";
 
 const custom = {
-  marginTop: "5em"
+  marginTop: "10em"
 };
 
 const CircularProgressExampleSimple = () => (

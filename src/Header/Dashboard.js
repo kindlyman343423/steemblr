@@ -2,13 +2,24 @@ import React, { Component } from "react";
 
 import AddNew from "./AddNew";
 import { NavLink } from "react-router-dom";
-
+import styled from "styled-components";
 import "./Dashboard.css";
 
 import ProfileMenu from "./ProfileMenu";
 import { MdHome, MdExplore, MdBorderColor } from "react-icons/lib/md/";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import muiTheme from "../Components/muiTheme";
+
+import colors from "../styles/colors";
+
+const Container = styled.div`
+  padding: 5px;
+  margin-right: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
 export default class componentName extends Component {
   constructor(props) {
     super(props);
@@ -19,16 +30,8 @@ export default class componentName extends Component {
   }
 
   render() {
-    const dashboard = {
-      padding: "5px",
-      marginRight: "3em",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "flex-end"
-    };
-
     return (
-      <div style={dashboard} className="dashboardIcons">
+      <Container className="dashboardIcons">
         <NavLink
           activeClassName="selected"
           className="dashboardIcon"
@@ -50,7 +53,7 @@ export default class componentName extends Component {
         <MuiThemeProvider muiTheme={muiTheme}>
           <ProfileMenu />
         </MuiThemeProvider>
-      </div>
+      </Container>
     );
   }
 

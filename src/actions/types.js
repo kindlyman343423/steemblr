@@ -9,3 +9,4 @@ export const REMOVE_VOTE_FROM_STATE = "REMOVE_VOTE_FROM_STATE";
 export const CHANGE_VOTE_POWER = "CHANGE_VOTE_POWER";
 export const POST_MEDIA = "POST_MEDIA";
 export const CHANGE_POST_TYPE = "CHANGE_POST_TYPE";
+export const CHANGE = "CHANGE";

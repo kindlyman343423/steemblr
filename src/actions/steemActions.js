@@ -4,7 +4,8 @@ import {
   CHANGE_LOGIN_STATUS,
   GET_PROFILE_VOTES,
   GET_TRENDING_POSTS,
-  CHANGE_VOTE_POWER
+  CHANGE_VOTE_POWER,
+  CHANGE
 } from "./types";
 import api from "../Api";
 import steem from "steem";
@@ -94,6 +95,12 @@ export const getSteemTrendingPosts = props => async dispatch => {
 export const changeVotePower = props => async dispatch => {
   dispatch({
     type: CHANGE_VOTE_POWER,
+    payload: props
+  });
+};
+export const changeLocation = props => async dispatch => {
+  dispatch({
+    type: CHANGE,
     payload: props
   });
 };

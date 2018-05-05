@@ -40,3 +40,8 @@
 .md-add-button {
   border: 0;
 }
+.root {
+  display: flex;
+  flex-direction: column;
+
+}

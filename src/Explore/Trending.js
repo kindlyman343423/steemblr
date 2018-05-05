@@ -31,7 +31,7 @@ const styles = {
   margin: "0 auto"
 };
 const Container = styled.div`
-  margin-top: 2em;
+  margin-top: 8em;
 `;
 
 class Trending extends Component {
@@ -147,9 +147,7 @@ class Trending extends Component {
       };
     }
   }
-  componentWillUnmount() {
-    console.log("Main Comp");
-  }
+
   //UPDATING REDUX STORE
   async updateFollowingState(props) {
     await this.props.postFollowingToState(props);

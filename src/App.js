@@ -38,6 +38,7 @@ import {
   getSteemTrendingPosts
 } from "./actions/steemActions";
 import Modal from "react-modal";
+
 Modal.setAppElement("#root");
 firebase.initializeApp(environment);
 
@@ -94,8 +95,6 @@ class App extends Component {
     return (
       <Router>
         <div id="root" className="App">
-          <Header key={this.state.login} login={this.state.login} />
-
           <Route exact path="/home" component={Home} />
 
           <Route

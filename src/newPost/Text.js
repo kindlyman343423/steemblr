@@ -5,7 +5,8 @@ import styled, { injectGlobal } from "styled-components";
 import Modal from "react-modal";
 import mediumDraftExporter from "medium-draft/lib/exporter";
 import TagsInput from "react-tagsinput";
-
+import store from "../store";
+import newPost from "../Functions/newPost";
 import "./reactTagsInput.css";
 
 injectGlobal`
@@ -79,15 +80,19 @@ export default class Text extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user: store.getState().steemProfile.profile.user,
       open: this.props.isOpen,
       editorState: createEditorState(),
-      tags: []
+      tags: [],
+      title: "",
+      type: "text"
     };
 
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleSave = this.handleSave.bind(this);
+    this.handleSend = this.handleSend.bind(this);
     this.handleTagsChange = this.handleTagsChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.sideButtons = [
       {
         title: "Image",
@@ -106,7 +111,11 @@ export default class Text extends Component {
       open: true
     });
   }
-
+  handleInputChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
   handleOpen() {
     this.setState({
       open: true
@@ -118,11 +127,18 @@ export default class Text extends Component {
     });
     this.props.unMountChildren("text");
   }
-  handleSave() {
-    const html2 = mediumDraftExporter(
+  handleSend() {
+    const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
-    console.log(html2);
+    //newPost(this.state.user, this.state.title, content, this.state.tags);
+    console.log(
+      this.state.user,
+      this.state.title,
+      content,
+      this.state.tags,
+      this.state.type
+    );
   }
   async handleTagsChange(props) {
     await this.setState({ tags: props });
@@ -131,17 +147,27 @@ export default class Text extends Component {
     const { editorState } = this.state;
     return (
       <Modal isOpen={this.state.open} style={modalStyle}>
-        <input className="title" name="title" placeholder="Title" />
+        <input
+          className="title"
+          name="title"
+          placeholder="Title"
+          value={this.state.title}
+          onChange={this.handleInputChange}
+        />
         <Editor
           ref="editor"
           editorState={editorState}
           onChange={this.onChange}
           sideButtons={this.sideButtons}
         />
-        <TagsInput value={this.state.tags} onChange={this.handleTagsChange} />
+        <TagsInput
+          name="tags"
+          value={this.state.tags}
+          onChange={this.handleTagsChange}
+        />
         <span styles="width: 100%">
           <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
-          <SendBtn onClick={this.handleSave}>Send</SendBtn>
+          <SendBtn onClick={this.handleSend}>Send</SendBtn>
         </span>
       </Modal>
     );

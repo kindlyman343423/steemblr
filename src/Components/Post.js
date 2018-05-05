@@ -29,7 +29,9 @@ import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
 import followSteem from ".././Functions/followSteem";
 
 import Comments from "./Comments";
-
+const Img = styled.img`
+  cursor: zoom-in;
+`;
 export default class Post extends Component {
   constructor(props) {
     super(props);
@@ -112,7 +114,7 @@ export default class Post extends Component {
             />
 
             <CardMedia>
-              <img
+              <Img
                 src={this.state.mockupImg}
                 alt=""
                 onClick={() => {

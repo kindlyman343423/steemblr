@@ -1,27 +1,30 @@
 import api from ".././Api";
-
-const newPost = () => {
+import uuidv4 from "uuid/v4";
+const newPost = (user, titleProp, content, tagsProp, type) => {
+  const uuid = uuidv4();
   api.broadcast([
     [
       "comment",
       {
         parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
         parent_permlink: "test", //FIRST TAG
-        author: "snwolak", //AUTHOR
-        permlink: "test1234",
-        title: "Posting Test",
-        body: `Posting comment with steemconnect broadcast`,
+        author: user, //AUTHOR
+        permlink: uuid, //permlink of the post
+        title: titleProp, //Title of the post
+        body: content,
         json_metadata: JSON.stringify({
-          tags: ["more test", "far more test"],
-          app: `steemblr`
+          tags: tagsProp,
+          app: `steemblr`,
+          format: "markdown+html",
+          community: "steemblr"
         })
       }
     ],
     [
       "comment_options",
       {
-        author: "snwolak",
-        permlink: "test1234",
+        author: user,
+        permlink: uuid,
         allow_votes: true,
         allow_curation_rewards: true,
         max_accepted_payout: "1000000.000 SBD",
@@ -31,7 +34,7 @@ const newPost = () => {
           [
             0,
             {
-              beneficiaries: [{ account: "steemblr", weight: 2500 }]
+              beneficiaries: [{ account: "steemblr", weight: 1500 }]
             }
           ]
         ]

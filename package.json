@@ -10,8 +10,6 @@
     "history": "^4.7.2",
     "material-ui": "^0.20.0",
     "medium-draft": "^0.6.0-beta1",
-    "rc-dropdown": "^2.1.1",
-    "rc-menu": "^6.2.9",
     "react": "^16.3.2",
     "react-app-rewire-hot-loader": "^1.0.1",
     "react-app-rewired": "^1.5.0",

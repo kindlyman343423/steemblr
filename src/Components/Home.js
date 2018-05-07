@@ -25,7 +25,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
-        <Header login={true} />
+        <Header login={this.props.login} />
         <input type="file" name="myFile" onChange={this.handleUpload} /> <br />
       </div>
     );

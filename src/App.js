@@ -95,7 +95,11 @@ class App extends Component {
     return (
       <Router>
         <div id="root" className="App">
-          <Route exact path="/home" component={Home} />
+          <Route
+            exact
+            path="/home"
+            render={props => <Home {...props} login={this.state.login} />}
+          />
 
           <Route
             exact
@@ -106,6 +110,7 @@ class App extends Component {
           />
 
           <Route path="/explore" component={Explore} />
+          {this.state.login ? <Redirect to="home" /> : void 0}
         </div>
       </Router>
     );

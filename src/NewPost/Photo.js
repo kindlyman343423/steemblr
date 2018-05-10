@@ -145,7 +145,7 @@ export default class Photo extends Component {
         {this.state.uploaded === false ? (
           <FileInputLabel for="file">
             <MdPhoto size={50} />
-            Upload Photo
+            Upload photo
             <FileInput type="file" name="file" onChange={this.handleUpload} />
           </FileInputLabel>
         ) : (

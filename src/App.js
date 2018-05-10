@@ -9,6 +9,7 @@ import Logout from "./Components/Logout";
 import Intro from "./Components/Intro";
 import Header from "./Header/Header";
 import Explore from "./Explore/Explore";
+import RedirectLoginToken from "./Components/RedirectLoginToken";
 
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
@@ -100,7 +101,11 @@ class App extends Component {
             path="/home"
             render={props => <Home {...props} login={this.state.login} />}
           />
-
+          {window.location.pathname === "/" && this.state.login === true ? (
+            <Redirect to="/home" />
+          ) : (
+            void 0
+          )}
           <Route
             exact
             path="/logout"
@@ -110,7 +115,7 @@ class App extends Component {
           />
 
           <Route path="/explore" component={Explore} />
-          {this.state.login ? <Redirect to="home" /> : void 0}
+          <Route path="/redirect" component={RedirectLoginToken} />
         </div>
       </Router>
     );

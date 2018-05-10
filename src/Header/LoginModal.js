@@ -32,19 +32,6 @@ export default class LoginModal extends Component {
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
-  componentWillMount() {
-    const url = window.location.href;
-
-    if (url.includes("access_token")) {
-      const accessToken = url
-        .split("access_token=")
-        .pop()
-        .split("&")
-        .shift();
-      localStorage.setItem("token", accessToken);
-      window.location = "home";
-    }
-  }
 
   openModal() {
     this.setState({ modalIsOpen: true });

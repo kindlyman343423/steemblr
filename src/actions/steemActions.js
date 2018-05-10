@@ -13,7 +13,13 @@ import steem from "steem";
 export const getUserProfile = () => async dispatch => {
   await api
     .me(function(err, res) {
+      if (String(err).includes("sc2")) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("cToken");
+        window.location.reload();
+      }
       if (err !== null) {
+        console.log();
         return err;
       } else {
         return res;

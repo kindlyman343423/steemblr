@@ -1,11 +1,4 @@
-import React from "react";
-import {
-  ImageSideButton,
-  Block,
-  addNewBlock,
-  createEditorState,
-  Editor
-} from "medium-draft";
+import { ImageSideButton, Block, addNewBlock } from "medium-draft";
 import "isomorphic-fetch";
 import uploadFiles from "../Functions/uploadFiles";
 

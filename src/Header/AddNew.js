@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Text from "../NewPost/Text";
+import Photo from "../NewPost/Photo";
 import styled from "styled-components";
 import {
   MdBorderColor,
@@ -10,6 +11,7 @@ import {
   MdVideocam
 } from "react-icons/lib/md/";
 import Modal from "react-modal";
+import { ENGINE_METHOD_DIGESTS } from "constants";
 
 const modalStyle = {
   postion: "fixed",
@@ -80,7 +82,8 @@ export default class AddNew extends Component {
 
     this.state = {
       open: false,
-      text: false
+      text: false,
+      photo: false
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -90,7 +93,8 @@ export default class AddNew extends Component {
   handleOpen() {
     this.setState({
       open: true,
-      text: false
+      text: false,
+      photo: false
     });
   }
   handleClose() {
@@ -122,6 +126,11 @@ export default class AddNew extends Component {
         ) : (
           void 0
         )}
+        {this.state.photo === true ? (
+          <Photo isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.handleClose}
@@ -135,7 +144,10 @@ export default class AddNew extends Component {
             <span>Text</span>
           </IconDiv>
 
-          <IconDiv style={colors.blue}>
+          <IconDiv
+            style={colors.blue}
+            onClick={() => this.handleNewModal("photo")}
+          >
             <MdCameraAlt size={50} />
             <span>Photo</span>
           </IconDiv>

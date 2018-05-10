@@ -6,7 +6,10 @@ import Modal from "react-modal";
 import mediumDraftExporter from "medium-draft/lib/exporter";
 import TagsInput from "react-tagsinput";
 import store from "../store";
+import CloseBtn from "../Components/CloseBtn";
+import SendBtn from "../Components/SendBtn";
 import newPost from "../Functions/newPost";
+
 import "./reactTagsInput.css";
 
 injectGlobal`
@@ -46,36 +49,6 @@ const modalStyle = {
   }
 };
 
-const SendBtn = styled.button`
-  outline: none;
-  align-self: flex-end;
-  float: right;
-  padding: 10px;
-  border: 0;
-  background-color: #29434e;
-  outline: none;
-  color: white;
-  font-weight: 700;
-  transition: 0.5s;
-  &:hover {
-    background-color: #1c313a;
-    transition: 0.5s;
-  }
-`;
-const CloseBtn = styled.button`
-  align-self: flex-end;
-  padding: 10px;
-  border: 0;
-  background-color: transparent;
-  outline: none;
-
-  font-weight: 700;
-  transition: 0.5s;
-  &:hover {
-    background-color: #808e95;
-    transition: 0.5s;
-  }
-`;
 export default class Text extends Component {
   constructor(props) {
     super(props);
@@ -103,9 +76,7 @@ export default class Text extends Component {
   onChange = editorState => {
     this.setState({ editorState });
   };
-  componentDidMount() {
-    //this.refs.editor.focus();
-  }
+
   componentWillUnmount() {
     this.setState({
       open: true

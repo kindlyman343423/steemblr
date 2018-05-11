@@ -15,17 +15,11 @@ const HeaderContainer = styled.div`
   top: 0;
 `;
 export default class Explore extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
   render() {
     return (
       <Container>
         <HeaderContainer>
-          <Header login={true} />
+          <Header login={this.props.login} />
           <HeaderTabs match={this.props.match} />
         </HeaderContainer>
         <Route

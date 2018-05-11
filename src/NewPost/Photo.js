@@ -75,7 +75,7 @@ export default class Photo extends Component {
         marginRight: "-50%",
         width: "40vw",
         bottom: "none",
-        maxHeight: "60vh",
+        maxHeight: "65vh",
         border: "0",
         display: "flex",
         flexDirection: "column",

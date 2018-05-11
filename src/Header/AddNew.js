@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Text from "../NewPost/Text";
 import Photo from "../NewPost/Photo";
+import Quote from "../NewPost/Quote";
 import styled from "styled-components";
 import {
   MdBorderColor,
@@ -11,7 +12,6 @@ import {
   MdVideocam
 } from "react-icons/lib/md/";
 import Modal from "react-modal";
-import { ENGINE_METHOD_DIGESTS } from "constants";
 
 const modalStyle = {
   postion: "fixed",
@@ -131,6 +131,11 @@ export default class AddNew extends Component {
         ) : (
           void 0
         )}
+        {this.state.quote === true ? (
+          <Quote isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.handleClose}
@@ -151,7 +156,10 @@ export default class AddNew extends Component {
             <MdCameraAlt size={50} />
             <span>Photo</span>
           </IconDiv>
-          <IconDiv style={colors.green}>
+          <IconDiv
+            style={colors.green}
+            onClick={() => this.handleNewModal("quote")}
+          >
             <MdFormatQuote size={50} />
             <span>Quote</span>
           </IconDiv>

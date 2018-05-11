@@ -114,7 +114,10 @@ class App extends Component {
             )}
           />
 
-          <Route path="/explore" component={Explore} />
+          <Route
+            path="/explore"
+            render={props => <Explore {...props} login={this.state.login} />}
+          />
           <Route path="/redirect" component={RedirectLoginToken} />
         </div>
       </Router>

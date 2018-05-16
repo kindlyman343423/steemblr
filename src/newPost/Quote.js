@@ -6,6 +6,7 @@ import CloseBtn from "../Components/CloseBtn";
 import SendBtn from "../Components/SendBtn";
 import colors from "../styles/colors";
 import { Editor, createEditorState, Block, addNewBlock } from "medium-draft";
+import newPost from "../Functions/newPost";
 import mediumDraftExporter from "medium-draft/lib/exporter";
 const Input = styled.input`
   margin-left: 5px;
@@ -68,14 +69,18 @@ export default class Quote extends Component {
     this.setState({
       source: e.target.value
     });
-    console.log(this.state.source);
   }
   async handleTagsChange(props) {
     await this.setState({
       tags: props
     });
   }
-  handleSend() {}
+  handleSend() {
+    const content = mediumDraftExporter(
+      this.state.editorState.getCurrentContent()
+    );
+    //newPost(this.state.user, this.state.title, content, this.state.tags);
+  }
   render() {
     return (
       <Modal style={this.modalStyle} isOpen={this.state.open}>

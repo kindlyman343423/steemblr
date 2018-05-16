@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Text from "../NewPost/Text";
 import Photo from "../NewPost/Photo";
 import Quote from "../NewPost/Quote";
+import Audio from "../NewPost/Audio";
 import styled from "styled-components";
 import {
   MdBorderColor,
@@ -83,7 +84,8 @@ export default class AddNew extends Component {
     this.state = {
       open: false,
       text: false,
-      photo: false
+      photo: false,
+      audio: false
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -136,6 +138,11 @@ export default class AddNew extends Component {
         ) : (
           void 0
         )}
+        {this.state.audio === true ? (
+          <Audio isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.handleClose}
@@ -165,7 +172,10 @@ export default class AddNew extends Component {
           </IconDiv>
 
           <IconDiv style={colors.orange}>
-            <MdMusicNote size={50} />
+            <MdMusicNote
+              size={50}
+              onClick={() => this.handleNewModal("audio")}
+            />
             <span>Audio</span>
           </IconDiv>
           <IconDiv style={colors.red}>

@@ -6,63 +6,46 @@ import CloseBtn from "../Components/CloseBtn";
 import SendBtn from "../Components/SendBtn";
 import colors from "../styles/colors";
 import uploadFiles from "../Functions/uploadFiles";
-import { MdPhoto } from "react-icons/lib/md";
 import { Editor, createEditorState, Block, addNewBlock } from "medium-draft";
 import newPost from "../Functions/newPost";
 import mediumDraftExporter from "medium-draft/lib/exporter";
-const FileInputLabel = styled.label`
-  display: flex;
-
-  box-sizing: border-box;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  justify-items: center;
-  border: 2px dashed black;
-  flex-direction: column;
-  padding: 50px;
-  cursor: pointer;
-  width: 100%;
-  transition: 500ms ease;
-  margin-bottom: 10px;
-  &:hover {
-    transition: 500ms ease;
-    border-color: ${colors.events.hover};
-    color: ${colors.events.hover};
-  }
+import delay from "../Functions/delay";
+import deezerApi from "../Functions/deezerApi";
+import { debounce } from "lodash";
+const Input = styled.input`
+  padding: 5px;
+  border: 0;
+  outline: 0;
 `;
-const Container = styled.div`
-  margin-left: -20px;
-  margin-right: -20px;
-  img {
-    width: 100%;
-  }
-`;
-const FileInput = styled.input`
-  display: none;
-  opacity: 0;
-  outline: none;
+const Song = styled.p`
   cursor: pointer;
 `;
-
-export default class Photo extends Component {
+const Container = styled.div``;
+export default class Audio extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       open: this.props.isOpen,
-      uploaded: false,
+      isSongSet: false,
+      isSearch: false,
+      search: "",
       imageUrl: "",
+      data: [],
       tags: [],
-      type: "photo",
+      type: "audio",
       editorState: createEditorState()
     };
+
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleTagsChange = this.handleTagsChange.bind(this);
-    this.handleUpload = this.handleUpload.bind(this);
     this.handleSend = this.handleSend.bind(this);
-
+    this.getData = this.getData.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.inputDebounce = debounce(function(e) {
+      this.getData();
+    }, 500);
     this.modalStyle = {
       postion: "fixed",
       height: "100%",
@@ -84,6 +67,7 @@ export default class Photo extends Component {
       }
     };
   }
+
   handleOpen() {
     this.setState({
       open: true
@@ -93,32 +77,24 @@ export default class Photo extends Component {
     this.setState({
       open: false
     });
-    this.props.unMountChildren("photo");
+    this.props.unMountChildren("audio");
+  }
+  async handleInput(e) {
+    const name = e.target.name;
+    await this.setState({
+      [name]: e.target.value
+    });
+    e.persist();
+    this.inputDebounce(e);
   }
   onChange = editorState => {
     this.setState({ editorState });
   };
-  async handleUpload(e) {
-    console.log(e.target.files[0]);
-    await uploadFiles(e.target.files[0]).then(response => {
-      this.setState({
-        uploaded: true,
-        imageUrl: response
-      });
-    });
-    /*this.setState({
-      editorState: addNewBlock(this.state.editorState, Block.IMAGE, {
-        src: this.state.imageUrl
-      })
-    });*/
-  }
   handleSend() {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
-    const post = `<img src="${
-      this.state.imageUrl
-    }" alt="Post"/> <br /> ${content}`;
+    const post = ``;
 
     console.log(
       this.state.user,
@@ -138,32 +114,56 @@ export default class Photo extends Component {
       tags: props
     });
   }
+  async getData() {
+    const apiCall = await deezerApi(this.state.search);
+    this.setState({
+      data: apiCall.data,
+      isSearch: true
+    });
+    console.log(this.state.data);
+  }
   render() {
     return (
       <Modal style={this.modalStyle} isOpen={this.state.open}>
-        {this.state.uploaded === false ? (
-          <FileInputLabel for="file">
-            <MdPhoto size={50} />
-            Upload photo
-            <FileInput type="file" name="file" onChange={this.handleUpload} />
-          </FileInputLabel>
-        ) : (
-          <Container>
-            <img src={this.state.imageUrl} alt="Post" />
-            <Editor
-              ref="editor"
-              placeholder="Something about it..."
-              editorState={this.state.editorState}
-              onChange={this.onChange}
-              sideButtons={[]}
-            />
-          </Container>
-        )}
-        <TagsInput
-          name="tags"
-          value={this.state.tags}
-          onChange={this.handleTagsChange}
+        <Input
+          type="search"
+          name="search"
+          value={this.state.search}
+          placeholder="Search for a song"
+          onChange={this.handleInput}
         />
+
+        {this.state.isSearch ? (
+          <Container>
+            {this.state.data.map(item => {
+              return <Song onClick={this.setSong}>{item.title}</Song>;
+            })}
+          </Container>
+        ) : (
+          void 0
+        )}
+
+        {this.state.isSongSet ? (
+          <Editor
+            ref="editor"
+            placeholder="Something about it..."
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+            sideButtons={[]}
+          />
+        ) : (
+          void 0
+        )}
+        {this.state.isSongSet ? (
+          <TagsInput
+            name="tags"
+            value={this.state.tags}
+            onChange={this.handleTagsChange}
+          />
+        ) : (
+          void 0
+        )}
+
         <span styles="width: 100%">
           <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
           <SendBtn onClick={this.handleSend}>Send</SendBtn>

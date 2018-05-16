@@ -8,6 +8,7 @@
     "firebase-admin": "^5.11.0",
     "firebase-functions": "^1.0.0",
     "history": "^4.7.2",
+    "lodash": "^4.17.10",
     "material-ui": "^0.20.0",
     "medium-draft": "^0.6.0-beta1",
     "react": "^16.3.2",
@@ -31,6 +32,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
     "sc2-sdk": "^1.0.2",
+    "spotify-web-api-js": "^0.24.0",
     "steem": "^0.7.1",
     "styled-components": "^3.2.5"
   },

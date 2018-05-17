@@ -171,11 +171,11 @@ export default class AddNew extends Component {
             <span>Quote</span>
           </IconDiv>
 
-          <IconDiv style={colors.orange}>
-            <MdMusicNote
-              size={50}
-              onClick={() => this.handleNewModal("audio")}
-            />
+          <IconDiv
+            style={colors.orange}
+            onClick={() => this.handleNewModal("audio")}
+          >
+            <MdMusicNote size={50} />
             <span>Audio</span>
           </IconDiv>
           <IconDiv style={colors.red}>

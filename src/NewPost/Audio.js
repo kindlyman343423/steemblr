@@ -11,16 +11,41 @@ import newPost from "../Functions/newPost";
 import mediumDraftExporter from "medium-draft/lib/exporter";
 import delay from "../Functions/delay";
 import deezerApi from "../Functions/deezerApi";
+import uuidv4 from "uuid/v4";
+import deezerIcon from "../icons/deezer.ico";
 import { debounce } from "lodash";
 const Input = styled.input`
   padding: 5px;
   border: 0;
   outline: 0;
+  margin-bottom: 10px;
 `;
 const Song = styled.p`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
   cursor: pointer;
+  b {
+    font-weight: 500;
+    padding-right: 5px;
+  }
+  img {
+    height: 16px;
+    padding-right: 5px;
+  }
 `;
-const Container = styled.div``;
+const Container = styled.div`
+  position: relative;
+  min-height: 350px;
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    height: 100%;
+  }
+`;
 export default class Audio extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +54,8 @@ export default class Audio extends Component {
       open: this.props.isOpen,
       isSongSet: false,
       isSearch: false,
+      songTitle: "",
+      songId: "",
       search: "",
       imageUrl: "",
       data: [],
@@ -43,8 +70,9 @@ export default class Audio extends Component {
     this.handleSend = this.handleSend.bind(this);
     this.getData = this.getData.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.inputDebounce = debounce(function(e) {
-      this.getData();
+    this.setSong = this.setSong.bind(this);
+    this.inputDebounce = debounce(async function(e) {
+      await this.getData();
     }, 500);
     this.modalStyle = {
       postion: "fixed",
@@ -80,6 +108,14 @@ export default class Audio extends Component {
     this.props.unMountChildren("audio");
   }
   async handleInput(e) {
+    if (e.target.value === "") {
+      await this.setState({
+        isSearch: false,
+        isSongSet: false,
+        search: ""
+      });
+      return void 0;
+    }
     const name = e.target.name;
     await this.setState({
       [name]: e.target.value
@@ -104,6 +140,15 @@ export default class Audio extends Component {
       this.state.type
     );
   }
+  setSong(props) {
+    console.log(props);
+    this.setState({
+      songId: props.id,
+      songTitle: props.title,
+      isSongSet: true,
+      isSearch: false
+    });
+  }
   componentWillUnmount() {
     this.setState({
       open: true
@@ -116,7 +161,7 @@ export default class Audio extends Component {
   }
   async getData() {
     const apiCall = await deezerApi(this.state.search);
-    this.setState({
+    await this.setState({
       data: apiCall.data,
       isSearch: true
     });
@@ -136,13 +181,32 @@ export default class Audio extends Component {
         {this.state.isSearch ? (
           <Container>
             {this.state.data.map(item => {
-              return <Song onClick={this.setSong}>{item.title}</Song>;
+              return (
+                <Song key={uuidv4()} onClick={() => this.setSong(item)}>
+                  <img src={deezerIcon} alt="logo" />
+                  <b>{item.title}</b> <span>{item.artist.name}</span>
+                </Song>
+              );
             })}
           </Container>
         ) : (
           void 0
         )}
-
+        {this.state.isSongSet ? (
+          <Container>
+            <iframe
+              title={this.state.songTitle}
+              scrolling="no"
+              frameBorder="0"
+              allowtransparency="true"
+              src={`https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=300&height=300&color=007FEB&layout=dark&size=medium&type=tracks&id=${
+                this.state.songId
+              }&app_id=1`}
+            />
+          </Container>
+        ) : (
+          void 0
+        )}
         {this.state.isSongSet ? (
           <Editor
             ref="editor"

@@ -3,6 +3,7 @@ import Text from "../NewPost/Text";
 import Photo from "../NewPost/Photo";
 import Quote from "../NewPost/Quote";
 import Audio from "../NewPost/Audio";
+import Video from "../NewPost/Video";
 import styled from "styled-components";
 import {
   MdBorderColor,
@@ -85,7 +86,8 @@ export default class AddNew extends Component {
       open: false,
       text: false,
       photo: false,
-      audio: false
+      audio: false,
+      video: false
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -143,6 +145,11 @@ export default class AddNew extends Component {
         ) : (
           void 0
         )}
+        {this.state.video === true ? (
+          <Video isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.handleClose}
@@ -178,7 +185,10 @@ export default class AddNew extends Component {
             <MdMusicNote size={50} />
             <span>Audio</span>
           </IconDiv>
-          <IconDiv style={colors.red}>
+          <IconDiv
+            style={colors.red}
+            onClick={() => this.handleNewModal("video")}
+          >
             <MdVideocam size={50} />
             <span>Video</span>
           </IconDiv>

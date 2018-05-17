@@ -4,6 +4,7 @@ import uploadFiles from "../Functions/uploadFiles.js";
 import store from "../store";
 import { changePostType } from "../actions/stateActions";
 import Header from "../Header/Header";
+import TubeEmbed from "react-tube-embed";
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -27,6 +28,7 @@ class Home extends Component {
       <div className="container">
         <Header login={this.props.login} />
         <input type="file" name="myFile" onChange={this.handleUpload} /> <br />
+        <TubeEmbed src="https://www.youtube.com/watch?v=Jq5A5ctua8s" />
       </div>
     );
   }

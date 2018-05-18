@@ -69,6 +69,7 @@ export default class AddNew extends Component {
       text: false,
       photo: false,
       audio: false,
+      quote: false,
       video: false
     };
     this.handleOpen = this.handleOpen.bind(this);
@@ -80,7 +81,9 @@ export default class AddNew extends Component {
     this.setState({
       open: true,
       text: false,
-      photo: false
+      photo: false,
+      audio: false,
+      video: false
     });
   }
   handleClose() {

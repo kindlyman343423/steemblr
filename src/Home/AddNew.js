@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
+import Text from "../NewPost/Text";
+import Photo from "../NewPost/Photo";
+import Quote from "../NewPost/Quote";
+import Audio from "../NewPost/Audio";
+import Video from "../NewPost/Video";
 import colors from "../styles/colors";
 import {
   MdBorderColor,
@@ -39,8 +44,8 @@ const IconDiv = styled.div`
 
   transition: 0.5s;
   &:hover {
-    transform: translate3d(0px, 1px, 0px);
-    transition: 0.5s;
+    transform: translate3d(0px, -2px, 0px);
+    transition: 0.2s;
   }
 `;
 export default class AddNew extends Component {
@@ -52,31 +57,84 @@ export default class AddNew extends Component {
       text: false,
       photo: false,
       audio: false,
+      quote: false,
       video: false
     };
+    this.handleNewModal = this.handleNewModal.bind(this);
+    this.unMountChildren = this.unMountChildren.bind(this);
   }
-
+  handleNewModal(name) {
+    this.setState({
+      open: false,
+      [name]: true
+    });
+  }
+  unMountChildren(name) {
+    this.setState({
+      [name]: false
+    });
+  }
   render() {
     return (
       <Container>
-        <IconDiv style={{ color: colors.postTypes.text }}>
+        {this.state.text === true ? (
+          <Text isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
+        {this.state.photo === true ? (
+          <Photo isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
+        {this.state.quote === true ? (
+          <Quote isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
+        {this.state.audio === true ? (
+          <Audio isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
+        {this.state.video === true ? (
+          <Video isOpen={true} unMountChildren={this.unMountChildren} />
+        ) : (
+          void 0
+        )}
+        <IconDiv
+          style={{ color: colors.postTypes.text }}
+          onClick={() => this.handleNewModal("text")}
+        >
           <MdFormatAlignLeft size={32} />
           <span>Text</span>
         </IconDiv>
-        <IconDiv style={{ color: colors.postTypes.photo }}>
+        <IconDiv
+          style={{ color: colors.postTypes.photo }}
+          onClick={() => this.handleNewModal("photo")}
+        >
           <MdCameraAlt size={32} />
           <span>Photo</span>
         </IconDiv>
-        <IconDiv style={{ color: colors.postTypes.quote }}>
+        <IconDiv
+          style={{ color: colors.postTypes.quote }}
+          onClick={() => this.handleNewModal("quote")}
+        >
           <MdFormatQuote size={32} />
           <span>Quote</span>
         </IconDiv>
 
-        <IconDiv style={{ color: colors.postTypes.audio }}>
+        <IconDiv
+          style={{ color: colors.postTypes.audio }}
+          onClick={() => this.handleNewModal("audio")}
+        >
           <MdMusicNote size={32} />
           <span>Audio</span>
         </IconDiv>
-        <IconDiv style={{ color: colors.postTypes.video }}>
+        <IconDiv
+          style={{ color: colors.postTypes.video }}
+          onClick={() => this.handleNewModal("video")}
+        >
           <MdVideocam size={32} />
           <span>Video</span>
         </IconDiv>

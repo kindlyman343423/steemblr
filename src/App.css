@@ -33,9 +33,6 @@
 .ReactModal__Body--open {
   overflow-y: hidden;
 }
-.container {
-  background-color: white;
-}
 
 .md-add-button {
   border: 0;
@@ -43,5 +40,4 @@
 .root {
   display: flex;
   flex-direction: column;
-
 }

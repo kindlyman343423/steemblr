@@ -14,7 +14,7 @@ import {
   MdVideocam
 } from "react-icons/lib/md/";
 import Modal from "react-modal";
-
+import colors from "../styles/colors";
 const modalStyle = {
   postion: "fixed",
   height: "100%",
@@ -59,24 +59,6 @@ const IconDiv = styled.div`
     transition: 0.5s;
   }
 `;
-
-const colors = {
-  violet: {
-    backgroundColor: "#65499c"
-  },
-  blue: {
-    backgroundColor: "#0093c4"
-  },
-  green: {
-    backgroundColor: "#a8b545"
-  },
-  orange: {
-    backgroundColor: "#c88719"
-  },
-  red: {
-    backgroundColor: "#af4448"
-  }
-};
 
 export default class AddNew extends Component {
   constructor(props) {
@@ -156,7 +138,7 @@ export default class AddNew extends Component {
           style={modalStyle}
         >
           <IconDiv
-            style={colors.violet}
+            style={{ backgroundColor: colors.postTypes.text }}
             onClick={() => this.handleNewModal("text")}
           >
             <MdFormatAlignLeft size={50} />
@@ -164,14 +146,14 @@ export default class AddNew extends Component {
           </IconDiv>
 
           <IconDiv
-            style={colors.blue}
+            style={{ backgroundColor: colors.postTypes.photo }}
             onClick={() => this.handleNewModal("photo")}
           >
             <MdCameraAlt size={50} />
             <span>Photo</span>
           </IconDiv>
           <IconDiv
-            style={colors.green}
+            style={{ backgroundColor: colors.postTypes.quote }}
             onClick={() => this.handleNewModal("quote")}
           >
             <MdFormatQuote size={50} />
@@ -179,14 +161,14 @@ export default class AddNew extends Component {
           </IconDiv>
 
           <IconDiv
-            style={colors.orange}
+            style={{ backgroundColor: colors.postTypes.audio }}
             onClick={() => this.handleNewModal("audio")}
           >
             <MdMusicNote size={50} />
             <span>Audio</span>
           </IconDiv>
           <IconDiv
-            style={colors.red}
+            style={{ backgroundColor: colors.postTypes.video }}
             onClick={() => this.handleNewModal("video")}
           >
             <MdVideocam size={50} />

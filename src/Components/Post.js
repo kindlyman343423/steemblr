@@ -38,6 +38,7 @@ export default class Post extends Component {
 
     this.state = {
       mockupImg: "",
+      username: this.props.username,
       shouldOpenComments: false,
       isOpen: false,
       isFollowing: this.props.isFollowing,
@@ -45,6 +46,9 @@ export default class Post extends Component {
         ? this.props.voteStatus.percent
         : 0
     };
+    this.setState({
+      username: this.props.username
+    });
     this.handleClick = this.handleClick.bind(this);
   }
   componentWillMount() {
@@ -52,10 +56,8 @@ export default class Post extends Component {
       mockupImg: this.randomImage()
     });
   }
-  componentWillUnmount() {
-    console.log("Unmounting");
-  }
-  async handleClick() {
+
+  handleClick() {
     followSteem(this.props.username, this.props.post.author);
     this.setState({
       isFollowing: true

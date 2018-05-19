@@ -9,3 +9,6 @@ body {
   color: white;
   text-decoration: none;
 }
+.ReactModal__Overlay {
+  z-index: 9999;
+}

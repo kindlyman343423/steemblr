@@ -3,7 +3,7 @@ import steemReducer from "./steemReducer";
 import steemFollowingReducer from "./steemFollowingReducer";
 import steemLoginReducer from "./steemLoginReducer";
 import steemProfileVotesReducer from "./steemProfileVotesReducer";
-import steemTrendingPostsReducer from "./steemTrendingPostsReducer";
+import steemPostsReducer from "./steemPostsReducer";
 import steemVotePowerReducer from "./steemVotePowerReducer";
 import newPostReducer from "./newPostReducer";
 import locationReducer from "./locationReducer";
@@ -13,7 +13,7 @@ export default combineReducers({
   steemProfileVotes: steemProfileVotesReducer,
   following: steemFollowingReducer,
   login: steemLoginReducer,
-  trendingPosts: steemTrendingPostsReducer,
+  steemPosts: steemPostsReducer,
   votePower: steemVotePowerReducer,
   newPost: newPostReducer,
   location: locationReducer

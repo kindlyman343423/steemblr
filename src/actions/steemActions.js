@@ -5,7 +5,9 @@ import {
   GET_PROFILE_VOTES,
   GET_TRENDING_POSTS,
   CHANGE_VOTE_POWER,
-  CHANGE
+  CHANGE,
+  GET,
+  GET_NEW_POSTS
 } from "./types";
 import api from "../Api";
 import steem from "steem";
@@ -80,7 +82,7 @@ export const getProfileVotes = props => async dispatch => {
 export const getSteemTrendingPosts = props => async dispatch => {
   const query = {
     tag: props,
-    limit: 40
+    limit: 50
   };
   let bucket = [];
   await steem.api
@@ -98,6 +100,26 @@ export const getSteemTrendingPosts = props => async dispatch => {
 
   return bucket[0];
 };
+export const getSteemNewPosts = props => async dispatch => {
+  const query = {
+    tag: props,
+    limit: 50
+  };
+  let bucket = [];
+  await steem.api
+    .getDiscussionsByCreatedAsync(query)
+    .then(result => {
+      bucket.push(result);
+      dispatch({
+        type: GET_NEW_POSTS,
+        payload: bucket[0]
+      });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+};
+
 export const changeVotePower = props => async dispatch => {
   dispatch({
     type: CHANGE_VOTE_POWER,

@@ -42,30 +42,29 @@ class Trending extends Component {
       isLoading: true,
       posts: [],
       layoutReady: false,
-      items: [],
+      items: store.getState(),
       shouldLoad: false,
       paginationCounter: 10
     };
-
-    store.subscribe(() => {
-      this.setState({
-        items: store.getState()
-      });
-    });
 
     this.updateFollowingState = this.updateFollowingState.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.handleVoting = this.handleVoting.bind(this);
+    store.subscribe(() => {
+      this.setState({
+        items: store.getState()
+      });
+    });
   }
   async loadMorePosts() {
     if (
-      Object.keys(this.state.items.trendingPosts.posts).length === 0 ||
-      this.state.items.trendingPosts.posts === undefined
+      Object.keys(this.state.items.steemPosts.posts).length === 0 ||
+      this.state.items.steemPosts.posts === undefined
     ) {
     } else {
       this.setState({
-        posts: this.props.trendingPosts.posts.slice(
+        posts: this.props.steemPosts.posts.slice(
           0,
           this.state.paginationCounter
         ),
@@ -81,7 +80,7 @@ class Trending extends Component {
     this.setState({
       paginationCounter: 10,
       items: await store.getState(),
-      posts: await this.props.trendingPosts.posts
+      posts: await this.props.steemPosts.posts
     });
   }
 
@@ -182,7 +181,7 @@ class Trending extends Component {
           hasMore={true}
           loader={
             <MuiThemeProvider key={Math.random()}>
-              <Spinner key={Math.random()} />
+              <Spinner key={uuidv4()} />
             </MuiThemeProvider>
           }
         >
@@ -225,7 +224,7 @@ const mapStateToProps = state => ({
   steemProfile: state.steemProfile,
   following: state.following,
   steemProfileVotes: state.steemProfileVotes,
-  trendingPosts: state.trendingPosts,
+  steemPosts: state.steemPosts,
   postFollowingToState: state.postFollowingToState,
   votePower: state.votePower
 });

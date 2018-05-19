@@ -4,6 +4,7 @@ import store from "../store";
 import Header from "../Header/Header";
 import styled from "styled-components";
 import AddNew from "./AddNew";
+import PostsLoader from "./PostsLoader";
 const Layout = styled.div`
   display: grid;
   grid-template-columns: 60% 40%;
@@ -35,6 +36,7 @@ class Home extends Component {
         <Layout>
           <PostsContainer>
             <AddNew />
+            <PostsLoader />
           </PostsContainer>
           <SidebarContainer>Test 2</SidebarContainer>
         </Layout>

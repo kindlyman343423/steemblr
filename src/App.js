@@ -4,7 +4,7 @@ import { hot } from "react-hot-loader";
 //CSS
 import "./App.css";
 //COMPONENTS
-import Home from "./Home/Home";
+import Home from "./Home/";
 import Logout from "./Components/Logout";
 import Intro from "./Components/Intro";
 import Header from "./Header/Header";

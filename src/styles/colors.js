@@ -1,5 +1,9 @@
 const colors = {
   background: "#1c313a",
+  font: {
+    normal: "grey",
+    lightNormal: "lightgrey"
+  },
   events: {
     hover: "#1c313a"
   },

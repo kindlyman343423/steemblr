@@ -77,7 +77,7 @@ class Trending extends Component {
   }
   async componentWillMount() {
     await this.props.getSteemTrendingPosts("test");
-    this.setState({
+    await this.setState({
       paginationCounter: 10,
       items: await store.getState(),
       posts: await this.props.steemPosts.posts
@@ -124,12 +124,7 @@ class Trending extends Component {
     }
     console.log(username, author, permlink, votePercent);
   }
-  checkFollowing(author) {
-    if (this.state.items.following.users === undefined) {
-      return false;
-    }
-    return this.state.items.following.users.includes(author);
-  }
+
   checkVoteStatus(props) {
     const find = this.state.items.steemProfileVotes.votes.find(
       o => o.permlink === props

@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
-import store from "../store";
 import Header from "../Header/Header";
 import styled from "styled-components";
 import AddNew from "./AddNew";
+import Sidebar from "./Sidebar";
 import PostsLoader from "./PostsLoader";
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: 60% 40%;
-  grid-column-gap: 10px;
+  margin-top: 3em;
+  grid-template-columns: 60% auto;
+  grid-column-gap: 25px;
 `;
-
+const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+`;
 const PostsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -18,7 +25,8 @@ const PostsContainer = styled.div`
   padding-top: 50px;
 `;
 const SidebarContainer = styled.div`
-  background-color: orange;
+  padding-top: 23px;
+  box-sizing: border-box;
 `;
 class Home extends Component {
   constructor(props) {
@@ -32,13 +40,17 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
-        <Header login={this.props.login} />
+        <HeaderContainer>
+          <Header login={this.props.login} />
+        </HeaderContainer>
         <Layout>
           <PostsContainer>
             <AddNew />
             <PostsLoader />
           </PostsContainer>
-          <SidebarContainer>Test 2</SidebarContainer>
+          <SidebarContainer>
+            <Sidebar />
+          </SidebarContainer>
         </Layout>
       </div>
     );

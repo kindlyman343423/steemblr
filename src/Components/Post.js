@@ -89,7 +89,7 @@ export default class Post extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <StyledDiv>
+        <StyledDiv className={this.props.homeComponent ? "post" : void 0}>
           <Card>
             <CardHeader
               titleStyle={cardHeaderStyle}

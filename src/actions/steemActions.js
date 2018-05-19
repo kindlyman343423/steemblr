@@ -6,7 +6,6 @@ import {
   GET_TRENDING_POSTS,
   CHANGE_VOTE_POWER,
   CHANGE,
-  GET,
   GET_NEW_POSTS
 } from "./types";
 import api from "../Api";

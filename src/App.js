@@ -39,10 +39,15 @@ import {
   getSteemTrendingPosts
 } from "./actions/steemActions";
 import Modal from "react-modal";
-
+import colors from "./styles/colors";
+import { injectGlobal } from "styled-components";
 Modal.setAppElement("#root");
 firebase.initializeApp(environment);
-
+injectGlobal`
+  body {
+    background-color:${colors.background}
+  }
+`;
 class App extends Component {
   constructor(props) {
     super(props);

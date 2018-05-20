@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader";
 
 const colors = {
-  background: "#1c313a",
+  background: "#263238",
 
   font: {
     normal: "grey",
@@ -11,7 +11,8 @@ const colors = {
     hover: "#1c313a"
   },
   buttons: {
-    login: "#2962ff"
+    login: "#0064a0",
+    loginHover: "#003c8f"
   },
   postTypes: {
     text: "#65499c",

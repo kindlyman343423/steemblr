@@ -98,7 +98,7 @@ class App extends Component {
     return (
       <Router>
         <div id="root" className="App">
-          {this.state.login ? void 0 : <Intro />}
+          <Route exact path="/" component={Intro} />
           <Route
             exact
             path="/home"

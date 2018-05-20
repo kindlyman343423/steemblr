@@ -7,12 +7,12 @@ const RegisterBtn = styled.button`
   border: 0;
   background-color: "#FFF";
   outline: none;
-
+  cursor: pointer;
   font-weight: 700;
-  transition: 0.5s;
+  transition: 0.1s;
   &:hover {
-    background-color: #808e95;
-    transition: 0.5s;
+    background-color: #fff;
+    transition: 0.1s;
   }
 `;
 class Register extends Component {

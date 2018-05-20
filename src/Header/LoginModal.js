@@ -10,10 +10,12 @@ const LoginBtn = styled.button`
   outline: none;
   color: #fff;
   font-weight: 700;
-  transition: 0.2s;
+  transition: 0.1s;
+  border-radius: 2px;
+  cursor: pointer;
   &:hover {
-    background-color: #0064b7;
-    transition: 0.2s;
+    background-color: ${colors.buttons.loginHover};
+    transition: 0.1s;
   }
 `;
 class LoginModal extends Component {
@@ -28,7 +30,7 @@ class LoginModal extends Component {
     return (
       <div>
         <LoginBtn onClick={() => (window.location.href = link)}>
-          Login with steemconnect
+          {this.props.text}
         </LoginBtn>
       </div>
     );

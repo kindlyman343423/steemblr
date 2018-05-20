@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import Dashboard from "./Dashboard";
 import LoginModal from "./LoginModal";
+import Register from "../Components/Register";
 import { Input } from "rebass";
 import { hot } from "react-hot-loader";
 import "./Header.css";
@@ -24,7 +25,20 @@ const Container = styled.div`
   z-index: 1000;
   background-color: ${colors.background};
 `;
-
+const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  align-content: flex-end;
+  justify-content: center;
+  button {
+    width: 68px;
+    height: 35px;
+    margin-right: 10px;
+    font-size: 12px;
+    border-radius: 2px;
+  }
+`;
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +58,10 @@ class Header extends Component {
         {this.state.login === true ? (
           <Dashboard />
         ) : (
-          <LoginModal updateAppComponent={this.updateAppComponent} />
+          <BtnContainer>
+            <LoginModal text="Login" />
+            <Register />
+          </BtnContainer>
         )}
       </Container>
     );

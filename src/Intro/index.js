@@ -4,6 +4,8 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import LoginModal from "../Header/LoginModal";
 import Register from "../Components/Register";
+import Header from "./Header";
+import { Link } from "react-router-dom";
 const LoginBtn = styled.button`
   padding: 10px;
   border: 0;
@@ -18,7 +20,7 @@ const LoginBtn = styled.button`
   }
 `;
 const Container = styled.div`
-  background-color: #e64a19;
+  background-color: #00796b;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -26,9 +28,13 @@ const Container = styled.div`
   align-content: center;
   align-items: center;
   justify-content: center;
+  position: relative;
   h2 {
     color: white;
     font-size: 32px;
+  }
+  a {
+    color: ${colors.font.lightNormal};
   }
 `;
 const BtnContainer = styled.div`
@@ -41,11 +47,13 @@ class Intro extends Component {
   render() {
     return (
       <Container>
+        <Header />
         <h2>steemblr</h2>
         <BtnContainer>
-          <LoginModal />
+          <LoginModal text="Login with steemconnect" />
           <Register />
         </BtnContainer>
+        <Link to="explore/trending/">Check what's trending</Link>
       </Container>
     );
   }

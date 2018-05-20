@@ -144,7 +144,7 @@ class PostsLoader extends Component {
           hasMore={true}
           loader={
             <MuiThemeProvider key={Math.random()}>
-              <Spinner key={uuidv4()} />
+              <Spinner key={uuidv4()} marginTop="10" />
             </MuiThemeProvider>
           }
         >

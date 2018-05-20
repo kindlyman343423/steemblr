@@ -164,7 +164,7 @@ class Trending extends Component {
     if (this.state.isLoading)
       return (
         <MuiThemeProvider>
-          <Spinner />
+          <Spinner marginTop="10" />
         </MuiThemeProvider>
       );
     return (

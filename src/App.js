@@ -6,18 +6,15 @@ import "./App.css";
 //COMPONENTS
 import Home from "./Home/";
 import Logout from "./Components/Logout";
-import Intro from "./Components/Intro";
-import Header from "./Header/Header";
 import Explore from "./Explore/Explore";
 import RedirectLoginToken from "./Components/RedirectLoginToken";
-
+import Intro from "./Intro/";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
 import environment from "./environment";
 import firebase from "firebase";
 import "firebase/database";
-import uploadFiles from "./Functions/uploadFiles";
 //FUNCTIONS
 import steemProfile from "./Functions/steemProfile";
 import getFollowing from "./Functions/getFollowing";
@@ -101,6 +98,7 @@ class App extends Component {
     return (
       <Router>
         <div id="root" className="App">
+          {this.state.login ? void 0 : <Intro />}
           <Route
             exact
             path="/home"

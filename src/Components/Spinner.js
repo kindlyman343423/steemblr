@@ -1,14 +1,26 @@
-import React from "react";
+import React, { Component } from "react";
 import CircularProgress from "material-ui/CircularProgress";
+import styled from "styled-components";
 
-const custom = {
-  marginTop: "10em"
-};
+class Spinner extends Component {
+  constructor(props) {
+    super(props);
 
-const CircularProgressExampleSimple = () => (
-  <div style={custom}>
-    <CircularProgress color="#cfd8dc" />
-  </div>
-);
+    this.Container = styled.div`
+      margin-top: ${this.props.marginTop}em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+  }
 
-export default CircularProgressExampleSimple;
+  render() {
+    return (
+      <this.Container>
+        <CircularProgress color="#cfd8dc" />
+      </this.Container>
+    );
+  }
+}
+
+export default Spinner;

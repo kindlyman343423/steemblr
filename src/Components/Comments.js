@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { MdInsertComment } from "react-icons/lib/md/";
 import Dialog from "material-ui/Dialog";
-
+import Spinner from "./Spinner";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { Input } from "rebass";
 import { MdSend } from "react-icons/lib/md/";
 import Comment from "./Comment";
@@ -26,6 +27,11 @@ const actionsStyle = {
   display: "inline-flex",
   alignItems: "center"
 };
+const spinnerStyle = {
+  display: "flex",
+  alignItems: "center",
+  color: "pink"
+};
 class Comments extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +42,8 @@ class Comments extends Component {
       comment: "",
       votedComments: [],
       votesToPush: [],
-      votesToRemove: []
+      votesToRemove: [],
+      isLoading: true
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleSendComment = this.handleSendComment.bind(this);
@@ -54,7 +61,8 @@ class Comments extends Component {
     this.setState({
       comments: apiCall[0],
       open: true,
-      votedComments: await store.getState().steemProfileVotes.votes
+      votedComments: await store.getState().steemProfileVotes.votes,
+      isLoading: false
     });
   }
   componentWillUnMount() {}
@@ -64,7 +72,7 @@ class Comments extends Component {
       this.props.postPermlink
     );
 
-    this.setState({
+    await this.setState({
       comments: apiCall[0],
       open: true
     });
@@ -210,6 +218,13 @@ class Comments extends Component {
           actionsContainerStyle={actionsStyle}
           repositionOnUpdate={true}
         >
+          {this.state.isLoading ? (
+            <MuiThemeProvider>
+              <Spinner style={spinnerStyle} marginTop="2" />
+            </MuiThemeProvider>
+          ) : (
+            void 0
+          )}
           {this.state.comments.map(comment => {
             return (
               <Comment

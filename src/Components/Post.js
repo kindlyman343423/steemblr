@@ -49,6 +49,14 @@ export default class Post extends Component {
     this.setState({
       username: this.props.username
     });
+    this.Container = styled.div`
+      background-color: white;
+      width: ${this.props.width};
+      margin-bottom: 20px;
+      padding: 0px !important;
+      border-radius: 1%;
+      text-align: left;
+    `;
     this.handleClick = this.handleClick.bind(this);
   }
   componentWillMount() {
@@ -89,7 +97,7 @@ export default class Post extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <StyledDiv className={this.props.homeComponent ? "post" : void 0}>
+        <this.Container>
           <Card>
             <CardHeader
               titleStyle={cardHeaderStyle}
@@ -173,7 +181,7 @@ export default class Post extends Component {
               </CardText>
             </CardActions>
           </Card>
-        </StyledDiv>
+        </this.Container>
       </MuiThemeProvider>
     );
   }

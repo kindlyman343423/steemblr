@@ -37,8 +37,7 @@ const HeaderTabs = ({ match }) => {
     "links",
     "chats",
     "audio",
-    "video",
-    "asks"
+    "video"
   ];
   return (
     <Container>

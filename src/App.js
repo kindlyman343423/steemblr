@@ -9,11 +9,11 @@ import Logout from "./Components/Logout";
 import Explore from "./Explore/Explore";
 import RedirectLoginToken from "./Components/RedirectLoginToken";
 import Intro from "./Intro/";
+import Testground from "./Components/Testground";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
-import environment from "./environment";
-import firebase from "firebase";
+import defaultApp from "./environment";
 import "firebase/database";
 //FUNCTIONS
 import steemProfile from "./Functions/steemProfile";
@@ -37,9 +37,11 @@ import {
 } from "./actions/steemActions";
 import Modal from "react-modal";
 import colors from "./styles/colors";
+
 import { injectGlobal } from "styled-components";
+
 Modal.setAppElement("#root");
-firebase.initializeApp(environment);
+
 injectGlobal`
   body {
     background-color:${colors.background}
@@ -116,11 +118,11 @@ class App extends Component {
               <Logout {...props} handleLogout={this.handleLogout} />
             )}
           />
-
           <Route
             path="/explore"
             render={props => <Explore {...props} login={this.state.login} />}
           />
+          <Route path="/test" component={Testground} />
           <Route path="/redirect" component={RedirectLoginToken} />
         </div>
       </Router>

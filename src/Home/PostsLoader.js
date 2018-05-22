@@ -164,6 +164,7 @@ class PostsLoader extends Component {
                 fullPermlink={fullPermlink}
                 handleVoting={this.handleVoting}
                 homeComponent={true}
+                width="100%"
               />
             );
           })}

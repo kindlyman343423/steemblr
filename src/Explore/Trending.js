@@ -205,6 +205,7 @@ class Trending extends Component {
                     voteStatus={this.checkVoteStatus(fullPermlink)}
                     fullPermlink={fullPermlink}
                     handleVoting={this.handleVoting}
+                    width="25vw"
                   />
                 );
               })}

@@ -10,6 +10,11 @@ const colors = {
   events: {
     hover: "#1c313a"
   },
+  borders: {
+    light: "lightgrey",
+    inactive: "lightgrey",
+    active: "black"
+  },
   buttons: {
     login: "#0064a0",
     loginHover: "#003c8f"

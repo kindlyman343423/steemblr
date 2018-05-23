@@ -10,6 +10,7 @@ import Explore from "./Explore/Explore";
 import RedirectLoginToken from "./Components/RedirectLoginToken";
 import Intro from "./Intro/";
 import Testground from "./Components/Testground";
+import CreateFirstBlog from "./Intro/CreateFirstBlog";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
@@ -122,7 +123,7 @@ class App extends Component {
             path="/explore"
             render={props => <Explore {...props} login={this.state.login} />}
           />
-          <Route path="/test" component={Testground} />
+          <Route path="/test" component={CreateFirstBlog} />
           <Route path="/redirect" component={RedirectLoginToken} />
         </div>
       </Router>

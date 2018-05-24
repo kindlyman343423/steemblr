@@ -8,16 +8,20 @@ admin.initializeApp({
 });
 
 exports.reciveToken = functions.https.onRequest((request, response) => {
-  response.set("Access-Control-Allow-Origin", "*"); //https://steemblr.com
-  response.set("Access-Control-Allow-Methods", "GET, POST");
-
+  response.set("Access-Control-Allow-Origin", "https://steemblr.com");
+  response.set("Access-Control-Allow-Origin", "*");
+  //response.set("Access-Control-Allow-Methods", "GET, POST");
+  /*if (request.hostname !== "steemblr.com") {
+    return response.status(403);
+  }*/
   const uuid = request.query.uuid;
   admin
     .auth()
     .createCustomToken(uuid)
     .then(function(customToken) {
       const token = {
-        token: customToken
+        token: customToken,
+        url: request.hostname
       };
 
       response.status(200).send(token);

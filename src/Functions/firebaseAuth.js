@@ -1,5 +1,4 @@
 import firebase from "firebase";
-
 const firebaseAuth = async () => {
   firebase
     .auth()

@@ -21,6 +21,21 @@ const Container = styled.div`
     background: rgba(255, 255, 255, 1);
     transition: 0.2s;
   }
+  @media (max-width: 768px) {
+    input {
+      width: 60vw;
+    }
+  }
+  @media (max-width: 425px) {
+    input {
+      width: 80vw;
+    }
+  }
+  @media (max-width: 375px) {
+    input {
+      width: 80vw;
+    }
+  }
 `;
 export default class Header extends Component {
   constructor(props) {

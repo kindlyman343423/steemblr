@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import api from "./Api";
 import { hot } from "react-hot-loader";
 //CSS
 import "./App.css";
@@ -9,24 +8,15 @@ import Logout from "./Components/Logout";
 import Explore from "./Explore/Explore";
 import RedirectLoginToken from "./Components/RedirectLoginToken";
 import Intro from "./Intro/";
-import Testground from "./Components/Testground";
 import CreateFirstBlog from "./Intro/CreateFirstBlog";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
-import defaultApp from "./environment";
 import "firebase/database";
 //FUNCTIONS
-import steemProfile from "./Functions/steemProfile";
 import getFollowing from "./Functions/getFollowing";
 //REACT ROUTER
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  NavLink,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 //REDUX STUFF
 import { connect } from "react-redux";
 import {
@@ -36,6 +26,7 @@ import {
   getProfileVotes,
   getSteemTrendingPosts
 } from "./actions/steemActions";
+
 import Modal from "react-modal";
 import colors from "./styles/colors";
 
@@ -59,14 +50,13 @@ class App extends Component {
       followings: ""
     };
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleClickCC = this.handleClickCC.bind(this);
   }
   async componentWillMount() {
     if (this.state.login) {
       await this.props.getUserProfile();
       await this.props.getUserFollowing(this.props.steemProfile.profile._id);
       await this.props.getProfileVotes(this.props.steemProfile.profile._id);
-      const profile = await steemProfile();
+      const profile = await this.props.steemProfile;
       const followingBucket = await getFollowing(profile._id);
       this.props.changeLoginStatus(true);
       this.setState({
@@ -74,16 +64,8 @@ class App extends Component {
         followings: followingBucket
       });
 
-      this.state.cLogin === false ? getFirebaseToken(profile._id) : void 0;
-      if (this.state.cLogin) {
-        firebaseAuth();
-
-        // Example of simple post that only auth user can make
-
-        /* firebase.database().ref('users/' + profile._id).set({
-          blogName: 'Potęga Wiktorii i Pierwiastki Sajmonów',
-          profilePicture: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Placeholder_no_text.svg/1024px-Placeholder_no_text.svg.png'
-        }) */
+      if (this.state.cLogin === false) {
+        this.handleFirebaseLogin();
       }
     }
   }
@@ -94,8 +76,9 @@ class App extends Component {
       cLogin: localStorage.getItem("cToken") !== null ? true : false
     });
   }
-  async handleClickCC() {
-    //sendComment()  <button onClick={this.handleClickCC}> Click to send Comment </button>
+  async handleFirebaseLogin() {
+    await getFirebaseToken(this.props.steemProfile.profile._id);
+    firebaseAuth();
   }
   render() {
     return (

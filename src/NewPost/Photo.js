@@ -9,6 +9,7 @@ import uploadFiles from "../Functions/uploadFiles";
 import { MdPhoto } from "react-icons/lib/md";
 import { Editor, createEditorState, Block, addNewBlock } from "medium-draft";
 import newPost from "../Functions/newPost";
+import firebaseAuth from "../Functions/firebaseAuth";
 import mediumDraftExporter from "medium-draft/lib/exporter";
 const FileInputLabel = styled.label`
   display: flex;
@@ -99,6 +100,7 @@ export default class Photo extends Component {
     this.setState({ editorState });
   };
   async handleUpload(e) {
+    firebaseAuth();
     console.log(e.target.files[0]);
     await uploadFiles(e.target.files[0]).then(response => {
       this.setState({

@@ -1,6 +1,7 @@
 const getFirebaseToken = async props => {
   const call = await fetch(
-    `http://localhost:5000/steemblr/us-central1/reciveToken?uuid=${props}`, //`https://us-central1-steemblr.cloudfunctions.net/reciveToken?uuid=${props}`,
+    `http://localhost:5000/steemblr/us-central1/reciveToken?uuid=${props}`,
+    //`https://us-central1-steemblr.cloudfunctions.net/reciveToken?uuid=${props}`,
     {
       method: "GET",
       headers: {

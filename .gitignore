@@ -22,6 +22,7 @@ node_modules/
 *firebase-debug.log*
 *index-test.js*
 *.firebaserc*
+*Testground.js*
 
 # misc
 .DS_Store

@@ -2,13 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import { hot } from "react-hot-loader";
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  NavLink,
-  Redirect
-} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Explore.css";
 const NavBar = styled.div`
   display: inline-flex;

@@ -6,11 +6,9 @@ import styled from "styled-components";
 import "./Dashboard.css";
 
 import ProfileMenu from "./ProfileMenu";
-import { MdHome, MdExplore, MdBorderColor } from "react-icons/lib/md/";
+import { MdHome, MdExplore } from "react-icons/lib/md/";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import muiTheme from "../Components/muiTheme";
-
-import colors from "../styles/colors";
 
 const Container = styled.div`
   padding: 5px;
@@ -18,6 +16,9 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  svg {
+    padding-right: 10px;
+  }
 `;
 
 export default class componentName extends Component {

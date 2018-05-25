@@ -4,12 +4,9 @@ import styled from "styled-components";
 import TagsInput from "react-tagsinput";
 import CloseBtn from "../Components/CloseBtn";
 import SendBtn from "../Components/SendBtn";
-import colors from "../styles/colors";
-import uploadFiles from "../Functions/uploadFiles";
-import { Editor, createEditorState, Block, addNewBlock } from "medium-draft";
+import { Editor, createEditorState } from "medium-draft";
 import newPost from "../Functions/newPost";
 import mediumDraftExporter from "medium-draft/lib/exporter";
-import delay from "../Functions/delay";
 import deezerApi from "../Functions/deezerApi";
 import uuidv4 from "uuid/v4";
 import deezerIcon from "../icons/deezer.ico";
@@ -73,7 +70,7 @@ export default class Audio extends Component {
     this.setSong = this.setSong.bind(this);
     this.inputDebounce = debounce(async function(e) {
       await this.getData();
-    }, 500);
+    }, 200);
     this.modalStyle = {
       postion: "fixed",
       height: "100%",

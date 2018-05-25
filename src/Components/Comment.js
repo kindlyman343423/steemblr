@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import ReactHtmlParser from "react-html-parser";
 
 const Paragraph = styled.p`
   color: black;
@@ -41,8 +42,8 @@ export default class Comment extends Component {
     `;
     return (
       <Paragraph>
-        <Nickname onClick={this.handleClick}>{this.props.author}</Nickname>:{" "}
-        {this.props.body}
+        <Nickname onClick={this.handleClick}>{this.props.author}</Nickname>:
+        <span>{ReactHtmlParser(this.props.body)}</span>
       </Paragraph>
     );
   }

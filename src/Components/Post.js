@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-
+import { hot } from "react-hot-loader";
 import styled from "styled-components";
 //import { Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner, Text , ButtonTransparent} from 'rebass'
 import { Avatar, MuiThemeProvider } from "material-ui";
 import {
   AvatarStyles,
-  StyledDiv,
   buttonStyles,
   cardHeaderStyle,
   CardActionStyles,
@@ -16,9 +15,7 @@ import {
   CardActions,
   CardHeader,
   CardMedia,
-  CardTitle,
-  CardText,
-  Toggle
+  CardText
 } from "material-ui/Card";
 import FlatButton from "material-ui/FlatButton";
 import Lightbox from "react-image-lightbox";
@@ -32,7 +29,17 @@ import Comments from "./Comments";
 const Img = styled.img`
   cursor: zoom-in;
 `;
-export default class Post extends Component {
+const Container = styled.div`
+  background-color: white;
+  margin-bottom: 20px;
+  padding: 0px !important;
+  border-radius: 1%;
+  text-align: left;
+  svg {
+    padding-right: 10px;
+  }
+`;
+class Post extends Component {
   constructor(props) {
     super(props);
 
@@ -49,14 +56,7 @@ export default class Post extends Component {
     this.setState({
       username: this.props.username
     });
-    this.Container = styled.div`
-      background-color: white;
-      width: ${this.props.width};
-      margin-bottom: 20px;
-      padding: 0px !important;
-      border-radius: 1%;
-      text-align: left;
-    `;
+
     this.handleClick = this.handleClick.bind(this);
   }
   componentWillMount() {
@@ -97,7 +97,7 @@ export default class Post extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <this.Container>
+        <Container style={{ width: this.props.width }}>
           <Card>
             <CardHeader
               titleStyle={cardHeaderStyle}
@@ -181,8 +181,9 @@ export default class Post extends Component {
               </CardText>
             </CardActions>
           </Card>
-        </this.Container>
+        </Container>
       </MuiThemeProvider>
     );
   }
 }
+export default hot(module)(Post);

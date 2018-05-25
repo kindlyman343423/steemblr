@@ -27,7 +27,10 @@ export const CardActionStyles = {
   paddingTop: "0px",
   paddingBottom: "0px",
   paddingRight: "0px",
-  paddingLeft: "8px"
+  paddingLeft: "8px",
+  svg: {
+    paddingRight: "5px !important"
+  }
 };
 export const sbdCounter = {
   float: "left",

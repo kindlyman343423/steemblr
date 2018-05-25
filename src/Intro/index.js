@@ -6,19 +6,7 @@ import LoginModal from "../Header/LoginModal";
 import Register from "../Components/Register";
 import Header from "./Header";
 import { Link } from "react-router-dom";
-const LoginBtn = styled.button`
-  padding: 10px;
-  border: 0;
-  background-color: transparent;
-  outline: none;
 
-  font-weight: 700;
-  transition: 0.5s;
-  &:hover {
-    background-color: #808e95;
-    transition: 0.5s;
-  }
-`;
 const Container = styled.div`
   background-color: #00796b;
   width: 100vw;

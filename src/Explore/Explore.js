@@ -5,7 +5,6 @@ import { Route } from "react-router-dom";
 import "./Explore.css";
 import styled from "styled-components";
 import Header from "../Header/Header";
-import colors from "../styles/colors";
 const Container = styled.div``;
 const HeaderContainer = styled.div`
   display: flex;

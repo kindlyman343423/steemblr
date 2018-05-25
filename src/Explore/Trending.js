@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { hot } from "react-hot-loader";
 import Post from ".././Components/Post";
 import steemVote from ".././Functions/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
@@ -232,4 +232,4 @@ export default connect(mapStateToProps, {
   postFollowingToState,
   postVoteToState,
   removeVoteFromState
-})(Trending);
+})(hot(module)(Trending));

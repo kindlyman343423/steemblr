@@ -7,10 +7,11 @@ import SendBtn from "../Components/SendBtn";
 import colors from "../styles/colors";
 import uploadFiles from "../Functions/uploadFiles";
 import { MdPhoto } from "react-icons/lib/md";
-import { Editor, createEditorState, Block, addNewBlock } from "medium-draft";
+import { Editor, createEditorState } from "medium-draft";
 import newPost from "../Functions/newPost";
 import firebaseAuth from "../Functions/firebaseAuth";
 import mediumDraftExporter from "medium-draft/lib/exporter";
+
 const FileInputLabel = styled.label`
   display: flex;
 

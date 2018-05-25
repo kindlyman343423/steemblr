@@ -6,6 +6,7 @@ import CloseBtn from "../Components/CloseBtn";
 import SendBtn from "../Components/SendBtn";
 import colors from "../styles/colors";
 import uploadFiles from "../Functions/uploadFiles";
+import deleteImage from "../Functions/deleteImage";
 import { MdPhoto } from "react-icons/lib/md";
 import { Editor, createEditorState } from "medium-draft";
 import newPost from "../Functions/newPost";
@@ -34,10 +35,14 @@ const FileInputLabel = styled.label`
   }
 `;
 const Container = styled.div`
+  position: relative;
   margin-left: -20px;
   margin-right: -20px;
   img {
     width: 100%;
+  }
+  input {
+    padding-left: 25px;
   }
 `;
 const FileInput = styled.input`
@@ -46,7 +51,20 @@ const FileInput = styled.input`
   outline: none;
   cursor: pointer;
 `;
-
+const ClosePhotoBtn = styled.button`
+  position: absolute;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 0;
+  background: white;
+  padding: 7px;
+  top: 0;
+  right: 0;
+  color: black;
+  &:hover {
+    color: red;
+  }
+`;
 export default class Photo extends Component {
   constructor(props) {
     super(props);
@@ -64,6 +82,7 @@ export default class Photo extends Component {
     this.handleTagsChange = this.handleTagsChange.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleSend = this.handleSend.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
 
     this.modalStyle = {
       postion: "fixed",
@@ -92,6 +111,9 @@ export default class Photo extends Component {
     });
   }
   handleClose() {
+    if (this.state.uploaded) {
+      this.handleCancel();
+    }
     this.setState({
       open: false
     });
@@ -102,7 +124,6 @@ export default class Photo extends Component {
   };
   async handleUpload(e) {
     firebaseAuth();
-    console.log(e.target.files[0]);
     await uploadFiles(e.target.files[0]).then(response => {
       this.setState({
         uploaded: true,
@@ -114,6 +135,12 @@ export default class Photo extends Component {
         src: this.state.imageUrl
       })
     });*/
+  }
+  handleCancel() {
+    this.setState({
+      uploaded: false
+    });
+    deleteImage();
   }
   handleSend() {
     const content = mediumDraftExporter(
@@ -160,13 +187,15 @@ export default class Photo extends Component {
               onChange={this.onChange}
               sideButtons={[]}
             />
+            <TagsInput
+              name="tags"
+              value={this.state.tags}
+              onChange={this.handleTagsChange}
+            />
+            <ClosePhotoBtn onClick={this.handleCancel}>X</ClosePhotoBtn>
           </Container>
         )}
-        <TagsInput
-          name="tags"
-          value={this.state.tags}
-          onChange={this.handleTagsChange}
-        />
+
         <span styles="width: 100%">
           <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
           <SendBtn onClick={this.handleSend}>Send</SendBtn>

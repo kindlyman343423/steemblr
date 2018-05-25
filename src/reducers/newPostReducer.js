@@ -1,8 +1,9 @@
-import { POST_MEDIA, CHANGE_POST_TYPE } from "../actions/types";
+import { POST_MEDIA, CHANGE_POST_TYPE, PUT_UUID } from "../actions/types";
 
 const initialState = {
   type: "",
-  media: []
+  media: [],
+  imageUUID: ""
 };
 
 export default function(state = initialState, action) {
@@ -16,6 +17,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         type: action.payload
+      };
+    case PUT_UUID:
+      return {
+        ...state,
+        imageUUID: action.payload
       };
     default:
       return {

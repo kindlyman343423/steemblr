@@ -11,3 +11,4 @@ export const POST_MEDIA = "POST_MEDIA";
 export const CHANGE_POST_TYPE = "CHANGE_POST_TYPE";
 export const CHANGE = "CHANGE";
 export const GET_NEW_POSTS = "GET_NEW_POSTS";
+export const PUT_UUID = "PUT_UUID";

@@ -9,7 +9,7 @@ const CloseBtn = styled.button`
 
   font-weight: 700;
   transition: 0.5s;
-  &:hover {
+  &:focus {
     background-color: #808e95;
     transition: 0.5s;
   }

@@ -3,7 +3,8 @@ import {
   POST_VOTE_TO_STATE,
   REMOVE_VOTE_FROM_STATE,
   POST_MEDIA,
-  CHANGE_POST_TYPE
+  CHANGE_POST_TYPE,
+  PUT_UUID
 } from "./types";
 import store from ".././store";
 
@@ -44,6 +45,12 @@ export const putPostMedia = props => dispatch => {
   dispatch({
     type: POST_MEDIA,
     payload: newState
+  });
+};
+export const putUUIDOfImage = props => dispatch => {
+  dispatch({
+    type: PUT_UUID,
+    payload: props
   });
 };
 export const changePostType = props => dispatch => {

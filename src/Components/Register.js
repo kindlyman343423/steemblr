@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import colors from "../styles/colors";
 import { hot } from "react-hot-loader";
 const RegisterBtn = styled.button`
   padding: 10px;

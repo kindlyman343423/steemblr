@@ -64,9 +64,7 @@ class App extends Component {
         followings: followingBucket
       });
 
-      if (this.state.cLogin === false) {
-        this.handleFirebaseLogin();
-      }
+      this.handleFirebaseLogin();
     }
   }
 

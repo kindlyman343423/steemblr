@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Modal from "react-modal";
 import Text from "../NewPost/Text";
 import Photo from "../NewPost/Photo";
 import Quote from "../NewPost/Quote";
@@ -8,7 +7,6 @@ import Audio from "../NewPost/Audio";
 import Video from "../NewPost/Video";
 import colors from "../styles/colors";
 import {
-  MdBorderColor,
   MdFormatQuote,
   MdCameraAlt,
   MdFormatAlignLeft,

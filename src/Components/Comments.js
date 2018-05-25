@@ -65,7 +65,6 @@ class Comments extends Component {
       isLoading: false
     });
   }
-  componentWillUnMount() {}
   handleOpen = async () => {
     const apiCall = await getContentReplies(
       this.props.postAuthor,

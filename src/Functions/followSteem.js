@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import api from ".././Api";
 
 const followSteem = (follower, following) => {

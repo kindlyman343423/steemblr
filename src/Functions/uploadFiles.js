@@ -7,7 +7,6 @@ const uploadFiles = async props => {
   const uuid = uuidv4();
   const storageRef = storage.ref();
   const uploadTask = storageRef.child("images/" + uuid).put(props);
-  console.log(uuid);
   let url = "";
   await uploadTask.then(response => {
     url = response.downloadURL;

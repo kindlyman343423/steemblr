@@ -81,7 +81,7 @@ export const getProfileVotes = props => async dispatch => {
 export const getSteemTrendingPosts = props => async dispatch => {
   const query = {
     tag: props,
-    limit: 50
+    limit: 100
   };
   let bucket = [];
   await steem.api

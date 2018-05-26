@@ -3,11 +3,10 @@ import { hot } from "react-hot-loader";
 import Post from ".././Components/Post";
 import steemVote from ".././Functions/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
-import { SpringGrid } from "react-stonecutter";
+import Masonry from "react-masonry-css";
 import Spinner from ".././Components/Spinner";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
-import Masonry from "react-masonry-component";
 import InfiniteScroll from "react-infinite-scroller";
 
 import styled from "styled-components";
@@ -26,24 +25,22 @@ import {
 } from "../actions/stateActions";
 
 import store from ".././store";
-const styles = {
-  margin: window.innerWidth >= 768 ? "0 auto" : 0,
-  marginLeft:
-    window.innerWidth <= 425 ? "15px" : window.innerWidth <= 375 ? "2px" : 0
-};
 
 const Container = styled.div`
   box-sizing: border-box;
-  width: 100vw;
-  margin-top: 7em;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-top: 6em;
   @media (max-width: 1024px) {
     margin-top: 7em;
   }
   @media (max-width: 768px) {
-    margin-top: 7em;
+    margin-top: 6em;
   }
   @media (max-width: 425px) {
-    margin-top: 6em;
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 5em;
   }
   @media (max-width: 375px) {
   }
@@ -116,13 +113,7 @@ class Trending extends Component {
       2000
     );
   }
-  handleLayoutReady() {
-    if (!this.state.layoutReady) {
-      this.setState({
-        layoutReady: true
-      });
-    }
-  }
+
   async handleVoting(username, author, permlink, votePercent) {
     if (votePercent === 0) {
       await steemVote(username, author, permlink, this.props.votePower.power);
@@ -175,12 +166,15 @@ class Trending extends Component {
     }
   }
   render() {
-    const masonryOptions = {
-      padding: 0,
-      fitWidth: true,
-      gutter: this.state.innerWidth > 768 ? 20 : 10,
-      transitionDuration: 0,
-      visibility: this.state.layoutReady ? "visible" : "hidden"
+    const InfiniteScrollStyle = {
+      margin: 0,
+      maxWidth: "100vw"
+    };
+    const breakpointColumnsObj = {
+      default: 3,
+      1100: 3,
+      768: 2,
+      426: 1
     };
     if (this.state.isLoading)
       return (
@@ -191,32 +185,27 @@ class Trending extends Component {
     return (
       <Container>
         <InfiniteScroll
+          style={InfiniteScrollStyle}
           pageStart={0}
           loadMore={this.loadMorePosts}
           initialLoad={this.state.shouldLoad}
           hasMore={true}
           loader={
             <MuiThemeProvider key={Math.random()}>
-              <Spinner key={uuidv4()} />
+              <Spinner key={uuidv4()} marginTop="20" />
             </MuiThemeProvider>
           }
           className="scroll"
         >
           <Masonry
-            style={styles}
-            options={masonryOptions}
-            threshold={250}
-            onLayoutComplete={this.handleLayoutReady.bind(this)}
+            breakpointCols={breakpointColumnsObj}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
           >
             {this.state.posts
               .slice(0, this.state.paginationCounter)
               .map(post => {
-                let width = "";
-                if (this.state.innerWidth > 768) {
-                  width = "25vw";
-                } else {
-                  width = "45vw";
-                }
+                let width = "%";
 
                 let fullPermlink = [post.root_author, post.root_permlink].join(
                   "/"

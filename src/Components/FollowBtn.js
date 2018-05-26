@@ -10,6 +10,7 @@ export default class FollowBtn extends Component {
   render() {
     if (this.props.componentLocation === "explore") {
       const Button = styled.button`
+        cursor: pointer;
         font-family: "Roboto", sans-serif;
         font-size: 16px;
         position: absolute;
@@ -23,19 +24,11 @@ export default class FollowBtn extends Component {
         &:active {
           color: ${colors.font.active};
         }
-        @media (max-width: 425px) {
-          border-bottom-left-radius: 5px;
-          font-weight: 200;
-          font-size: 10px;
-          color: ${colors.font.lightNormal};
-          top: -1px;
-          margin-right: 0;
-          background-color: ${colors.buttons.active};
-        }
       `;
       return <Button>{this.props.text}</Button>;
     } else {
       const Button = styled.button`
+        cursor: pointer;
         font-family: "Roboto", sans-serif;
         font-size: 16px;
         position: absolute;

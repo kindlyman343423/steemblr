@@ -181,7 +181,7 @@ class Trending extends Component {
     if (this.state.isLoading)
       return (
         <MuiThemeProvider>
-          <Spinner marginTop="10" />
+          <Spinner marginTop="20" />
         </MuiThemeProvider>
       );
     return (
@@ -229,6 +229,7 @@ class Trending extends Component {
                     fullPermlink={fullPermlink}
                     handleVoting={this.handleVoting}
                     width={width}
+                    componentLocation="explore"
                   />
                 );
               })}

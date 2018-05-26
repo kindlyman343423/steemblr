@@ -49,6 +49,7 @@ export default class Audio extends Component {
 
     this.state = {
       open: this.props.isOpen,
+      innerWidth: window.innerWidth,
       isSongSet: false,
       isSearch: false,
       songTitle: "",
@@ -82,7 +83,12 @@ export default class Audio extends Component {
         top: "50%",
         left: "50%",
         marginRight: "-50%",
-        width: "40vw",
+        width:
+          this.state.innerWidth > 768
+            ? "40vw"
+            : this.state.innerWidth <= 768 && this.state.innerWidth > 425
+              ? "60vw"
+              : "85vw",
         bottom: "none",
         maxHeight: "65vh",
         border: "0",

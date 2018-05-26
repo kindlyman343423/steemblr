@@ -20,6 +20,12 @@ const Container = styled.div`
   background-color: white;
   padding: 25px;
   border-radius: 1%;
+  @media (max-width: 425px) {
+    padding: 15px;
+  }
+  @media (max-width: 375px) {
+    padding: 10px;
+  }
 `;
 const IconDiv = styled.div`
   svg: {

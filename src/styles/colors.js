@@ -5,7 +5,8 @@ const colors = {
 
   font: {
     normal: "grey",
-    lightNormal: "lightgrey"
+    lightNormal: "lightgrey",
+    active: "white"
   },
   events: {
     hover: "#1c313a"
@@ -17,7 +18,8 @@ const colors = {
   },
   buttons: {
     login: "#0064a0",
-    loginHover: "#003c8f"
+    loginHover: "#003c8f",
+    active: "#263238"
   },
   postTypes: {
     text: "#65499c",

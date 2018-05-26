@@ -31,24 +31,6 @@ injectGlobal`
     border: 0;
   }
 `;
-const modalStyle = {
-  postion: "fixed",
-  height: "100%",
-
-  overlay: {
-    backgroundColor: "rgba(28, 49, 58, 0.90)"
-  },
-  content: {
-    top: "50%",
-    left: "50%",
-    marginRight: "-50%",
-    width: "40vw",
-    bottom: "none",
-    maxHeight: "60vh",
-    border: "0",
-    transform: "translate(-50%, -50%)"
-  }
-};
 
 export default class Text extends Component {
   constructor(props) {
@@ -59,7 +41,8 @@ export default class Text extends Component {
       editorState: createEditorState(),
       tags: [],
       title: "",
-      type: "text"
+      type: "text",
+      innerWidth: window.innerWidth
     };
 
     this.handleOpen = this.handleOpen.bind(this);
@@ -116,6 +99,29 @@ export default class Text extends Component {
     await this.setState({ tags: props });
   }
   render() {
+    const modalStyle = {
+      postion: "fixed",
+      height: "100%",
+
+      overlay: {
+        backgroundColor: "rgba(28, 49, 58, 0.90)"
+      },
+      content: {
+        top: "50%",
+        left: "50%",
+        marginRight: "-50%",
+        width:
+          this.state.innerWidth > 768
+            ? "40vw"
+            : this.state.innerWidth <= 768 && this.state.innerWidth > 425
+              ? "60vw"
+              : "85vw",
+        bottom: "none",
+        maxHeight: "60vh",
+        border: "0",
+        transform: "translate(-50%, -50%)"
+      }
+    };
     const { editorState } = this.state;
     return (
       <Modal isOpen={this.state.open} style={modalStyle}>

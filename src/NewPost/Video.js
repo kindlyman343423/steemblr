@@ -46,7 +46,8 @@ export default class Video extends Component {
       isVideoSet: false,
       tags: [],
       type: "video",
-      editorState: createEditorState()
+      editorState: createEditorState(),
+      innerWidth: window.innerWidth
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -68,7 +69,12 @@ export default class Video extends Component {
         top: "50%",
         left: "50%",
         marginRight: "-50%",
-        width: "40vw",
+        width:
+          this.state.innerWidth > 768
+            ? "40vw"
+            : this.state.innerWidth <= 768 && this.state.innerWidth > 425
+              ? "60vw"
+              : "85vw",
         bottom: "none",
         maxHeight: "65vh",
         border: "0",

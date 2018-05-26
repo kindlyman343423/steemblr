@@ -17,7 +17,7 @@ import {
   CardMedia,
   CardText
 } from "material-ui/Card";
-import FlatButton from "material-ui/FlatButton";
+import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
 //ICONS
 import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
@@ -107,7 +107,7 @@ class Post extends Component {
               subtitle={this.props.isReblogged ? "Resteemed placeholder" : ""}
               avatar={
                 <Avatar
-                  size={32}
+                  size={this.state.innerWidth > 425 ? 32 : 24}
                   src={`https://steemitimages.com/u/${
                     this.props.post.author
                   }/avatar`}
@@ -118,9 +118,12 @@ class Post extends Component {
                 this.state.isFollowing ? (
                   ""
                 ) : (
-                  <FlatButton style={buttonStyles} onClick={this.handleClick}>
-                    Follow
-                  </FlatButton>
+                  <FollowBtn
+                    onClick={this.handleClick}
+                    text="Follow"
+                    innerWidth={this.state.innerWidth}
+                    componentLocation={this.props.componentLocation}
+                  />
                 )
               }
             />

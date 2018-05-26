@@ -16,6 +16,7 @@ history.listen(location => {
   console.log(location.pathname); // /home
 });
 const Container = styled.div`
+  box-sizing: border-box;
   color: grey;
   display: grid;
   grid-template-columns: 10% 60% 30%;

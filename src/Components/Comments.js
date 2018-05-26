@@ -183,7 +183,12 @@ class Comments extends Component {
       fontWeight: "500"
     };
     const dialogStyle = {
-      width: this.state.innerWidth > 768 ? "30vw" : "80vw",
+      width:
+        this.state.innerWidth > 768
+          ? "40vw"
+          : this.state.innerWidth < 768 && this.state.innerWidth > 425
+            ? "60vw"
+            : "85vw",
       height: "10vh"
     };
     const actionsStyle = {

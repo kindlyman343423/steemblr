@@ -6,7 +6,6 @@ import Audio from "../NewPost/Audio";
 import Video from "../NewPost/Video";
 import styled from "styled-components";
 import {
-  MdBorderColor,
   MdCreate,
   MdFormatQuote,
   MdCameraAlt,
@@ -16,6 +15,7 @@ import {
 } from "react-icons/lib/md/";
 import Modal from "react-modal";
 import colors from "../styles/colors";
+
 const modalStyle = {
   postion: "fixed",
   height: "100%",
@@ -33,6 +33,24 @@ const modalStyle = {
     border: "0"
   }
 };
+
+const modalStyleMobile = {
+  postion: "fixed",
+  overlay: {
+    backgroundColor: "rgba(28, 49, 58, 0.95)"
+  },
+  content: {
+    bottom: "none",
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    border: "0"
+  }
+};
+
 const IconDiv = styled.div`
   svg: {
     margin-right: 0px;
@@ -58,6 +76,12 @@ const IconDiv = styled.div`
   &:hover {
     transform: translate3d(0px, 4px, 0px);
     transition: 0.5s;
+  }
+  @media (max-width: 425px) {
+    margin: 10px;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
   }
 `;
 
@@ -139,7 +163,7 @@ export default class AddNew extends Component {
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.handleClose}
-          style={modalStyle}
+          style={window.innerWidth > 425 ? modalStyle : modalStyleMobile}
         >
           <IconDiv
             style={{ backgroundColor: colors.postTypes.text }}

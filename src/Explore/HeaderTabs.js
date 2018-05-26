@@ -34,14 +34,13 @@ const Container = styled.div`
 `;
 const HeaderTabs = ({ match }) => {
   const content = [
+    "new",
     "trending",
-    "staff-picks",
     "text",
     "photos",
     "gifs",
     "quotes",
     "links",
-    "chats",
     "audio",
     "video"
   ];

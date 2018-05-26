@@ -3,7 +3,7 @@ import { hot } from "react-hot-loader";
 import Post from ".././Components/Post";
 import steemVote from ".././Functions/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
-
+import { SpringGrid } from "react-stonecutter";
 import Spinner from ".././Components/Spinner";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
@@ -26,11 +26,15 @@ import {
 } from "../actions/stateActions";
 
 import store from ".././store";
-
 const styles = {
-  margin: "0 auto"
+  margin: window.innerWidth >= 768 ? "0 auto" : 0,
+  marginLeft:
+    window.innerWidth <= 425 ? "15px" : window.innerWidth <= 375 ? "2px" : 0
 };
+
 const Container = styled.div`
+  box-sizing: border-box;
+  width: 100vw;
   margin-top: 7em;
   @media (max-width: 1024px) {
     margin-top: 7em;
@@ -196,6 +200,7 @@ class Trending extends Component {
               <Spinner key={uuidv4()} />
             </MuiThemeProvider>
           }
+          className="scroll"
         >
           <Masonry
             style={styles}

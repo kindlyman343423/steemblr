@@ -22,7 +22,7 @@ export default class Explore extends Component {
         <HeaderContainer>
           <Header login={this.props.login} />
           <HeaderTabs match={this.props.match} />
-        </HeaderContainer>
+        </HeaderContainer>;
         <Route
           path={`${this.props.match.url}/trending`}
           render={props => (
@@ -37,3 +37,4 @@ export default class Explore extends Component {
     );
   }
 }
+/* */

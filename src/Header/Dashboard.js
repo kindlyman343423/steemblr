@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import "./Dashboard.css";
 
-import ProfileMenu from "./ProfileMenu";
+import SideMenu from "./SideMenu";
 import { MdHome, MdExplore } from "react-icons/lib/md/";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import muiTheme from "../Components/muiTheme";
@@ -27,11 +27,11 @@ const Container = styled.div`
     }
   }
   @media (max-width: 425px) {
-    justify-content: flex-end;
+    justify-content: flex-start;
     svg {
-      padding-right: 6px;
-      width: 18px;
-      width: 18px;
+      padding-left: 6px;
+      width: 24px;
+      width: 24px;
     }
   }
   @media (max-width: 375px) {
@@ -53,31 +53,41 @@ export default class componentName extends Component {
   }
 
   render() {
-    return (
-      <Container className="dashboardIcons">
-        <NavLink
-          activeClassName="selected"
-          className="dashboardIcon"
-          to="/home"
-        >
-          <MdHome />
-        </NavLink>
-        <NavLink
-          activeClassName="selected"
-          className="dashboardIcon"
-          to="/explore/trending"
-        >
-          <MdExplore />
-        </NavLink>
-        <MuiThemeProvider>
-          <AddNew />
-        </MuiThemeProvider>
+    if (window.innerWidth > 425) {
+      return (
+        <Container className="dashboardIcons">
+          <NavLink
+            activeClassName="selected"
+            className="dashboardIcon"
+            to="/home"
+          >
+            <MdHome />
+          </NavLink>
+          <NavLink
+            activeClassName="selected"
+            className="dashboardIcon"
+            to="/explore/trending"
+          >
+            <MdExplore />
+          </NavLink>
+          <MuiThemeProvider>
+            <AddNew />
+          </MuiThemeProvider>
 
-        <MuiThemeProvider muiTheme={muiTheme}>
-          <ProfileMenu />
-        </MuiThemeProvider>
-      </Container>
-    );
+          <MuiThemeProvider muiTheme={muiTheme}>
+            <SideMenu />
+          </MuiThemeProvider>
+        </Container>
+      );
+    } else {
+      return (
+        <Container>
+          <MuiThemeProvider muiTheme={muiTheme}>
+            <SideMenu />
+          </MuiThemeProvider>
+        </Container>
+      );
+    }
   }
 
   newMethod() {

@@ -130,11 +130,18 @@ export default class AddNew extends Component {
   render() {
     return (
       <div>
-        <MdCreate
-          className="dashboardIcon"
-          size={24}
-          onClick={this.handleOpen}
-        />
+        {window.innerWidth > 425 ? (
+          <MdCreate
+            className="dashboardIcon"
+            size={24}
+            onClick={this.handleOpen}
+          />
+        ) : (
+          <span style={{ width: "100%" }} onClick={this.handleOpen}>
+            Create new post
+          </span>
+        )}
+
         {this.state.text === true ? (
           <Text isOpen={true} unMountChildren={this.unMountChildren} />
         ) : (

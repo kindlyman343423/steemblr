@@ -1,22 +1,23 @@
 import React, { Component } from "react";
-
+import AddNew from "./AddNew";
 import { NavLink } from "react-router-dom";
-
 import Drawer from "material-ui/Drawer";
 import MenuItem from "material-ui/MenuItem";
 import Slider from "material-ui/Slider";
 import styled from "styled-components";
-import MdAccountBox from "react-icons/lib/md/account-box";
+import { MdMenu } from "react-icons/lib/md/";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 //REDUX
 import { connect } from "react-redux";
 import { changeVotePower } from "../actions/steemActions";
+
 const StyledDiv = styled.div`
   a {
     color: black;
   }
 `;
 
-class ProfileMenu extends Component {
+class SideMenu extends Component {
   constructor(props) {
     super(props);
 
@@ -40,24 +41,43 @@ class ProfileMenu extends Component {
   handleVotingSliderDragStop() {
     this.props.changeVotePower(this.state.votingWeight);
   }
+
   render() {
     return (
       <StyledDiv>
-        <MdAccountBox
+        <MdMenu
           size={32}
           onClick={this.handleToggle}
           className="dashboardIcon"
         />
+
         <Drawer
           open={this.state.open}
           openSecondary={true}
           docked={false}
           onRequestChange={open => this.setState({ open })}
         >
-          <MenuItem>Profile</MenuItem>
-          <MenuItem onClick={this.logout}>
-            <NavLink to="/logout">Logout</NavLink>
-          </MenuItem>
+          {window.innerWidth > 425 ? (
+            void 0
+          ) : (
+            <span>
+              <NavLink to="/home">
+                <MenuItem>Home</MenuItem>
+              </NavLink>
+              <NavLink to="/explore/trending">
+                <MenuItem>Explore</MenuItem>
+              </NavLink>
+
+              <MenuItem>
+                <MuiThemeProvider>
+                  <AddNew />
+                </MuiThemeProvider>
+              </MenuItem>
+            </span>
+          )}
+          <NavLink to="/logout">
+            <MenuItem>Logout</MenuItem>
+          </NavLink>
           <MenuItem>
             Voting Power: {this.state.votingWeight * 0.01 + "%"}
             <Slider
@@ -75,4 +95,4 @@ class ProfileMenu extends Component {
 const mapStateToProps = state => ({
   votePower: state.votePower
 });
-export default connect(mapStateToProps, { changeVotePower })(ProfileMenu);
+export default connect(mapStateToProps, { changeVotePower })(SideMenu);

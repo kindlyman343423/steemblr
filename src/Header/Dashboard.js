@@ -12,12 +12,34 @@ import muiTheme from "../Components/muiTheme";
 
 const Container = styled.div`
   padding: 5px;
-  margin-right: 3em;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   svg {
     padding-right: 10px;
+    width: 32px;
+    height: 32px;
+  }
+  @media (max-width: 768px) {
+    svg {
+      width: 28px;
+      width: 28px;
+    }
+  }
+  @media (max-width: 425px) {
+    justify-content: flex-end;
+    svg {
+      padding-right: 6px;
+      width: 18px;
+      width: 18px;
+    }
+  }
+  @media (max-width: 375px) {
+    svg {
+      padding-right: 5px;
+    }
+    margin-left: 0px;
+    margin-right: 0px;
   }
 `;
 
@@ -38,14 +60,14 @@ export default class componentName extends Component {
           className="dashboardIcon"
           to="/home"
         >
-          <MdHome size={32} />
+          <MdHome />
         </NavLink>
         <NavLink
           activeClassName="selected"
           className="dashboardIcon"
           to="/explore/trending"
         >
-          <MdExplore size={32} />
+          <MdExplore />
         </NavLink>
         <MuiThemeProvider>
           <AddNew />

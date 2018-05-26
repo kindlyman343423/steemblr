@@ -38,6 +38,9 @@ const Container = styled.div`
   svg {
     padding-right: 10px;
   }
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 class Post extends Component {
   constructor(props) {
@@ -70,7 +73,6 @@ class Post extends Component {
     this.setState({
       isFollowing: true
     });
-    this.props.updateFollowingState(this.props.post.author);
   }
   randomImage() {
     const images = [

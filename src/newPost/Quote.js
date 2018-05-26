@@ -67,19 +67,20 @@ const BeneficiariesInput = styled.input`
   outline: 0;
 `;
 const AddBtn = styled.button`
+  cursor: pointer;
   outline: none;
   align-self: flex-end;
   float: right;
   padding: 10px;
   border: 0;
-  background-color: #29434e;
+  background-color: transparent;
   outline: none;
-  color: white;
+  color: black;
   font-weight: 700;
   transition: 0.5s;
-  &:focus {
+  &:active {
     background-color: #1c313a;
-    transition: 0.5s;
+    transition: 0.1s;
   }
 `;
 const DeleteBtn = styled.button`
@@ -92,9 +93,24 @@ const DeleteBtn = styled.button`
   color: black;
   font-weight: 700;
   transition: 0.1s;
-  &:focus {
+  &:active {
     color: red;
     transition: 0.1s;
+  }
+`;
+const OpenBeneficiariesBtn = styled.button`
+  outline: none;
+  padding: 10px;
+  border: 0;
+  background-color: transparent;
+  outline: none;
+  color: black;
+  font-weight: 700;
+  transition: 0.5s;
+  cursor: pointer;
+  &:active {
+    background-color: #1c313a;
+    transition: 0.5s;
   }
 `;
 export default class Quote extends Component {
@@ -109,7 +125,8 @@ export default class Quote extends Component {
       type: "quote",
       beneficiaries: [],
       beneficiary: "",
-      beneficiaryPercent: ""
+      beneficiaryPercent: "",
+      beneficiariesOpen: false
     };
 
     this.handleOpen = this.handleOpen.bind(this);
@@ -119,6 +136,7 @@ export default class Quote extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleBeneficiaries = this.handleBeneficiaries.bind(this);
     this.handleDeleteBeneficiary = this.handleDeleteBeneficiary.bind(this);
+    this.openBeneficiaries = this.openBeneficiaries.bind(this);
     this.sideButtons = [
       {
         title: "Image",
@@ -185,6 +203,11 @@ export default class Quote extends Component {
       );
     }
   }
+  openBeneficiaries() {
+    this.setState({
+      beneficiariesOpen: true
+    });
+  }
   async handleTagsChange(props) {
     await this.setState({ tags: props });
   }
@@ -228,38 +251,53 @@ export default class Quote extends Component {
           sideButtons={this.sideButtons}
           placeholder="Quote"
         />
-        <BeneficiariesContainer>
-          <b>Post beneficiaries:</b>
-          {this.state.beneficiaries.map(user => {
-            return (
-              <p key={uuidv4()}>
-                <DeleteBtn onClick={() => this.handleDeleteBeneficiary(user)}>
-                  X
-                </DeleteBtn>
-                {user.account} {user.weight / 100 + "%"}
-              </p>
-            );
-          })}
-        </BeneficiariesContainer>
-        <BeneficiariesFormContainer>
-          <BeneficiariesInput
-            name="beneficiary"
-            placeholder="Steemit username"
-            type="text"
-            value={this.state.beneficiary}
-            onChange={this.handleInputChange}
-          />
-          <BeneficiariesInput
-            name="beneficiaryPercent"
-            placeholder="Beneficiary %"
-            type="number"
-            min="1"
-            max="100"
-            value={this.state.beneficiaryPercent}
-            onChange={this.handleInputChange}
-          />
-          <AddBtn onClick={this.handleBeneficiaries}>Add Beneficiary</AddBtn>
-        </BeneficiariesFormContainer>
+        {this.state.beneficiariesOpen ? (
+          void 0
+        ) : (
+          <OpenBeneficiariesBtn onClick={this.openBeneficiaries}>
+            Add Beneficiaries
+          </OpenBeneficiariesBtn>
+        )}
+        {this.state.beneficiaries.length >= 1 ? (
+          <BeneficiariesContainer>
+            <b>Post beneficiaries:</b>
+            {this.state.beneficiaries.map(user => {
+              return (
+                <p key={uuidv4()}>
+                  <DeleteBtn onClick={() => this.handleDeleteBeneficiary(user)}>
+                    X
+                  </DeleteBtn>
+                  {user.account} {user.weight / 100 + "%"}
+                </p>
+              );
+            })}
+          </BeneficiariesContainer>
+        ) : (
+          void 0
+        )}
+        {this.state.beneficiariesOpen ? (
+          <BeneficiariesFormContainer>
+            <BeneficiariesInput
+              name="beneficiary"
+              placeholder="Steemit username"
+              type="text"
+              value={this.state.beneficiary}
+              onChange={this.handleInputChange}
+            />
+            <BeneficiariesInput
+              name="beneficiaryPercent"
+              placeholder="Beneficiary %"
+              type="number"
+              min="1"
+              max="100"
+              value={this.state.beneficiaryPercent}
+              onChange={this.handleInputChange}
+            />
+            <AddBtn onClick={this.handleBeneficiaries}>Add Beneficiary</AddBtn>
+          </BeneficiariesFormContainer>
+        ) : (
+          void 0
+        )}
         <TagsInput
           name="tags"
           value={this.state.tags}

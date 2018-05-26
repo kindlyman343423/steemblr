@@ -10,6 +10,14 @@ const Layout = styled.div`
   margin-top: 3em;
   grid-template-columns: 60% auto;
   grid-column-gap: 25px;
+  @media (max-width: 768px) {
+  }
+  @media (max-width: 425px) {
+    grid-template-columns: 100% auto;
+    margin-top: 2em;
+  }
+  @media (max-width: 375px) {
+  }
 `;
 const HeaderContainer = styled.div`
   display: flex;
@@ -19,10 +27,25 @@ const HeaderContainer = styled.div`
   top: 0;
 `;
 const PostsContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   margin-left: 250px;
   padding-top: 50px;
+  @media (max-width: 1024px) {
+    margin-left: 17%;
+  }
+  @media (max-width: 768px) {
+    margin-left: 25px;
+  }
+  @media (max-width: 425px) {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  @media (max-width: 375px) {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 `;
 const SidebarContainer = styled.div`
   padding-top: 23px;

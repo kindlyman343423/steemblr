@@ -15,6 +15,18 @@ const NavBar = styled.div`
     align-self: center;
   }
   font-weight: 200;
+  @media (max-width: 1024px) {
+  }
+  @media (max-width: 768px) {
+  }
+  @media (max-width: 425px) {
+    a {
+      padding: 0;
+      font-size: 12px;
+    }
+  }
+  @media (max-width: 375px) {
+  }
 `;
 const Container = styled.div`
   width: 100%;

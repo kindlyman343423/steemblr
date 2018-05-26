@@ -21,6 +21,7 @@ injectGlobal`
     margin-bottom: 10px;
     font-family: "Roboto", sans-serif;
     font-weight: 200;
+    padding-left: 10px;
   }
   .md-editor-toolbar {
     margin-left: 120px;

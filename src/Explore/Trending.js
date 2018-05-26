@@ -31,7 +31,18 @@ const styles = {
   margin: "0 auto"
 };
 const Container = styled.div`
-  margin-top: 8em;
+  margin-top: 7em;
+  @media (max-width: 1024px) {
+    margin-top: 7em;
+  }
+  @media (max-width: 768px) {
+    margin-top: 7em;
+  }
+  @media (max-width: 425px) {
+    margin-top: 6em;
+  }
+  @media (max-width: 375px) {
+  }
 `;
 
 class Trending extends Component {
@@ -44,18 +55,20 @@ class Trending extends Component {
       layoutReady: false,
       items: store.getState(),
       shouldLoad: false,
-      paginationCounter: 10
+      paginationCounter: 10,
+      innerWidth: window.innerWidth
     };
 
-    this.updateFollowingState = this.updateFollowingState.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.handleVoting = this.handleVoting.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
     store.subscribe(() => {
       this.setState({
         items: store.getState()
       });
     });
+    console.log(window.innerWidth);
   }
   async loadMorePosts() {
     if (
@@ -75,7 +88,13 @@ class Trending extends Component {
       });
     }
   }
+  updateDimensions() {
+    this.setState({
+      innerWidth: window.innerWidth
+    });
+  }
   async componentWillMount() {
+    window.addEventListener("resize", this.updateDimensions);
     await this.props.getSteemTrendingPosts("test");
     await this.setState({
       paginationCounter: 10,
@@ -143,9 +162,7 @@ class Trending extends Component {
   }
 
   //UPDATING REDUX STORE
-  async updateFollowingState(props) {
-    await this.props.postFollowingToState(props);
-  }
+
   async updateVotingState(props, action) {
     if (action === true) {
       this.props.postVoteToState(props);
@@ -157,7 +174,7 @@ class Trending extends Component {
     const masonryOptions = {
       padding: 0,
       fitWidth: true,
-      gutter: 20,
+      gutter: this.state.innerWidth > 768 ? 20 : 10,
       transitionDuration: 0,
       visibility: this.state.layoutReady ? "visible" : "hidden"
     };
@@ -189,6 +206,13 @@ class Trending extends Component {
             {this.state.posts
               .slice(0, this.state.paginationCounter)
               .map(post => {
+                let width = "";
+                if (this.state.innerWidth > 768) {
+                  width = "25vw";
+                } else {
+                  width = "45vw";
+                }
+
                 let fullPermlink = [post.root_author, post.root_permlink].join(
                   "/"
                 );
@@ -200,12 +224,11 @@ class Trending extends Component {
                       post.author
                     )}
                     key={uuidv4()}
-                    updateFollowingState={this.updateFollowingState}
                     updateVotingState={this.updateVotingState}
                     voteStatus={this.checkVoteStatus(fullPermlink)}
                     fullPermlink={fullPermlink}
                     handleVoting={this.handleVoting}
-                    width="25vw"
+                    width={width}
                   />
                 );
               })}

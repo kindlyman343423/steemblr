@@ -7,6 +7,7 @@ import Video from "../NewPost/Video";
 import styled from "styled-components";
 import {
   MdBorderColor,
+  MdCreate,
   MdFormatQuote,
   MdCameraAlt,
   MdFormatAlignLeft,
@@ -105,7 +106,7 @@ export default class AddNew extends Component {
   render() {
     return (
       <div>
-        <MdBorderColor
+        <MdCreate
           className="dashboardIcon"
           size={24}
           onClick={this.handleOpen}

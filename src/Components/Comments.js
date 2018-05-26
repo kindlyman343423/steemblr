@@ -15,23 +15,7 @@ import steemVote from ".././Functions/steemVote";
 //REDUX
 import store from "../store";
 import { postVoteToState, removeVoteFromState } from "../actions/stateActions";
-const dialogTitleStyle = {
-  fontSize: "16px",
-  fontWeight: "500"
-};
-const dialogStyle = {
-  width: "30vw",
-  height: "10vh"
-};
-const actionsStyle = {
-  display: "inline-flex",
-  alignItems: "center"
-};
-const spinnerStyle = {
-  display: "flex",
-  alignItems: "center",
-  color: "pink"
-};
+
 class Comments extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +27,8 @@ class Comments extends Component {
       votedComments: [],
       votesToPush: [],
       votesToRemove: [],
-      isLoading: true
+      isLoading: true,
+      innerWidth: window.innerWidth
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleSendComment = this.handleSendComment.bind(this);
@@ -51,8 +36,10 @@ class Comments extends Component {
     this.updateComments = this.updateComments.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
     this.handleVoting = this.handleVoting.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
   }
   async componentWillMount() {
+    window.addEventListener("resize", this.updateDimensions);
     const apiCall = await getContentReplies(
       this.props.postAuthor,
       this.props.postPermlink
@@ -63,6 +50,11 @@ class Comments extends Component {
       open: true,
       votedComments: await store.getState().steemProfileVotes.votes,
       isLoading: false
+    });
+  }
+  updateDimensions() {
+    this.setState({
+      innerWidth: window.innerWidth
     });
   }
   handleOpen = async () => {
@@ -186,6 +178,23 @@ class Comments extends Component {
     }
   }
   render() {
+    const dialogTitleStyle = {
+      fontSize: "16px",
+      fontWeight: "500"
+    };
+    const dialogStyle = {
+      width: this.state.innerWidth > 768 ? "30vw" : "80vw",
+      height: "10vh"
+    };
+    const actionsStyle = {
+      display: "inline-flex",
+      alignItems: "center"
+    };
+    const spinnerStyle = {
+      display: "flex",
+      alignItems: "center",
+      color: "pink"
+    };
     const actions = [
       <Input
         bg="white"

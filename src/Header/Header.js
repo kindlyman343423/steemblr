@@ -18,12 +18,38 @@ history.listen(location => {
 const Container = styled.div`
   color: grey;
   display: grid;
-  grid-template-columns: 20% 50% 30%;
+  grid-template-columns: 10% 60% 30%;
   align-items: center;
+  align-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   width: 100vw;
+  height: 3.5em;
   z-index: 1000;
   background-color: ${colors.background};
+  @media (max-width: 1024px) {
+    grid-template-columns: 10% 50% 40%;
+    h2 {
+      font-size: 1.2em;
+    }
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: 10% 50% 40%;
+    h2 {
+      font-size: 1em;
+    }
+  }
+  @media (max-width: 425px) {
+    grid-template-columns: 20% 40% 40%;
+    h2 {
+      font-size: 1em;
+    }
+  }
+  @media (max-width: 375px) {
+    grid-template-columns: 20% 30% 50%;
+    h2 {
+      font-size: 0.8em;
+    }
+  }
 `;
 const BtnContainer = styled.div`
   display: flex;
@@ -37,6 +63,18 @@ const BtnContainer = styled.div`
     margin-right: 10px;
     font-size: 12px;
     border-radius: 2px;
+  }
+  @media (max-width: 768px) {
+  }
+  @media (max-width: 425px) {
+    button {
+      font-size: 8px;
+      width: 50px;
+      height: 30px;
+      margin-right: 5px;
+    }
+  }
+  @media (max-width: 375px) {
   }
 `;
 class Header extends Component {

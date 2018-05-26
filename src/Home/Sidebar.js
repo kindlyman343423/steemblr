@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
-
+import store from "../store";
+import followSteem from "../Functions/followSteem";
 const Container = styled.div`
   color: ${colors.font.normal};
   display: flex;
@@ -52,6 +53,17 @@ const Container = styled.div`
       }
     }
   }
+  @media (max-width: 768px) {
+    span {
+      width: 90%;
+    }
+    ul {
+      width: 90%;
+    }
+  }
+  @media (max-width: 425px) {
+    display: none;
+  }
 `;
 const Button = styled.button`
   box-sizing: border-box;
@@ -77,57 +89,44 @@ export default class Sidebar extends Component {
     super(props);
 
     this.state = {};
+    this.handleFollow = this.handleFollow.bind(this);
   }
-
+  handleFollow(follower, following) {
+    followSteem(follower, following);
+  }
   render() {
     return (
       <Container>
         <span>Trending blogs</span>
+
         <ul>
-          <li>
-            <img
-              src="https://steemitimages.com/u/haejin/avatar"
-              alt="haejin blog avatar"
-            />
-            <div>
-              <b>blog's url </b> <br />
-              Blog title
-            </div>
-            <Button> + </Button>
-          </li>
-          <li>
-            <img
-              src="https://steemitimages.com/u/haejin/avatar"
-              alt="haejin blog avatar"
-            />
-            <div>
-              <b>blog's url </b> <br />
-              Blog title
-            </div>
-            <Button> + </Button>
-          </li>
-          <li>
-            <img
-              src="https://steemitimages.com/u/haejin/avatar"
-              alt="haejin blog avatar"
-            />
-            <div>
-              <b>blog's url </b> <br />
-              Blog title
-            </div>
-            <Button> + </Button>
-          </li>
-          <li>
-            <img
-              src="https://steemitimages.com/u/haejin/avatar"
-              alt="haejin blog avatar"
-            />
-            <div>
-              <b>blog's url </b> <br />
-              Blog title
-            </div>
-            <Button> + </Button>
-          </li>
+          {store
+            .getState()
+            .steemPosts.posts.slice(0, 4)
+            .map(post => {
+              return (
+                <li>
+                  <img
+                    src={`https://steemitimages.com/u/${post.author}/avatar`}
+                    alt="haejin blog avatar"
+                  />
+                  <div>
+                    <b>{post.author}</b> <br />
+                    Last post: {post.title}
+                  </div>
+                  <Button
+                    onClick={() =>
+                      this.handleFollow(
+                        store.getState().steemProfile.profile._id,
+                        post.author
+                      )
+                    }
+                  >
+                    +
+                  </Button>
+                </li>
+              );
+            })}
         </ul>
       </Container>
     );

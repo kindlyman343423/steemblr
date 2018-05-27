@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import styled from "styled-components";
+
 //import { Blockquote, Box, Card, BackgroundImage, Subhead, Flex, Heading, Banner, Text , ButtonTransparent} from 'rebass'
 import { Avatar, MuiThemeProvider } from "material-ui";
 import {

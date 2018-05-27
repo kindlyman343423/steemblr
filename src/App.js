@@ -31,6 +31,7 @@ import Modal from "react-modal";
 import colors from "./styles/colors";
 
 import { injectGlobal } from "styled-components";
+import Testground from "./Components/Testground";
 
 Modal.setAppElement("#root");
 
@@ -104,7 +105,7 @@ class App extends Component {
             path="/explore"
             render={props => <Explore {...props} login={this.state.login} />}
           />
-          <Route path="/test" component={CreateFirstBlog} />
+          <Route path="/test" component={Testground} />
           <Route path="/redirect" component={RedirectLoginToken} />
         </div>
       </Router>

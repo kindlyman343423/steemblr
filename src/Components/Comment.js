@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "react-html-parser";
-
-const Paragraph = styled.p`
+import Remarkable from "remarkable";
+import { hot } from "react-hot-loader";
+const Container = styled.div`
   color: black;
+  background-color: white;
+  margin-bottom: 10px;
   word-wrap: break-word;
+  box-sizing: border-box;
 `;
-
-export default class Comment extends Component {
+const md = new Remarkable({
+  html: true,
+  linkify: true
+});
+class Comment extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,10 +48,11 @@ export default class Comment extends Component {
       cursor: pointer;
     `;
     return (
-      <Paragraph>
+      <Container>
         <Nickname onClick={this.handleClick}>{this.props.author}</Nickname>:
-        <span>{ReactHtmlParser(this.props.body)}</span>
-      </Paragraph>
+        {ReactHtmlParser(md.render(this.props.body))}
+      </Container>
     );
   }
 }
+export default hot(module)(Comment);

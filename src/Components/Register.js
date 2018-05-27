@@ -29,7 +29,7 @@ class Register extends Component {
             (window.location.href = "https://signup.steemit.com/?ref=steemblr")
           }
         >
-          Register
+          Sign up
         </RegisterBtn>
       </div>
     );

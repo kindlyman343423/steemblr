@@ -11,7 +11,7 @@ import sendComment from ".././Functions/sendComment";
 import uuidv4 from "uuid/v4";
 import delay from "../Functions/delay";
 import steemVote from ".././Functions/steemVote";
-
+import { hot } from "react-hot-loader";
 //REDUX
 import store from "../store";
 import { postVoteToState, removeVoteFromState } from "../actions/stateActions";
@@ -238,6 +238,13 @@ class Comments extends Component {
           ) : (
             void 0
           )}
+          {this.state.comments.length === 0 &&
+          this.state.isLoading === false ? (
+            <p>No comments yet :(</p>
+          ) : (
+            void 0
+          )}
+
           {this.state.comments.map(comment => {
             return (
               <Comment
@@ -260,4 +267,4 @@ class Comments extends Component {
   }
 }
 
-export default Comments;
+export default hot(module)(Comments);

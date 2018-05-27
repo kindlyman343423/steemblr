@@ -3,6 +3,7 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import store from "../store";
 import followSteem from "../Functions/followSteem";
+import uuidv4 from "uuid/v4";
 const Container = styled.div`
   color: ${colors.font.normal};
   display: flex;
@@ -105,7 +106,7 @@ export default class Sidebar extends Component {
             .steemPosts.posts.slice(0, 4)
             .map(post => {
               return (
-                <li>
+                <li key={uuidv4()}>
                   <img
                     src={`https://steemitimages.com/u/${post.author}/avatar`}
                     alt="haejin blog avatar"

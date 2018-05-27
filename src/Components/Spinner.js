@@ -8,11 +8,14 @@ class Spinner extends Component {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #cfd8dc;
+
+      svg {
+        color: #cfd8dc;
+      }
     `;
     return (
       <Container>
-        <CircularProgress color="#cfd8dc" size={50} />
+        <CircularProgress size={50} />
       </Container>
     );
   }

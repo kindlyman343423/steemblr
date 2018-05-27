@@ -12,6 +12,10 @@ const Container = styled.div`
   box-sizing: border-box;
   padding: 10px;
   border-radius: 5px;
+  img {
+    max-width: 100%;
+    max-height: auto;
+  }
 `;
 const Nickname = styled.span`
   font-weight: 500;

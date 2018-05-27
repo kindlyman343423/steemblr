@@ -20,8 +20,7 @@ export const buttonStyles = {
 };
 
 export const cardHeaderStyle = {
-  paddingRight: "0px",
-  fontSize: window.innerWidth > 425 ? "16px" : "12px"
+  paddingRight: "0px"
 };
 export const CardActionStyles = {
   textAlign: "right",

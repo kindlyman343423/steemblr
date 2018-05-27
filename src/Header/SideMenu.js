@@ -10,7 +10,6 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 //REDUX
 import { connect } from "react-redux";
 import { changeVotePower } from "../actions/steemActions";
-
 const StyledDiv = styled.div`
   a {
     color: black;

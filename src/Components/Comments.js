@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { MdInsertComment } from "react-icons/lib/md/";
-import Dialog from "material-ui/Dialog";
 import Spinner from "./Spinner";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { Input } from "rebass";
-import { MdSend } from "react-icons/lib/md/";
 import Comment from "./Comment";
 import getContentReplies from ".././Functions/getContentReplies";
 import sendComment from ".././Functions/sendComment";
@@ -12,10 +8,72 @@ import uuidv4 from "uuid/v4";
 import delay from "../Functions/delay";
 import steemVote from ".././Functions/steemVote";
 import { hot } from "react-hot-loader";
+import colors from "../styles/colors";
+import styled from "styled-components";
+import Modal from "react-modal";
 //REDUX
 import store from "../store";
 import { postVoteToState, removeVoteFromState } from "../actions/stateActions";
+const Title = styled.div`
+  box-sizing: border-box;
+  text-align: center;
+  background-color: #fff;
 
+  z-index: 9999;
+  font-weight: 300;
+  padding: 10px;
+  border-bottom: 1px solid ${colors.borders.light};
+`;
+const Content = styled.div`
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  padding-top: 20px;
+  padding-bottom: 60px;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #e1e2e1;
+`;
+const InputContainer = styled.div`
+  box-sizing: border-box;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border-top: 1px solid ${colors.borders.light};
+  width: 100%;
+  min-height: 40px;
+`;
+const Input = styled.input`
+  border: 0;
+  outline: 0;
+  width: 100%;
+  top: 12px;
+  left: 5px;
+  background: rgba(255, 255, 255, 1);
+  height: 30px;
+
+  font-size: 16px;
+  padding-left: 15px;
+  z-index: 1000;
+
+  &:focus {
+    background: rgba(255, 255, 255, 1);
+    transition: 0.2s;
+  }
+`;
+const SendButton = styled.button`
+  font-family: "Roboto", sans-serif;
+  right: 0;
+  bottom: 5px;
+  font-weight: 300;
+  font-size: 16px;
+  background: transparent;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+`;
 class Comments extends Component {
   constructor(props) {
     super(props);
@@ -178,43 +236,32 @@ class Comments extends Component {
     }
   }
   render() {
-    const dialogTitleStyle = {
-      fontSize: "16px",
-      fontWeight: "500"
+    const modalStyle = {
+      content: {
+        left: "20px",
+        overflowY: "hidden",
+        overflowX: "hidden",
+        display: "flex",
+        bottom: "none",
+        flexDirection: "column",
+        padding: "0",
+        maxHeight: "60vh",
+        width:
+          this.state.innerWidth > 768
+            ? "40vw"
+            : this.state.innerWidth < 768 && this.state.innerWidth > 425
+              ? "60vw"
+              : "85vw"
+      },
+      overlay: {
+        backgroundColor: "transparent"
+      }
     };
-    const dialogStyle = {
-      width:
-        this.state.innerWidth > 768
-          ? "40vw"
-          : this.state.innerWidth < 768 && this.state.innerWidth > 425
-            ? "60vw"
-            : "85vw",
-      height: "10vh"
-    };
-    const actionsStyle = {
-      display: "inline-flex",
-      alignItems: "center"
-    };
-    const spinnerStyle = {
-      display: "flex",
-      alignItems: "center",
-      color: "pink"
-    };
-    const actions = [
-      <Input
-        bg="white"
-        color="black"
-        placeholder="Reply"
-        name="comment"
-        value={this.state.comment}
-        onChange={this.handleInputChange}
-      />,
-      <MdSend size={24} onClick={this.handleSendComment} />
-    ];
+
     return (
       <span>
         <MdInsertComment size={20} onClick={this.handleOpen} />
-        <Dialog
+        <Modal
           title={
             this.props.likesNumber +
             " Likes " +
@@ -222,46 +269,57 @@ class Comments extends Component {
             " Comments"
           }
           modal={false}
-          open={this.state.open}
+          isOpen={this.state.open}
           onRequestClose={this.handleClose}
-          autoScrollBodyContent={true}
-          style={dialogStyle}
-          actions={actions}
-          titleStyle={dialogTitleStyle}
-          actionsContainerStyle={actionsStyle}
-          repositionOnUpdate={true}
+          style={modalStyle}
         >
-          {this.state.isLoading ? (
-            <MuiThemeProvider>
-              <Spinner style={spinnerStyle} marginTop="2" />
-            </MuiThemeProvider>
-          ) : (
-            void 0
-          )}
-          {this.state.comments.length === 0 &&
-          this.state.isLoading === false ? (
-            <p>No comments yet :(</p>
-          ) : (
-            void 0
-          )}
+          <Title>
+            {this.props.likesNumber +
+              " Likes " +
+              this.state.comments.length +
+              " Comments"}
+          </Title>
 
-          {this.state.comments.map(comment => {
-            return (
-              <Comment
-                author={comment.author}
-                body={comment.body}
-                key={uuidv4()}
-                handleVoting={this.handleVoting}
-                username={this.props.username}
-                permlink={comment.permlink}
-                fullPermlink={comment.author + "/" + comment.permlink}
-                voteStatus={this.checkVoteStatus(
-                  comment.author + "/" + comment.permlink
-                )}
-              />
-            );
-          })}
-        </Dialog>
+          <Content>
+            {this.state.comments.length === 0 &&
+            this.state.isLoading === false ? (
+              <p>No comments yet :(</p>
+            ) : (
+              void 0
+            )}
+            {this.state.isLoading ? <Spinner marginTop="2" /> : void 0}
+            {this.state.comments.map(comment => {
+              return (
+                <Comment
+                  author={comment.author}
+                  body={comment.body}
+                  key={uuidv4()}
+                  handleVoting={this.handleVoting}
+                  username={this.props.username}
+                  permlink={comment.permlink}
+                  fullPermlink={comment.author + "/" + comment.permlink}
+                  voteStatus={this.checkVoteStatus(
+                    comment.author + "/" + comment.permlink
+                  )}
+                />
+              );
+            })}
+          </Content>
+          <InputContainer>
+            <Input
+              placeholder="Send something"
+              name="comment"
+              type="text"
+              value={this.state.comment}
+              onChange={this.handleInputChange}
+            />
+            {this.state.comment.length > 1 ? (
+              <SendButton onClick={this.handleSendComment}>Reply</SendButton>
+            ) : (
+              <SendButton disabled>Reply</SendButton>
+            )}
+          </InputContainer>
+        </Modal>
       </span>
     );
   }

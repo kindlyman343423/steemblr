@@ -5,7 +5,6 @@ import steemVote from ".././Functions/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
 import Masonry from "react-masonry-css";
 import Spinner from ".././Components/Spinner";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 import InfiniteScroll from "react-infinite-scroller";
 
@@ -136,7 +135,6 @@ class Trending extends Component {
         false
       );
     }
-    console.log(username, author, permlink, votePercent);
   }
 
   checkVoteStatus(props) {
@@ -176,12 +174,7 @@ class Trending extends Component {
       768: 2,
       426: 1
     };
-    if (this.state.isLoading)
-      return (
-        <MuiThemeProvider>
-          <Spinner marginTop="20" />
-        </MuiThemeProvider>
-      );
+    if (this.state.isLoading) return <Spinner marginTop="15" />;
     return (
       <Container>
         <InfiniteScroll
@@ -190,11 +183,7 @@ class Trending extends Component {
           loadMore={this.loadMorePosts}
           initialLoad={this.state.shouldLoad}
           hasMore={true}
-          loader={
-            <MuiThemeProvider key={Math.random()}>
-              <Spinner key={uuidv4()} marginTop="20" />
-            </MuiThemeProvider>
-          }
+          loader={<Spinner key={uuidv4()} marginTop="20" />}
           className="scroll"
         >
           <Masonry

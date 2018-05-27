@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
-import { MdPersonAdd } from "react-icons/lib/md";
 export default class FollowBtn extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     if (this.props.componentLocation === "explore") {
       const Button = styled.button`
@@ -19,7 +14,7 @@ export default class FollowBtn extends Component {
         background: transparent;
         border: 0;
         outline: 0;
-        font-weight: 400;
+        font-weight: 300;
         margin-right: 10px;
         &:active {
           color: ${colors.font.active};
@@ -37,7 +32,7 @@ export default class FollowBtn extends Component {
         background: transparent;
         border: 0;
         outline: 0;
-        font-weight: 400;
+        font-weight: 300;
         margin-right: 10px;
         &:active {
           background-color: rgba(200, 200, 200, 0.5);

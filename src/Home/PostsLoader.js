@@ -5,7 +5,6 @@ import styled from "styled-components";
 import uuidv4 from "uuid/v4";
 import Spinner from ".././Components/Spinner";
 import Post from ".././Components/Post";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import steemVote from ".././Functions/steemVote";
 import "./index.css";
 //REDUX
@@ -116,7 +115,6 @@ class PostsLoader extends Component {
         false
       );
     }
-    console.log(username, author, permlink, votePercent);
   }
   checkVoteStatus(props) {
     const find = this.state.items.steemProfileVotes.votes.find(
@@ -142,11 +140,7 @@ class PostsLoader extends Component {
           loadMore={this.loadMorePosts}
           initialLoad={this.state.shouldLoad}
           hasMore={true}
-          loader={
-            <MuiThemeProvider key={Math.random()}>
-              <Spinner key={uuidv4()} marginTop="10" />
-            </MuiThemeProvider>
-          }
+          loader={<Spinner key={uuidv4()} marginTop="10" />}
         >
           {this.state.posts.slice(0, this.state.paginationCounter).map(post => {
             let fullPermlink = [post.root_author, post.root_permlink].join("/");

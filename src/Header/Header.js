@@ -55,12 +55,12 @@ const Container = styled.div`
 const BtnContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  align-content: flex-end;
+  align-self: center;
   justify-content: center;
   grid-area: buttons;
 
   button {
+    align-self: center;
     width: 68px;
     height: 35px;
     margin-right: 10px;
@@ -75,7 +75,8 @@ const BtnContainer = styled.div`
       font-size: 8px;
       width: 50px;
       height: 30px;
-      margin-right: 5px;
+      margin-right: 0px;
+      transform: scale(0.85, 0.85);
     }
   }
   @media (max-width: 375px) {

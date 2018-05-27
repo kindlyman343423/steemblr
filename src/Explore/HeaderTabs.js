@@ -8,13 +8,18 @@ const NavBar = styled.div`
   display: inline-flex;
   background-color: ${colors.background};
   justify-content: center;
+  align-items: center;
+  align-content: center;
   width: 100%;
+  padding-top: 7px;
+  padding-bottom: 5px;
+
   a {
+    text-transform: uppercase;
     text-align: center;
-    padding: 5px;
     align-self: center;
   }
-  font-weight: 200;
+  font-weight: 300;
   @media (max-width: 1024px) {
   }
   @media (max-width: 768px) {
@@ -22,13 +27,17 @@ const NavBar = styled.div`
   @media (max-width: 425px) {
     a {
       padding: 0;
-      font-size: 12px;
+      font-size: 10px;
     }
   }
   @media (max-width: 375px) {
   }
 `;
 const Container = styled.div`
+  display: flex;
+  align-items: center;
+  align-content: center;
+
   width: 100%;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 `;

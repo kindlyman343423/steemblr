@@ -68,7 +68,6 @@ class Trending extends Component {
         items: store.getState()
       });
     });
-    console.log(window.innerWidth);
   }
   async loadMorePosts() {
     if (

@@ -53,6 +53,9 @@ const UrlInputLabel = styled.label`
     border-color: ${colors.events.hover};
     color: ${colors.events.hover};
   }
+  @media (max-width: 425px) {
+    border-left: 2px dashed black;
+  }
 `;
 const UrlButton = styled.div`
   display: none;
@@ -77,6 +80,9 @@ const Container = styled.div`
 const UploadContainer = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 425px) {
+    flex-direction: column;
+  }
 `;
 const FileInput = styled.input`
   display: none;
@@ -185,7 +191,9 @@ export default class Photo extends Component {
     this.setState({
       uploaded: false
     });
-    deleteImage();
+    if (this.state.fromWeb === false) {
+      deleteImage();
+    }
   }
   handleSend() {
     const content = mediumDraftExporter(

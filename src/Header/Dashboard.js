@@ -53,7 +53,7 @@ export default class componentName extends Component {
   }
 
   render() {
-    if (window.innerWidth > 425) {
+    if (window.innerWidth > 604) {
       return (
         <Container className="dashboardIcons">
           <NavLink

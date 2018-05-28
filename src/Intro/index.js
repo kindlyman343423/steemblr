@@ -6,7 +6,7 @@ import LoginModal from "../Header/LoginModal";
 import Register from "../Components/Register";
 import Header from "./Header";
 import { Link } from "react-router-dom";
-
+import logo from "../icons/logo.svg";
 const Container = styled.div`
   background-color: #00796b;
   width: 100vw;
@@ -17,9 +17,10 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  h2 {
-    color: white;
-    font-size: 32px;
+
+  img {
+    transform: scale(1.5, 1.5);
+    margin-bottom: 20px;
   }
   a {
     color: ${colors.font.lightNormal};
@@ -36,7 +37,7 @@ class Intro extends Component {
     return (
       <Container>
         <Header />
-        <h2>steemblr</h2>
+        <img src={logo} alt="logo" />
         <BtnContainer>
           <LoginModal text="Login with steemconnect" />
           <Register />

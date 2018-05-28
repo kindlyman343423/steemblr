@@ -11,6 +11,7 @@ const SendBtn = styled.button`
   color: white;
   font-weight: 700;
   transition: 0.5s;
+  cursor: pointer;
   &:focus {
     background-color: #1c313a;
     transition: 0.5s;

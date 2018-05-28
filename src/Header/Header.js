@@ -9,11 +9,11 @@ import "./Header.css";
 import SearchInputMobile from "./SearchInputMobile";
 import styled from "styled-components";
 import colors from "../styles/colors";
-
+import logo from "../icons/logo.svg";
 const Container = styled.div`
   color: grey;
   display: grid;
-  grid-template-columns: 10% 60% 30%;
+  grid-template-columns: 15% 55% 30%;
   align-items: center;
   align-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -23,17 +23,21 @@ const Container = styled.div`
   h2 {
     grid-area: logo;
   }
-
+  img {
+    transform: scale(0.9, 0.9);
+  }
   background-color: ${colors.background};
   grid-template-areas: "logo input buttons";
   @media (max-width: 1024px) {
-    grid-template-columns: 10% 50% 40%;
-    h2 {
-      font-size: 1.2em;
+    grid-template-columns: auto auto auto;
+
+    img {
+      transform: scale(0.8, 0.8);
     }
   }
   @media (max-width: 768px) {
-    grid-template-columns: 10% 50% 40%;
+    grid-template-areas: "logo input buttons";
+    grid-template-columns: auto auto auto;
 
     h2 {
       font-size: 1em;
@@ -46,11 +50,16 @@ const Container = styled.div`
       text-align: center;
       font-size: 1em;
     }
-    input {
-    }
   }
   @media (max-width: 375px) {
   }
+`;
+const LogoContainer = styled.span`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  grid-area: logo;
 `;
 const BtnContainer = styled.div`
   display: flex;
@@ -94,8 +103,9 @@ class Header extends Component {
   render() {
     return (
       <Container>
-        <h2 className="logo">steemblr</h2>
-
+        <LogoContainer>
+          <img src={logo} alt="logo" />
+        </LogoContainer>
         {window.innerWidth > 425 ? (
           <Input bg="white" color="black" placeholder="Search" />
         ) : (

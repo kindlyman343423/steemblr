@@ -6,7 +6,7 @@ const CloseBtn = styled.button`
   border: 0;
   background-color: transparent;
   outline: none;
-
+  cursor: pointer;
   font-weight: 700;
   transition: 0.5s;
   &:focus {

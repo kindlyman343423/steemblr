@@ -22,16 +22,19 @@ export const buttonStyles = {
 export const cardHeaderStyle = {
   paddingRight: "0px"
 };
-export const CardActionStyles = {
+export const cardActionStyles = {
   textAlign: "right",
   paddingTop: "0px",
   paddingBottom: "0px",
   paddingRight: "0px",
   paddingLeft: "8px",
+  zIndex: 1000,
+
   svg: {
     paddingRight: "5px !important"
   }
 };
+
 export const sbdCounter = {
   float: "left",
   textAlign: "left"

@@ -24,7 +24,7 @@ import {
 } from "../actions/stateActions";
 
 import store from ".././store";
-
+import AutoResponsive from "autoresponsive-react";
 const Container = styled.div`
   box-sizing: border-box;
   padding-left: 10%;
@@ -55,7 +55,7 @@ class Trending extends Component {
       layoutReady: false,
       items: store.getState(),
       shouldLoad: false,
-      paginationCounter: 10,
+      paginationCounter: 18,
       innerWidth: window.innerWidth
     };
 
@@ -96,7 +96,7 @@ class Trending extends Component {
     window.addEventListener("resize", this.updateDimensions);
     await this.props.getSteemTrendingPosts("test");
     await this.setState({
-      paginationCounter: 10,
+      paginationCounter: 18,
       items: await store.getState(),
       posts: await this.props.steemPosts.posts
     });
@@ -114,12 +114,17 @@ class Trending extends Component {
 
   async handleVoting(username, author, permlink, votePercent) {
     if (votePercent === 0) {
-      await steemVote(username, author, permlink, this.props.votePower.power);
+      await steemVote(
+        username,
+        author,
+        permlink,
+        store.getState().votePower.power
+      );
 
       this.updateVotingState(
         {
           permlink: author + "/" + permlink,
-          percent: this.props.votePower.power
+          percent: store.getState().votePower.power
         },
         true
       );
@@ -163,6 +168,7 @@ class Trending extends Component {
     }
   }
   render() {
+    console.log(this.state.paginationCounter);
     const InfiniteScrollStyle = {
       margin: 0,
       maxWidth: "100vw"
@@ -177,6 +183,7 @@ class Trending extends Component {
     return (
       <Container>
         <InfiniteScroll
+          threshold={250}
           style={InfiniteScrollStyle}
           pageStart={0}
           loadMore={this.loadMorePosts}
@@ -227,8 +234,7 @@ const mapStateToProps = state => ({
   following: state.following,
   steemProfileVotes: state.steemProfileVotes,
   steemPosts: state.steemPosts,
-  postFollowingToState: state.postFollowingToState,
-  votePower: state.votePower
+  postFollowingToState: state.postFollowingToState
 });
 
 export default connect(mapStateToProps, {

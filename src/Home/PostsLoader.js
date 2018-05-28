@@ -95,12 +95,17 @@ class PostsLoader extends Component {
   }
   async handleVoting(username, author, permlink, votePercent) {
     if (votePercent === 0) {
-      await steemVote(username, author, permlink, this.props.votePower.power);
+      await steemVote(
+        username,
+        author,
+        permlink,
+        store.getState().votePower.power
+      );
 
       this.updateVotingState(
         {
           permlink: author + "/" + permlink,
-          percent: this.props.votePower.power
+          percent: store.getState().votePower.power
         },
         true
       );
@@ -136,6 +141,7 @@ class PostsLoader extends Component {
     return (
       <Container>
         <InfiniteScroll
+          threshold={350}
           pageStart={0}
           loadMore={this.loadMorePosts}
           initialLoad={this.state.shouldLoad}
@@ -172,8 +178,7 @@ const mapStateToProps = state => ({
   following: state.following,
   steemProfileVotes: state.steemProfileVotes,
   steemPosts: state.steemPosts,
-  postFollowingToState: state.postFollowingToState,
-  votePower: state.votePower
+  postFollowingToState: state.postFollowingToState
 });
 
 export default connect(mapStateToProps, {

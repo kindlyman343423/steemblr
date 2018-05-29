@@ -19,7 +19,7 @@ import {
   postVoteToState,
   removeVoteFromState
 } from "../actions/stateActions";
-
+import Waypoint from "react-waypoint";
 import store from ".././store";
 
 const Container = styled.div`
@@ -31,6 +31,7 @@ class PostsLoader extends Component {
 
     this.state = {
       isLoading: true,
+      fetchingData: false,
       posts: [],
       layoutReady: false,
       items: store.getState(),
@@ -46,6 +47,7 @@ class PostsLoader extends Component {
     this.updateFollowingState = this.updateFollowingState.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
     this.handleVoting = this.handleVoting.bind(this);
+    this.renderWaypoint = this.renderWaypoint.bind(this);
   }
   async updateFollowingState(props) {
     await this.props.postFollowingToState(props);
@@ -59,31 +61,50 @@ class PostsLoader extends Component {
   }
   async loadMorePosts() {
     if (
-      Object.keys(this.state.items.steemPosts.posts).length === 0 ||
-      this.state.items.steemPosts.posts === undefined
+      Object.keys(this.props.steemPosts.posts).length === 0 ||
+      this.props.steemPosts.posts === undefined ||
+      this.state.fetchingData
     ) {
     } else {
-      console.log("Loading");
+      const post = this.props.steemPosts.posts[
+        this.props.steemPosts.posts.length - 1
+      ];
+      const query = {
+        tag: "life",
+        start_permlink: post.permlink,
+        start_author: post.author
+      };
+      await this.setState({ fetchingData: true });
+      await this.props.getSteemTrendingPosts(query);
       await this.setState({
-        posts: this.props.steemPosts.posts.slice(
-          0,
-          this.state.paginationCounter + 10
-        ),
-        paginationCounter:
-          this.state.isLoading === true
-            ? this.state.paginationCounter
-            : this.state.paginationCounter + 10
+        fetchingData: true,
+        paginationCounter: this.state.paginationCounter + 50
       });
-      console.log(this.state.paginationCounter);
+      await this.setState({ fetchingData: false });
     }
   }
   async componentWillMount() {
-    await this.props.getSteemTrendingPosts("test");
+    await this.props.getSteemTrendingPosts("life");
     await this.setState({
-      paginationCounter: 10,
+      paginationCounter: 50,
       items: await store.getState(),
       posts: await this.props.steemPosts.posts
     });
+  }
+  renderWaypoint() {
+    console.log("Hitting waypoints");
+    console.log(this.state.fetchingData);
+    if (!this.state.fetchingData) {
+      return (
+        <Waypoint
+          threshold={0.5}
+          scrollableAncestor={window}
+          onEnter={this.loadMorePosts}
+        >
+          <div style={{ color: "#FFF" }}>LOADING...</div>
+        </Waypoint>
+      );
+    }
   }
   componentWillReceiveProps() {
     setTimeout(
@@ -140,15 +161,9 @@ class PostsLoader extends Component {
   render() {
     return (
       <Container>
-        <InfiniteScroll
-          threshold={350}
-          pageStart={0}
-          loadMore={this.loadMorePosts}
-          initialLoad={this.state.shouldLoad}
-          hasMore={true}
-          loader={<Spinner key={uuidv4()} marginTop="10" />}
-        >
-          {this.state.posts.slice(0, this.state.paginationCounter).map(post => {
+        {this.props.steemPosts.posts
+          .slice(0, this.state.paginationCounter)
+          .map(post => {
             let fullPermlink = [post.root_author, post.root_permlink].join("/");
             return (
               <Post
@@ -168,7 +183,8 @@ class PostsLoader extends Component {
               />
             );
           })}
-        </InfiniteScroll>
+        {this.renderWaypoint()}
+        {this.state.fetchingData ? <Spinner /> : void 0}
       </Container>
     );
   }

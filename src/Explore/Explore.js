@@ -25,13 +25,7 @@ export default class Explore extends Component {
         </HeaderContainer>;
         <Route
           path={`${this.props.match.url}/trending`}
-          render={props => (
-            <Trending
-              {...props}
-              following={this.props.following}
-              username={this.props.username}
-            />
-          )}
+          render={props => <Trending {...props} />}
         />
       </Container>
     );

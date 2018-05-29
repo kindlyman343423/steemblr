@@ -10,7 +10,7 @@ import {
 } from "./types";
 import api from "../Api";
 import steem from "steem";
-
+import store from "../store";
 export const getUserProfile = () => async dispatch => {
   await api
     .me(function(err, res) {
@@ -80,17 +80,26 @@ export const getProfileVotes = props => async dispatch => {
 
 export const getSteemTrendingPosts = props => async dispatch => {
   const query = {
-    tag: props,
-    limit: 100
+    tag: props.tag,
+    limit: 50,
+    start_permlink: props.start_permlink,
+    start_author: props.start_author
   };
+  const simpleQuery = {
+    tag: props.tag,
+    limit: 50
+  };
+  const oldState = store.getState().steemPosts.posts;
   let bucket = [];
   await steem.api
-    .getDiscussionsByTrendingAsync(query)
+    .getDiscussionsByTrendingAsync(
+      query.start_permlink === undefined ? simpleQuery : query
+    )
     .then(result => {
       bucket.push(result);
       dispatch({
         type: GET_TRENDING_POSTS,
-        payload: bucket[0]
+        payload: oldState.concat(bucket[0])
       });
     })
     .catch(function(error) {

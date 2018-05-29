@@ -5,8 +5,7 @@ import steemVote from ".././Functions/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
 import Masonry from "react-masonry-css";
 import Spinner from ".././Components/Spinner";
-
-import InfiniteScroll from "react-infinite-scroller";
+import Waypoint from "react-waypoint";
 
 import styled from "styled-components";
 import uuidv4 from "uuid/v4";
@@ -24,7 +23,6 @@ import {
 } from "../actions/stateActions";
 
 import store from ".././store";
-import AutoResponsive from "autoresponsive-react";
 const Container = styled.div`
   box-sizing: border-box;
   padding-left: 10%;
@@ -51,11 +49,12 @@ class Trending extends Component {
 
     this.state = {
       isLoading: true,
+      fetchingData: false,
       posts: [],
       layoutReady: false,
       items: store.getState(),
       shouldLoad: false,
-      paginationCounter: 18,
+      paginationCounter: 50,
       innerWidth: window.innerWidth
     };
 
@@ -63,6 +62,7 @@ class Trending extends Component {
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.handleVoting = this.handleVoting.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
+    this.renderWaypoint = this.renderWaypoint.bind(this);
     store.subscribe(() => {
       this.setState({
         items: store.getState()
@@ -71,20 +71,26 @@ class Trending extends Component {
   }
   async loadMorePosts() {
     if (
-      Object.keys(this.state.items.steemPosts.posts).length === 0 ||
-      this.state.items.steemPosts.posts === undefined
+      Object.keys(this.props.steemPosts.posts).length === 0 ||
+      this.props.steemPosts.posts === undefined ||
+      this.state.fetchingData
     ) {
     } else {
-      this.setState({
-        posts: this.props.steemPosts.posts.slice(
-          0,
-          this.state.paginationCounter
-        ),
-        paginationCounter:
-          this.state.isLoading === true
-            ? this.state.paginationCounter
-            : this.state.paginationCounter + 10
+      const post = this.props.steemPosts.posts[
+        this.props.steemPosts.posts.length - 1
+      ];
+      const query = {
+        tag: "life",
+        start_permlink: post.permlink,
+        start_author: post.author
+      };
+      await this.setState({ fetchingData: true });
+      await this.props.getSteemTrendingPosts(query);
+      await this.setState({
+        fetchingData: true,
+        paginationCounter: this.state.paginationCounter + 50
       });
+      await this.setState({ fetchingData: false });
     }
   }
   updateDimensions() {
@@ -96,7 +102,7 @@ class Trending extends Component {
     window.addEventListener("resize", this.updateDimensions);
     await this.props.getSteemTrendingPosts("test");
     await this.setState({
-      paginationCounter: 18,
+      paginationCounter: 50,
       items: await store.getState(),
       posts: await this.props.steemPosts.posts
     });
@@ -157,7 +163,21 @@ class Trending extends Component {
       };
     }
   }
-
+  renderWaypoint() {
+    console.log("Hitting waypoints");
+    console.log(this.state.fetchingData);
+    if (!this.state.fetchingData) {
+      return (
+        <Waypoint
+          threshold={0.5}
+          scrollableAncestor={window}
+          onEnter={this.loadMorePosts}
+        >
+          <div style={{ color: "#FFF" }}>LOADING...</div>
+        </Waypoint>
+      );
+    }
+  }
   //UPDATING REDUX STORE
 
   async updateVotingState(props, action) {
@@ -169,10 +189,7 @@ class Trending extends Component {
   }
   render() {
     console.log(this.state.paginationCounter);
-    const InfiniteScrollStyle = {
-      margin: 0,
-      maxWidth: "100vw"
-    };
+
     const breakpointColumnsObj = {
       default: 3,
       1100: 3,
@@ -182,48 +199,39 @@ class Trending extends Component {
     if (this.state.isLoading) return <Spinner marginTop="15" />;
     return (
       <Container>
-        <InfiniteScroll
-          threshold={250}
-          style={InfiniteScrollStyle}
-          pageStart={0}
-          loadMore={this.loadMorePosts}
-          initialLoad={this.state.shouldLoad}
-          hasMore={true}
-          loader={<Spinner key={uuidv4()} marginTop="20" />}
-          className="scroll"
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
         >
-          <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            {this.state.posts
-              .slice(0, this.state.paginationCounter)
-              .map(post => {
-                let width = "%";
+          {this.props.steemPosts.posts
+            .slice(0, this.state.paginationCounter)
+            .map(post => {
+              let width = "%";
 
-                let fullPermlink = [post.root_author, post.root_permlink].join(
-                  "/"
-                );
-                return (
-                  <Post
-                    post={post}
-                    username={this.state.items.steemProfile.profile._id}
-                    isFollowing={this.state.items.following.users.includes(
-                      post.author
-                    )}
-                    key={uuidv4()}
-                    updateVotingState={this.updateVotingState}
-                    voteStatus={this.checkVoteStatus(fullPermlink)}
-                    fullPermlink={fullPermlink}
-                    handleVoting={this.handleVoting}
-                    width={width}
-                    componentLocation="explore"
-                  />
-                );
-              })}
-          </Masonry>
-        </InfiniteScroll>
+              let fullPermlink = [post.root_author, post.root_permlink].join(
+                "/"
+              );
+              return (
+                <Post
+                  post={post}
+                  username={this.state.items.steemProfile.profile._id}
+                  isFollowing={this.state.items.following.users.includes(
+                    post.author
+                  )}
+                  key={uuidv4()}
+                  updateVotingState={this.updateVotingState}
+                  voteStatus={this.checkVoteStatus(fullPermlink)}
+                  fullPermlink={fullPermlink}
+                  handleVoting={this.handleVoting}
+                  width={width}
+                  componentLocation="explore"
+                />
+              );
+            })}
+        </Masonry>
+        {this.renderWaypoint()}
+        {this.state.fetchingData ? <Spinner /> : void 0}
       </Container>
     );
   }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { CardText } from "material-ui/Card";
 import sizeMe from "react-sizeme";
 import styled from "styled-components";
-import { hot } from "react-hot-loader";
 const ExpandBtn = styled.button`
   font-family: "Roboto", sans-serif;
   position: absolute;
@@ -14,7 +13,7 @@ const ExpandBtn = styled.button`
   padding-top: 5px;
   padding-bottom: 5px;
   background-color: rgba(255, 255, 255, 0.9);
-  z-index: 1000;
+  z-index: 500;
   width: 100%;
   font-size: 16px;
   font-weight: 300;
@@ -43,7 +42,6 @@ class PostCardText extends Component {
       isExpanded: true,
       maxHeight: "unset"
     });
-    console.log(this.state.isExpanded, this.state.maxHeight);
   }
   render() {
     const { height } = this.props.size;

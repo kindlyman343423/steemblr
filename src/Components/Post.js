@@ -23,10 +23,11 @@ import Lightbox from "react-image-lightbox";
 //ICONS
 import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
 //import { FaRetweet } from 'react-icons/lib/fa/'
-
+import LazyLoad from "react-lazyload";
 import followSteem from ".././Functions/followSteem";
 import Comments from "./Comments";
 import PostCardText from "./PostCardText";
+
 const md = new Remarkable({
   html: true,
   linkify: true
@@ -88,101 +89,103 @@ class Post extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <Container>
-          <Card>
-            <CardHeader
-              titleStyle={cardHeaderStyle}
-              title={this.props.post.author}
-              subtitle={this.props.post.title}
-              avatar={
-                <Avatar
-                  size={this.state.innerWidth > 425 ? 32 : 24}
-                  src={`https://steemitimages.com/u/${
-                    this.props.post.author
-                  }/avatar`}
-                  style={AvatarStyles}
-                />
-              }
-              children={
-                this.state.isFollowing ? (
-                  ""
-                ) : (
-                  <FollowBtn
-                    onClick={this.handleClick}
-                    text="Follow"
-                    innerWidth={this.state.innerWidth}
-                    componentLocation={this.props.componentLocation}
+      <LazyLoad height={400}>
+        <MuiThemeProvider>
+          <Container>
+            <Card>
+              <CardHeader
+                titleStyle={cardHeaderStyle}
+                title={this.props.post.author}
+                subtitle={this.props.post.title}
+                avatar={
+                  <Avatar
+                    size={this.state.innerWidth > 425 ? 32 : 24}
+                    src={`https://steemitimages.com/u/${
+                      this.props.post.author
+                    }/avatar`}
+                    style={AvatarStyles}
                   />
-                )
-              }
-            />
+                }
+                children={
+                  this.state.isFollowing ? (
+                    ""
+                  ) : (
+                    <FollowBtn
+                      onClick={this.handleClick}
+                      text="Follow"
+                      innerWidth={this.state.innerWidth}
+                      componentLocation={this.props.componentLocation}
+                    />
+                  )
+                }
+              />
 
-            {this.props.type === "photo" ? (
-              <CardMedia>
-                <Img
-                  alt=""
-                  onClick={() => {
-                    this.setState({ isOpen: true });
-                  }}
-                />
-                {this.state.isOpen && (
-                  <Lightbox
-                    onCloseRequest={() => this.setState({ isOpen: false })}
+              {this.props.type === "photo" ? (
+                <CardMedia>
+                  <Img
+                    alt=""
+                    onClick={() => {
+                      this.setState({ isOpen: true });
+                    }}
                   />
-                )}
-              </CardMedia>
-            ) : (
-              void 0
-            )}
+                  {this.state.isOpen && (
+                    <Lightbox
+                      onCloseRequest={() => this.setState({ isOpen: false })}
+                    />
+                  )}
+                </CardMedia>
+              ) : (
+                void 0
+              )}
 
-            <PostCardText
-              text={ReactHtmlParser(md.render(this.props.post.body))}
-            />
+              <PostCardText
+                text={ReactHtmlParser(md.render(this.props.post.body))}
+              />
 
-            <CardActions style={{ backgroundColor: "#FFF" }}>
-              <CardText style={cardActionStyles}>
-                <span style={sbdCounter}>
-                  {"$" +
-                    Number(
-                      this.props.post.pending_payout_value.replace("SBD", "")
-                    ).toFixed(2)}{" "}
-                </span>
-                {this.state.shouldOpenComments ? (
-                  <Comments
-                    likesNumber={this.props.post.net_votes}
-                    postAuthor={this.props.post.author}
-                    postPermlink={this.props.post.permlink}
-                    username={this.props.username}
-                  />
-                ) : (
-                  <MdInsertComment
+              <CardActions style={{ backgroundColor: "#FFF" }}>
+                <CardText style={cardActionStyles}>
+                  <span style={sbdCounter}>
+                    {"$" +
+                      Number(
+                        this.props.post.pending_payout_value.replace("SBD", "")
+                      ).toFixed(2)}{" "}
+                  </span>
+                  {this.state.shouldOpenComments ? (
+                    <Comments
+                      likesNumber={this.props.post.net_votes}
+                      postAuthor={this.props.post.author}
+                      postPermlink={this.props.post.permlink}
+                      username={this.props.username}
+                    />
+                  ) : (
+                    <MdInsertComment
+                      size={20}
+                      onClick={() =>
+                        this.setState({
+                          shouldOpenComments: true
+                        })
+                      }
+                    />
+                  )}
+
+                  <MdFavorite
                     size={20}
                     onClick={() =>
-                      this.setState({
-                        shouldOpenComments: true
-                      })
+                      this.props.handleVoting(
+                        this.props.username,
+                        this.props.post.author,
+                        this.props.post.permlink,
+                        this.state.votePercent
+                      )
                     }
+                    color={this.state.votePercent > 0 ? "red" : "black"}
                   />
-                )}
-
-                <MdFavorite
-                  size={20}
-                  onClick={() =>
-                    this.props.handleVoting(
-                      this.props.username,
-                      this.props.post.author,
-                      this.props.post.permlink,
-                      this.state.votePercent
-                    )
-                  }
-                  color={this.state.votePercent > 0 ? "red" : "black"}
-                />
-              </CardText>
-            </CardActions>
-          </Card>
-        </Container>
-      </MuiThemeProvider>
+                </CardText>
+              </CardActions>
+            </Card>
+          </Container>
+        </MuiThemeProvider>
+      </LazyLoad>
     );
   }
 }

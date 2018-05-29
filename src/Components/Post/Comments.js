@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import { MdInsertComment } from "react-icons/lib/md/";
-import Spinner from "./Spinner";
+import Spinner from ".././Spinner";
 import Comment from "./Comment";
-import getContentReplies from ".././Functions/getContentReplies";
-import sendComment from ".././Functions/sendComment";
+import getContentReplies from "../.././Functions/getContentReplies";
+import sendComment from "../.././Functions/sendComment";
 import uuidv4 from "uuid/v4";
-import delay from "../Functions/delay";
-import steemVote from ".././Functions/steemVote";
+import delay from "../../Functions/delay";
+import steemVote from "../.././Functions/steemVote";
 import { hot } from "react-hot-loader";
-import colors from "../styles/colors";
+import colors from "../../styles/colors";
 import styled from "styled-components";
 import Modal from "react-modal";
 //REDUX
-import store from "../store";
-import { postVoteToState, removeVoteFromState } from "../actions/stateActions";
+import store from "../../store";
+import {
+  postVoteToState,
+  removeVoteFromState
+} from "../../actions/stateActions";
 const Title = styled.div`
   box-sizing: border-box;
   text-align: center;

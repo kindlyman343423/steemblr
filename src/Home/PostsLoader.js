@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 
-import InfiniteScroll from "react-infinite-scroller";
 import styled from "styled-components";
 import uuidv4 from "uuid/v4";
 import Spinner from ".././Components/Spinner";
-import Post from ".././Components/Post";
+import Post from ".././Components/Post/";
 import steemVote from ".././Functions/steemVote";
 import "./index.css";
 //REDUX

@@ -24,7 +24,7 @@ import Lightbox from "react-image-lightbox";
 import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
 //import { FaRetweet } from 'react-icons/lib/fa/'
 import LazyLoad from "react-lazyload";
-import followSteem from ".././Functions/followSteem";
+import followSteem from "../.././Functions/followSteem";
 import Comments from "./Comments";
 import PostCardText from "./PostCardText";
 

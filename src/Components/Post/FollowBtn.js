@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import colors from "../styles/colors";
+import colors from "../../styles/colors";
 export default class FollowBtn extends Component {
   render() {
     if (this.props.componentLocation === "explore") {

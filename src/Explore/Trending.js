@@ -8,7 +8,6 @@ import Spinner from ".././Components/Spinner";
 import Waypoint from "react-waypoint";
 
 import styled from "styled-components";
-import uuidv4 from "uuid/v4";
 //REDUX
 import { connect } from "react-redux";
 import {
@@ -23,11 +22,13 @@ import {
 } from "../actions/stateActions";
 
 import store from ".././store";
+import { transparent } from "material-ui/styles/colors";
 const Container = styled.div`
   box-sizing: border-box;
   padding-left: 10%;
   padding-right: 10%;
   margin-top: 6em;
+  position: relative;
   @media (max-width: 1024px) {
     margin-top: 7em;
   }
@@ -48,13 +49,10 @@ class Trending extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
-      fetchingData: false,
+      fetchingData: true,
       posts: [],
-      layoutReady: false,
       items: store.getState(),
       shouldLoad: false,
-      paginationCounter: 50,
       innerWidth: window.innerWidth
     };
 
@@ -63,11 +61,6 @@ class Trending extends Component {
     this.handleVoting = this.handleVoting.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
     this.renderWaypoint = this.renderWaypoint.bind(this);
-    store.subscribe(() => {
-      this.setState({
-        items: store.getState()
-      });
-    });
   }
   async loadMorePosts() {
     if (
@@ -75,23 +68,23 @@ class Trending extends Component {
       this.props.steemPosts.posts === undefined ||
       this.state.fetchingData
     ) {
-    } else {
-      const post = this.props.steemPosts.posts[
-        this.props.steemPosts.posts.length - 1
-      ];
-      const query = {
-        tag: "life",
-        start_permlink: post.permlink,
-        start_author: post.author
-      };
-      await this.setState({ fetchingData: true });
-      await this.props.getSteemTrendingPosts(query);
-      await this.setState({
-        fetchingData: true,
-        paginationCounter: this.state.paginationCounter + 50
-      });
-      await this.setState({ fetchingData: false });
+      return void 0;
     }
+    const post = this.props.steemPosts.posts[
+      this.props.steemPosts.posts.length - 1
+    ];
+    const query = {
+      tag: "photos",
+      start_permlink: post.permlink,
+      start_author: post.author
+    };
+    await this.setState({
+      fetchingData: true
+    });
+    await this.props.getSteemTrendingPosts(query);
+    await this.setState({
+      fetchingData: false
+    });
   }
   updateDimensions() {
     this.setState({
@@ -100,22 +93,13 @@ class Trending extends Component {
   }
   async componentWillMount() {
     window.addEventListener("resize", this.updateDimensions);
-    await this.props.getSteemTrendingPosts("test");
-    await this.setState({
-      paginationCounter: 50,
-      items: await store.getState(),
-      posts: await this.props.steemPosts.posts
-    });
-  }
+    await this.props.getSteemTrendingPosts("photos");
 
-  componentWillReceiveProps() {
-    setTimeout(
-      this.setState({
-        shouldLoad: false,
-        isLoading: false
-      }),
-      2000
-    );
+    await this.setState({
+      items: store.getState(),
+      posts: this.props.steemPosts.posts,
+      fetchingData: false
+    });
   }
 
   async handleVoting(username, author, permlink, votePercent) {
@@ -164,21 +148,12 @@ class Trending extends Component {
     }
   }
   renderWaypoint() {
-    console.log("Hitting waypoints");
-    console.log(this.state.fetchingData);
-    if (!this.state.fetchingData) {
-      return (
-        <Waypoint
-          threshold={0.5}
-          scrollableAncestor={window}
-          onEnter={this.loadMorePosts}
-        >
-          <div style={{ color: "#FFF" }}>LOADING...</div>
-        </Waypoint>
-      );
-    }
+    return (
+      <Waypoint scrollableAncestor={window} onEnter={this.loadMorePosts}>
+        <span style={{ color: "transparent" }}>Loading...</span>
+      </Waypoint>
+    );
   }
-  //UPDATING REDUX STORE
 
   async updateVotingState(props, action) {
     if (action === true) {
@@ -187,16 +162,35 @@ class Trending extends Component {
       this.props.removeVoteFromState(props);
     }
   }
-  render() {
-    console.log(this.state.paginationCounter);
+  renderPosts() {
+    return this.props.steemPosts.posts.map(post => {
+      let width = "%";
 
+      let fullPermlink = [post.root_author, post.root_permlink].join("/");
+      return (
+        <Post
+          post={post}
+          username={this.state.items.steemProfile.profile._id}
+          isFollowing={this.state.items.following.users.includes(post.author)}
+          key={post.id}
+          updateVotingState={this.updateVotingState}
+          voteStatus={this.checkVoteStatus(fullPermlink)}
+          fullPermlink={fullPermlink}
+          handleVoting={this.handleVoting}
+          width={width}
+          componentLocation="explore"
+        />
+      );
+    });
+  }
+  render() {
     const breakpointColumnsObj = {
       default: 3,
       1100: 3,
       768: 2,
       426: 1
     };
-    if (this.state.isLoading) return <Spinner marginTop="15" />;
+
     return (
       <Container>
         <Masonry
@@ -204,34 +198,9 @@ class Trending extends Component {
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
-          {this.props.steemPosts.posts
-            .slice(0, this.state.paginationCounter)
-            .map(post => {
-              let width = "%";
-
-              let fullPermlink = [post.root_author, post.root_permlink].join(
-                "/"
-              );
-              return (
-                <Post
-                  post={post}
-                  username={this.state.items.steemProfile.profile._id}
-                  isFollowing={this.state.items.following.users.includes(
-                    post.author
-                  )}
-                  key={uuidv4()}
-                  updateVotingState={this.updateVotingState}
-                  voteStatus={this.checkVoteStatus(fullPermlink)}
-                  fullPermlink={fullPermlink}
-                  handleVoting={this.handleVoting}
-                  width={width}
-                  componentLocation="explore"
-                />
-              );
-            })}
+          {this.renderPosts()}
         </Masonry>
-        {this.renderWaypoint()}
-        {this.state.fetchingData ? <Spinner /> : void 0}
+        {this.state.fetchingData ? <Spinner /> : this.renderWaypoint()}
       </Container>
     );
   }

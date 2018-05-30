@@ -106,7 +106,7 @@ export default class Sidebar extends Component {
             .steemPosts.posts.slice(0, 4)
             .map(post => {
               return (
-                <li key={uuidv4()}>
+                <li key={post.id}>
                   <img
                     src={`https://steemitimages.com/u/${post.author}/avatar`}
                     alt="haejin blog avatar"

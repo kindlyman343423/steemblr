@@ -81,13 +81,13 @@ export const getProfileVotes = props => async dispatch => {
 export const getSteemTrendingPosts = props => async dispatch => {
   const query = {
     tag: props.tag,
-    limit: 50,
+    limit: 15,
     start_permlink: props.start_permlink,
     start_author: props.start_author
   };
   const simpleQuery = {
     tag: props.tag,
-    limit: 50
+    limit: 15
   };
   const oldState = store.getState().steemPosts.posts;
   let bucket = [];
@@ -99,16 +99,18 @@ export const getSteemTrendingPosts = props => async dispatch => {
       bucket.push(result);
       dispatch({
         type: GET_TRENDING_POSTS,
-        payload: oldState.concat(bucket[0])
+        payload: oldState.concat(
+          query.start_permlink === undefined ? bucket[0] : bucket[0].splice(1)
+        )
       });
+      return bucket[0];
     })
     .catch(function(error) {
       console.log(error);
     });
-
   return bucket[0];
 };
-export const getSteemNewPosts = props => async dispatch => {
+export const getSteemNewPosts = async props => async dispatch => {
   const query = {
     tag: props,
     limit: 50

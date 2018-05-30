@@ -184,8 +184,9 @@ export default class Audio extends Component {
         {this.state.isSearch ? (
           <Container>
             {this.state.data.map(item => {
+              console.log(item);
               return (
-                <Song key={uuidv4()} onClick={() => this.setSong(item)}>
+                <Song key={item.id} onClick={() => this.setSong(item)}>
                   <img src={deezerIcon} alt="logo" />
                   <b>{item.title}</b> <span>{item.artist.name}</span>
                 </Song>

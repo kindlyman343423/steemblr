@@ -277,9 +277,9 @@ export default class Quote extends Component {
         {this.state.beneficiaries.length >= 1 ? (
           <BeneficiariesContainer>
             <b>Post beneficiaries:</b>
-            {this.state.beneficiaries.map(user => {
+            {this.state.beneficiaries.map((user, index) => {
               return (
-                <p key={uuidv4()}>
+                <p key={"beneficiaryUser" + index}>
                   <DeleteBtn onClick={() => this.handleDeleteBeneficiary(user)}>
                     X
                   </DeleteBtn>

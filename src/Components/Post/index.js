@@ -89,7 +89,7 @@ class Post extends Component {
 
   render() {
     return (
-      <LazyLoad height={400}>
+      <LazyLoad height={600}>
         <MuiThemeProvider>
           <Container>
             <Card>

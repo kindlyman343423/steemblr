@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import styled from "styled-components";
-import uuidv4 from "uuid/v4";
 import Spinner from ".././Components/Spinner";
 import Post from ".././Components/Post/";
 import steemVote from ".././Functions/steemVote";
@@ -29,19 +28,11 @@ class PostsLoader extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
-      fetchingData: false,
+      fetchingData: true,
       posts: [],
-      layoutReady: false,
-      items: store.getState(),
-      shouldLoad: false,
-      paginationCounter: 10
+      items: store.getState()
     };
-    store.subscribe(() => {
-      this.setState({
-        items: store.getState()
-      });
-    });
+
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.updateFollowingState = this.updateFollowingState.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
@@ -64,55 +55,41 @@ class PostsLoader extends Component {
       this.props.steemPosts.posts === undefined ||
       this.state.fetchingData
     ) {
-    } else {
-      const post = this.props.steemPosts.posts[
-        this.props.steemPosts.posts.length - 1
-      ];
-      const query = {
-        tag: "life",
-        start_permlink: post.permlink,
-        start_author: post.author
-      };
-      await this.setState({ fetchingData: true });
-      await this.props.getSteemTrendingPosts(query);
-      await this.setState({
-        fetchingData: true,
-        paginationCounter: this.state.paginationCounter + 50
-      });
-      await this.setState({ fetchingData: false });
+      return void 0;
     }
+    const post = this.props.steemPosts.posts[
+      this.props.steemPosts.posts.length - 1
+    ];
+    const query = {
+      tag: "photos",
+      start_permlink: post.permlink,
+      start_author: post.author
+    };
+    await this.setState({
+      fetchingData: true
+    });
+    await this.props.getSteemTrendingPosts(query);
+    await this.setState({
+      fetchingData: false
+    });
   }
   async componentWillMount() {
-    await this.props.getSteemTrendingPosts("life");
+    await this.props.getSteemTrendingPosts("photos");
+
     await this.setState({
-      paginationCounter: 50,
-      items: await store.getState(),
-      posts: await this.props.steemPosts.posts
+      items: store.getState(),
+      posts: this.props.steemPosts.posts,
+      fetchingData: false
     });
   }
   renderWaypoint() {
-    console.log("Hitting waypoints");
-    console.log(this.state.fetchingData);
-    if (!this.state.fetchingData) {
-      return (
-        <Waypoint
-          threshold={0.5}
-          scrollableAncestor={window}
-          onEnter={this.loadMorePosts}
-        >
-          <div style={{ color: "#FFF" }}>LOADING...</div>
-        </Waypoint>
-      );
-    }
-  }
-  componentWillReceiveProps() {
-    setTimeout(
-      this.setState({
-        isLoading: false
-      }),
-      2000
+    return (
+      <Waypoint scrollableAncestor={window} onEnter={this.loadMorePosts}>
+        <span style={{ color: "transparent" }}>Loading...</span>
+      </Waypoint>
     );
   }
+
   async handleVoting(username, author, permlink, votePercent) {
     if (votePercent === 0) {
       await steemVote(
@@ -157,33 +134,35 @@ class PostsLoader extends Component {
       };
     }
   }
+  renderPosts() {
+    return this.props.steemPosts.posts.map(post => {
+      let fullPermlink = [post.root_author, post.root_permlink].join("/");
+      return (
+        <Post
+          post={post}
+          username={this.state.items.steemProfile.profile._id}
+          isFollowing={this.state.items.following.users.includes(post.author)}
+          key={post.id}
+          updateFollowingState={this.updateFollowingState}
+          updateVotingState={this.updateVotingState}
+          voteStatus={this.checkVoteStatus(fullPermlink)}
+          fullPermlink={fullPermlink}
+          handleVoting={this.handleVoting}
+          homeComponent={true}
+          width="100%"
+        />
+      );
+    });
+  }
   render() {
     return (
       <Container>
-        {this.props.steemPosts.posts
-          .slice(0, this.state.paginationCounter)
-          .map(post => {
-            let fullPermlink = [post.root_author, post.root_permlink].join("/");
-            return (
-              <Post
-                post={post}
-                username={this.state.items.steemProfile.profile._id}
-                isFollowing={this.state.items.following.users.includes(
-                  post.author
-                )}
-                key={uuidv4()}
-                updateFollowingState={this.updateFollowingState}
-                updateVotingState={this.updateVotingState}
-                voteStatus={this.checkVoteStatus(fullPermlink)}
-                fullPermlink={fullPermlink}
-                handleVoting={this.handleVoting}
-                homeComponent={true}
-                width="100%"
-              />
-            );
-          })}
-        {this.renderWaypoint()}
-        {this.state.fetchingData ? <Spinner /> : void 0}
+        {this.renderPosts()}
+        {this.state.fetchingData ? (
+          <Spinner margin="5" />
+        ) : (
+          this.renderWaypoint()
+        )}
       </Container>
     );
   }

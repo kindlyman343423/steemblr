@@ -296,7 +296,7 @@ class Comments extends Component {
                 <Comment
                   author={comment.author}
                   body={comment.body}
-                  key={uuidv4()}
+                  key={comment.id}
                   handleVoting={this.handleVoting}
                   username={this.props.username}
                   permlink={comment.permlink}

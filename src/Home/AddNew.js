@@ -6,13 +6,14 @@ import Quote from "../NewPost/Quote";
 import Audio from "../NewPost/Audio";
 import Video from "../NewPost/Video";
 import colors from "../styles/colors";
-import {
-  MdFormatQuote,
-  MdCameraAlt,
-  MdFormatAlignLeft,
-  MdMusicNote,
-  MdVideocam
-} from "react-icons/lib/md/";
+
+import Icon from "react-icons-kit";
+import { ic_camera_alt } from "react-icons-kit/md/ic_camera_alt";
+import { ic_format_quote } from "react-icons-kit/md/ic_format_quote";
+import { ic_format_align_left } from "react-icons-kit/md/ic_format_align_left";
+import { ic_music_note } from "react-icons-kit/md/ic_music_note";
+import { ic_videocam } from "react-icons-kit/md/ic_videocam";
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -110,21 +111,21 @@ export default class AddNew extends Component {
           style={{ color: colors.postTypes.text }}
           onClick={() => this.handleNewModal("text")}
         >
-          <MdFormatAlignLeft size={32} />
+          <Icon icon={ic_format_align_left} size={32} />
           <span>Text</span>
         </IconDiv>
         <IconDiv
           style={{ color: colors.postTypes.photo }}
           onClick={() => this.handleNewModal("photo")}
         >
-          <MdCameraAlt size={32} />
+          <Icon icon={ic_camera_alt} size={32} />
           <span>Photo</span>
         </IconDiv>
         <IconDiv
           style={{ color: colors.postTypes.quote }}
           onClick={() => this.handleNewModal("quote")}
         >
-          <MdFormatQuote size={32} />
+          <Icon icon={ic_format_quote} size={32} />
           <span>Quote</span>
         </IconDiv>
 
@@ -132,14 +133,14 @@ export default class AddNew extends Component {
           style={{ color: colors.postTypes.audio }}
           onClick={() => this.handleNewModal("audio")}
         >
-          <MdMusicNote size={32} />
+          <Icon icon={ic_music_note} size={32} />
           <span>Audio</span>
         </IconDiv>
         <IconDiv
           style={{ color: colors.postTypes.video }}
           onClick={() => this.handleNewModal("video")}
         >
-          <MdVideocam size={32} />
+          <Icon icon={ic_videocam} size={32} />
           <span>Video</span>
         </IconDiv>
       </Container>

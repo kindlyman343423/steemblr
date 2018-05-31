@@ -132,7 +132,7 @@ class Trending extends Component {
   }
 
   checkVoteStatus(props) {
-    const find = this.state.items.steemProfileVotes.votes.find(
+    const find = this.props.steemProfileVotes.votes.find(
       o => o.permlink === props
     );
     if (find) {

@@ -5,12 +5,14 @@ import Drawer from "material-ui/Drawer";
 import MenuItem from "material-ui/MenuItem";
 import Slider from "material-ui/Slider";
 import styled from "styled-components";
-import { MdMenu } from "react-icons/lib/md/";
+import Icon from "react-icons-kit";
+import { ic_menu } from "react-icons-kit/md/ic_menu";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 //REDUX
 import { connect } from "react-redux";
 import { changeVotePower } from "../actions/steemActions";
 const StyledDiv = styled.div`
+  text-align: left;
   a {
     color: black;
   }
@@ -44,7 +46,8 @@ class SideMenu extends Component {
   render() {
     return (
       <StyledDiv>
-        <MdMenu
+        <Icon
+          icon={ic_menu}
           size={32}
           onClick={this.handleToggle}
           className="dashboardIcon"

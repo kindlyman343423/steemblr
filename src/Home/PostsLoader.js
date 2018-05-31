@@ -29,8 +29,7 @@ class PostsLoader extends Component {
 
     this.state = {
       fetchingData: true,
-      posts: [],
-      items: store.getState()
+      posts: []
     };
 
     this.loadMorePosts = this.loadMorePosts.bind(this);
@@ -77,7 +76,6 @@ class PostsLoader extends Component {
     await this.props.getSteemTrendingPosts("photos");
 
     await this.setState({
-      items: store.getState(),
       posts: this.props.steemPosts.posts,
       fetchingData: false
     });
@@ -91,6 +89,7 @@ class PostsLoader extends Component {
   }
 
   async handleVoting(username, author, permlink, votePercent) {
+    console.log(username, author, permlink, votePercent);
     if (votePercent === 0) {
       await steemVote(
         username,
@@ -119,7 +118,7 @@ class PostsLoader extends Component {
     }
   }
   checkVoteStatus(props) {
-    const find = this.state.items.steemProfileVotes.votes.find(
+    const find = this.props.steemProfileVotes.votes.find(
       o => o.permlink === props
     );
     if (find) {
@@ -140,8 +139,8 @@ class PostsLoader extends Component {
       return (
         <Post
           post={post}
-          username={this.state.items.steemProfile.profile._id}
-          isFollowing={this.state.items.following.users.includes(post.author)}
+          username={this.props.steemProfile.profile._id}
+          isFollowing={this.props.following.users.includes(post.author)}
           key={post.id}
           updateFollowingState={this.updateFollowingState}
           updateVotingState={this.updateVotingState}

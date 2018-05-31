@@ -7,7 +7,11 @@ import SendBtn from "../Components/SendBtn";
 import colors from "../styles/colors";
 import uploadFiles from "../Functions/uploadFiles";
 import deleteImage from "../Functions/deleteImage";
-import { MdPhoto, MdPublic } from "react-icons/lib/md";
+
+import Icon from "react-icons-kit";
+import { ic_insert_photo } from "react-icons-kit/md/ic_insert_photo";
+import { ic_public } from "react-icons-kit/md/ic_public";
+
 import { Editor, createEditorState } from "medium-draft";
 import newPost from "../Functions/newPost";
 import firebaseAuth from "../Functions/firebaseAuth";
@@ -253,7 +257,7 @@ export default class Photo extends Component {
           ) : (
             <UploadContainer>
               <FileInputLabel for="file">
-                <MdPhoto size={50} />
+                <Icon icon={ic_insert_photo} size={50} />
                 Upload photo
                 <FileInput
                   type="file"
@@ -262,7 +266,7 @@ export default class Photo extends Component {
                 />
               </FileInputLabel>
               <UrlInputLabel for="file" onClick={this.handleOpenTextArea}>
-                <MdPublic size={50} />
+                <Icon icon={ic_public} size={50} />
                 Add photo from web
                 <UrlButton name="file" />
               </UrlInputLabel>

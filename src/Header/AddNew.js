@@ -5,16 +5,18 @@ import Quote from "../NewPost/Quote";
 import Audio from "../NewPost/Audio";
 import Video from "../NewPost/Video";
 import styled from "styled-components";
-import {
-  MdCreate,
-  MdFormatQuote,
-  MdCameraAlt,
-  MdFormatAlignLeft,
-  MdMusicNote,
-  MdVideocam
-} from "react-icons/lib/md/";
+
 import Modal from "react-modal";
 import colors from "../styles/colors";
+
+import Icon from "react-icons-kit";
+import { ic_create } from "react-icons-kit/md/ic_create";
+import { ic_camera_alt } from "react-icons-kit/md/ic_camera_alt";
+
+import { ic_format_quote } from "react-icons-kit/md/ic_format_quote";
+import { ic_format_align_left } from "react-icons-kit/md/ic_format_align_left";
+import { ic_music_note } from "react-icons-kit/md/ic_music_note";
+import { ic_videocam } from "react-icons-kit/md/ic_videocam";
 
 const modalStyle = {
   postion: "fixed",
@@ -131,7 +133,8 @@ export default class AddNew extends Component {
     return (
       <div>
         {window.innerWidth > 425 ? (
-          <MdCreate
+          <Icon
+            icon={ic_create}
             className="dashboardIcon"
             size={24}
             onClick={this.handleOpen}
@@ -176,7 +179,7 @@ export default class AddNew extends Component {
             style={{ backgroundColor: colors.postTypes.text }}
             onClick={() => this.handleNewModal("text")}
           >
-            <MdFormatAlignLeft size={50} />
+            <Icon icon={ic_format_align_left} size={50} />
             <span>Text</span>
           </IconDiv>
 
@@ -184,14 +187,14 @@ export default class AddNew extends Component {
             style={{ backgroundColor: colors.postTypes.photo }}
             onClick={() => this.handleNewModal("photo")}
           >
-            <MdCameraAlt size={50} />
+            <Icon icon={ic_camera_alt} size={50} />
             <span>Photo</span>
           </IconDiv>
           <IconDiv
             style={{ backgroundColor: colors.postTypes.quote }}
             onClick={() => this.handleNewModal("quote")}
           >
-            <MdFormatQuote size={50} />
+            <Icon icon={ic_format_quote} size={50} />
             <span>Quote</span>
           </IconDiv>
 
@@ -199,14 +202,14 @@ export default class AddNew extends Component {
             style={{ backgroundColor: colors.postTypes.audio }}
             onClick={() => this.handleNewModal("audio")}
           >
-            <MdMusicNote size={50} />
+            <Icon icon={ic_music_note} size={50} />
             <span>Audio</span>
           </IconDiv>
           <IconDiv
             style={{ backgroundColor: colors.postTypes.video }}
             onClick={() => this.handleNewModal("video")}
           >
-            <MdVideocam size={50} />
+            <Icon icon={ic_videocam} size={50} />
             <span>Video</span>
           </IconDiv>
         </Modal>

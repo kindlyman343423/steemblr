@@ -21,12 +21,15 @@ import {
 import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
 //ICONS
-import { MdInsertComment, MdFavorite } from "react-icons/lib/md/";
-//import { FaRetweet } from 'react-icons/lib/fa/'
+
 import LazyLoad from "react-lazyload";
 import followSteem from "../.././Functions/followSteem";
 import Comments from "./Comments";
 import PostCardText from "./PostCardText";
+
+import Icon from "react-icons-kit";
+import { ic_message } from "react-icons-kit/md/ic_message";
+import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 
 const md = new Remarkable({
   html: true,
@@ -69,18 +72,16 @@ class Post extends Component {
       isOpen: false,
       isFollowing: this.props.isFollowing,
       votePercent: this.props.voteStatus.percent
-        ? this.props.voteStatus.percent
-        : 0
     };
 
     this.setState({
       username: this.props.username
     });
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleFollowBtn = this.handleFollowBtn.bind(this);
   }
 
-  handleClick() {
+  handleFollowBtn() {
     followSteem(this.props.username, this.props.post.author);
     this.setState({
       isFollowing: true
@@ -88,6 +89,9 @@ class Post extends Component {
   }
 
   render() {
+    const HeartIconStyle = {
+      color: this.props.voteStatus.percent > 0 ? "red" : "black"
+    };
     return (
       <LazyLoad height={600}>
         <MuiThemeProvider>
@@ -111,11 +115,12 @@ class Post extends Component {
                     ""
                   ) : (
                     <FollowBtn
-                      onClick={this.handleClick}
-                      text="Follow"
+                      onClick={this.handleFollowBtn}
                       innerWidth={this.state.innerWidth}
                       componentLocation={this.props.componentLocation}
-                    />
+                    >
+                      Follow
+                    </FollowBtn>
                   )
                 }
               />
@@ -158,7 +163,8 @@ class Post extends Component {
                       username={this.props.username}
                     />
                   ) : (
-                    <MdInsertComment
+                    <Icon
+                      icon={ic_message}
                       size={20}
                       onClick={() =>
                         this.setState({
@@ -167,9 +173,10 @@ class Post extends Component {
                       }
                     />
                   )}
-
-                  <MdFavorite
+                  <Icon
                     size={20}
+                    icon={ic_favorite}
+                    color="red"
                     onClick={() =>
                       this.props.handleVoting(
                         this.props.username,
@@ -178,7 +185,7 @@ class Post extends Component {
                         this.state.votePercent
                       )
                     }
-                    color={this.state.votePercent > 0 ? "red" : "black"}
+                    style={HeartIconStyle}
                   />
                 </CardText>
               </CardActions>

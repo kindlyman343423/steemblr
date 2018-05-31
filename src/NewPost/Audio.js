@@ -8,7 +8,6 @@ import { Editor, createEditorState } from "medium-draft";
 import newPost from "../Functions/newPost";
 import mediumDraftExporter from "medium-draft/lib/exporter";
 import deezerApi from "../Functions/deezerApi";
-import uuidv4 from "uuid/v4";
 import deezerIcon from "../icons/deezer.ico";
 import { debounce } from "lodash";
 const Input = styled.input`

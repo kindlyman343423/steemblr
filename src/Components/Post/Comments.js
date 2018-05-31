@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { MdInsertComment } from "react-icons/lib/md/";
+import Icon from "react-icons-kit";
+import { ic_message } from "react-icons-kit/md/ic_message";
 import Spinner from ".././Spinner";
 import Comment from "./Comment";
 import getContentReplies from "../.././Functions/getContentReplies";
@@ -263,7 +264,7 @@ class Comments extends Component {
 
     return (
       <span>
-        <MdInsertComment size={20} onClick={this.handleOpen} />
+        <Icon icon={ic_message} size={20} onClick={this.handleOpen} />
         <Modal
           title={
             this.props.likesNumber +

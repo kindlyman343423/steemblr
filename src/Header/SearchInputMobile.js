@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { MdSearch } from "react-icons/lib/md";
+import Icon from "react-icons-kit";
+import { ic_search } from "react-icons-kit/md/ic_search";
+
 export default class SearchInput extends Component {
   constructor(props) {
     super(props);
@@ -19,10 +21,6 @@ export default class SearchInput extends Component {
     const Container = styled.div`
       grid-area: input;
       transition: 2.5s ease-in;
-      svg {
-        float: right;
-        padding-right: 10px;
-      }
     `;
     const Input = styled.input`
       border: 0;
@@ -43,16 +41,23 @@ export default class SearchInput extends Component {
         transition: 0.2s;
       }
     `;
-    const SearchContainer = styled.div``;
+    const SearchContainer = styled.div`
+      div {
+        float: right;
+        padding-right: 10px;
+      }
+    `;
     return (
       <Container>
         {this.state.isOpen ? (
           <SearchContainer>
             <Input name="search" placeholder="Search" />
-            <MdSearch size={24} onClick={this.handleOpen} />
+            <Icon icon={ic_search} size={24} onClick={this.handleOpen} />
           </SearchContainer>
         ) : (
-          <MdSearch size={24} onClick={this.handleOpen} />
+          <SearchContainer>
+            <Icon icon={ic_search} size={24} onClick={this.handleOpen} />
+          </SearchContainer>
         )}
       </Container>
     );

@@ -6,7 +6,10 @@ import styled from "styled-components";
 import "./Dashboard.css";
 
 import SideMenu from "./SideMenu";
-import { MdHome, MdExplore } from "react-icons/lib/md/";
+import Icon from "react-icons-kit";
+import { ic_home } from "react-icons-kit/md/ic_home";
+import { ic_explore } from "react-icons-kit/md/ic_explore";
+
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import muiTheme from "../Components/muiTheme";
 
@@ -61,14 +64,14 @@ export default class componentName extends Component {
             className="dashboardIcon"
             to="/home"
           >
-            <MdHome />
+            <Icon icon={ic_home} />
           </NavLink>
           <NavLink
             activeClassName="selected"
             className="dashboardIcon"
             to="/explore/trending"
           >
-            <MdExplore />
+            <Icon icon={ic_explore} />
           </NavLink>
           <MuiThemeProvider>
             <AddNew />

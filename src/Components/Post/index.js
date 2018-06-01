@@ -3,13 +3,15 @@ import { hot } from "react-hot-loader";
 import styled from "styled-components";
 import ReactHtmlParser from "react-html-parser";
 import Remarkable from "remarkable";
-
+import { Link } from "react-router-dom";
 import { Avatar, MuiThemeProvider } from "material-ui";
 import {
   AvatarStyles,
   cardHeaderStyle,
   cardActionStyles,
-  sbdCounter
+  sbdCounter,
+  cardTextTagStyles,
+  heartIconStyle
 } from "./Post.styles";
 import {
   Card,
@@ -89,7 +91,8 @@ class Post extends Component {
   }
 
   render() {
-    const HeartIconStyle = {
+    const heartIconStyle = {
+      cursor: "pointer",
       color: this.props.voteStatus.percent > 0 ? "red" : "black"
     };
     return (
@@ -148,6 +151,11 @@ class Post extends Component {
               />
 
               <CardActions style={{ backgroundColor: "#FFF" }}>
+                <CardText style={cardTextTagStyles}>
+                  <Link to={`/search/tag/?${this.props.post.category}`}>
+                    #{this.props.post.category}
+                  </Link>
+                </CardText>
                 <CardText style={cardActionStyles}>
                   <span style={sbdCounter}>
                     {"$" +
@@ -166,6 +174,7 @@ class Post extends Component {
                     <Icon
                       icon={ic_message}
                       size={20}
+                      style={{ cursor: "pointer" }}
                       onClick={() =>
                         this.setState({
                           shouldOpenComments: true
@@ -176,7 +185,7 @@ class Post extends Component {
                   <Icon
                     size={20}
                     icon={ic_favorite}
-                    color="red"
+                    style={heartIconStyle}
                     onClick={() =>
                       this.props.handleVoting(
                         this.props.username,
@@ -185,7 +194,6 @@ class Post extends Component {
                         this.state.votePercent
                       )
                     }
-                    style={HeartIconStyle}
                   />
                 </CardText>
               </CardActions>

@@ -73,7 +73,11 @@ class PostsLoader extends Component {
     });
   }
   async componentWillMount() {
-    await this.props.getSteemTrendingPosts("photos");
+    const query = {
+      tag: "steemblr",
+      limit: 10
+    };
+    await this.props.getSteemTrendingPosts(query);
 
     await this.setState({
       posts: this.props.steemPosts.posts,
@@ -174,11 +178,14 @@ const mapStateToProps = state => ({
   postFollowingToState: state.postFollowingToState
 });
 
-export default connect(mapStateToProps, {
-  getUserFollowing,
-  getProfileVotes,
-  getSteemTrendingPosts,
-  postFollowingToState,
-  postVoteToState,
-  removeVoteFromState
-})(PostsLoader);
+export default connect(
+  mapStateToProps,
+  {
+    getUserFollowing,
+    getProfileVotes,
+    getSteemTrendingPosts,
+    postFollowingToState,
+    postVoteToState,
+    removeVoteFromState
+  }
+)(PostsLoader);

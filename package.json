@@ -4,12 +4,9 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.1.0",
-    "autoresponsive-react": "^1.1.31",
     "cors": "^2.8.4",
     "draft-convert": "^2.0.1",
     "firebase": "^4.13.1",
-    "firebase-admin": "^5.11.0",
-    "firebase-functions": "^1.0.0",
     "history": "^4.7.2",
     "lodash": "^4.17.10",
     "material-ui": "^0.20.1",

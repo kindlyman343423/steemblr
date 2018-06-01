@@ -79,6 +79,7 @@ export const getProfileVotes = props => async dispatch => {
 };
 
 export const getSteemTrendingPosts = props => async dispatch => {
+  console.log(props);
   const query = {
     tag: props.tag,
     limit: 15,
@@ -87,7 +88,7 @@ export const getSteemTrendingPosts = props => async dispatch => {
   };
   const simpleQuery = {
     tag: props.tag,
-    limit: 15
+    limit: props.limit
   };
   const oldState = store.getState().steemPosts.posts;
   let bucket = [];
@@ -110,24 +111,38 @@ export const getSteemTrendingPosts = props => async dispatch => {
     });
   return bucket[0];
 };
-export const getSteemNewPosts = async props => async dispatch => {
+export const getSteemNewPosts = props => async dispatch => {
+  console.log(props);
   const query = {
-    tag: props,
-    limit: 50
+    tag: props.tag,
+    limit: 15,
+    start_permlink: props.start_permlink,
+    start_author: props.start_author
   };
+  const simpleQuery = {
+    tag: props.tag,
+    limit: props.limit
+  };
+  const oldState = store.getState().steemPosts.posts;
   let bucket = [];
   await steem.api
-    .getDiscussionsByCreatedAsync(query)
+    .getDiscussionsByCreatedAsync(
+      query.start_permlink === undefined ? simpleQuery : query
+    )
     .then(result => {
       bucket.push(result);
       dispatch({
         type: GET_NEW_POSTS,
-        payload: bucket[0]
+        payload: oldState.concat(
+          query.start_permlink === undefined ? bucket[0] : bucket[0].splice(1)
+        )
       });
+      return bucket[0];
     })
     .catch(function(error) {
       console.log(error);
     });
+  return bucket[0];
 };
 
 export const changeVotePower = props => async dispatch => {

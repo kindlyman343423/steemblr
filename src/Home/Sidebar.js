@@ -109,7 +109,7 @@ export default class Sidebar extends Component {
                 <li key={post.id}>
                   <img
                     src={`https://steemitimages.com/u/${post.author}/avatar`}
-                    alt="haejin blog avatar"
+                    alt="blog avatar"
                   />
                   <div>
                     <b>{post.author}</b> <br />

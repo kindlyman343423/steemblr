@@ -8,6 +8,7 @@ import Logout from "./Components/Logout";
 import Explore from "./Explore/Explore";
 import RedirectLoginToken from "./Components/RedirectLoginToken";
 import Intro from "./Intro/";
+import Search from "./Search/";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
@@ -104,6 +105,10 @@ class App extends Component {
           />
 
           <Route path="/redirect" component={RedirectLoginToken} />
+          <Route
+            path="/search"
+            render={props => <Search {...props} login={this.state.login} />}
+          />
         </div>
       </Router>
     );

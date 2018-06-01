@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import colors from "../../styles/colors";
 export const AvatarStyles = {
   borderRadius: "0%"
 };
@@ -31,10 +31,16 @@ export const cardActionStyles = {
   zIndex: 1000,
 
   svg: {
-    paddingRight: "5px !important"
+    paddingRight: "5px !important",
+    cursor: "pointer"
   }
 };
-
+export const cardTextTagStyles = {
+  cursor: "pointer",
+  paddingLeft: "8px",
+  color: colors.tags.normal,
+  zIndex: 1000
+};
 export const sbdCounter = {
   float: "left",
   textAlign: "left"

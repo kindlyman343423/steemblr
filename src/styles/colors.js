@@ -16,6 +16,9 @@ const colors = {
     inactive: "lightgrey",
     active: "black"
   },
+  tags: {
+    normal: "#29434e"
+  },
   buttons: {
     login: "#0064a0",
     loginHover: "#003c8f",

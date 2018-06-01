@@ -264,7 +264,12 @@ class Comments extends Component {
 
     return (
       <span>
-        <Icon icon={ic_message} size={20} onClick={this.handleOpen} />
+        <Icon
+          icon={ic_message}
+          size={20}
+          style={{ cursor: "pointer" }}
+          onClick={this.handleOpen}
+        />
         <Modal
           title={
             this.props.likesNumber +

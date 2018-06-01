@@ -13,7 +13,8 @@ import { connect } from "react-redux";
 import {
   getUserFollowing,
   getProfileVotes,
-  getSteemTrendingPosts
+  getSteemTrendingPosts,
+  getSteemNewPosts
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
@@ -22,7 +23,6 @@ import {
 } from "../actions/stateActions";
 
 import store from ".././store";
-import { transparent } from "material-ui/styles/colors";
 const Container = styled.div`
   box-sizing: border-box;
   padding-left: 10%;
@@ -52,7 +52,8 @@ class Trending extends Component {
       fetchingData: true,
       posts: [],
       shouldLoad: false,
-      innerWidth: window.innerWidth
+      innerWidth: window.innerWidth,
+      tag: this.props.location.search.substring(1)
     };
 
     this.updateVotingState = this.updateVotingState.bind(this);
@@ -73,14 +74,14 @@ class Trending extends Component {
       this.props.steemPosts.posts.length - 1
     ];
     const query = {
-      tag: "photos",
+      tag: this.props.location.search.substring(1),
       start_permlink: post.permlink,
       start_author: post.author
     };
     await this.setState({
       fetchingData: true
     });
-    await this.props.getSteemTrendingPosts(query);
+    await this.props.getSteemNewPosts(query);
     await this.setState({
       fetchingData: false
     });
@@ -91,12 +92,13 @@ class Trending extends Component {
     });
   }
   async componentWillMount() {
+    console.log("Search Component is Mounting");
     const query = {
-      tag: "",
+      tag: this.props.location.search.substring(1),
       limit: 10
     };
     window.addEventListener("resize", this.updateDimensions);
-    await this.props.getSteemTrendingPosts(query);
+    await this.props.getSteemNewPosts(query);
 
     await this.setState({
       posts: this.props.steemPosts.posts,
@@ -222,6 +224,7 @@ export default connect(
     getUserFollowing,
     getProfileVotes,
     getSteemTrendingPosts,
+    getSteemNewPosts,
     postFollowingToState,
     postVoteToState,
     removeVoteFromState

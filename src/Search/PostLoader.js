@@ -93,7 +93,6 @@ class Trending extends Component {
     });
   }
   async componentWillMount() {
-    console.log("Search Component is Mounting");
     await this.props.removePostsFromState();
     const query = {
       tag: this.props.location.search.substring(1),
@@ -109,31 +108,36 @@ class Trending extends Component {
   }
 
   async handleVoting(username, author, permlink, votePercent) {
-    if (votePercent === 0) {
-      await steemVote(
-        username,
-        author,
-        permlink,
-        store.getState().votePower.power
-      );
+    const login = store.getState().login.status;
+    if (login) {
+      if (votePercent === 0) {
+        await steemVote(
+          username,
+          author,
+          permlink,
+          store.getState().votePower.power
+        );
 
-      this.updateVotingState(
-        {
-          permlink: author + "/" + permlink,
-          percent: store.getState().votePower.power
-        },
-        true
-      );
-    } else if (votePercent > 0) {
-      await steemVote(username, author, permlink, 0);
+        this.updateVotingState(
+          {
+            permlink: author + "/" + permlink,
+            percent: store.getState().votePower.power
+          },
+          true
+        );
+      } else if (votePercent > 0) {
+        await steemVote(username, author, permlink, 0);
 
-      this.updateVotingState(
-        {
-          permlink: author + "/" + permlink,
-          percent: 0
-        },
-        false
-      );
+        this.updateVotingState(
+          {
+            permlink: author + "/" + permlink,
+            percent: 0
+          },
+          false
+        );
+      }
+    } else {
+      alert("You have to login first");
     }
   }
 

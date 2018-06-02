@@ -154,20 +154,25 @@ class Comments extends Component {
     });
   }
   async handleSendComment() {
-    if (this.state.comment === "") {
-      alert("Comment can't be empty");
+    const login = store.getState().login.status;
+    if (login) {
+      if (this.state.comment === "") {
+        alert("Comment can't be empty");
+      } else {
+        sendComment(
+          this.props.postAuthor,
+          this.props.postPermlink,
+          this.props.username,
+          this.state.comment,
+          uuidv4()
+        );
+        this.setState({
+          comment: ""
+        });
+        this.updateComments();
+      }
     } else {
-      sendComment(
-        this.props.postAuthor,
-        this.props.postPermlink,
-        this.props.username,
-        this.state.comment,
-        uuidv4()
-      );
-      this.setState({
-        comment: ""
-      });
-      this.updateComments();
+      alert("You have to login first");
     }
   }
   handleInputChange(e) {
@@ -181,40 +186,45 @@ class Comments extends Component {
   }
 
   async handleVoting(username, author, permlink, votePercent) {
-    const votePower = store.getState().votePower.power;
-    if (votePercent === 0 || votePercent === undefined) {
-      await steemVote(username, author, permlink, votePower);
-      const state = this.state.votedComments;
-      const newItem = [
-        {
-          permlink: author + "/" + permlink,
-          percent: votePower
-        }
-      ];
-      let newState = [];
-      await this.setState({
-        votedComments: newState.concat(state, newItem),
+    const login = store.getState().login.status;
+    if (login) {
+      const votePower = store.getState().votePower.power;
+      if (votePercent === 0 || votePercent === undefined) {
+        await steemVote(username, author, permlink, votePower);
+        const state = this.state.votedComments;
+        const newItem = [
+          {
+            permlink: author + "/" + permlink,
+            percent: votePower
+          }
+        ];
+        let newState = [];
+        await this.setState({
+          votedComments: newState.concat(state, newItem),
 
-        votesToPush: this.state.votesToPush.concat(newItem)
-      });
-    } else if (votePercent > 0) {
-      await steemVote(username, author, permlink, 0);
+          votesToPush: this.state.votesToPush.concat(newItem)
+        });
+      } else if (votePercent > 0) {
+        await steemVote(username, author, permlink, 0);
 
-      const state = this.state.votedComments;
-      const fullPermlink = author + "/" + permlink;
-      let newState = state.filter(item => {
-        return item.permlink !== fullPermlink;
-      });
-      const newItem = [
-        {
-          permlink: fullPermlink,
-          percent: votePercent
-        }
-      ];
-      this.setState({
-        votedComments: newState,
-        votesToRemove: this.state.votesToRemove.concat(newItem)
-      });
+        const state = this.state.votedComments;
+        const fullPermlink = author + "/" + permlink;
+        let newState = state.filter(item => {
+          return item.permlink !== fullPermlink;
+        });
+        const newItem = [
+          {
+            permlink: fullPermlink,
+            percent: votePercent
+          }
+        ];
+        this.setState({
+          votedComments: newState,
+          votesToRemove: this.state.votesToRemove.concat(newItem)
+        });
+      }
+    } else {
+      alert("You have to login first");
     }
   }
   async updateVotingState(props, action) {

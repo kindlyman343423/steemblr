@@ -15,7 +15,8 @@ import {
 import {
   postFollowingToState,
   postVoteToState,
-  removeVoteFromState
+  removeVoteFromState,
+  removePostsFromState
 } from "../actions/stateActions";
 import Waypoint from "react-waypoint";
 import store from ".././store";
@@ -73,6 +74,7 @@ class PostsLoader extends Component {
     });
   }
   async componentWillMount() {
+    await this.props.removePostsFromState();
     const query = {
       tag: "steemblr",
       limit: 10
@@ -93,32 +95,36 @@ class PostsLoader extends Component {
   }
 
   async handleVoting(username, author, permlink, votePercent) {
-    console.log(username, author, permlink, votePercent);
-    if (votePercent === 0) {
-      await steemVote(
-        username,
-        author,
-        permlink,
-        store.getState().votePower.power
-      );
+    const login = store.getState().login.status;
+    if (login) {
+      if (votePercent === 0) {
+        await steemVote(
+          username,
+          author,
+          permlink,
+          store.getState().votePower.power
+        );
 
-      this.updateVotingState(
-        {
-          permlink: author + "/" + permlink,
-          percent: store.getState().votePower.power
-        },
-        true
-      );
-    } else if (votePercent > 0) {
-      await steemVote(username, author, permlink, 0);
+        this.updateVotingState(
+          {
+            permlink: author + "/" + permlink,
+            percent: store.getState().votePower.power
+          },
+          true
+        );
+      } else if (votePercent > 0) {
+        await steemVote(username, author, permlink, 0);
 
-      this.updateVotingState(
-        {
-          permlink: author + "/" + permlink,
-          percent: 0
-        },
-        false
-      );
+        this.updateVotingState(
+          {
+            permlink: author + "/" + permlink,
+            percent: 0
+          },
+          false
+        );
+      }
+    } else {
+      alert("You have to login first");
     }
   }
   checkVoteStatus(props) {
@@ -185,6 +191,7 @@ export default connect(
     getProfileVotes,
     getSteemTrendingPosts,
     postFollowingToState,
+    removePostsFromState,
     postVoteToState,
     removeVoteFromState
   }

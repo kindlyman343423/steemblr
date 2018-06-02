@@ -32,7 +32,7 @@ import PostCardText from "./PostCardText";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
-
+import store from "../../store";
 const md = new Remarkable({
   html: true,
   linkify: true
@@ -81,12 +81,29 @@ class Post extends Component {
     });
 
     this.handleFollowBtn = this.handleFollowBtn.bind(this);
+    this.handleVoteBtn = this.handleVoteBtn.bind(this);
   }
 
   handleFollowBtn() {
-    followSteem(this.props.username, this.props.post.author);
-    this.setState({
-      isFollowing: true
+    const login = store.getState().login.status;
+    if (login) {
+      followSteem(this.props.username, this.props.post.author);
+      this.setState({
+        isFollowing: true
+      });
+    } else {
+      alert("You have to login first");
+    }
+  }
+  async handleVoteBtn() {
+    this.props.handleVoting(
+      this.props.username,
+      this.props.post.author,
+      this.props.post.permlink,
+      this.state.votePercent
+    );
+    await this.setState({
+      votePercent: store.getState().votePower.power
     });
   }
 
@@ -200,14 +217,7 @@ class Post extends Component {
                     size={20}
                     icon={ic_favorite}
                     style={heartIconStyle}
-                    onClick={() =>
-                      this.props.handleVoting(
-                        this.props.username,
-                        this.props.post.author,
-                        this.props.post.permlink,
-                        this.state.votePercent
-                      )
-                    }
+                    onClick={this.handleVoteBtn}
                   />
                 </CardText>
               </CardActions>

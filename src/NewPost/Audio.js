@@ -67,6 +67,7 @@ export default class Audio extends Component {
     this.handleSend = this.handleSend.bind(this);
     this.getData = this.getData.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.setSong = this.setSong.bind(this);
     this.inputDebounce = debounce(async function(e) {
       await this.getData();
@@ -132,9 +133,18 @@ export default class Audio extends Component {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
-    const post = ``;
+    const post = `
+    <iframe
+    title={this.state.songTitle}
+    scrolling="no"
+    frameBorder="0"
+    allowtransparency="true"
+    src=${`https://www.deezer.com/plugins/player?format=square&autoplay=false&playlist=false&width=300&height=300&color=007FEB&layout=dark&size=medium&type=tracks&id=${
+      this.state.songId
+    }&app_id=1`}
+  /> ${content}`;
 
-    console.log(
+    newPost(
       this.state.user,
       this.state.title,
       post,
@@ -143,7 +153,6 @@ export default class Audio extends Component {
     );
   }
   setSong(props) {
-    console.log(props);
     this.setState({
       songId: props.id,
       songTitle: props.title,
@@ -167,7 +176,11 @@ export default class Audio extends Component {
       data: apiCall.data,
       isSearch: true
     });
-    console.log(this.state.data);
+  }
+  handleInputChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
   render() {
     return (
@@ -183,7 +196,6 @@ export default class Audio extends Component {
         {this.state.isSearch ? (
           <Container>
             {this.state.data.map(item => {
-              console.log(item);
               return (
                 <Song key={item.id} onClick={() => this.setSong(item)}>
                   <img src={deezerIcon} alt="logo" />
@@ -207,6 +219,17 @@ export default class Audio extends Component {
               }&app_id=1`}
             />
           </Container>
+        ) : (
+          void 0
+        )}
+        {this.state.isSongSet ? (
+          <input
+            className="title"
+            name="title"
+            placeholder="Title"
+            value={this.state.title}
+            onChange={this.handleInputChange}
+          />
         ) : (
           void 0
         )}

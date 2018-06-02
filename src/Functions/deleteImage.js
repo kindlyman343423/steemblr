@@ -7,9 +7,7 @@ const deleteImage = () => {
   const deleteRef = storageRef.child("images/" + imageUUID);
   deleteRef
     .delete()
-    .then(function() {
-      console.log("File deleted!");
-    })
+    .then(function() {})
     .catch(function(error) {
       console.log(`Deletion error ${error}`);
     });

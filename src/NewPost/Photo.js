@@ -131,6 +131,7 @@ export default class Photo extends Component {
     this.handleCancel = this.handleCancel.bind(this);
     this.handleOpenTextArea = this.handleOpenTextArea.bind(this);
     this.handleInputUrl = this.handleInputUrl.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.inputDebounce = debounce(async function(e) {
       await this.getUrl();
     }, 500);
@@ -185,15 +186,11 @@ export default class Photo extends Component {
         imageUrl: response
       });
     });
-    /*this.setState({
-      editorState: addNewBlock(this.state.editorState, Block.IMAGE, {
-        src: this.state.imageUrl
-      })
-    });*/
   }
   handleCancel() {
     this.setState({
-      uploaded: false
+      uploaded: false,
+      inputUrl: ""
     });
     if (this.state.fromWeb === false) {
       deleteImage();
@@ -207,12 +204,13 @@ export default class Photo extends Component {
       this.state.imageUrl
     }" alt="Post"/> <br /> ${content}`;
 
-    console.log(
+    newPost(
       this.state.user,
       this.state.title,
       post,
       this.state.tags,
-      this.state.type
+      this.state.type,
+      this.state.imageUrl
     );
   }
   handleOpenTextArea() {
@@ -241,6 +239,11 @@ export default class Photo extends Component {
   async handleTagsChange(props) {
     await this.setState({
       tags: props
+    });
+  }
+  handleInputChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
     });
   }
   render() {
@@ -275,6 +278,13 @@ export default class Photo extends Component {
         ) : (
           <Container>
             <img src={this.state.imageUrl} alt="Post" />
+            <input
+              className="title"
+              name="title"
+              placeholder="Title"
+              value={this.state.title}
+              onChange={this.handleInputChange}
+            />
             <Editor
               ref="editor"
               placeholder="Something about it..."

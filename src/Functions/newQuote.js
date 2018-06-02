@@ -16,7 +16,8 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
           tags: tagsProp.slice(1, tagsProp.length),
           app: `steemblr`,
           format: "markdown+html",
-          community: "steemblr"
+          community: "steemblr",
+          post_type: "quote"
         })
       }
     ],

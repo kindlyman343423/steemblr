@@ -103,7 +103,6 @@ export default class CreateBlog extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   async getData(props) {
-    console.log();
     let bucket = [];
     defaultStorage
       .collection("users")
@@ -124,7 +123,6 @@ export default class CreateBlog extends Component {
       .get()
       .then(snapshot => {
         bucket.push(snapshot);
-        console.log(snapshot.data());
       })
       .catch(err => {
         console.log("Error from cloud firestore:" + err);

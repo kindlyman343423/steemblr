@@ -52,7 +52,6 @@ const HeaderTabs = ({ match }) => {
     "audio",
     "video"
   ];
-  console.log(match);
   return (
     <Container>
       <NavBar className="navLinks">

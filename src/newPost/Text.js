@@ -86,8 +86,7 @@ export default class Text extends Component {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
-    //newPost(this.state.user, this.state.title, content, this.state.tags);
-    console.log(
+    newPost(
       this.state.user,
       this.state.title,
       content,

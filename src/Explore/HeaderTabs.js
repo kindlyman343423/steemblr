@@ -15,7 +15,6 @@ const NavBar = styled.div`
   padding-bottom: 5px;
 
   a {
-    text-transform: uppercase;
     text-align: center;
     align-self: center;
   }
@@ -23,6 +22,9 @@ const NavBar = styled.div`
   @media (max-width: 1024px) {
   }
   @media (max-width: 768px) {
+    a {
+      text-transform: uppercase;
+    }
   }
   @media (max-width: 425px) {
     a {
@@ -53,7 +55,6 @@ const HeaderTabs = ({ match }) => {
     "audio",
     "video"
   ];
-  console.log(match);
   return (
     <Container>
       <NavBar className="navLinks">

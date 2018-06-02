@@ -7,7 +7,6 @@ const sendComment = async (
   comment,
   uuid
 ) => {
-  console.log(postAuthor, postPermlink, commentAuthor, comment, uuid);
   await api.broadcast([
     [
       "comment",

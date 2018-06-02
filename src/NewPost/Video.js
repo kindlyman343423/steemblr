@@ -55,6 +55,7 @@ export default class Video extends Component {
     this.handleSend = this.handleSend.bind(this);
     this.handleTextArea = this.handleTextArea.bind(this);
     this.cancelVideo = this.cancelVideo.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.inputDebounce = debounce(async function(e) {
       await this.setVideo();
     }, 1000);
@@ -103,11 +104,9 @@ export default class Video extends Component {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
-    const post = `<img src="${
-      this.state.imageUrl
-    }" alt="Post"/> <br /> ${content}`;
+    const post = `${this.state.textarea} <br /> ${content}`;
 
-    console.log(
+    newPost(
       this.state.user,
       this.state.title,
       post,
@@ -156,6 +155,11 @@ export default class Video extends Component {
       textarea: ""
     });
   }
+  handleInputChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
   render() {
     return (
       <Modal style={this.modalStyle} isOpen={this.state.open}>
@@ -173,6 +177,17 @@ export default class Video extends Component {
         )}
         {this.state.isVideoSet ? (
           <Container>
+            {this.state.isVideoSet ? (
+              <input
+                className="title"
+                name="title"
+                placeholder="Title"
+                value={this.state.title}
+                onChange={this.handleInputChange}
+              />
+            ) : (
+              void 0
+            )}
             <Editor
               ref="editor"
               placeholder="Something about it..."

@@ -106,7 +106,6 @@ class Trending extends Component {
   }
 
   async handleVoting(username, author, permlink, votePercent) {
-    console.log(username, author, permlink, votePercent);
     const login = store.getState().login.status;
     if (login) {
       if (votePercent === 0) {
@@ -145,7 +144,6 @@ class Trending extends Component {
       o => o.permlink === props
     );
     if (find) {
-      console.log(find);
       return {
         status: true,
         percent: find.percent

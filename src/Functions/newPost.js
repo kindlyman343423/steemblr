@@ -1,22 +1,25 @@
 import api from ".././Api";
 import uuidv4 from "uuid/v4";
-const newPost = (user, titleProp, content, tagsProp, type) => {
+import store from "../store";
+const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
   const uuid = uuidv4();
   api.broadcast([
     [
       "comment",
       {
         parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
-        parent_permlink: "test", //FIRST TAG
-        author: user, //AUTHOR
+        parent_permlink: tagsProp[0], //FIRST TAG
+        author: store.getState().steemProfile.profile.user, //AUTHOR
         permlink: uuid, //permlink of the post
         title: titleProp, //Title of the post
         body: content,
         json_metadata: JSON.stringify({
-          tags: tagsProp,
+          tags: tagsProp.slice(1, tagsProp.length),
           app: `steemblr`,
           format: "markdown+html",
-          community: "steemblr"
+          community: "steemblr",
+          post_type: type,
+          image: type === "photo" ? [imageUrl] : ""
         })
       }
     ],

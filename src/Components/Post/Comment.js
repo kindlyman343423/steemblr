@@ -47,7 +47,7 @@ class Comment extends Component {
       this.props.username,
       this.props.author,
       this.props.permlink,
-      this.state.percent
+      this.props.voteStatus.percent
     );
     this.setState({
       status: !this.state.status,
@@ -58,7 +58,7 @@ class Comment extends Component {
     return (
       <Container>
         <Nickname
-          color={this.state.percent > 0 ? "red" : "black"}
+          color={this.props.voteStatus.percent > 0 ? "red" : "black"}
           onClick={this.handleClick}
         >
           {this.props.author}

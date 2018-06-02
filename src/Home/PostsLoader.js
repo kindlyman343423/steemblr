@@ -11,7 +11,7 @@ import {
   getUserFollowing,
   getProfileVotes,
   getSteemTrendingPosts,
-  getSteemHotPosts
+  getSteemFeedPosts
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
@@ -62,14 +62,14 @@ class PostsLoader extends Component {
       this.props.steemPosts.posts.length - 1
     ];
     const query = {
-      tag: "photos",
+      tag: this.props.steemProfile.profile._id,
       start_permlink: post.permlink,
       start_author: post.author
     };
     await this.setState({
       fetchingData: true
     });
-    await this.props.getSteemHotPosts(query);
+    await this.props.getSteemFeedPosts(query);
     await this.setState({
       fetchingData: false
     });
@@ -77,9 +77,9 @@ class PostsLoader extends Component {
   async componentWillMount() {
     await this.props.removePostsFromState();
     const query = {
-      tag: "photos"
+      tag: this.props.steemProfile.profile._id
     };
-    await this.props.getSteemHotPosts(query);
+    await this.props.getSteemFeedPosts(query);
 
     await this.setState({
       posts: this.props.steemPosts.posts,
@@ -190,7 +190,7 @@ export default connect(
     getUserFollowing,
     getProfileVotes,
     getSteemTrendingPosts,
-    getSteemHotPosts,
+    getSteemFeedPosts,
     postFollowingToState,
     removePostsFromState,
     postVoteToState,

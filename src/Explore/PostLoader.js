@@ -13,7 +13,8 @@ import { connect } from "react-redux";
 import {
   getUserFollowing,
   getProfileVotes,
-  getSteemTrendingPosts
+  getSteemTrendingPosts,
+  getSteemNewPosts
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
@@ -44,7 +45,7 @@ const Container = styled.div`
   }
 `;
 
-class Trending extends Component {
+class PostLoader extends Component {
   constructor(props) {
     super(props);
 
@@ -73,14 +74,16 @@ class Trending extends Component {
       this.props.steemPosts.posts.length - 1
     ];
     const query = {
-      tag: "photos",
+      tag: "",
       start_permlink: post.permlink,
       start_author: post.author
     };
     await this.setState({
       fetchingData: true
     });
-    await this.props.getSteemTrendingPosts(query);
+    this.props.category === "new"
+      ? await this.props.getSteemNewPosts(query)
+      : await this.props.getSteemTrendingPosts(query);
     await this.setState({
       fetchingData: false
     });
@@ -97,7 +100,9 @@ class Trending extends Component {
       limit: 10
     };
     window.addEventListener("resize", this.updateDimensions);
-    await this.props.getSteemTrendingPosts(query);
+    this.props.category === "new"
+      ? await this.props.getSteemNewPosts(query)
+      : await this.props.getSteemTrendingPosts(query);
 
     await this.setState({
       posts: this.props.steemPosts.posts,
@@ -192,6 +197,7 @@ class Trending extends Component {
     });
   }
   render() {
+    console.log(this.props.category);
     const breakpointColumnsObj = {
       default: 3,
       1100: 3,
@@ -228,9 +234,10 @@ export default connect(
     getUserFollowing,
     getProfileVotes,
     getSteemTrendingPosts,
+    getSteemNewPosts,
     removePostsFromState,
     postFollowingToState,
     postVoteToState,
     removeVoteFromState
   }
-)(hot(module)(Trending));
+)(hot(module)(PostLoader));

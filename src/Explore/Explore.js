@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import HeaderTabs from "./HeaderTabs";
-import Trending from "./Trending";
+import PostLoader from "./PostLoader";
 import { Route } from "react-router-dom";
 import "./Explore.css";
 import styled from "styled-components";
@@ -24,8 +24,14 @@ export default class Explore extends Component {
           <HeaderTabs match={this.props.match} />
         </HeaderContainer>;
         <Route
-          path={`${this.props.match.url}/trending`}
-          render={props => <Trending {...props} />}
+          path={`${this.props.match.url}`}
+          render={props => (
+            <PostLoader
+              key={this.props.location.key}
+              {...props}
+              category={this.props.location.pathname.replace("/explore/", "")}
+            />
+          )}
         />
       </Container>
     );

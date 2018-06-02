@@ -19,7 +19,8 @@ import {
 import {
   postFollowingToState,
   postVoteToState,
-  removeVoteFromState
+  removeVoteFromState,
+  removePostsFromState
 } from "../actions/stateActions";
 
 import store from ".././store";
@@ -93,6 +94,7 @@ class Trending extends Component {
   }
   async componentWillMount() {
     console.log("Search Component is Mounting");
+    await this.props.removePostsFromState();
     const query = {
       tag: this.props.location.search.substring(1),
       limit: 10
@@ -225,6 +227,7 @@ export default connect(
     getProfileVotes,
     getSteemTrendingPosts,
     getSteemNewPosts,
+    removePostsFromState,
     postFollowingToState,
     postVoteToState,
     removeVoteFromState

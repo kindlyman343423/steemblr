@@ -1,4 +1,8 @@
-import { GET_TRENDING_POSTS, GET_NEW_POSTS } from "../actions/types";
+import {
+  GET_TRENDING_POSTS,
+  GET_NEW_POSTS,
+  REMOVE_POSTS_FROM_STATE
+} from "../actions/types";
 
 const initialState = {
   posts: []
@@ -12,6 +16,11 @@ export default function(state = initialState, action) {
         posts: action.payload
       };
     case GET_NEW_POSTS:
+      return {
+        ...state,
+        posts: action.payload
+      };
+    case REMOVE_POSTS_FROM_STATE:
       return {
         ...state,
         posts: action.payload

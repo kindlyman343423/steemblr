@@ -23,6 +23,7 @@ export default class Search extends Component {
   }
 
   render() {
+    console.log(this.props.location);
     return (
       <Container>
         <HeaderContainer>
@@ -31,7 +32,12 @@ export default class Search extends Component {
         </HeaderContainer>;
         <Route
           path={`${this.props.match.url}/tag/`}
-          render={props => <PostLoader location={this.props.location} />}
+          render={props => (
+            <PostLoader
+              key={this.props.location.key}
+              location={this.props.location}
+            />
+          )}
         />
       </Container>
     );

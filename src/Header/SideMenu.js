@@ -97,4 +97,7 @@ class SideMenu extends Component {
 const mapStateToProps = state => ({
   votePower: state.votePower
 });
-export default connect(mapStateToProps, { changeVotePower })(SideMenu);
+export default connect(
+  mapStateToProps,
+  { changeVotePower }
+)(SideMenu);

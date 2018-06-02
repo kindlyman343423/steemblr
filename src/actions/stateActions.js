@@ -4,7 +4,8 @@ import {
   REMOVE_VOTE_FROM_STATE,
   POST_MEDIA,
   CHANGE_POST_TYPE,
-  PUT_UUID
+  PUT_UUID,
+  REMOVE_POSTS_FROM_STATE
 } from "./types";
 import store from ".././store";
 
@@ -57,5 +58,11 @@ export const changePostType = props => dispatch => {
   dispatch({
     type: CHANGE_POST_TYPE,
     payload: props
+  });
+};
+export const removePostsFromState = props => dispatch => {
+  dispatch({
+    type: REMOVE_POSTS_FROM_STATE,
+    payload: []
   });
 };

@@ -12,3 +12,4 @@ export const CHANGE_POST_TYPE = "CHANGE_POST_TYPE";
 export const CHANGE = "CHANGE";
 export const GET_NEW_POSTS = "GET_NEW_POSTS";
 export const PUT_UUID = "PUT_UUID";
+export const REMOVE_POSTS_FROM_STATE = "REMOVE_POSTS_FROM_STATE";

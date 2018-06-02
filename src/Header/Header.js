@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import Dashboard from "./Dashboard";
 import LoginModal from "./LoginModal";
 import Register from "../Components/Register";
-import { Input } from "rebass";
 import { hot } from "react-hot-loader";
 import "./Header.css";
 import SearchInputMobile from "./SearchInputMobile";

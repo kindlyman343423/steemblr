@@ -6,7 +6,8 @@ import {
   GET_TRENDING_POSTS,
   CHANGE_VOTE_POWER,
   CHANGE,
-  GET_NEW_POSTS
+  GET_NEW_POSTS,
+  GET_FEED_POSTS
 } from "./types";
 import api from "../Api";
 import steem from "steem";
@@ -143,6 +144,7 @@ export const getSteemNewPosts = props => async dispatch => {
   return bucket[0];
 };
 export const getSteemFeedPosts = props => async dispatch => {
+  console.log(props);
   const query = {
     tag: props.tag,
     limit: 10,
@@ -162,7 +164,7 @@ export const getSteemFeedPosts = props => async dispatch => {
     .then(result => {
       bucket.push(result);
       dispatch({
-        type: GET_NEW_POSTS,
+        type: GET_FEED_POSTS,
         payload: oldState.concat(
           query.start_permlink === undefined ? bucket[0] : bucket[0].splice(1)
         )

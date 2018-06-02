@@ -79,16 +79,15 @@ export const getProfileVotes = props => async dispatch => {
 };
 
 export const getSteemTrendingPosts = props => async dispatch => {
-  console.log(props);
   const query = {
     tag: props.tag,
-    limit: 15,
+    limit: 10,
     start_permlink: props.start_permlink,
     start_author: props.start_author
   };
   const simpleQuery = {
     tag: props.tag,
-    limit: props.limit
+    limit: 10
   };
   const oldState = store.getState().steemPosts.posts;
   let bucket = [];
@@ -112,16 +111,15 @@ export const getSteemTrendingPosts = props => async dispatch => {
   return bucket[0];
 };
 export const getSteemNewPosts = props => async dispatch => {
-  console.log(props);
   const query = {
     tag: props.tag,
-    limit: 15,
+    limit: 10,
     start_permlink: props.start_permlink,
     start_author: props.start_author
   };
   const simpleQuery = {
     tag: props.tag,
-    limit: props.limit
+    limit: 10
   };
   const oldState = store.getState().steemPosts.posts;
   let bucket = [];
@@ -144,7 +142,38 @@ export const getSteemNewPosts = props => async dispatch => {
     });
   return bucket[0];
 };
-
+export const getSteemHotPosts = props => async dispatch => {
+  const query = {
+    tag: props.tag,
+    start_permlink: props.start_permlink,
+    start_author: props.start_author,
+    limit: 10
+  };
+  const simpleQuery = {
+    tag: props.tag,
+    limit: 10
+  };
+  const oldState = store.getState().steemPosts.posts;
+  let bucket = [];
+  await steem.api
+    .getDiscussionsByHotAsync(
+      query.start_permlink === undefined ? simpleQuery : query
+    )
+    .then(result => {
+      bucket.push(result);
+      dispatch({
+        type: GET_NEW_POSTS,
+        payload: oldState.concat(
+          query.start_permlink === undefined ? bucket[0] : bucket[0].splice(1)
+        )
+      });
+      return bucket[0];
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  return bucket[0];
+};
 export const changeVotePower = props => async dispatch => {
   dispatch({
     type: CHANGE_VOTE_POWER,

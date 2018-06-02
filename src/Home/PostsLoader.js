@@ -10,7 +10,8 @@ import { connect } from "react-redux";
 import {
   getUserFollowing,
   getProfileVotes,
-  getSteemTrendingPosts
+  getSteemTrendingPosts,
+  getSteemHotPosts
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
@@ -68,7 +69,7 @@ class PostsLoader extends Component {
     await this.setState({
       fetchingData: true
     });
-    await this.props.getSteemTrendingPosts(query);
+    await this.props.getSteemHotPosts(query);
     await this.setState({
       fetchingData: false
     });
@@ -76,10 +77,9 @@ class PostsLoader extends Component {
   async componentWillMount() {
     await this.props.removePostsFromState();
     const query = {
-      tag: "steemblr",
-      limit: 10
+      tag: "photos"
     };
-    await this.props.getSteemTrendingPosts(query);
+    await this.props.getSteemHotPosts(query);
 
     await this.setState({
       posts: this.props.steemPosts.posts,
@@ -190,6 +190,7 @@ export default connect(
     getUserFollowing,
     getProfileVotes,
     getSteemTrendingPosts,
+    getSteemHotPosts,
     postFollowingToState,
     removePostsFromState,
     postVoteToState,

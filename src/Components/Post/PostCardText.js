@@ -24,7 +24,7 @@ class PostCardText extends Component {
 
     this.state = {
       isExpanded: false,
-      maxHeight: "600px"
+      maxHeight: "350px"
     };
     this.handleExpand = this.handleExpand.bind(this);
     this.style = {
@@ -49,7 +49,7 @@ class PostCardText extends Component {
     return (
       <CardText style={{ maxHeight: this.state.maxHeight }}>
         {this.props.text}
-        {height >= 600 && this.state.isExpanded !== true ? (
+        {height >= 350 && this.state.isExpanded !== true ? (
           <ExpandBtn onClick={this.handleExpand}>Expand</ExpandBtn>
         ) : (
           void 0

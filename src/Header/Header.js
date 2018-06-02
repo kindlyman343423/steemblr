@@ -10,6 +10,7 @@ import SearchInputMobile from "./SearchInputMobile";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import logo from "../icons/logo.svg";
+import SearchInput from "./SearchInput";
 const Container = styled.div`
   color: grey;
   display: grid;
@@ -106,11 +107,7 @@ class Header extends Component {
         <LogoContainer>
           <img src={logo} alt="logo" />
         </LogoContainer>
-        {window.innerWidth > 425 ? (
-          <Input bg="white" color="black" placeholder="Search" />
-        ) : (
-          <SearchInputMobile />
-        )}
+        {window.innerWidth > 425 ? <SearchInput /> : <SearchInputMobile />}
 
         {this.state.login === true ? (
           <Dashboard />

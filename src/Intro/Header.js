@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import SearchInput from "../Header/SearchInput";
 const Container = styled.div`
   box-sizing: border-box;
   align-self: flex-start;
@@ -47,7 +48,7 @@ export default class Header extends Component {
   render() {
     return (
       <Container>
-        <input type="search" placeholder="Search..." />
+        <SearchInput />
       </Container>
     );
   }

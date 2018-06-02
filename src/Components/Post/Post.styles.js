@@ -36,12 +36,16 @@ export const cardActionStyles = {
   }
 };
 export const cardTextTagStyles = {
-  cursor: "pointer",
   paddingLeft: "8px",
-  color: colors.tags.normal,
   zIndex: 1000
 };
 export const sbdCounter = {
   float: "left",
   textAlign: "left"
+};
+export const tagStyles = {
+  cursor: "pointer",
+  paddingRight: "5px",
+  color: colors.tags.normal,
+  overflowWrap: "break-word"
 };

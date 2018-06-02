@@ -11,7 +11,7 @@ import {
   cardActionStyles,
   sbdCounter,
   cardTextTagStyles,
-  heartIconStyle
+  tagStyles
 } from "./Post.styles";
 import {
   Card,
@@ -152,9 +152,23 @@ class Post extends Component {
 
               <CardActions style={{ backgroundColor: "#FFF" }}>
                 <CardText style={cardTextTagStyles}>
-                  <Link to={`/search/tag/?${this.props.post.category}`}>
+                  <Link
+                    style={tagStyles}
+                    to={`/search/tag/?${this.props.post.category}`}
+                  >
                     #{this.props.post.category}
                   </Link>
+                  {JSON.parse(this.props.post.json_metadata).tags === undefined
+                    ? "true"
+                    : JSON.parse(this.props.post.json_metadata).tags.map(
+                        tag => {
+                          return (
+                            <Link style={tagStyles} to={`/search/tag/?${tag}`}>
+                              #{tag}
+                            </Link>
+                          );
+                        }
+                      )}
                 </CardText>
                 <CardText style={cardActionStyles}>
                   <span style={sbdCounter}>

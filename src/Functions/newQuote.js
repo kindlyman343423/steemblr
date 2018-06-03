@@ -1,14 +1,18 @@
 import api from ".././Api";
 import uuidv4 from "uuid/v4";
+import store from "../store";
 const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
   const uuid = uuidv4();
+  if (store.getState().steemProfile.profile.user === undefined) {
+    api.me();
+  }
   api.broadcast([
     [
       "comment",
       {
         parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
         parent_permlink: tagsProp[0], //FIRST TAG
-        author: user, //AUTHOR
+        author: store.getState().steemProfile.profile.user, //AUTHOR
         permlink: uuid, //permlink of the post
         title: titleProp, //Title of the post
         body: content,
@@ -24,7 +28,7 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
     [
       "comment_options",
       {
-        author: user,
+        author: store.getState().steemProfile.profile.user,
         permlink: uuid,
         allow_votes: true,
         allow_curation_rewards: true,

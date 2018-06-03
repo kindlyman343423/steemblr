@@ -129,7 +129,7 @@ export default class Audio extends Component {
   onChange = editorState => {
     this.setState({ editorState });
   };
-  handleSend() {
+  async handleSend() {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
@@ -144,13 +144,14 @@ export default class Audio extends Component {
     }&app_id=1`}
   /> ${content}`;
 
-    newPost(
+    await newPost(
       this.state.user,
       this.state.title,
       post,
       this.state.tags,
       this.state.type
     );
+    this.handleClose();
   }
   setSong(props) {
     this.setState({

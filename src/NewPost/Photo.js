@@ -196,7 +196,7 @@ export default class Photo extends Component {
       deleteImage();
     }
   }
-  handleSend() {
+  async handleSend() {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
@@ -204,7 +204,7 @@ export default class Photo extends Component {
       this.state.imageUrl
     }" alt="Post"/> <br /> ${content}`;
 
-    newPost(
+    await newPost(
       this.state.user,
       this.state.title,
       post,
@@ -212,6 +212,10 @@ export default class Photo extends Component {
       this.state.type,
       this.state.imageUrl
     );
+    this.setState({
+      open: false
+    });
+    this.props.unMountChildren("photo");
   }
   handleOpenTextArea() {
     this.setState({

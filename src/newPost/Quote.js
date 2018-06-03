@@ -162,7 +162,7 @@ export default class Quote extends Component {
     });
     this.props.unMountChildren("quote");
   }
-  handleSend() {
+  async handleSend() {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
@@ -179,21 +179,23 @@ export default class Quote extends Component {
         `<p>Beneficiaries of this post: ${this.state.beneficiaries.map(user => {
           return `${" " + user.account + " " + user.weight / 100 + "%"}`;
         })}</p>` + content;
-      newQuote(
+      await newQuote(
         this.state.user,
         this.state.title,
         newContent,
         this.state.beneficiaries,
         this.state.tags
       );
+      this.handleClose();
     } else {
-      newQuote(
+      await newQuote(
         this.state.user,
         this.state.title,
         content,
         this.state.beneficiaries,
         this.state.tags
       );
+      this.handleClose();
     }
   }
   openBeneficiaries() {

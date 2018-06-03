@@ -2,6 +2,9 @@ import api from ".././Api";
 import uuidv4 from "uuid/v4";
 import store from "../store";
 const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
+  if (store.getState().steemProfile.profile.user === undefined) {
+    api.me();
+  }
   const uuid = uuidv4();
   api.broadcast([
     [
@@ -26,7 +29,7 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
     [
       "comment_options",
       {
-        author: user,
+        author: store.getState().steemProfile.profile.user,
         permlink: uuid,
         allow_votes: true,
         allow_curation_rewards: true,

@@ -82,17 +82,18 @@ export default class Text extends Component {
     });
     this.props.unMountChildren("text");
   }
-  handleSend() {
+  async handleSend() {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
-    newPost(
+    await newPost(
       this.state.user,
       this.state.title,
       content,
       this.state.tags,
       this.state.type
     );
+    this.handleClose();
   }
   async handleTagsChange(props) {
     await this.setState({ tags: props });

@@ -100,19 +100,20 @@ export default class Video extends Component {
     this.setState({ editorState });
   };
 
-  handleSend() {
+  async handleSend() {
     const content = mediumDraftExporter(
       this.state.editorState.getCurrentContent()
     );
     const post = `${this.state.textarea} <br /> ${content}`;
 
-    newPost(
+    await newPost(
       this.state.user,
       this.state.title,
       post,
       this.state.tags,
       this.state.type
     );
+    this.handleClose();
   }
   componentWillUnmount() {
     this.setState({

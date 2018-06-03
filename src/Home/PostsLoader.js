@@ -83,7 +83,6 @@ class PostsLoader extends Component {
     const query = {
       tag: this.props.steemProfile.profile._id
     };
-    console.log("Home mounting", query);
     await this.props.getSteemFeedPosts(query);
 
     await this.setState({

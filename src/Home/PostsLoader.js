@@ -75,6 +75,7 @@ class PostsLoader extends Component {
     });
   }
   async componentWillMount() {
+
     await this.props.removePostsFromState();
     const username = await this.props.steemProfile.profile._id;
     if (username === undefined) {

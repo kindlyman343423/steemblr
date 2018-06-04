@@ -79,6 +79,12 @@ const IconDiv = styled.div`
     transform: translate3d(0px, 4px, 0px);
     transition: 0.5s;
   }
+  @media (max-width: 768px) {
+    margin: 10px;
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+  }
   @media (max-width: 425px) {
     margin: 10px;
     width: 70px;

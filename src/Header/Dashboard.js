@@ -10,9 +10,6 @@ import Icon from "react-icons-kit";
 import { ic_home } from "react-icons-kit/md/ic_home";
 import { ic_explore } from "react-icons-kit/md/ic_explore";
 
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import muiTheme from "../Components/muiTheme";
-
 const Container = styled.div`
   padding: 5px;
   display: flex;
@@ -73,21 +70,15 @@ export default class componentName extends Component {
           >
             <Icon icon={ic_explore} />
           </NavLink>
-          <MuiThemeProvider>
-            <AddNew />
-          </MuiThemeProvider>
+          <AddNew />
 
-          <MuiThemeProvider muiTheme={muiTheme}>
-            <SideMenu />
-          </MuiThemeProvider>
+          <SideMenu />
         </Container>
       );
     } else {
       return (
         <Container>
-          <MuiThemeProvider muiTheme={muiTheme}>
-            <SideMenu />
-          </MuiThemeProvider>
+          <SideMenu />
         </Container>
       );
     }

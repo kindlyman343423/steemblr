@@ -1,46 +1,106 @@
 import React, { Component } from "react";
 import AddNew from "./AddNew";
-import { NavLink } from "react-router-dom";
-import Drawer from "material-ui/Drawer";
-import MenuItem from "material-ui/MenuItem";
-import Slider from "material-ui/Slider";
+import { Link, NavLink } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+
 import styled from "styled-components";
 import Icon from "react-icons-kit";
+import colors from "../styles/colors";
+
 import { ic_menu } from "react-icons-kit/md/ic_menu";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 //REDUX
 import { connect } from "react-redux";
 import { changeVotePower } from "../actions/steemActions";
+
 const StyledDiv = styled.div`
   text-align: left;
   a {
     color: black;
   }
 `;
+const styles = {};
+const MenuItem = styled.div`
+  padding: 10px;
+  a {
+    color: red;
+  }
+  cursor: pointer;
+`;
+const Slider = styled.input`
+  -webkit-appearance: none;
+  width: 200px;
+  height: 10px;
+  border-radius: 5px;
+  background: #ccc;
+  outline: none;
 
+  // Slider Handle
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: ${colors.background};
+    cursor: pointer;
+    -webkit-transition: background 0.15s ease-in-out;
+    transition: background 0.15s ease-in-out;
+
+    &:hover {
+      background: ${colors.events.hover};
+    }
+  }
+
+  &:active::-webkit-slider-thumb {
+    background: ${colors.events.hover};
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border: 0;
+    border-radius: 50%;
+    background: #353535;
+    cursor: pointer;
+    -webkit-transition: background 0.15s ease-in-out;
+    transition: background 0.15s ease-in-out;
+
+    &:hover {
+      background: #e06161;
+    }
+  }
+
+  &:active::-moz-range-thumb {
+    background: #e06161;
+  }
+`;
 class SideMenu extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       open: false,
-      votingWeight: 10000
+      votingWeight: 100
     };
     this.handleVotingSlider = this.handleVotingSlider.bind(this);
     this.handleVotingSliderDragStop = this.handleVotingSliderDragStop.bind(
       this
     );
   }
-
+  toggleDrawer = (side, open) => () => {
+    this.setState({
+      [side]: open
+    });
+  };
   handleToggle = () => this.setState({ open: !this.state.open });
   handleClose = () => this.setState({ open: false });
   handleVotingSlider(e, value) {
     this.setState({
-      votingWeight: 10000 * value
+      votingWeight: e.target.value
     });
   }
   handleVotingSliderDragStop() {
-    this.props.changeVotePower(this.state.votingWeight);
+    this.props.changeVotePower(Number(this.state.votingWeight * 100));
   }
 
   render() {
@@ -54,41 +114,42 @@ class SideMenu extends Component {
         />
 
         <Drawer
+          anchor="right"
           open={this.state.open}
           openSecondary={true}
           docked={false}
-          onRequestChange={open => this.setState({ open })}
+          onClose={this.toggleDrawer("open", false)}
         >
           {window.innerWidth > 425 ? (
             void 0
           ) : (
             <span>
-              <NavLink to="/home">
+              <Link to="/home">
                 <MenuItem>Home</MenuItem>
-              </NavLink>
+              </Link>
               <NavLink to="/explore/trending">
                 <MenuItem>Explore</MenuItem>
               </NavLink>
 
               <MenuItem>
-                <MuiThemeProvider>
-                  <AddNew />
-                </MuiThemeProvider>
+                <AddNew />
               </MenuItem>
             </span>
           )}
+          <MenuItem>
+            Voting Power: {this.state.votingWeight} % <br />
+            <Slider
+              type="range"
+              min={1}
+              max={100}
+              value={this.state.votingWeight}
+              onChange={this.handleVotingSlider}
+              onBlur={this.handleVotingSliderDragStop}
+            />
+          </MenuItem>
           <NavLink to="/logout">
             <MenuItem>Logout</MenuItem>
           </NavLink>
-          <MenuItem>
-            Voting Power: {this.state.votingWeight * 0.01 + "%"}
-            <Slider
-              step={0.1}
-              value={this.state.votingWeight * 0.0001}
-              onChange={this.handleVotingSlider}
-              onDragStop={this.handleVotingSliderDragStop}
-            />
-          </MenuItem>
         </Drawer>
       </StyledDiv>
     );
@@ -100,4 +161,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { changeVotePower }
-)(SideMenu);
+)(withStyles(styles)(SideMenu));

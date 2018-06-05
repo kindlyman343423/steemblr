@@ -26,8 +26,8 @@ import {
 import store from ".././store";
 const Container = styled.div`
   box-sizing: border-box;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 7%;
+  padding-right: 7%;
   margin-top: 6em;
   position: relative;
   @media (max-width: 1024px) {

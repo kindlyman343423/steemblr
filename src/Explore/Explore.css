@@ -5,19 +5,21 @@
   margin-right: 0.5em;
 }
 .my-masonry-grid {
+  box-sizing: border-box;
   display: flex;
-  margin-left: -25px; /* gutter size offset */
+  margin-left: -20px;
 }
 
 .my-masonry-grid_column {
-  padding-left: 10px; /* gutter size */
+  box-sizing: border-box;
+  padding-left: 20px; /* gutter size */
   background-clip: padding-box;
 }
 
 .my-masonry-grid_column > div {
   /* change div to reference your elements you put in <Masonry> */
-  background: #FFF;
-  margin-bottom: 10px;
+  background: #fff;
+  margin-bottom: 20px;
 }
 @media (max-width: 425px) {
   .my-masonry-grid {

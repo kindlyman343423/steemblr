@@ -1,12 +1,9 @@
-import React, { Component } from "react";
 import styled from "styled-components";
-import colors from "../../styles/colors";
 
 const FollowBtn = styled.button`
   cursor: pointer;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  position: absolute;
   top: 25%;
   right: 0;
   background: transparent;

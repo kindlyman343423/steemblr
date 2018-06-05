@@ -78,6 +78,7 @@ export const CardFooter = styled.div`
   z-index: 500;
   background-color: #fff;
   padding: 20px;
+  font-size: 14px;
 `;
 export const TagContainer = styled.div`
   display: inline-block;

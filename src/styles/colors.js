@@ -6,6 +6,7 @@ const colors = {
   font: {
     normal: "grey",
     lightNormal: "lightgrey",
+    light: "rgba(0, 0, 0, 0.54)",
     active: "white"
   },
   events: {

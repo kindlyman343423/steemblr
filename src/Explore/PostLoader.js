@@ -197,7 +197,6 @@ class PostLoader extends Component {
     });
   }
   render() {
-    console.log(this.props.category);
     const breakpointColumnsObj = {
       default: 3,
       1100: 3,

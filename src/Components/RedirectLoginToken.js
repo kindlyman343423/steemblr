@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Spinner from "./Spinner";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 export default class RedirectLoginToken extends Component {
   constructor(props) {
@@ -20,10 +19,6 @@ export default class RedirectLoginToken extends Component {
   }
 
   render() {
-    return (
-      <MuiThemeProvider>
-        <Spinner />
-      </MuiThemeProvider>
-    );
+    return <Spinner />;
   }
 }

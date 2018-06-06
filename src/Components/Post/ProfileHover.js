@@ -9,9 +9,11 @@ const Container = styled.div`
   position: absolute;
   width: 25vw;
   margin-top: -20px;
-  top: 0;
-  height: 300px;
+  top: 40px;
   z-index: 600;
+  @media (max-width: 768px) {
+    width: 40vw;
+  }
 `;
 const Header = styled.div`
   background: url(${props => props.coverImage});
@@ -19,7 +21,7 @@ const Header = styled.div`
   position: relative;
   background-size: cover;
   background-color: #b4b4b4;
-  height: 40%;
+  height: 125px;
 
   span {
     padding-left: 5px;
@@ -57,18 +59,50 @@ const Avatar = styled.div`
   margin-bottom: -40px;
   bottom: 0;
 `;
+const Content = styled.div`
+  box-sizing: border-box;
+  margin-top: 50px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+
+  b {
+    font-size: 24px;
+  }
+  p {
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    white-space: inherit;
+    overflow: hidden;
+  }
+`;
+const FeaturedPosts = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+`;
+const Post = styled.div`
+  background-color: #e2e1e2;
+  width: calc(18vw / 3);
+  height: calc(18vw / 3);
+`;
 export default class ProfileHover extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       account: undefined,
-      author: this.props.author
+      author: this.props.author,
+      jsonMetadata: ""
     };
     this.loadAccount(this.props.author);
-    console.log("Contructor");
   }
   async loadAccount(props) {
+    //Checking store for profile info, if profile not found calling api/db and dispatching to store
     const search = store.getState().steemAccounts.accounts.filter(acc => {
       return acc.name === this.props.author;
     });
@@ -106,16 +140,42 @@ export default class ProfileHover extends Component {
   }
 
   render() {
+    const jsonMetadata =
+      this.state.account === undefined ||
+      this.state.account[0].json_metadata === ""
+        ? void 0
+        : JSON.parse(this.state.account[0].json_metadata);
     return (
-      <Container onMouseLeave={this.props.handleProfileHover}>
+      <Container
+        onMouseOver={this.props.handleProfileDivHover}
+        onMouseLeave={this.props.handleProfileHover}
+      >
         <Header coverImage={this.state.coverImageUrl}>
           <HeaderActions>
-            <span>{this.props.author}</span> <FollowBtn>Follow</FollowBtn>
+            <span>{this.props.author}</span>
+            {this.props.isFollowing ? (
+              void 0
+            ) : (
+              <FollowBtn onClick={this.props.handleFollowBtn}>Follow</FollowBtn>
+            )}
           </HeaderActions>
           <Avatar
             url={`https://steemitimages.com/u/${this.props.author}/avatar`}
           />
         </Header>
+        <Content>
+          <b>
+            {jsonMetadata === undefined ? void 0 : jsonMetadata.profile.name}
+          </b>
+          <p>
+            {jsonMetadata === undefined ? void 0 : jsonMetadata.profile.about}
+          </p>
+          <FeaturedPosts>
+            <Post />
+            <Post />
+            <Post />
+          </FeaturedPosts>
+        </Content>
       </Container>
     );
   }

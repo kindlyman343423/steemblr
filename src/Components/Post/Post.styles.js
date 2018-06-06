@@ -79,6 +79,9 @@ export const Avatar2 = styled.img`
 export const BtnContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  button {
+    height: 50%;
+  }
 `;
 export const CardFooter = styled.div`
   z-index: 500;

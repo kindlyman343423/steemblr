@@ -14,7 +14,7 @@ import {
   TagContainer,
   FooterActions
 } from "./Post.styles";
-
+import delay from "../../Functions/delay";
 import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
 
@@ -54,6 +54,10 @@ class Post extends Component {
     this.handleFollowBtn = this.handleFollowBtn.bind(this);
     this.handleVoteBtn = this.handleVoteBtn.bind(this);
     this.handleProfileHover = this.handleProfileHover.bind(this);
+    this.handleProfileUsernameHover = this.handleProfileUsernameHover.bind(
+      this
+    );
+    this.handleProfileDivHover = this.handleProfileDivHover.bind(this);
   }
 
   handleFollowBtn() {
@@ -78,10 +82,27 @@ class Post extends Component {
       votePercent: store.getState().votePower.power
     });
   }
+  //Handling Mouse Events
   handleProfileHover() {
     this.setState({
-      isHover: !this.state.isHover
+      isHover: !this.state.isHover,
+      isOverDivHover: false
     });
+  }
+  handleProfileDivHover() {
+    this.setState({
+      isOverDivHover: true
+    });
+  }
+  async handleProfileUsernameHover() {
+    await delay(1500);
+    if (this.state.isOverDivHover) {
+      return void 0;
+    } else {
+      this.setState({
+        isHover: false
+      });
+    }
   }
   render() {
     const heartIconStyle = {
@@ -98,14 +119,20 @@ class Post extends Component {
               }/avatar`}
             />
             <CardTitle>
-              <b onMouseOver={this.handleProfileHover}>
+              <b
+                onMouseOver={this.handleProfileHover}
+                onMouseLeave={this.handleProfileUsernameHover}
+              >
                 {this.props.post.author}
               </b>
               <p>{this.props.post.title}</p>
               {this.state.isHover ? (
                 <ProfileHover
                   author={this.props.post.author}
+                  handleProfileDivHover={this.handleProfileDivHover}
                   handleProfileHover={this.handleProfileHover}
+                  isFollowing={this.state.isFollowing}
+                  handleFollowBtn={this.handleFollowBtn}
                 />
               ) : (
                 void 0

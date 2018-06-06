@@ -16,6 +16,7 @@
     "react-cookies": "^0.1.0",
     "react-dom": "^16.3.2",
     "react-hot-loader": "^4.1.2",
+    "react-hoverintent": "^0.0.10",
     "react-html-parser": "^2.0.2",
     "react-icons-kit": "^1.1.5",
     "react-image-lightbox": "^4.6.0",

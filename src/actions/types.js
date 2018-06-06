@@ -14,3 +14,4 @@ export const GET_NEW_POSTS = "GET_NEW_POSTS";
 export const PUT_UUID = "PUT_UUID";
 export const REMOVE_POSTS_FROM_STATE = "REMOVE_POSTS_FROM_STATE";
 export const GET_FEED_POSTS = "GET_FEED_POSTS";
+export const GET_ACCOUNT = "GET_ACCOUNT";

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import FollowBtn from "./FollowBtn";
-import getSteemAccounts from "../../Functions/getSteemAccounts";
+import store from "../../store";
+import { getAccounts } from "../../actions/steemActions";
 const Container = styled.div`
   border-radius: 2px;
   background-color: white;
@@ -61,23 +62,53 @@ export default class ProfileHover extends Component {
     super(props);
 
     this.state = {
-      account: undefined
+      account: undefined,
+      author: this.props.author
     };
-    this.loadAccount();
+    this.loadAccount(this.props.author);
+    console.log("Contructor");
   }
-  async loadAccount() {
-    this.setState({
-      account: await getSteemAccounts([this.props.author])
+  async loadAccount(props) {
+    const search = store.getState().steemAccounts.accounts.filter(acc => {
+      return acc.name === this.props.author;
     });
-  }
-  render() {
     const coverImage =
-      this.state.account === undefined
+      search[0] === undefined || search[0].json_metadata === ""
         ? void 0
-        : JSON.parse(this.state.account[0].json_metadata).profile.cover_image;
+        : JSON.parse(search[0].json_metadata).profile.cover_image;
+    await this.setState({
+      account: search,
+      coverImageUrl: coverImage
+    });
+    if (search.length !== 0) {
+      const coverImage =
+        search[0] === undefined || search[0].json_metadata === ""
+          ? void 0
+          : JSON.parse(search[0].json_metadata).profile.cover_image;
+      await this.setState({
+        account: search,
+        coverImageUrl: coverImage
+      });
+    } else {
+      await store.dispatch(getAccounts([props]));
+      const search = store.getState().steemAccounts.accounts.filter(acc => {
+        return acc.name === this.props.author;
+      });
+      const coverImage =
+        search[0] === undefined || search[0].json_metadata === ""
+          ? void 0
+          : JSON.parse(search[0].json_metadata).profile.cover_image;
+      await this.setState({
+        account: search,
+        coverImageUrl: coverImage
+      });
+    }
+  }
+
+  render() {
     return (
       <Container onMouseLeave={this.props.handleProfileHover}>
-        <Header coverImage={coverImage}>
+        <Header coverImage={this.state.coverImageUrl}>
           <HeaderActions>
             <span>{this.props.author}</span> <FollowBtn>Follow</FollowBtn>
           </HeaderActions>

@@ -61,6 +61,10 @@ export const CardTitle = styled.div`
 `;
 
 export const CardAvatar = styled.div`
+  background: url(${props => props.url});
+  width: 40px;
+  height: 40px;
+  background-size: cover;
   box-sizing: border-box;
   display: flex;
   justify-content: center;

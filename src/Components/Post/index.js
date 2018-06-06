@@ -8,7 +8,6 @@ import {
   Container,
   CardHeader,
   CardAvatar,
-  Avatar2,
   CardTitle,
   BtnContainer,
   CardFooter,
@@ -93,14 +92,11 @@ class Post extends Component {
       <LazyLoad height={600}>
         <Container>
           <CardHeader>
-            <CardAvatar>
-              <Avatar2
-                src={`https://steemitimages.com/u/${
-                  this.props.post.author
-                }/avatar`}
-                alt="avatar"
-              />
-            </CardAvatar>
+            <CardAvatar
+              url={`https://steemitimages.com/u/${
+                this.props.post.author
+              }/avatar`}
+            />
             <CardTitle>
               <b onMouseOver={this.handleProfileHover}>
                 {this.props.post.author}
@@ -112,10 +108,7 @@ class Post extends Component {
                   handleProfileHover={this.handleProfileHover}
                 />
               ) : (
-                <ProfileHover
-                  author={this.props.post.author}
-                  handleProfileHover={this.handleProfileHover}
-                />
+                void 0
               )}
             </CardTitle>
 

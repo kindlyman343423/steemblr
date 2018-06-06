@@ -15,7 +15,6 @@ export const Container = styled.div`
   padding: 0px !important;
   border-radius: 5px;
   text-align: left;
-  overflow: hidden;
   svg {
     padding-right: 10px;
   }
@@ -44,14 +43,17 @@ export const CardTitle = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  position: relative;
   text-align: left;
   align-content: center;
-  overflow: hidden !important;
-  text-overflow: ellipsis;
+
   p {
     margin-top: 0;
     font-size: 14px;
     color: ${colors.font.light};
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   b {
     font-weight: 500;

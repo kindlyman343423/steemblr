@@ -19,12 +19,12 @@ import {
 import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
 
-//ICONS
-
 import LazyLoad from "react-lazyload";
 import followSteem from "../.././Functions/followSteem";
 import Comments from "./Comments";
 import PostCardText from "./PostCardText";
+import ProfileHover from "./ProfileHover";
+
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
@@ -41,6 +41,7 @@ class Post extends Component {
     this.state = {
       mockupImg: "",
       username: this.props.username,
+      isHover: false,
       shouldOpenComments: false,
       isOpen: false,
       isFollowing: this.props.isFollowing,
@@ -53,6 +54,7 @@ class Post extends Component {
 
     this.handleFollowBtn = this.handleFollowBtn.bind(this);
     this.handleVoteBtn = this.handleVoteBtn.bind(this);
+    this.handleProfileHover = this.handleProfileHover.bind(this);
   }
 
   handleFollowBtn() {
@@ -77,7 +79,11 @@ class Post extends Component {
       votePercent: store.getState().votePower.power
     });
   }
-
+  handleProfileHover() {
+    this.setState({
+      isHover: !this.state.isHover
+    });
+  }
   render() {
     const heartIconStyle = {
       cursor: "pointer",
@@ -96,8 +102,21 @@ class Post extends Component {
               />
             </CardAvatar>
             <CardTitle>
-              <b>{this.props.post.author}</b>
+              <b onMouseOver={this.handleProfileHover}>
+                {this.props.post.author}
+              </b>
               <p>{this.props.post.title}</p>
+              {this.state.isHover ? (
+                <ProfileHover
+                  author={this.props.post.author}
+                  handleProfileHover={this.handleProfileHover}
+                />
+              ) : (
+                <ProfileHover
+                  author={this.props.post.author}
+                  handleProfileHover={this.handleProfileHover}
+                />
+              )}
             </CardTitle>
 
             <BtnContainer>

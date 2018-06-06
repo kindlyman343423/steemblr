@@ -144,17 +144,26 @@ export const getSteemNewPosts = props => async dispatch => {
   return bucket[0];
 };
 export const getSteemFeedPosts = props => async dispatch => {
-  console.log(props);
-  const query = {
+  let query = {
     tag: props.tag,
     limit: 10,
     start_permlink: props.start_permlink,
     start_author: props.start_author
   };
-  const simpleQuery = {
+  let simpleQuery = {
     tag: props.tag,
     limit: 10
   };
+  if (props.tag === undefined) {
+    await api.me();
+    simpleQuery = {
+      tag: store.getState().steemProfile.profile._id,
+      limit: 10,
+      start_permlink: props.start_permlink,
+      start_author: props.start_author
+    };
+  }
+
   const oldState = store.getState().steemPosts.posts;
   let bucket = [];
   await steem.api

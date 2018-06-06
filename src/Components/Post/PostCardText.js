@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
-
+  overflow: hidden;
   padding-left: 20px;
   padding-right: 20px;
   img {

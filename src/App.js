@@ -30,7 +30,7 @@ import Modal from "react-modal";
 import colors from "./styles/colors";
 
 import { injectGlobal } from "styled-components";
-
+import api from "./Api";
 Modal.setAppElement("#root");
 
 injectGlobal`
@@ -62,7 +62,7 @@ class App extends Component {
         steemProfile: profile,
         followings: followingBucket
       });
-
+      api.me();
       this.handleFirebaseLogin();
     }
   }

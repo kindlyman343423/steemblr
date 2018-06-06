@@ -56,6 +56,7 @@ export const CardTitle = styled.div`
     text-overflow: ellipsis;
   }
   b {
+    cursor: pointer;
     font-weight: 500;
   }
 `;

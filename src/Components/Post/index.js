@@ -17,7 +17,7 @@ import {
 import delay from "../../Functions/delay";
 import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
-
+import HoverIntet from "react-hoverintent";
 import LazyLoad from "react-lazyload";
 import followSteem from "../.././Functions/followSteem";
 import Comments from "./Comments";
@@ -28,6 +28,7 @@ import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import store from "../../store";
+
 const md = new Remarkable({
   html: true,
   linkify: true
@@ -43,6 +44,7 @@ class Post extends Component {
       isHover: false,
       shouldOpenComments: false,
       isOpen: false,
+      isOverDivHover: false,
       isFollowing: this.props.isFollowing,
       votePercent: this.props.voteStatus.percent
     };
@@ -83,6 +85,10 @@ class Post extends Component {
     });
   }
   //Handling Mouse Events
+  handleMouseEvent(e) {
+    e.persist();
+    this.debouncedMouseOver(e);
+  }
   handleProfileHover() {
     this.setState({
       isHover: !this.state.isHover,
@@ -95,7 +101,7 @@ class Post extends Component {
     });
   }
   async handleProfileUsernameHover() {
-    await delay(1500);
+    await delay(500);
     if (this.state.isOverDivHover) {
       return void 0;
     } else {
@@ -105,6 +111,10 @@ class Post extends Component {
     }
   }
   render() {
+    console.log(
+      "isHover:" + this.state.isHover,
+      "isOverDiv:" + this.state.isOverDivHover
+    );
     const heartIconStyle = {
       cursor: "pointer",
       color: this.props.voteStatus.percent > 0 ? "red" : "black"
@@ -119,12 +129,15 @@ class Post extends Component {
               }/avatar`}
             />
             <CardTitle>
-              <b
+              <HoverIntet
                 onMouseOver={this.handleProfileHover}
-                onMouseLeave={this.handleProfileUsernameHover}
+                onMouseOut={this.handleProfileUsernameHover}
+                sensitivity={10}
+                interval={300}
+                timeout={250}
               >
-                {this.props.post.author}
-              </b>
+                <b>{this.props.post.author}</b>
+              </HoverIntet>
               <p>{this.props.post.title}</p>
               {this.state.isHover ? (
                 <ProfileHover

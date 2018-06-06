@@ -9,7 +9,7 @@ const Container = styled.div`
   position: absolute;
   width: 25vw;
   margin-top: -20px;
-  top: 40px;
+  top: 80px;
   z-index: 600;
   @media (max-width: 768px) {
     width: 40vw;
@@ -22,7 +22,9 @@ const Header = styled.div`
   background-size: cover;
   background-color: #b4b4b4;
   height: 125px;
-
+  b {
+    cursor: auto;
+  }
   span {
     padding-left: 5px;
   }
@@ -68,6 +70,7 @@ const Content = styled.div`
   justify-content: center;
 
   b {
+    cursor: inherit;
     font-size: 24px;
   }
   p {

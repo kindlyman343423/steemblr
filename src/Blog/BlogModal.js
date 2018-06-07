@@ -4,6 +4,7 @@ import styled from "styled-components";
 import store from "../store";
 import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/steemActions";
+import PostsLoader from "./PostsLoader";
 const ModalStyle = {
   overlay: {
     backgroundColor: "rgba(80,80,80, 0.3)"
@@ -92,6 +93,9 @@ const BlogTitle = styled.div`
     overflow: hidden;
   }
 `;
+const Content = styled.div`
+  padding: 20px;
+`;
 
 export default class BlogModal extends Component {
   constructor(props) {
@@ -100,12 +104,12 @@ export default class BlogModal extends Component {
     this.state = {
       isOpen: false
     };
-    this.loadAccount(this.props.author);
+    this.loadAccount(this.props.post.author);
   }
   async loadAccount(props) {
     //Checking store for profile info, if profile not found calling api/db and dispatching to store
     const search = store.getState().steemAccounts.accounts.filter(acc => {
-      return acc.name === this.props.author;
+      return acc.name === this.props.post.author;
     });
     const coverImage =
       search[0] === undefined || search[0].json_metadata === ""
@@ -127,7 +131,7 @@ export default class BlogModal extends Component {
     } else {
       await store.dispatch(getAccounts([props]));
       const search = store.getState().steemAccounts.accounts.filter(acc => {
-        return acc.name === this.props.author;
+        return acc.name === this.props.post.author;
       });
       const coverImage =
         search[0] === undefined || search[0].json_metadata === ""
@@ -145,6 +149,12 @@ export default class BlogModal extends Component {
       this.state.account[0].json_metadata === ""
         ? void 0
         : JSON.parse(this.state.account[0].json_metadata);
+    const query = {
+      author: this.props.post.author,
+      startPermlink: this.props.post.permlink,
+      beforeDate: this.props.post.active,
+      initial: true
+    };
     return (
       <Modal
         isOpen={this.props.isOpen}
@@ -154,7 +164,7 @@ export default class BlogModal extends Component {
         <Container>
           <Banner coverImage={this.state.coverImageUrl}>
             <BannerActions>
-              <span>{this.props.author}</span>
+              <span>{this.props.post.author}</span>
               {this.props.isFollowing ? (
                 void 0
               ) : (
@@ -164,7 +174,9 @@ export default class BlogModal extends Component {
               )}
             </BannerActions>
             <Avatar
-              url={`https://steemitimages.com/u/${this.props.author}/avatar`}
+              url={`https://steemitimages.com/u/${
+                this.props.post.author
+              }/avatar`}
             />
           </Banner>
           <BlogTitle>
@@ -175,6 +187,9 @@ export default class BlogModal extends Component {
               {jsonMetadata === undefined ? void 0 : jsonMetadata.profile.about}
             </p>
           </BlogTitle>
+          <Content>
+            <PostsLoader query={query} />
+          </Content>
         </Container>
       </Modal>
     );

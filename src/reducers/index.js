@@ -8,10 +8,11 @@ import steemVotePowerReducer from "./steemVotePowerReducer";
 import newPostReducer from "./newPostReducer";
 import locationReducer from "./locationReducer";
 import steemAccountsReducer from "./steemAccountsReducer";
-
+import steemByAuthorPostsReducer from "./steemByAuthorPostsReducer";
 export default combineReducers({
   steemProfile: steemReducer,
   steemProfileVotes: steemProfileVotesReducer,
+  steemPostsByAuthor: steemByAuthorPostsReducer,
   steemAccounts: steemAccountsReducer,
   following: steemFollowingReducer,
   login: steemLoginReducer,

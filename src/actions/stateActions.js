@@ -5,7 +5,8 @@ import {
   POST_MEDIA,
   CHANGE_POST_TYPE,
   PUT_UUID,
-  REMOVE_POSTS_FROM_STATE
+  REMOVE_POSTS_FROM_STATE,
+  REMOVE_AUTHOR_POSTS_FROM_STATE
 } from "./types";
 import store from ".././store";
 
@@ -63,6 +64,12 @@ export const changePostType = props => dispatch => {
 export const removePostsFromState = props => dispatch => {
   dispatch({
     type: REMOVE_POSTS_FROM_STATE,
+    payload: []
+  });
+};
+export const removeAuthorPostsFromState = props => dispatch => {
+  dispatch({
+    type: REMOVE_AUTHOR_POSTS_FROM_STATE,
     payload: []
   });
 };

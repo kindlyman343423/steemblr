@@ -126,7 +126,7 @@ class Post extends Component {
       <LazyLoad height={600}>
         {this.state.isBlogModalOpen ? (
           <BlogModal
-            author={this.props.post.author}
+            post={this.props.post}
             isOpen={this.state.isBlogModalOpen}
             handleBlogModal={this.handleBlogModal}
           />

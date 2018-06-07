@@ -28,7 +28,7 @@ import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import store from "../../store";
-
+import BlogModal from "../../Blog/BlogModal";
 const md = new Remarkable({
   html: true,
   linkify: true
@@ -45,6 +45,7 @@ class Post extends Component {
       shouldOpenComments: false,
       isOpen: false,
       isOverDivHover: false,
+      isBlogModalOpen: false,
       isFollowing: this.props.isFollowing,
       votePercent: this.props.voteStatus.percent
     };
@@ -60,6 +61,7 @@ class Post extends Component {
       this
     );
     this.handleProfileDivHover = this.handleProfileDivHover.bind(this);
+    this.handleBlogModal = this.handleBlogModal.bind(this);
   }
 
   handleFollowBtn() {
@@ -110,17 +112,27 @@ class Post extends Component {
       });
     }
   }
+  handleBlogModal() {
+    this.setState({
+      isBlogModalOpen: !this.state.isBlogModalOpen
+    });
+  }
   render() {
-    console.log(
-      "isHover:" + this.state.isHover,
-      "isOverDiv:" + this.state.isOverDivHover
-    );
     const heartIconStyle = {
       cursor: "pointer",
       color: this.props.voteStatus.percent > 0 ? "red" : "black"
     };
     return (
       <LazyLoad height={600}>
+        {this.state.isBlogModalOpen ? (
+          <BlogModal
+            author={this.props.post.author}
+            isOpen={this.state.isBlogModalOpen}
+            handleBlogModal={this.handleBlogModal}
+          />
+        ) : (
+          void 0
+        )}
         <Container>
           <CardHeader>
             <CardAvatar
@@ -133,10 +145,10 @@ class Post extends Component {
                 onMouseOver={this.handleProfileHover}
                 onMouseOut={this.handleProfileUsernameHover}
                 sensitivity={10}
-                interval={300}
+                interval={600}
                 timeout={250}
               >
-                <b>{this.props.post.author}</b>
+                <b onClick={this.handleBlogModal}>{this.props.post.author}</b>
               </HoverIntet>
               <p>{this.props.post.title}</p>
               {this.state.isHover ? (

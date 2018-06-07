@@ -13,7 +13,7 @@ export const Container = styled.div`
   background-color: white;
   margin-bottom: 20px;
   padding: 0px !important;
-  border-radius: 5px;
+  border-radius: 2px;
   text-align: left;
   svg {
     padding-right: 10px;
@@ -85,6 +85,7 @@ export const BtnContainer = styled.div`
   }
 `;
 export const CardFooter = styled.div`
+  border-radius: 2px;
   z-index: 500;
   background-color: #fff;
   padding: 20px;

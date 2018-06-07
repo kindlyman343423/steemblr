@@ -12,7 +12,7 @@ const ModalStyle = {
 
   content: {
     top: 0,
-    left: "50vw",
+    left: window.screen.width > 768 ? "50vw" : "15vw",
     right: 0,
     bottom: 0,
     borderRadius: 0,
@@ -144,6 +144,7 @@ export default class BlogModal extends Component {
     }
   }
   render() {
+    console.log(window.screen.width);
     const jsonMetadata =
       this.state.account === undefined ||
       this.state.account[0].json_metadata === ""

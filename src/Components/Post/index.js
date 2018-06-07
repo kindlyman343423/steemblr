@@ -87,10 +87,6 @@ class Post extends Component {
     });
   }
   //Handling Mouse Events
-  handleMouseEvent(e) {
-    e.persist();
-    this.debouncedMouseOver(e);
-  }
   handleProfileHover() {
     this.setState({
       isHover: !this.state.isHover,

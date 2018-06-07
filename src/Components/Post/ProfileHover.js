@@ -12,6 +12,7 @@ const Container = styled.div`
   top: 80px;
   z-index: 600;
   @media (max-width: 768px) {
+    display: none;
     width: 40vw;
   }
 `;

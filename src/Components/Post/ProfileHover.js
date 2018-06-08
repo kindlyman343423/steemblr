@@ -112,7 +112,10 @@ export default class ProfileHover extends Component {
     });
     const coverImage =
       search[0] === undefined ||
+      search[0] === null ||
+      search[0] === "" ||
       search[0].json_metadata === "" ||
+      search[0].json_metadata === "{}" ||
       JSON.parse(search[0].json_metadata).profile.cover_image === undefined
         ? void 0
         : JSON.parse(search[0].json_metadata).profile.cover_image;
@@ -121,12 +124,6 @@ export default class ProfileHover extends Component {
       coverImageUrl: coverImage
     });
     if (search.length !== 0) {
-      const coverImage =
-        search[0] === undefined ||
-        search[0].json_metadata === "" ||
-        JSON.parse(search[0].json_metadata).profile.cover_image === undefined
-          ? void 0
-          : JSON.parse(search[0].json_metadata).profile.cover_image;
       await this.setState({
         account: search,
         coverImageUrl: coverImage
@@ -138,7 +135,10 @@ export default class ProfileHover extends Component {
       });
       const coverImage =
         search[0] === undefined ||
+        search[0] === null ||
+        search[0] === "" ||
         search[0].json_metadata === "" ||
+        search[0].json_metadata === "{}" ||
         JSON.parse(search[0].json_metadata).profile.cover_image === undefined
           ? void 0
           : JSON.parse(search[0].json_metadata).profile.cover_image;
@@ -152,8 +152,9 @@ export default class ProfileHover extends Component {
   render() {
     const jsonMetadata =
       this.state.account === undefined ||
-      this.state.account[0].json_metadata === ""
-        ? void 0
+      this.state.account[0].json_metadata === "" ||
+      this.state.account[0].json_metadata === "{}"
+        ? ""
         : JSON.parse(this.state.account[0].json_metadata);
     return (
       <Container
@@ -174,12 +175,8 @@ export default class ProfileHover extends Component {
           />
         </Header>
         <Content>
-          <b>
-            {jsonMetadata === undefined ? void 0 : jsonMetadata.profile.name}
-          </b>
-          <p>
-            {jsonMetadata === undefined ? void 0 : jsonMetadata.profile.about}
-          </p>
+          <b>{jsonMetadata === "" ? void 0 : jsonMetadata.profile.name}</b>
+          <p>{jsonMetadata === "" ? void 0 : jsonMetadata.profile.about}</p>
           <FeaturedPosts>
             <Post />
             <Post />

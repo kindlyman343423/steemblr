@@ -76,15 +76,20 @@ class Post extends Component {
     }
   }
   async handleVoteBtn() {
-    this.props.handleVoting(
-      this.props.username,
-      this.props.post.author,
-      this.props.post.permlink,
-      this.state.votePercent
-    );
-    await this.setState({
-      votePercent: store.getState().votePower.power
-    });
+    const login = store.getState().login.status;
+    if (login) {
+      this.props.handleVoting(
+        this.props.username,
+        this.props.post.author,
+        this.props.post.permlink,
+        this.state.votePercent
+      );
+      await this.setState({
+        votePercent: store.getState().votePower.power
+      });
+    } else {
+      alert("You have to login first");
+    }
   }
   //Handling Mouse Events
   handleProfileHover() {

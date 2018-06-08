@@ -103,6 +103,7 @@ class Post extends Component {
       isOverDivHover: true
     });
   }
+  //functions waits 500ms and then checks if user is hovering over div with blog info
   async handleProfileUsernameHover() {
     await delay(500);
     if (this.state.isOverDivHover) {
@@ -115,7 +116,9 @@ class Post extends Component {
   }
   handleBlogModal() {
     this.setState({
-      isBlogModalOpen: !this.state.isBlogModalOpen
+      isBlogModalOpen: !this.state.isBlogModalOpen,
+      isHover: false,
+      isOverHoverDivHover: false
     });
   }
   render() {

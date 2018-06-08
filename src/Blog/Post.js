@@ -63,6 +63,10 @@ class Post extends Component {
   }
 
   render() {
+    const heartIconStyle = {
+      cursor: "pointer",
+      color: this.props.voteStatus.percent > 0 ? "red" : "black"
+    };
     return (
       <Container>
         <PostCardText text={ReactHtmlParser(md.render(this.props.post.body))} />
@@ -84,6 +88,26 @@ class Post extends Component {
                 Number(
                   this.props.post.pending_payout_value.replace("SBD", "")
                 ).toFixed(2)}{" "}
+            </span>
+            <span>
+              {
+                <Icon
+                  icon={ic_message}
+                  size={20}
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    this.setState({
+                      shouldOpenComments: true
+                    })
+                  }
+                />
+              }
+              <Icon
+                size={20}
+                icon={ic_favorite}
+                style={heartIconStyle}
+                onClick={this.handleVoteBtn}
+              />
             </span>
           </FooterActions>
         </CardFooter>

@@ -6,15 +6,10 @@ import { Link } from "react-router-dom";
 import {
   tagStyles,
   Container,
-  CardHeader,
-  CardAvatar,
-  CardTitle,
-  BtnContainer,
   CardFooter,
   TagContainer,
   FooterActions
 } from "./Post.styles";
-import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
 
 import followSteem from "../Functions/followSteem";
@@ -36,32 +31,32 @@ class Post extends Component {
     this.state = {
       mockupImg: "",
       username: this.props.username,
-      isHover: false,
       shouldOpenComments: false,
-      isOpen: false,
-      isOverDivHover: false,
-      isBlogModalOpen: false
+      votePercent: this.props.voteStatus.percent
     };
 
     this.setState({
       username: this.props.username
     });
 
-    this.handleFollowBtn = this.handleFollowBtn.bind(this);
+    this.handleVoteBtn = this.handleVoteBtn.bind(this);
   }
-
-  handleFollowBtn() {
+  async handleVoteBtn() {
     const login = store.getState().login.status;
     if (login) {
-      followSteem(this.props.username, this.props.post.author);
-      this.setState({
-        isFollowing: true
+      this.props.handleVoting(
+        this.props.username,
+        this.props.post.author,
+        this.props.post.permlink,
+        this.state.votePercent
+      );
+      await this.setState({
+        votePercent: store.getState().votePower.power
       });
     } else {
       alert("You have to login first");
     }
   }
-
   render() {
     const heartIconStyle = {
       cursor: "pointer",

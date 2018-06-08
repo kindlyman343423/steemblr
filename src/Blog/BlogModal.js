@@ -42,6 +42,9 @@ const Banner = styled.div`
   }
 `;
 const BannerActions = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 1500;
   box-sizing: border-box;
   padding: 5px;
   padding-top: 10px;
@@ -50,11 +53,12 @@ const BannerActions = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 40px;
+  margin-bottom: -40px;
   color: #fff;
   background: linear-gradient(
     rgba(38, 50, 56, 0.5),
-    rgba(38, 50, 56, 0.3),
-    rgba(38, 50, 56, 0.02)
+    rgba(38, 50, 56, 0.4),
+    rgba(38, 50, 56, 0.12)
   );
   button {
     margin-right: 0;
@@ -144,7 +148,6 @@ export default class BlogModal extends Component {
     }
   }
   render() {
-    console.log(window.screen.width);
     const jsonMetadata =
       this.state.account === undefined ||
       this.state.account[0].json_metadata === ""
@@ -163,17 +166,16 @@ export default class BlogModal extends Component {
         style={ModalStyle}
       >
         <Container>
+          <BannerActions>
+            <span>{this.props.post.author}</span>
+            {this.props.isFollowing ? (
+              void 0
+            ) : (
+              <FollowBtn onClick={this.props.handleFollowBtn}>Follow</FollowBtn>
+            )}
+          </BannerActions>
+
           <Banner coverImage={this.state.coverImageUrl}>
-            <BannerActions>
-              <span>{this.props.post.author}</span>
-              {this.props.isFollowing ? (
-                void 0
-              ) : (
-                <FollowBtn onClick={this.props.handleFollowBtn}>
-                  Follow
-                </FollowBtn>
-              )}
-            </BannerActions>
             <Avatar
               url={`https://steemitimages.com/u/${
                 this.props.post.author

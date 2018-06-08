@@ -116,7 +116,9 @@ export default class BlogModal extends Component {
       return acc.name === this.props.post.author;
     });
     const coverImage =
-      search[0] === undefined || search[0].json_metadata === ""
+      search[0] === undefined ||
+      search[0].json_metadata === "" ||
+      JSON.parse(search[0].json_metadata).profile.cover_image === undefined
         ? void 0
         : JSON.parse(search[0].json_metadata).profile.cover_image;
     await this.setState({
@@ -125,7 +127,9 @@ export default class BlogModal extends Component {
     });
     if (search.length !== 0) {
       const coverImage =
-        search[0] === undefined || search[0].json_metadata === ""
+        search[0] === undefined ||
+        search[0].json_metadata === "" ||
+        JSON.parse(search[0].json_metadata).profile.cover_image === undefined
           ? void 0
           : JSON.parse(search[0].json_metadata).profile.cover_image;
       await this.setState({
@@ -138,7 +142,9 @@ export default class BlogModal extends Component {
         return acc.name === this.props.post.author;
       });
       const coverImage =
-        search[0] === undefined || search[0].json_metadata === ""
+        search[0] === undefined ||
+        search[0].json_metadata === "" ||
+        JSON.parse(search[0].json_metadata).profile.cover_image === undefined
           ? void 0
           : JSON.parse(search[0].json_metadata).profile.cover_image;
       await this.setState({

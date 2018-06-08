@@ -66,7 +66,7 @@ export default class componentName extends Component {
           <NavLink
             activeClassName="selected"
             className="dashboardIcon"
-            to="/explore/trending"
+            to="/explore"
           >
             <Icon icon={ic_explore} />
           </NavLink>

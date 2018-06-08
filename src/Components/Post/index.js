@@ -93,6 +93,9 @@ class Post extends Component {
   }
   //Handling Mouse Events
   handleProfileHover() {
+    if (this.state.isBlogModalOpen) {
+      return void 0;
+    }
     this.setState({
       isHover: !this.state.isHover,
       isOverDivHover: false
@@ -103,10 +106,12 @@ class Post extends Component {
       isOverDivHover: true
     });
   }
-  //functions waits 500ms and then checks if user is hovering over div with blog info
+  //functions on mouse out waits 500ms and then checks if user is hovering over div with blog info
   async handleProfileUsernameHover() {
     await delay(500);
-    if (this.state.isOverDivHover) {
+    if (this.state.isBlogModalOpen) {
+      return void 0;
+    } else if (this.state.isOverDivHover) {
       return void 0;
     } else {
       this.setState({

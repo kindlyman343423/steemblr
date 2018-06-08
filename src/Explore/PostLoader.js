@@ -199,9 +199,10 @@ class PostLoader extends Component {
   render() {
     const breakpointColumnsObj = {
       default: 3,
-      1100: 3,
+      2570: 4,
+      1368: 3,
       768: 2,
-      426: 1
+      425: 1
     };
 
     return (

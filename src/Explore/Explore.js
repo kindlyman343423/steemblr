@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HeaderTabs from "./HeaderTabs";
 import PostLoader from "./PostLoader";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import "./Explore.css";
 import styled from "styled-components";
 import Header from "../Header/Header";
@@ -23,6 +23,7 @@ export default class Explore extends Component {
           <Header login={this.props.login} />
           <HeaderTabs match={this.props.match} />
         </HeaderContainer>;
+        <Redirect to="/explore/trending" />
         <Route
           path={`${this.props.match.url}`}
           render={props => (

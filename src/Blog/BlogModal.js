@@ -37,8 +37,15 @@ const Banner = styled.div`
   b {
     cursor: auto;
   }
+
   span {
     padding-left: 5px;
+  }
+  @media (max-width: 768px) {
+    height: 200px;
+  }
+  @media (max-width: 425px) {
+    height: 150px;
   }
 `;
 const BannerActions = styled.div`
@@ -46,7 +53,8 @@ const BannerActions = styled.div`
   top: 0;
   z-index: 1500;
   box-sizing: border-box;
-  padding: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
   padding-top: 10px;
   display: flex;
   align-items: flex-start;

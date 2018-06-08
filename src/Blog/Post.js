@@ -12,8 +12,8 @@ import {
 } from "./Post.styles";
 import Lightbox from "react-image-lightbox";
 
-import followSteem from "../Functions/followSteem";
 import PostCardText from "./PostCardText";
+import Comments from "./Comments";
 
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
@@ -92,7 +92,7 @@ class Post extends Component {
                   style={{ cursor: "pointer" }}
                   onClick={() =>
                     this.setState({
-                      shouldOpenComments: true
+                      shouldOpenComments: !this.state.shouldOpenComments
                     })
                   }
                 />
@@ -106,6 +106,16 @@ class Post extends Component {
             </span>
           </FooterActions>
         </CardFooter>
+        {this.state.shouldOpenComments ? (
+          <Comments
+            likesNumber={this.props.post.net_votes}
+            postAuthor={this.props.post.author}
+            postPermlink={this.props.post.permlink}
+            username={this.props.username}
+          />
+        ) : (
+          void 0
+        )}
       </Container>
     );
   }

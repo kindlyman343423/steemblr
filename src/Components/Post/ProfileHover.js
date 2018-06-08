@@ -86,7 +86,7 @@ const FeaturedPosts = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   margin-bottom: 10px;
 `;
 const Post = styled.div`

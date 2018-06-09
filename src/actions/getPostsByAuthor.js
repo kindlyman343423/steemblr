@@ -2,7 +2,8 @@ import store from "../store";
 import steem from "steem";
 import { GET_POSTS_BY_AUTHOR } from "./types";
 export const getPostsByAuthor = props => async dispatch => {
-  console.log(props);
+  //Getting posts of one author before date, beforedate is 'active' param from post json
+  //other date won't work
   const oldState = store.getState().steemPostsByAuthor.posts;
   let bucket = [];
 

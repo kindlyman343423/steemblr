@@ -6,11 +6,8 @@ import Post from "./Post";
 import steemVote from ".././Functions/steemVote";
 //REDUX
 import { connect } from "react-redux";
-import {
-  getUserFollowing,
-  getProfileVotes,
-  getPostsByAuthor
-} from ".././actions/steemActions";
+import { getUserFollowing, getProfileVotes } from ".././actions/steemActions";
+import { getPostsByAuthor } from ".././actions/getPostsByAuthor";
 import {
   postFollowingToState,
   postVoteToState,

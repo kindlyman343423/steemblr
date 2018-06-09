@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import styled from "styled-components";
 import store from "../store";
 import FollowBtn from "../Components/Post/FollowBtn";
-import { getAccounts } from "../actions/steemActions";
+import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
 const ModalStyle = {
   overlay: {

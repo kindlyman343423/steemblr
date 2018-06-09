@@ -7,9 +7,7 @@ import {
   CHANGE_VOTE_POWER,
   CHANGE,
   GET_NEW_POSTS,
-  GET_FEED_POSTS,
-  GET_ACCOUNT,
-  GET_POSTS_BY_AUTHOR
+  GET_FEED_POSTS
 } from "./types";
 import api from "../Api";
 import steem from "steem";
@@ -230,51 +228,4 @@ export const changeLocation = props => async dispatch => {
     type: CHANGE,
     payload: props
   });
-};
-export const getAccounts = props => async dispatch => {
-  const query = props;
-  let bucket = [];
-  const oldState = store.getState().steemAccounts.accounts;
-  await steem.api
-    .getAccountsAsync(query)
-    .then(result => {
-      bucket.push(result);
-      return result;
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-  const newState = oldState.concat(bucket[0]);
-  dispatch({
-    type: GET_ACCOUNT,
-    payload: newState
-  });
-};
-export const getPostsByAuthor = props => async dispatch => {
-  console.log(props);
-  const oldState = store.getState().steemPostsByAuthor.posts;
-  let bucket = [];
-
-  await steem.api
-    .getDiscussionsByAuthorBeforeDateAsync(
-      props.author,
-      props.startPermlink,
-      props.beforeDate,
-      10
-    )
-    .then(result => {
-      bucket.push(result);
-      console.log(bucket);
-      dispatch({
-        type: GET_POSTS_BY_AUTHOR,
-        payload: props.initial
-          ? oldState.concat(bucket[0])
-          : oldState.concat(bucket[0].splice(1))
-      });
-      return bucket[0];
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-  return bucket[0];
 };

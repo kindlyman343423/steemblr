@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import FollowBtn from "./FollowBtn";
 import store from "../../store";
-import { getAccounts } from "../../actions/steemActions";
+import { getAccounts } from "../../actions/getAccounts";
 const Container = styled.div`
   border-radius: 2px;
   background-color: white;

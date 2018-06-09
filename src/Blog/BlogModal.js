@@ -119,7 +119,7 @@ export default class BlogModal extends Component {
     this.loadAccount(this.props.post.author);
   }
   async loadAccount(props) {
-    //Checking store for profile info, if profile not found calling api/db and dispatching to store
+    await store.dispatch(getAccounts([props]));
     const search = store.getState().steemAccounts.accounts.filter(acc => {
       return acc.name === this.props.post.author;
     });
@@ -136,31 +136,6 @@ export default class BlogModal extends Component {
       account: search,
       coverImageUrl: coverImage
     });
-    if (search.length !== 0) {
-      await this.setState({
-        account: search,
-        coverImageUrl: coverImage
-      });
-    } else {
-      await store.dispatch(getAccounts([props]));
-
-      const search = store.getState().steemAccounts.accounts.filter(acc => {
-        return acc.name === this.props.post.author;
-      });
-      const coverImage =
-        search[0] === undefined ||
-        search[0] === null ||
-        search[0] === "" ||
-        search[0].json_metadata === "" ||
-        search[0].json_metadata === "{}" ||
-        JSON.parse(search[0].json_metadata).profile.cover_image === undefined
-          ? void 0
-          : JSON.parse(search[0].json_metadata).profile.cover_image;
-      await this.setState({
-        account: search,
-        coverImageUrl: coverImage
-      });
-    }
   }
   render() {
     const jsonMetadata =

@@ -44,8 +44,10 @@ const Container = styled.div`
   @media (max-width: 375px) {
   }
 `;
-
-class PostLoader extends Component {
+const EndMessage = styled.div`
+  text-align: center;
+`;
+class PostsLoader extends Component {
   constructor(props) {
     super(props);
 
@@ -53,7 +55,8 @@ class PostLoader extends Component {
       fetchingData: true,
       posts: [],
       shouldLoad: false,
-      innerWidth: window.innerWidth
+      innerWidth: window.innerWidth,
+      hasMorePosts: true
     };
 
     this.updateVotingState = this.updateVotingState.bind(this);
@@ -79,7 +82,8 @@ class PostLoader extends Component {
       start_author: post.author
     };
     await this.setState({
-      fetchingData: true
+      fetchingData: true,
+      posts: this.props.steemPosts.posts
     });
     this.props.category === "new"
       ? await this.props.getSteemNewPosts(query)
@@ -87,6 +91,11 @@ class PostLoader extends Component {
     await this.setState({
       fetchingData: false
     });
+    if (this.state.posts.length === this.props.steemPosts.posts.length) {
+      this.setState({
+        hasMorePosts: false
+      });
+    }
   }
   updateDimensions() {
     this.setState({
@@ -161,11 +170,15 @@ class PostLoader extends Component {
     }
   }
   renderWaypoint() {
-    return (
-      <Waypoint scrollableAncestor={window} onEnter={this.loadMorePosts}>
-        <span style={{ color: "transparent" }}>Loading...</span>
-      </Waypoint>
-    );
+    if (this.state.hasMorePosts) {
+      return (
+        <Waypoint onEnter={this.loadMorePosts}>
+          <span style={{ width: "50px", height: "50px" }}>Loading...</span>
+        </Waypoint>
+      );
+    } else {
+      return <EndMessage>No more posts to load</EndMessage>;
+    }
   }
 
   async updateVotingState(props, action) {
@@ -240,4 +253,4 @@ export default connect(
     postVoteToState,
     removeVoteFromState
   }
-)(hot(module)(PostLoader));
+)(hot(module)(PostsLoader));

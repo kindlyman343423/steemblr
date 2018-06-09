@@ -10,6 +10,7 @@ class Spinner extends Component {
       justify-content: center;
 
       svg {
+        margin: 4px;
         color: #cfd8dc;
       }
     `;

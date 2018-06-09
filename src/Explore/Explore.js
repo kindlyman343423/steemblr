@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import HeaderTabs from "./HeaderTabs";
-import PostLoader from "./PostLoader";
+import PostsLoader from "./PostsLoader";
 import { Route, Redirect } from "react-router-dom";
 import "./Explore.css";
 import styled from "styled-components";
@@ -27,7 +27,7 @@ export default class Explore extends Component {
         <Route
           path={`${this.props.match.url}`}
           render={props => (
-            <PostLoader
+            <PostsLoader
               key={this.props.location.key}
               {...props}
               category={this.props.location.pathname.replace("/explore/", "")}

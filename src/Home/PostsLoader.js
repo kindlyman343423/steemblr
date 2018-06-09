@@ -25,13 +25,17 @@ import api from "../Api";
 const Container = styled.div`
   margin-top: 25px;
 `;
+const EndMessage = styled.div`
+  text-align: center;
+`;
 class PostsLoader extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       fetchingData: true,
-      posts: []
+      posts: [],
+      hasMorePosts: true
     };
 
     this.loadMorePosts = this.loadMorePosts.bind(this);
@@ -67,15 +71,20 @@ class PostsLoader extends Component {
       start_author: post.author
     };
     await this.setState({
-      fetchingData: true
+      fetchingData: true,
+      posts: this.props.steemPosts.posts
     });
     await this.props.getSteemFeedPosts(query);
     await this.setState({
       fetchingData: false
     });
+    if (this.state.posts.length === this.props.steemPosts.posts.length) {
+      this.setState({
+        hasMorePosts: false
+      });
+    }
   }
   async componentWillMount() {
-
     await this.props.removePostsFromState();
     const username = await this.props.steemProfile.profile._id;
     if (username === undefined) {
@@ -92,11 +101,15 @@ class PostsLoader extends Component {
     });
   }
   renderWaypoint() {
-    return (
-      <Waypoint scrollableAncestor={window} onEnter={this.loadMorePosts}>
-        <span style={{ color: "transparent" }}>Loading...</span>
-      </Waypoint>
-    );
+    if (this.state.hasMorePosts) {
+      return (
+        <Waypoint scrollableAncestor={window} onEnter={this.loadMorePosts}>
+          <span style={{ color: "transparent" }}>Loading...</span>
+        </Waypoint>
+      );
+    } else {
+      return <EndMessage>No more posts to load</EndMessage>;
+    }
   }
 
   async handleVoting(username, author, permlink, votePercent) {

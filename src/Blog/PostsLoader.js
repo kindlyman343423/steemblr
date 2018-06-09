@@ -19,12 +19,16 @@ import store from ".././store";
 const Container = styled.div`
   margin-top: 25px;
 `;
+const EndMessage = styled.div`
+  text-align: center;
+`;
 class PostsLoader extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       fetchingData: true,
+      hasMorePosts: true,
       posts: []
     };
 
@@ -45,7 +49,6 @@ class PostsLoader extends Component {
     }
   }
   async loadMorePosts() {
-    console.log("LoadMorePosts");
     if (
       Object.keys(this.props.steemPostsByAuthor.posts).length === 0 ||
       this.props.steemPostsByAuthor.posts === undefined ||
@@ -59,17 +62,26 @@ class PostsLoader extends Component {
     const query = {
       author: post.author,
       startPermlink: post.permlink,
-      beforeDate: post.active,
+      beforeDate: post.cashout_time,
       initial: false
     };
-    console.log(query);
+
     await this.setState({
-      fetchingData: true
+      fetchingData: true,
+      posts: this.props.steemPostsByAuthor.posts
     });
     await this.props.getPostsByAuthor(query);
     await this.setState({
       fetchingData: false
     });
+
+    if (
+      this.state.posts.length === this.props.steemPostsByAuthor.posts.length
+    ) {
+      this.setState({
+        hasMorePosts: false
+      });
+    }
   }
   async componentWillMount() {
     await this.props.removeAuthorPostsFromState();
@@ -82,11 +94,15 @@ class PostsLoader extends Component {
     });
   }
   renderWaypoint() {
-    return (
-      <Waypoint onEnter={this.loadMorePosts}>
-        <span style={{ width: "50px", height: "50px" }}>Loading...</span>
-      </Waypoint>
-    );
+    if (this.state.hasMorePosts) {
+      return (
+        <Waypoint onEnter={this.loadMorePosts}>
+          <span style={{ width: "50px", height: "50px" }}>Loading...</span>
+        </Waypoint>
+      );
+    } else {
+      return <EndMessage>No more posts to load</EndMessage>;
+    }
   }
 
   async handleVoting(username, author, permlink, votePercent) {

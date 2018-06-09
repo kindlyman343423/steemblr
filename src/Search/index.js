@@ -4,8 +4,7 @@ import HeaderTabs from "./HeaderTabs";
 import styled from "styled-components";
 import { Route } from "react-router-dom";
 import colors from "../styles/colors";
-import Test from "./Test";
-import PostLoader from "./PostLoader";
+import PostsLoader from "./PostsLoader";
 const Container = styled.div``;
 const HeaderContainer = styled.div`
   background-color: ${colors.background};
@@ -32,7 +31,7 @@ export default class Search extends Component {
         <Route
           path={`${this.props.match.url}/tag/`}
           render={props => (
-            <PostLoader
+            <PostsLoader
               key={this.props.location.key}
               location={this.props.location}
             />

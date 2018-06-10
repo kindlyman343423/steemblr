@@ -1,5 +1,5 @@
 # STEEMBLR
-Open source social media app, based on steem blockchain.
+Open source social media app based on steem blockchain.
 
 [![website.png](http://steemimages.com/images/2018/06/03/website.png)](http://steemimages.com/image/03jo)
 

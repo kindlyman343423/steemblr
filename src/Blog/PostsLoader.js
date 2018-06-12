@@ -19,6 +19,15 @@ import store from ".././store";
 const Container = styled.div`
   margin-top: 25px;
 `;
+const BlogContainer = styled.div`
+  width: 40vw;
+  @media (max-width: 1024px) {
+    width: 60vw;
+  }
+  @media (max-width: 425px) {
+    width: 90vw;
+  }
+`;
 const EndMessage = styled.div`
   text-align: center;
 `;
@@ -176,6 +185,18 @@ class PostsLoader extends Component {
     });
   }
   render() {
+    if (this.props.componentLocation === "blog") {
+      return (
+        <BlogContainer>
+          {this.renderPosts()}
+          {this.state.fetchingData ? (
+            <Spinner margin="5" />
+          ) : (
+            this.renderWaypoint()
+          )}
+        </BlogContainer>
+      );
+    }
     return (
       <Container>
         {this.renderPosts()}

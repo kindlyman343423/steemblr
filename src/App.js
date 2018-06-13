@@ -32,6 +32,7 @@ import colors from "./styles/colors";
 
 import { injectGlobal } from "styled-components";
 import api from "./Api";
+import { IntlProvider } from "react-intl";
 Modal.setAppElement("#root");
 
 injectGlobal`
@@ -80,39 +81,41 @@ class App extends Component {
   }
   render() {
     return (
-      <Router>
-        <div id="root" className="App">
-          <Route exact path="/" component={Intro} />
-          <Route
-            exact
-            path="/home"
-            render={props => <Home {...props} login={this.state.login} />}
-          />
-          {window.location.pathname === "/" && this.state.login === true ? (
-            <Redirect to="/home" />
-          ) : (
-            void 0
-          )}
-          <Route
-            exact
-            path="/logout"
-            render={props => (
-              <Logout {...props} handleLogout={this.handleLogout} />
+      <IntlProvider locale={navigator.language}>
+        <Router>
+          <div id="root" className="App">
+            <Route exact path="/" component={Intro} />
+            <Route
+              exact
+              path="/home"
+              render={props => <Home {...props} login={this.state.login} />}
+            />
+            {window.location.pathname === "/" && this.state.login === true ? (
+              <Redirect to="/home" />
+            ) : (
+              void 0
             )}
-          />
-          <Route
-            path="/explore"
-            render={props => <Explore {...props} login={this.state.login} />}
-          />
+            <Route
+              exact
+              path="/logout"
+              render={props => (
+                <Logout {...props} handleLogout={this.handleLogout} />
+              )}
+            />
+            <Route
+              path="/explore"
+              render={props => <Explore {...props} login={this.state.login} />}
+            />
 
-          <Route path="/redirect" component={RedirectLoginToken} />
-          <Route
-            path="/search"
-            render={props => <Search {...props} login={this.state.login} />}
-          />
-          <Route path="/@:username" render={props => <Blog {...props} />} />
-        </div>
-      </Router>
+            <Route path="/redirect" component={RedirectLoginToken} />
+            <Route
+              path="/search"
+              render={props => <Search {...props} login={this.state.login} />}
+            />
+            <Route path="/@:username" render={props => <Blog {...props} />} />
+          </div>
+        </Router>
+      </IntlProvider>
     );
   }
 }

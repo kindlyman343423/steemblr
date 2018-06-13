@@ -20,6 +20,7 @@
     "react-html-parser": "^2.0.2",
     "react-icons-kit": "^1.1.5",
     "react-image-lightbox": "^4.6.0",
+    "react-intl": "^2.4.0",
     "react-lazyload": "^2.3.0",
     "react-masonry-css": "^1.0.11",
     "react-modal": "^3.3.2",

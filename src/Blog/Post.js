@@ -19,6 +19,9 @@ import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import store from "../store";
+import {
+  FormattedRelative,
+} from 'react-intl';
 const md = new Remarkable({
   html: true,
   linkify: true
@@ -85,6 +88,7 @@ class Post extends Component {
                 ).toFixed(2)}{" "}
             </span>
             <span>
+
               {
                 <Icon
                   icon={ic_message}
@@ -103,8 +107,11 @@ class Post extends Component {
                 style={heartIconStyle}
                 onClick={this.handleVoteBtn}
               />
+
             </span>
           </FooterActions>
+
+            <FormattedRelative value={Date.parse(this.props.post.created)}/>
         </CardFooter>
         {this.state.shouldOpenComments ? (
           <Comments

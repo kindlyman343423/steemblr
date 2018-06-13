@@ -5,6 +5,7 @@ import store from "../store";
 import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
+
 const ModalStyle = {
   overlay: {
     backgroundColor: "rgba(80,80,80, 0.3)"

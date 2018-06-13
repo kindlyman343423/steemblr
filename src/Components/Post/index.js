@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardAvatar,
   CardTitle,
+  UsernameContainer,
   BtnContainer,
   CardFooter,
   TagContainer,
@@ -19,6 +20,7 @@ import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
 import HoverIntet from "react-hoverintent";
 import LazyLoad from "react-lazyload";
+import { FormattedRelative } from "react-intl";
 import followSteem from "../.././Functions/followSteem";
 import Comments from "./Comments";
 import PostCardText from "./PostCardText";
@@ -150,15 +152,23 @@ class Post extends Component {
               }/avatar`}
             />
             <CardTitle>
-              <HoverIntet
-                onMouseOver={this.handleProfileHover}
-                onMouseOut={this.handleProfileUsernameHover}
-                sensitivity={10}
-                interval={600}
-                timeout={250}
-              >
-                <b onClick={this.handleBlogModal}>{this.props.post.author}</b>
-              </HoverIntet>
+              <UsernameContainer>
+                <HoverIntet
+                  onMouseOver={this.handleProfileHover}
+                  onMouseOut={this.handleProfileUsernameHover}
+                  sensitivity={10}
+                  interval={600}
+                  timeout={250}
+                >
+                  <b onClick={this.handleBlogModal}>
+                    {this.props.post.author}{" "}
+                  </b>
+                </HoverIntet>
+                <FormattedRelative
+                  value={Date.parse(this.props.post.created)}
+                />
+              </UsernameContainer>
+
               <p>{this.props.post.title}</p>
               {this.state.isHover ? (
                 <ProfileHover

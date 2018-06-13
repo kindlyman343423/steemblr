@@ -60,7 +60,11 @@ export const CardTitle = styled.div`
     font-weight: 500;
   }
 `;
-
+export const UsernameContainer = styled.span`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
 export const CardAvatar = styled.div`
   background: url(${props => props.url});
   width: 40px;

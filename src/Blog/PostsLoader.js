@@ -20,7 +20,7 @@ const Container = styled.div`
   margin-top: 25px;
 `;
 const BlogContainer = styled.div`
-  width: 40vw;
+  width: 45vw;
   @media (max-width: 1024px) {
     width: 60vw;
   }

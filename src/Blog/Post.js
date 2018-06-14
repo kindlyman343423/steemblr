@@ -3,6 +3,7 @@ import { hot } from "react-hot-loader";
 import ReactHtmlParser from "react-html-parser";
 import Remarkable from "remarkable";
 import { Link } from "react-router-dom";
+import tZoner from "rn-timezone-offset";
 import {
   tagStyles,
   Container,
@@ -19,9 +20,8 @@ import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import store from "../store";
-import {
-  FormattedRelative,
-} from 'react-intl';
+import { injectIntl } from "react-intl";
+import { FormattedRelative } from "react-intl";
 const md = new Remarkable({
   html: true,
   linkify: true
@@ -88,7 +88,6 @@ class Post extends Component {
                 ).toFixed(2)}{" "}
             </span>
             <span>
-
               {
                 <Icon
                   icon={ic_message}
@@ -107,11 +106,12 @@ class Post extends Component {
                 style={heartIconStyle}
                 onClick={this.handleVoteBtn}
               />
-
             </span>
           </FooterActions>
-
-            <FormattedRelative value={Date.parse(this.props.post.created)}/>
+          <FormattedRelative
+            {...this.props}
+            value={this.props.post.created + "Z"}
+          />
         </CardFooter>
         {this.state.shouldOpenComments ? (
           <Comments
@@ -127,4 +127,4 @@ class Post extends Component {
     );
   }
 }
-export default hot(module)(Post);
+export default hot(module)(injectIntl(Post));

@@ -165,7 +165,8 @@ class Post extends Component {
                   </b>
                 </HoverIntet>
                 <FormattedRelative
-                  value={Date.parse(this.props.post.created)}
+                  {...this.props}
+                  value={this.props.post.created + "Z"}
                 />
               </UsernameContainer>
 

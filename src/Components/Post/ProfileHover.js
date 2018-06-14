@@ -3,6 +3,7 @@ import styled from "styled-components";
 import FollowBtn from "./FollowBtn";
 import store from "../../store";
 import { getAccounts } from "../../actions/getAccounts";
+import { Link } from "react-router-dom";
 const Container = styled.div`
   border-radius: 2px;
   background-color: white;
@@ -23,10 +24,12 @@ const Header = styled.div`
   background-size: cover;
   background-color: #b4b4b4;
   height: 125px;
+
   b {
     cursor: auto;
   }
-  span {
+  a {
+    color: white;
     padding-left: 5px;
   }
 `;
@@ -138,7 +141,7 @@ export default class ProfileHover extends Component {
       >
         <Header coverImage={this.state.coverImageUrl}>
           <HeaderActions>
-            <span>{this.props.author}</span>
+            <Link to={"/@" + this.props.author}>{this.props.author}</Link>
             {this.props.isFollowing ? (
               void 0
             ) : (

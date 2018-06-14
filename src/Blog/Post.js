@@ -3,7 +3,6 @@ import { hot } from "react-hot-loader";
 import ReactHtmlParser from "react-html-parser";
 import Remarkable from "remarkable";
 import { Link } from "react-router-dom";
-import tZoner from "rn-timezone-offset";
 import {
   tagStyles,
   Container,

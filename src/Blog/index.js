@@ -5,7 +5,8 @@ import store from "../store";
 import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
-
+import logo from "../icons/logo.svg";
+import { Link } from "react-router-dom";
 const Container = styled.div`
   border-radius: 2px;
   background-color: white;
@@ -41,9 +42,8 @@ const BannerActions = styled.div`
   box-sizing: border-box;
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 10px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 40px;
@@ -57,6 +57,9 @@ const BannerActions = styled.div`
   button {
     margin-right: 0;
     color: #fff;
+  }
+  img {
+    transform: scale(0.7, 0.7);
   }
 `;
 
@@ -143,7 +146,11 @@ export default class Blog extends Component {
     return (
       <Container>
         <BannerActions>
-          <span>{this.props.match.params.username}</span>
+          <span>
+            <Link to="/">
+              <img src={logo} alt="logo" />
+            </Link>
+          </span>
           {this.props.isFollowing ? (
             void 0
           ) : (

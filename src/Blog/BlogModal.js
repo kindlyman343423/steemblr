@@ -5,7 +5,7 @@ import store from "../store";
 import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
-
+import { Link } from "react-router-dom";
 const ModalStyle = {
   overlay: {
     backgroundColor: "rgba(80,80,80, 0.3)"
@@ -71,6 +71,9 @@ const BannerActions = styled.div`
   );
   button {
     margin-right: 0;
+    color: #fff;
+  }
+  a {
     color: #fff;
   }
 `;
@@ -159,7 +162,9 @@ export default class BlogModal extends Component {
       >
         <Container>
           <BannerActions>
-            <span>{this.props.post.author}</span>
+            <Link to={"/@" + this.props.post.author}>
+              {this.props.post.author}
+            </Link>
             {this.props.isFollowing ? (
               void 0
             ) : (

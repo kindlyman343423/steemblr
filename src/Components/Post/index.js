@@ -166,11 +166,12 @@ class Post extends Component {
                 </HoverIntet>
                 <FormattedRelative
                   {...this.props}
+                  title={this.value}
                   value={this.props.post.created + "Z"}
                 />
               </UsernameContainer>
 
-              <p>{this.props.post.title}</p>
+              <p title={this.props.post.title}>{this.props.post.title}</p>
               {this.state.isHover ? (
                 <ProfileHover
                   author={this.props.post.author}

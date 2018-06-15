@@ -10,6 +10,7 @@ import RedirectLoginToken from "./Components/RedirectLoginToken";
 import Intro from "./Intro/";
 import Search from "./Search/";
 import Blog from "./Blog";
+import Settings from "./Settings";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
@@ -54,12 +55,12 @@ class App extends Component {
   }
   async componentWillMount() {
     if (this.state.login) {
+      this.props.changeLoginStatus(true);
       await this.props.getUserProfile();
       await this.props.getUserFollowing(this.props.steemProfile.profile._id);
       await this.props.getProfileVotes(this.props.steemProfile.profile._id);
       const profile = await this.props.steemProfile;
       const followingBucket = await getFollowing(profile._id);
-      this.props.changeLoginStatus(true);
       this.setState({
         steemProfile: profile,
         followings: followingBucket
@@ -113,6 +114,7 @@ class App extends Component {
               render={props => <Search {...props} login={this.state.login} />}
             />
             <Route path="/@:username" render={props => <Blog {...props} />} />
+            <Route path="/settings" render={props => <Settings {...props} />} />
           </div>
         </Router>
       </IntlProvider>

@@ -25,7 +25,7 @@ export default class Search extends Component {
     return (
       <Container>
         <HeaderContainer>
-          <Header login={this.props.login} />
+          <Header />
           <HeaderTabs match={this.props.match.url} />
         </HeaderContainer>;
         <Route

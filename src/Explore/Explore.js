@@ -20,7 +20,7 @@ export default class Explore extends Component {
     return (
       <Container>
         <HeaderContainer>
-          <Header login={this.props.login} />
+          <Header />
           <HeaderTabs match={this.props.match} />
         </HeaderContainer>;
         <Redirect to="/explore/trending" />

@@ -10,6 +10,9 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import logo from "../icons/logo.svg";
 import SearchInput from "./SearchInput";
+
+import { connect } from "react-redux";
+
 const Container = styled.div`
   color: grey;
   display: grid;
@@ -96,7 +99,7 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      login: this.props.login
+      login: this.props.login.status
     };
   }
 
@@ -120,4 +123,11 @@ class Header extends Component {
     );
   }
 }
-export default hot(module)(Header);
+const mapStateToProps = state => ({
+  login: state.login
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(hot(module)(Header));

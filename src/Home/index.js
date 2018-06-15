@@ -64,7 +64,7 @@ class Home extends Component {
     return (
       <div className="container">
         <HeaderContainer>
-          <Header login={this.props.login} />
+          <Header />
         </HeaderContainer>
         <Layout>
           <PostsContainer>

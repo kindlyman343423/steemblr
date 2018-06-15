@@ -114,7 +114,11 @@ class App extends Component {
               render={props => <Search {...props} login={this.state.login} />}
             />
             <Route path="/@:username" render={props => <Blog {...props} />} />
-            <Route path="/settings" render={props => <Settings {...props} />} />
+
+            <Route
+              path="/settings/:option"
+              render={props => <Settings {...props} />}
+            />
           </div>
         </Router>
       </IntlProvider>

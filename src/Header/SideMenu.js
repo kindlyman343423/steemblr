@@ -137,9 +137,9 @@ class SideMenu extends Component {
               </MenuItem>
             </span>
           )}
-          <Link to="/settings">
+          <NavLink to="/settings/account">
             <MenuItem>Settings</MenuItem>
-          </Link>
+          </NavLink>
           <MenuItem>
             Voting Power: {this.state.votingWeight} % <br />
             <Slider

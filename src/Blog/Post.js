@@ -11,7 +11,7 @@ import {
   FooterActions
 } from "./Post.styles";
 import Lightbox from "react-image-lightbox";
-
+import checkValueState from "../Functions/checkValueState";
 import PostCardText from "./PostCardText";
 import Comments from "./Comments";
 
@@ -81,10 +81,13 @@ class Post extends Component {
           </TagContainer>
           <FooterActions>
             <span>
-              {"$" +
-                Number(
-                  this.props.post.pending_payout_value.replace("SBD", "")
-                ).toFixed(2)}{" "}
+              ${checkValueState(this.props.post.created)
+                ? Number(
+                    this.props.post.total_payout_value.replace("SBD", "")
+                  ).toFixed(2)
+                : Number(
+                    this.props.post.pending_payout_value.replace("SBD", "")
+                  ).toFixed(2)}
             </span>
             <span>
               {

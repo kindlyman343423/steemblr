@@ -16,6 +16,7 @@ import {
   FooterActions
 } from "./Post.styles";
 import delay from "../../Functions/delay";
+import checkValueState from "../../Functions/checkValueState";
 import FollowBtn from "./FollowBtn";
 import Lightbox from "react-image-lightbox";
 import HoverIntet from "react-hoverintent";
@@ -128,6 +129,7 @@ class Post extends Component {
       isOverHoverDivHover: false
     });
   }
+
   render() {
     const heartIconStyle = {
       cursor: "pointer",
@@ -216,10 +218,13 @@ class Post extends Component {
             </TagContainer>
             <FooterActions>
               <span>
-                {"$" +
-                  Number(
-                    this.props.post.pending_payout_value.replace("SBD", "")
-                  ).toFixed(2)}{" "}
+                ${checkValueState(this.props.post.created)
+                  ? Number(
+                      this.props.post.total_payout_value.replace("SBD", "")
+                    ).toFixed(2)
+                  : Number(
+                      this.props.post.pending_payout_value.replace("SBD", "")
+                    ).toFixed(2)}
               </span>
               <span>
                 {this.state.shouldOpenComments ? (

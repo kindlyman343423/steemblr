@@ -15,16 +15,11 @@ import { changeVotePower } from "../actions/steemActions";
 
 const StyledDiv = styled.div`
   text-align: left;
-  a {
-    color: black;
-  }
 `;
 const styles = {};
 const MenuItem = styled.div`
+  color: #000;
   padding: 10px;
-  a {
-    color: red;
-  }
   cursor: pointer;
 `;
 const Slider = styled.input`

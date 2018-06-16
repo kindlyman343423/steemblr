@@ -6,7 +6,7 @@ const Container = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 60%;
   div {
     padding: 10px;
     text-align: left;

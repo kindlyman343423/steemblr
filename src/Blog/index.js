@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import store from "../store";
 
+import SideMenu from "../Header/SideMenu";
 import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
@@ -38,7 +39,7 @@ const Banner = styled.div`
 const BannerActions = styled.div`
   position: sticky;
   top: 0;
-  z-index: 1500;
+  z-index: 1100;
   box-sizing: border-box;
   padding-left: 20px;
   padding-right: 20px;
@@ -60,6 +61,11 @@ const BannerActions = styled.div`
   }
   img {
     transform: scale(0.7, 0.7);
+  }
+  span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;
 
@@ -147,6 +153,7 @@ export default class Blog extends Component {
       <Container>
         <BannerActions>
           <span>
+            <SideMenu />
             <Link to="/">
               <img src={logo} alt="logo" />
             </Link>

@@ -12,6 +12,7 @@ import {
 } from "./Post.styles";
 import Lightbox from "react-image-lightbox";
 import checkValueState from "../Functions/checkValueState";
+import getVoteWorth from "../Functions/getVoteWorth";
 import PostCardText from "./PostCardText";
 import Comments from "./Comments";
 
@@ -34,7 +35,10 @@ class Post extends Component {
       mockupImg: "",
       username: this.props.username,
       shouldOpenComments: false,
-      votePercent: this.props.voteStatus.percent
+      votePercent: this.props.voteStatus.percent,
+      value: checkValueState(this.props.post.created)
+        ? this.props.post.total_payout_value.replace("SBD", "")
+        : this.props.post.pending_payout_value.replace("SBD", "")
     };
 
     this.setState({
@@ -52,8 +56,11 @@ class Post extends Component {
         this.props.post.permlink,
         this.state.votePercent
       );
+      const vote = await getVoteWorth();
+
       await this.setState({
-        votePercent: store.getState().votePower.power
+        votePercent: store.getState().votePower.power,
+        value: Number(this.state.value) + Number(vote)
       });
     } else {
       alert("You have to login first");
@@ -80,15 +87,7 @@ class Post extends Component {
                 })}
           </TagContainer>
           <FooterActions>
-            <span>
-              ${checkValueState(this.props.post.created)
-                ? Number(
-                    this.props.post.total_payout_value.replace("SBD", "")
-                  ).toFixed(2)
-                : Number(
-                    this.props.post.pending_payout_value.replace("SBD", "")
-                  ).toFixed(2)}
-            </span>
+            <span>${Number(this.state.value).toFixed(2)}</span>
             <span>
               {
                 <Icon

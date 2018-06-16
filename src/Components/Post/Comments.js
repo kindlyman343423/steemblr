@@ -249,6 +249,7 @@ class Comments extends Component {
       };
     }
   }
+
   render() {
     const modalStyle = {
       content: {
@@ -310,6 +311,7 @@ class Comments extends Component {
             {this.state.comments.map(comment => {
               return (
                 <Comment
+                  comment={comment}
                   author={comment.author}
                   body={comment.body}
                   key={comment.id}

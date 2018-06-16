@@ -17,6 +17,9 @@ const Option = styled.div`
     color: ${colors.font.normal};
     font-size: 12px;
   }
+  @media (max-width: 425px) {
+    grid-template-columns: 40% auto;
+  }
 `;
 
 export default class Account extends Component {

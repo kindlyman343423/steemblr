@@ -10,6 +10,10 @@ const Container = styled.div`
   grid-template-columns: 60% auto;
   grid-column-gap: 25px;
   border-radius: 40px;
+  @media (max-width: 425px) {
+    grid-template-columns: 70% auto;
+    grid-column-gap: 5px;
+  }
 `;
 export default class Settings extends Component {
   render() {

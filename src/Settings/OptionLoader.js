@@ -17,6 +17,9 @@ const Container = styled.div`
     text-align: left;
     border-bottom: 1px solid black;
   }
+  @media (max-width: 425px) {
+    margin-left: 5px;
+  }
 `;
 export default class OptionLoader extends Component {
   constructor(props) {

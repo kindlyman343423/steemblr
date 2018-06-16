@@ -15,6 +15,10 @@ const Container = styled.div`
     color: #fff;
     background-color: rgba(255, 255, 255, 0.1);
   }
+  @media (max-width: 425px) {
+    width: 100%;
+    margin-right: 5px;
+  }
 `;
 export default class Menu extends Component {
   render() {

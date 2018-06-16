@@ -95,7 +95,10 @@ class Post extends Component {
 
       await this.setState({
         votePercent: store.getState().votePower.power,
-        value: Number(this.state.value) + Number(vote)
+        value:
+          this.state.votePercent > 0
+            ? Number(this.state.value) - Number(vote)
+            : Number(this.state.value) + Number(vote)
       });
     } else {
       alert("You have to login first");

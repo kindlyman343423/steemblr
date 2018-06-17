@@ -178,7 +178,6 @@ class Post extends Component {
                 </HoverIntet>
                 <FormattedRelative
                   {...this.props}
-                  title={this.value}
                   value={this.props.post.created + "Z"}
                 />
               </UsernameContainer>

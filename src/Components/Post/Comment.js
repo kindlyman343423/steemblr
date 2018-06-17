@@ -70,7 +70,6 @@ class Comment extends Component {
     });
   }
   render() {
-    console.log(this.props.comment);
     return (
       <Container>
         <Link to={"/@" + this.props.author}>

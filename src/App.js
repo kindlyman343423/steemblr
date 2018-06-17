@@ -65,7 +65,6 @@ class App extends Component {
         steemProfile: profile,
         followings: followingBucket
       });
-      api.me();
       this.handleFirebaseLogin();
     }
   }

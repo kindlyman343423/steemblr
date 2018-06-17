@@ -11,7 +11,8 @@ import {
   getUserFollowing,
   getProfileVotes,
   getSteemTrendingPosts,
-  getSteemFeedPosts
+  getSteemFeedPosts,
+  getUserProfile
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
@@ -88,7 +89,7 @@ class PostsLoader extends Component {
     await this.props.removePostsFromState();
     const username = await this.props.steemProfile.profile._id;
     if (username === undefined) {
-      await api.me();
+      await this.props.getUserProfile();
     }
     const query = {
       tag: this.props.steemProfile.profile._id
@@ -205,6 +206,7 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   {
+    getUserProfile,
     getUserFollowing,
     getProfileVotes,
     getSteemTrendingPosts,

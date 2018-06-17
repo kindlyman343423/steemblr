@@ -153,7 +153,7 @@ export default class Blog extends Component {
       <Container>
         <BannerActions>
           <span>
-            <SideMenu />
+            {store.getState().login.status ? <SideMenu /> : false}
             <Link to="/">
               <img src={logo} alt="logo" />
             </Link>

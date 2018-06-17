@@ -74,7 +74,7 @@ class Comment extends Component {
     return (
       <Container>
         <Link to={"/@" + this.props.author}>
-          <Nickname onClick={this.handleClick}>{this.props.author}</Nickname>
+          <Nickname>{this.props.author}</Nickname>
         </Link>
 
         <span

@@ -1,7 +1,9 @@
 # STEEMBLR
 Open source social media app based on steem blockchain.
-
+Read more [here](https://steemit.com/utopian-io/@snwolak/introducing-steemblr-a-blockchain-alternative-for-tumblr)
 [![website.png](http://steemimages.com/images/2018/06/03/website.png)](http://steemimages.com/image/03jo)
+
+
 
 ### Setup
 ```

@@ -1,11 +1,18 @@
 import api from ".././Api";
 import uuidv4 from "uuid/v4";
 import store from "../store";
+import defaultApp from "../environmentDev";
+import { firestore } from "firebase/app";
+import postToDb from "./postToDb";
 const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
   if (store.getState().steemProfile.profile.user === undefined) {
     api.me();
   }
-  const uuid = uuidv4();
+  tagsProp.push("steemblr");
+  const uniqueTags = [...new Set(tagsProp)];
+  const finalTags = uniqueTags.slice(1, uniqueTags.length);
+  const uuid = uuidv4() + "u02x93";
+
   api.broadcast([
     [
       "comment",
@@ -17,7 +24,7 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
         title: titleProp, //Title of the post
         body: content,
         json_metadata: JSON.stringify({
-          tags: tagsProp.slice(1, tagsProp.length),
+          tags: finalTags,
           app: `steemblr`,
           format: "markdown+html",
           community: "steemblr",
@@ -47,6 +54,13 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
       }
     ]
   ]);
+  const dbRef = defaultApp
+    .firestore()
+    .collection("posts")
+    .doc(uuid);
+
+  dbRef.set({ timestamp: firestore.FieldValue.serverTimestamp() });
+  postToDb(store.getState().steemProfile.profile.user, uuid);
 };
 
 export default newPost;

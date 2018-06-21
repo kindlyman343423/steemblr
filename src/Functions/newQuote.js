@@ -2,10 +2,13 @@ import api from ".././Api";
 import uuidv4 from "uuid/v4";
 import store from "../store";
 const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
-  const uuid = uuidv4();
   if (store.getState().steemProfile.profile.user === undefined) {
     api.me();
   }
+  tagsProp.push("steemblr");
+  const uniqueTags = [...new Set(tagsProp)];
+  const finalTags = uniqueTags.slice(1, uniqueTags.length);
+  const uuid = uuidv4() + "u02x93";
   api.broadcast([
     [
       "comment",
@@ -17,7 +20,7 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
         title: titleProp, //Title of the post
         body: content,
         json_metadata: JSON.stringify({
-          tags: tagsProp.slice(1, tagsProp.length),
+          tags: finalTags,
           app: `steemblr`,
           format: "markdown+html",
           community: "steemblr",

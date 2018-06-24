@@ -13,8 +13,7 @@ import { connect } from "react-redux";
 import {
   getUserFollowing,
   getProfileVotes,
-  getSteemTrendingPosts,
-  getSteemNewPosts
+  getSteemTrendingPosts
 } from ".././actions/steemActions";
 import {
   postFollowingToState,
@@ -22,7 +21,7 @@ import {
   removeVoteFromState,
   removePostsFromState
 } from "../actions/stateActions";
-
+import getNewPosts from ".././actions/getNewPosts";
 import store from ".././store";
 const Container = styled.div`
   box-sizing: border-box;
@@ -86,7 +85,7 @@ class PostsLoader extends Component {
       posts: this.props.steemPosts.posts
     });
     this.props.category === "new"
-      ? await this.props.getSteemNewPosts(query)
+      ? await this.props.getNewPosts(query)
       : await this.props.getSteemTrendingPosts(query);
     await this.setState({
       fetchingData: false
@@ -110,7 +109,7 @@ class PostsLoader extends Component {
     };
     window.addEventListener("resize", this.updateDimensions);
     this.props.category === "new"
-      ? await this.props.getSteemNewPosts(query)
+      ? await this.props.getNewPosts(query)
       : await this.props.getSteemTrendingPosts(query);
 
     await this.setState({
@@ -247,7 +246,7 @@ export default connect(
     getUserFollowing,
     getProfileVotes,
     getSteemTrendingPosts,
-    getSteemNewPosts,
+    getNewPosts,
     removePostsFromState,
     postFollowingToState,
     postVoteToState,

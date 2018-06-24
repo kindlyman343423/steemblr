@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
-import ReactHtmlParser from "react-html-parser";
-import Remarkable from "remarkable";
 import { Link } from "react-router-dom";
+
 import {
   tagStyles,
   Container,
@@ -15,28 +14,26 @@ import {
   TagContainer,
   FooterActions
 } from "./Post.styles";
+import Comments from "./Comments";
+import CardContent from "./CardContent";
+import ProfileHover from "./ProfileHover";
+
 import delay from "../../Functions/delay";
 import checkValueState from "../../Functions/checkValueState";
 import getVoteWorth from "../../Functions/getVoteWorth";
+
 import FollowBtn from "./FollowBtn";
-import Lightbox from "react-image-lightbox";
 import HoverIntet from "react-hoverintent";
 import LazyLoad from "react-lazyload";
 import { FormattedRelative } from "react-intl";
 import followSteem from "../.././Functions/followSteem";
-import Comments from "./Comments";
-import PostCardText from "./PostCardText";
-import ProfileHover from "./ProfileHover";
 
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
+
 import store from "../../store";
 import BlogModal from "../../Blog/BlogModal";
-const md = new Remarkable({
-  html: true,
-  linkify: true
-});
 
 class Post extends Component {
   constructor(props) {
@@ -210,13 +207,20 @@ class Post extends Component {
               )}
             </BtnContainer>
           </CardHeader>
-          <PostCardText
-            text={ReactHtmlParser(md.render(this.props.post.body))}
+          <CardContent
+            text={this.props.post.body}
+            json_metadata={this.props.post.json_metadata}
           />
           <CardFooter>
             <TagContainer>
+              <Link
+                style={tagStyles}
+                to={`/search/tag/?${this.props.post.category}`}
+              >
+                #{this.props.post.category}
+              </Link>
               {JSON.parse(this.props.post.json_metadata).tags === undefined
-                ? "true"
+                ? ""
                 : JSON.parse(this.props.post.json_metadata).tags.map(tag => {
                     return (
                       <Link style={tagStyles} to={`/search/tag/?${tag}`}>

@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import sizeMe from "react-sizeme";
 import styled from "styled-components";
+
+import CardMedia from "./CardMedia";
+import CardText from "./CardText";
+
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
   overflow: hidden;
-  padding-left: 20px;
-  padding-right: 20px;
   img {
     padding-left: 0;
     padding-right: 0;
@@ -29,7 +31,7 @@ const ExpandBtn = styled.button`
   font-size: 16px;
   font-weight: 200;
 `;
-class PostCardText extends Component {
+class CardContent extends Component {
   constructor(props) {
     super(props);
 
@@ -54,12 +56,21 @@ class PostCardText extends Component {
       maxHeight: "unset"
     });
   }
+
   render() {
     const { height } = this.props.size;
-
     return (
       <Container style={{ maxHeight: this.state.maxHeight }}>
-        {this.props.text}
+        {JSON.parse(this.props.json_metadata).post_type === undefined ? (
+          void 0
+        ) : (
+          <CardMedia json_metadata={this.props.json_metadata} />
+        )}
+        {this.props.text.length === 0 ? (
+          void 0
+        ) : (
+          <CardText text={this.props.text} />
+        )}
         {height >= 350 && this.state.isExpanded !== true ? (
           <ExpandBtn onClick={this.handleExpand}>Expand</ExpandBtn>
         ) : (
@@ -70,4 +81,4 @@ class PostCardText extends Component {
   }
 }
 
-export default sizeMe({ monitorHeight: true })(PostCardText);
+export default sizeMe({ monitorHeight: true })(CardContent);

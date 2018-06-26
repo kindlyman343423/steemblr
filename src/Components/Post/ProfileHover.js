@@ -8,22 +8,24 @@ const Container = styled.div`
   border-radius: 2px;
   background-color: white;
   position: absolute;
-  width: 25vw;
+  width: 250px;
   margin-top: -20px;
   top: 80px;
   z-index: 600;
   @media (max-width: 768px) {
     display: none;
-    width: 40vw;
+    width: 250px;
   }
 `;
 const Header = styled.div`
   background: url(${props => props.coverImage});
   box-sizing: border-box;
   position: relative;
-  background-size: cover;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
   background-color: #b4b4b4;
-  height: 125px;
+  height: 150px;
 
   b {
     cursor: auto;
@@ -55,15 +57,18 @@ const HeaderActions = styled.div`
 `;
 
 const Avatar = styled.div`
+  box-sizing: border-box;
   background: url(${props => props.url});
   background-size: cover;
   background-repeat: no-repeat;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   position: absolute;
-  left: calc(50% - 40px);
-  margin-bottom: -40px;
+  left: calc(50% - 35px);
+  margin-bottom: -35px;
   bottom: 0;
+  border: 3px solid #fff;
+  border-radius: 5px;
 `;
 const Content = styled.div`
   box-sizing: border-box;

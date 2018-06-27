@@ -8,7 +8,7 @@ const Container = styled.div`
   border-radius: 2px;
   background-color: white;
   position: absolute;
-  width: 250px;
+  width: 300px;
   margin-top: -20px;
   top: 80px;
   z-index: 600;
@@ -66,8 +66,6 @@ const Avatar = styled.div`
   left: calc(50% - 35px);
   margin-bottom: -35px;
   bottom: 0;
-  border: 3px solid #fff;
-  border-radius: 5px;
 `;
 const Content = styled.div`
   box-sizing: border-box;
@@ -98,8 +96,8 @@ const FeaturedPosts = styled.div`
 `;
 const Post = styled.div`
   background-color: #e2e1e2;
-  width: calc(18vw / 3.8);
-  height: calc(18vw / 3.8);
+  width: calc(18vw / 3.2);
+  height: calc(18vw / 3.2);
 `;
 export default class ProfileHover extends Component {
   constructor(props) {

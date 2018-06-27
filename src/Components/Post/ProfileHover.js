@@ -57,7 +57,6 @@ const HeaderActions = styled.div`
 `;
 
 const Avatar = styled.div`
-  box-sizing: border-box;
   background: url(${props => props.url});
   background-size: cover;
   background-repeat: no-repeat;
@@ -99,8 +98,8 @@ const FeaturedPosts = styled.div`
 `;
 const Post = styled.div`
   background-color: #e2e1e2;
-  width: calc(18vw / 3);
-  height: calc(18vw / 3);
+  width: calc(18vw / 3.8);
+  height: calc(18vw / 3.8);
 `;
 export default class ProfileHover extends Component {
   constructor(props) {

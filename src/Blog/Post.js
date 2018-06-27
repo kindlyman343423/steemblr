@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
-import ReactHtmlParser from "react-html-parser";
-import Remarkable from "remarkable";
 import { Link } from "react-router-dom";
 import {
   tagStyles,
@@ -10,22 +8,16 @@ import {
   TagContainer,
   FooterActions
 } from "./Post.styles";
-import Lightbox from "react-image-lightbox";
 import checkValueState from "../Functions/checkValueState";
 import getVoteWorth from "../Functions/getVoteWorth";
-import PostCardText from "./PostCardText";
 import Comments from "./Comments";
-
+import CardContent from "./CardContent";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import store from "../store";
 import { injectIntl } from "react-intl";
 import { FormattedRelative } from "react-intl";
-const md = new Remarkable({
-  html: true,
-  linkify: true
-});
 
 class Post extends Component {
   constructor(props) {
@@ -76,7 +68,11 @@ class Post extends Component {
     };
     return (
       <Container>
-        <PostCardText text={ReactHtmlParser(md.render(this.props.post.body))} />
+        <CardContent
+          text={this.props.post.body}
+          json_metadata={this.props.post.json_metadata}
+        />
+
         <CardFooter>
           <TagContainer>
             {JSON.parse(this.props.post.json_metadata).tags === undefined

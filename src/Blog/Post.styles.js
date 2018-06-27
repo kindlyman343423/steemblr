@@ -9,8 +9,8 @@ export const tagStyles = {
 };
 export const Container = styled.div`
   box-sizing: border-box;
+  border: 1px solid #e8f8e8;
   padding: 0;
-  border: 1px solid ${colors.borders.light}
   display: flex;
   flex-direction: column;
   background-color: white;

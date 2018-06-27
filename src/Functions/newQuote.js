@@ -5,22 +5,23 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
   if (store.getState().steemProfile.profile.user === undefined) {
     api.me();
   }
-  tagsProp.push("steemblr");
-  const uniqueTags = [...new Set(tagsProp)];
-  const finalTags = uniqueTags.slice(1, uniqueTags.length);
+
+  const uniqueTags = [...new Set(tagsProp)].filter(item => {
+    return item !== "steemblr";
+  });
   const uuid = uuidv4() + "u02x93";
   api.broadcast([
     [
       "comment",
       {
         parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
-        parent_permlink: tagsProp[0], //FIRST TAG
+        parent_permlink: "steemblr", //FIRST TAG STEEMBLR STAYS HARDCODED AS MAIN TAG
         author: store.getState().steemProfile.profile.user, //AUTHOR
         permlink: uuid, //permlink of the post
         title: titleProp, //Title of the post
         body: content,
         json_metadata: JSON.stringify({
-          tags: finalTags,
+          tags: uniqueTags,
           app: `steemblr`,
           format: "markdown+html",
           community: "steemblr",

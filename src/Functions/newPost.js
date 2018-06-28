@@ -4,6 +4,7 @@ import store from "../store";
 import defaultApp from "../environmentDev";
 import { firestore } from "firebase/app";
 import postToDb from "./postToDb";
+import tagsNSFWCheck from "./tagsNSFWCheck";
 const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
   if (store.getState().steemProfile.profile.user === undefined) {
     api.me();
@@ -59,7 +60,10 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
     .collection("posts")
     .doc(uuid);
 
-  dbRef.set({ timestamp: firestore.FieldValue.serverTimestamp() });
+  dbRef.set({
+    timestamp: firestore.FieldValue.serverTimestamp(),
+    isNSFW: tagsNSFWCheck(uniqueTags)
+  });
   postToDb(store.getState().steemProfile.profile.user, uuid);
 };
 

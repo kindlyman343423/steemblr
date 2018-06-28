@@ -1,6 +1,10 @@
 import api from ".././Api";
 import uuidv4 from "uuid/v4";
 import store from "../store";
+import defaultApp from "../environmentDev";
+import { firestore } from "firebase/app";
+import postToDb from "./postToDb";
+import tagsNSFWCheck from "./tagsNSFWCheck";
 const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
   if (store.getState().steemProfile.profile.user === undefined) {
     api.me();
@@ -50,6 +54,16 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
       }
     ]
   ]);
+  const dbRef = defaultApp
+    .firestore()
+    .collection("posts")
+    .doc(uuid);
+
+  dbRef.set({
+    timestamp: firestore.FieldValue.serverTimestamp(),
+    isNSFW: tagsNSFWCheck(uniqueTags)
+  });
+  postToDb(store.getState().steemProfile.profile.user, uuid);
 };
 
 export default newQuote;

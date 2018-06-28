@@ -55,16 +55,12 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
       }
     ]
   ]);
-  const dbRef = defaultApp
-    .firestore()
-    .collection("posts")
-    .doc(uuid);
 
-  dbRef.set({
-    timestamp: firestore.FieldValue.serverTimestamp(),
-    isNSFW: tagsNSFWCheck(uniqueTags)
-  });
-  postToDb(store.getState().steemProfile.profile.user, uuid);
+  postToDb(
+    store.getState().steemProfile.profile.user,
+    uuid,
+    tagsNSFWCheck(uniqueTags)
+  );
 };
 
 export default newPost;

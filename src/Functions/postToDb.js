@@ -1,8 +1,13 @@
 import axios from "axios";
 import steem from "steem";
-const url = ""; //enter function adress here
+import defaultApp from "../environmentDev";
+import { firestore } from "firebase/app";
 
-const postToDb = async (author, permlink) => {
+const postToDb = async (author, permlink, isNSFW) => {
+  const dbRef = defaultApp
+    .firestore()
+    .collection("posts")
+    .doc(permlink);
   let bucket = [];
 
   await steem.api
@@ -16,7 +21,17 @@ const postToDb = async (author, permlink) => {
       console.log(error);
     });
   if (bucket[0].parent_author === "") {
-    axios.post(url, bucket[0]).then(function(response) {});
+    const post = bucket[0];
+    console.log(post);
+    const batch = defaultApp.firestore().batch();
+    batch.set(dbRef, post);
+    batch.update(dbRef, {
+      isNSFW: isNSFW,
+      timestamp: firestore.FieldValue.serverTimestamp()
+    });
+    batch.commit().then(function() {
+      return void 0;
+    });
   }
 
   return void 0;

@@ -78,15 +78,22 @@ class PostsLoader extends Component {
     const query = {
       tag: "",
       start_permlink: post.permlink,
-      start_author: post.author
+      start_author: post.author,
+      category: this.props.match.params.category
     };
     await this.setState({
       fetchingData: true,
       posts: this.props.steemPosts.posts
     });
-    this.props.category === "new"
-      ? await this.props.getNewPosts(query)
-      : await this.props.getSteemTrendingPosts(query);
+    //loading post by the category
+    switch (this.props.match.params.category) {
+      case "trending":
+        await this.props.getSteemTrendingPosts(query);
+        break;
+      default:
+        await this.props.getNewPosts(query);
+        break;
+    }
     await this.setState({
       fetchingData: false
     });
@@ -105,12 +112,20 @@ class PostsLoader extends Component {
     await this.props.removePostsFromState();
     const query = {
       tag: "",
-      limit: 10
+      limit: 10,
+      category: this.props.match.params.category
     };
+
     window.addEventListener("resize", this.updateDimensions);
-    this.props.category === "new"
-      ? await this.props.getNewPosts(query)
-      : await this.props.getSteemTrendingPosts(query);
+    //loading post by the category
+    switch (this.props.match.params.category) {
+      case "trending":
+        await this.props.getSteemTrendingPosts(query);
+        break;
+      default:
+        await this.props.getNewPosts(query);
+        break;
+    }
 
     await this.setState({
       posts: this.props.steemPosts.posts,
@@ -188,7 +203,10 @@ class PostsLoader extends Component {
     }
   }
   renderPosts() {
-    return this.props.steemPosts.posts.map(post => {
+    const filtered = this.props.steemPosts.posts.filter(post => {
+      return post.author !== undefined;
+    });
+    return filtered.map(post => {
       let width = "%";
 
       let fullPermlink = [post.root_author, post.root_permlink].join("/");

@@ -60,7 +60,8 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
     store.getState().steemProfile.profile.user,
     uuid,
     tagsNSFWCheck(uniqueTags),
-    type
+    type,
+    uniqueTags
   );
 };
 

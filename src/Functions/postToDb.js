@@ -2,7 +2,7 @@ import steem from "steem";
 import defaultApp from "../environmentDev";
 import { firestore } from "firebase/app";
 
-const postToDb = async (author, permlink, isNSFW, postType) => {
+const postToDb = async (author, permlink, isNSFW, postType, tags) => {
   const dbRef = defaultApp
     .firestore()
     .collection("posts")
@@ -26,7 +26,8 @@ const postToDb = async (author, permlink, isNSFW, postType) => {
     batch.update(dbRef, {
       isNSFW: isNSFW,
       post_type: postType,
-      timestamp: firestore.FieldValue.serverTimestamp()
+      timestamp: firestore.FieldValue.serverTimestamp(),
+      tags: tags
     });
     batch.commit().then(function() {
       return void 0;

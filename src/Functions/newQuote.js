@@ -58,7 +58,8 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
     store.getState().steemProfile.profile.user,
     uuid,
     tagsNSFWCheck(uniqueTags),
-    "quote"
+    "quote",
+    uniqueTags
   );
 };
 

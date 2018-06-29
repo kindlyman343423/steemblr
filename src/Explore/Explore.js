@@ -23,15 +23,10 @@ export default class Explore extends Component {
           <Header />
           <HeaderTabs match={this.props.match} />
         </HeaderContainer>;
-        <Redirect to="/explore/trending" />
         <Route
-          path={`${this.props.match.url}`}
+          path={`/explore/:category`}
           render={props => (
-            <PostsLoader
-              key={this.props.location.key}
-              {...props}
-              category={this.props.location.pathname.replace("/explore/", "")}
-            />
+            <PostsLoader key={this.props.location.key} {...props} />
           )}
         />
       </Container>

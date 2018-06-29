@@ -118,7 +118,7 @@ export default class Photo extends Component {
       fromWeb: false,
       imageUrl: "",
       tags: [],
-      type: "photo",
+      type: "photos",
       inputUrl: "",
       editorState: createEditorState(),
       innerWidth: window.innerWidth

@@ -114,7 +114,7 @@ export default class Quote extends Component {
       editorState: createEditorState(),
       tags: [],
       title: "",
-      type: "quote",
+      type: "quotes",
       beneficiaries: [],
       beneficiary: "",
       beneficiaryPercent: "",

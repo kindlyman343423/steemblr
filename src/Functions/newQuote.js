@@ -57,7 +57,8 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
   postToDb(
     store.getState().steemProfile.profile.user,
     uuid,
-    tagsNSFWCheck(uniqueTags)
+    tagsNSFWCheck(uniqueTags),
+    "quote"
   );
 };
 

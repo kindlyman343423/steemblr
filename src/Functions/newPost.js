@@ -59,7 +59,8 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
   postToDb(
     store.getState().steemProfile.profile.user,
     uuid,
-    tagsNSFWCheck(uniqueTags)
+    tagsNSFWCheck(uniqueTags),
+    type
   );
 };
 

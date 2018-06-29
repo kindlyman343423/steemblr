@@ -1,9 +1,8 @@
-import axios from "axios";
 import steem from "steem";
 import defaultApp from "../environmentDev";
 import { firestore } from "firebase/app";
 
-const postToDb = async (author, permlink, isNSFW) => {
+const postToDb = async (author, permlink, isNSFW, postType) => {
   const dbRef = defaultApp
     .firestore()
     .collection("posts")
@@ -22,11 +21,11 @@ const postToDb = async (author, permlink, isNSFW) => {
     });
   if (bucket[0].parent_author === "") {
     const post = bucket[0];
-    console.log(post);
     const batch = defaultApp.firestore().batch();
     batch.set(dbRef, post);
     batch.update(dbRef, {
       isNSFW: isNSFW,
+      post_type: postType,
       timestamp: firestore.FieldValue.serverTimestamp()
     });
     batch.commit().then(function() {

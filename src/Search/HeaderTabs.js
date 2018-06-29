@@ -50,7 +50,6 @@ const HeaderTabs = ({ match }) => {
     "photos",
     "gifs",
     "quotes",
-    "links",
     "audio",
     "video"
   ];

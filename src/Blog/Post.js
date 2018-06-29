@@ -79,7 +79,11 @@ class Post extends Component {
               ? "true"
               : JSON.parse(this.props.post.json_metadata).tags.map(tag => {
                   return (
-                    <Link style={tagStyles} to={`/search/tag/?${tag}`}>
+                    <Link
+                      key={tag}
+                      style={tagStyles}
+                      to={`/search/tag/?${tag}`}
+                    >
                       #{tag}
                     </Link>
                   );

@@ -1,8 +1,6 @@
 import api from ".././Api";
 import uuidv4 from "uuid/v4";
 import store from "../store";
-import defaultApp from "../environmentDev";
-import { firestore } from "firebase/app";
 import postToDb from "./postToDb";
 import tagsNSFWCheck from "./tagsNSFWCheck";
 const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {

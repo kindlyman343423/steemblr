@@ -22,7 +22,12 @@ export default class Explore extends Component {
         <HeaderContainer>
           <Header />
           <HeaderTabs match={this.props.match} />
-        </HeaderContainer>;
+        </HeaderContainer>
+        {this.props.location.pathname === "/explore" ? (
+          <Redirect to="/explore/new" />
+        ) : (
+          void 0
+        )}
         <Route
           path={`/explore/:category`}
           render={props => (

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Lightbox from "react-image-lightbox";
 const Img = styled.img`
   cursor: pointer;
+  width: 100%;
 `;
 
 export default class CardMedia extends Component {
@@ -24,7 +25,6 @@ export default class CardMedia extends Component {
     });
   }
   async loadImages() {
-    console.log(this.state.json_metadata.image);
     await this.setState({
       images: this.state.json_metadata.image
     });

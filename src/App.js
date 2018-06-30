@@ -16,6 +16,7 @@ import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
 //FUNCTIONS
 import getFollowing from "./Functions/getFollowing";
+import createProfile from "./Functions/createProfile";
 //REACT ROUTER
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 //REDUX STUFF
@@ -32,7 +33,6 @@ import Modal from "react-modal";
 import colors from "./styles/colors";
 
 import { injectGlobal } from "styled-components";
-import api from "./Api";
 import { IntlProvider } from "react-intl";
 Modal.setAppElement("#root");
 
@@ -66,6 +66,7 @@ class App extends Component {
         followings: followingBucket
       });
       this.handleFirebaseLogin();
+      createProfile(this.props.steemProfile.profile._id);
     }
   }
 

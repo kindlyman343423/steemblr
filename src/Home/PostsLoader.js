@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import {
   getUserFollowing,
   getProfileVotes,
-  getSteemTrendingPosts,
   getSteemFeedPosts,
   getUserProfile
 } from ".././actions/steemActions";
@@ -20,6 +19,7 @@ import {
   removeVoteFromState,
   removePostsFromState
 } from "../actions/stateActions";
+import getNewPosts from ".././actions/getNewPosts";
 import Waypoint from "react-waypoint";
 import store from ".././store";
 import api from "../Api";
@@ -69,13 +69,14 @@ class PostsLoader extends Component {
     const query = {
       tag: this.props.steemProfile.profile._id,
       start_permlink: post.permlink,
-      start_author: post.author
+      start_author: post.author,
+      category: "new"
     };
     await this.setState({
       fetchingData: true,
       posts: this.props.steemPosts.posts
     });
-    await this.props.getSteemFeedPosts(query);
+    await this.props.getNewPosts(query);
     await this.setState({
       fetchingData: false
     });
@@ -92,9 +93,10 @@ class PostsLoader extends Component {
       await this.props.getUserProfile();
     }
     const query = {
-      tag: this.props.steemProfile.profile._id
+      tag: this.props.steemProfile.profile._id,
+      category: "new"
     };
-    await this.props.getSteemFeedPosts(query);
+    await this.props.getNewPosts(query);
 
     await this.setState({
       posts: this.props.steemPosts.posts,
@@ -209,7 +211,7 @@ export default connect(
     getUserProfile,
     getUserFollowing,
     getProfileVotes,
-    getSteemTrendingPosts,
+    getNewPosts,
     getSteemFeedPosts,
     postFollowingToState,
     removePostsFromState,

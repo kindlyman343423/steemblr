@@ -32,6 +32,12 @@ const PostsContainer = styled.div`
   flex-direction: column;
   margin-left: 250px;
   padding-top: 50px;
+  @media (max-width: 2560px) {
+    margin-left: 50%;
+  }
+  @media (max-width: 1920px) {
+    margin-left: 35%;
+  }
   @media (max-width: 1024px) {
     margin-left: 17%;
   }

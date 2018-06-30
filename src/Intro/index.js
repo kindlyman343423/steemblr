@@ -5,8 +5,9 @@ import colors from "../styles/colors";
 import LoginModal from "../Header/LoginModal";
 import Register from "../Components/Register";
 import Header from "./Header";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import logo from "../icons/logo.svg";
+import store from "../store";
 const Container = styled.div`
   background-color: #00796b;
   width: 100vw;
@@ -36,6 +37,7 @@ class Intro extends Component {
   render() {
     return (
       <Container>
+        {store.getState().login.status ? <Redirect to="/home" /> : void 0}
         <Header />
         <img src={logo} alt="logo" />
         <BtnContainer>

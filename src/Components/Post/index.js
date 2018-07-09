@@ -208,6 +208,7 @@ class Post extends Component {
             </BtnContainer>
           </CardHeader>
           <CardContent
+            section={this.props.section}
             text={this.props.post.body}
             json_metadata={this.props.post.json_metadata}
           />

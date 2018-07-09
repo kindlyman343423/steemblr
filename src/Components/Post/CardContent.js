@@ -36,8 +36,8 @@ class CardContent extends Component {
     super(props);
 
     this.state = {
-      isExpanded: false,
-      maxHeight: "350px"
+      isExpanded: this.props.section === "home" ? true : false,
+      maxHeight: this.props.section === "home" ? "unset" : "350px"
     };
     this.handleExpand = this.handleExpand.bind(this);
     this.style = {

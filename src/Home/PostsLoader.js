@@ -180,6 +180,7 @@ class PostsLoader extends Component {
           handleVoting={this.handleVoting}
           homeComponent={true}
           width="100%"
+          section="home"
         />
       );
     });

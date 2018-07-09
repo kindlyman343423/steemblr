@@ -35,7 +35,7 @@ export const CardHeader = styled.div`
   box-sizing: border-box;
   padding: 10px;
   display: grid;
-  grid-template-columns: 12% 60% auto;
+  grid-template-columns: 45px 60% auto;
   height: 75px;
   grid-column-gap: 10px;
 `;

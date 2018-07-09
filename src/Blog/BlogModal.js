@@ -32,8 +32,9 @@ const Banner = styled.div`
   background: url(${props => props.coverImage});
   box-sizing: border-box;
   position: relative;
-  background-size: cover;
-  background-color: #b4b4b4;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
   height: 250px;
   b {
     cursor: auto;

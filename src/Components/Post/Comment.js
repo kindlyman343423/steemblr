@@ -29,7 +29,6 @@ const Nickname = styled.span`
   color: ${props => props.color};
   cursor: pointer;
 `;
-const VoteContainer = styled.span``;
 
 const md = new Remarkable({
   html: true,
@@ -41,9 +40,11 @@ class Comment extends Component {
     this.state = {
       status: false,
       percent: 0,
-      value: checkValueState(this.props.comment.created)
-        ? this.props.comment.total_payout_value.replace("SBD", "")
-        : this.props.comment.pending_payout_value.replace("SBD", "")
+      value: checkValueState([
+        this.props.comment.total_payout_value.replace("SBD", ""),
+        this.props.comment.pending_payout_value.replace("SBD", ""),
+        this.props.comment.total_pending_payout_value.replace("STEEM", "")
+      ])
     };
     this.handleClick = this.handleClick.bind(this);
   }

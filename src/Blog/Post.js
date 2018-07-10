@@ -28,9 +28,11 @@ class Post extends Component {
       username: this.props.username,
       shouldOpenComments: false,
       votePercent: this.props.voteStatus.percent,
-      value: checkValueState(this.props.post.created)
-        ? this.props.post.total_payout_value.replace("SBD", "")
-        : this.props.post.pending_payout_value.replace("SBD", "")
+      value: checkValueState([
+        this.props.post.total_payout_value.replace("SBD", ""),
+        this.props.post.pending_payout_value.replace("SBD", ""),
+        this.props.post.total_pending_payout_value.replace("STEEM", "")
+      ])
     };
 
     this.setState({

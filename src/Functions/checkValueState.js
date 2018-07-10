@@ -1,12 +1,7 @@
-//function to determine which value to show
+//function is summing post/comment payout value
 const checkValueState = props => {
-  const now = Date.now();
-  const week = 604800000;
-  const date = Date.parse(props); //when post was created
-  if (now - date > week) {
-    return true; //this.props.post.total_payout_value;
-  } else {
-    return false;
-  }
+  return props.reduce((a, b) => {
+    return Number(a) + Number(b);
+  });
 };
 export default checkValueState;

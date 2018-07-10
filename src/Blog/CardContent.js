@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import sizeMe from "react-sizeme";
 import styled from "styled-components";
 
 import CardMedia from "./CardMedia";

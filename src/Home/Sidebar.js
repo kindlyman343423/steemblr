@@ -3,7 +3,6 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import store from "../store";
 import followSteem from "../Functions/followSteem";
-import uuidv4 from "uuid/v4";
 const Container = styled.div`
   color: ${colors.font.normal};
   display: flex;

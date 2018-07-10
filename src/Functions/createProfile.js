@@ -1,5 +1,4 @@
 import defaultApp from "../environmentDev";
-import store from "../store";
 const createProfile = props => {
   const dbRef = defaultApp
     .firestore()

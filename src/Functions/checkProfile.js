@@ -1,4 +1,4 @@
-import defaultApp from "../environmentDev";
+import defaultApp from ".././environmentDev";
 const checkProfile = props => {
   const dbRef = defaultApp
     .firestore()

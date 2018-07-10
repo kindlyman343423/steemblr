@@ -22,7 +22,6 @@ import {
 import getNewPosts from ".././actions/getNewPosts";
 import Waypoint from "react-waypoint";
 import store from ".././store";
-import api from "../Api";
 const Container = styled.div`
   margin-top: 25px;
 `;

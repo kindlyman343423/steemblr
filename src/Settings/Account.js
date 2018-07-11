@@ -12,7 +12,7 @@ const Container = styled.div`
 const Option = styled.div`
   margin-top: 10px;
   display: grid;
-  grid-template-columns: 20% auto;
+  grid-template-columns: 30% auto;
   p {
     color: ${colors.font.normal};
     font-size: 12px;

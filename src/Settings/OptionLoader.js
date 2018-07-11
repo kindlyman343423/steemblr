@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Account from "./Account";
+import Customize from "./Customize";
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -31,6 +32,8 @@ export default class OptionLoader extends Component {
     switch (this.props.option) {
       case "account":
         return <Account />;
+      case "customize":
+        return <Customize />;
       default:
         return <Account />;
     }

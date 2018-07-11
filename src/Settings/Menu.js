@@ -30,6 +30,12 @@ export default class Menu extends Component {
             <p>Essential settings</p>
           </div>
         </NavLink>
+        <NavLink activeClassName="activeOption" to="/settings/customize">
+          <div>
+            <b>Customize</b>
+            <p>Essential settings</p>
+          </div>
+        </NavLink>
       </Container>
     );
   }

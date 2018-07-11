@@ -5,10 +5,12 @@ import styled from "styled-components";
 import AddNew from "./AddNew";
 import Sidebar from "./Sidebar";
 import PostsLoader from "./PostsLoader";
+import UserBlog from "./UserBlog";
+import { connect } from "react-redux";
 const Layout = styled.div`
   display: grid;
   margin-top: 3em;
-  grid-template-columns: 60% auto;
+  grid-template-columns: 17% 43% auto;
   grid-column-gap: 25px;
   @media (max-width: 768px) {
   }
@@ -30,16 +32,12 @@ const PostsContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  margin-left: 250px;
   padding-top: 50px;
   @media (max-width: 2560px) {
-    margin-left: 50%;
   }
   @media (max-width: 1920px) {
-    margin-left: 35%;
   }
   @media (max-width: 1024px) {
-    margin-left: 17%;
   }
   @media (max-width: 768px) {
     margin-left: 25px;
@@ -73,6 +71,7 @@ class Home extends Component {
           <Header />
         </HeaderContainer>
         <Layout>
+          <UserBlog user={this.props.steemProfile} />
           <PostsContainer>
             <AddNew />
             <PostsLoader />
@@ -85,5 +84,7 @@ class Home extends Component {
     );
   }
 }
-
-export default hot(module)(Home);
+const mapStateToProps = state => ({
+  steemProfile: state.steemProfile
+});
+export default hot(module)(connect(mapStateToProps)(Home));

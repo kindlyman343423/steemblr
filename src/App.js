@@ -11,6 +11,7 @@ import Intro from "./Intro/";
 import Search from "./Search/";
 import Blog from "./Blog";
 import Settings from "./Settings";
+import EditTheme from "./EditTheme/";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
@@ -118,6 +119,10 @@ class App extends Component {
             <Route
               path="/settings/:option"
               render={props => <Settings {...props} />}
+            />
+            <Route
+              path="/customize/:username"
+              render={props => <EditTheme {...props} />}
             />
           </div>
         </Router>

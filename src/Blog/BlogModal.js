@@ -126,29 +126,18 @@ export default class BlogModal extends Component {
   async loadAccount(props) {
     await store.dispatch(getAccounts([props]));
     const search = store.getState().steemAccounts.accounts.filter(acc => {
-      return acc.name === this.props.post.author;
+      return acc.author === this.props.post.author;
     });
     const coverImage =
-      search[0] === undefined ||
-      search[0] === null ||
-      search[0] === "" ||
-      search[0].json_metadata === "" ||
-      search[0].json_metadata === "{}" ||
-      JSON.parse(search[0].json_metadata).profile.cover_image === undefined
+      search[0] === undefined || search[0] === null || search[0] === ""
         ? void 0
-        : JSON.parse(search[0].json_metadata).profile.cover_image;
+        : search[0].cover_image;
     await this.setState({
-      account: search,
+      account: search[0],
       coverImageUrl: coverImage
     });
   }
   render() {
-    const jsonMetadata =
-      this.state.account === undefined ||
-      this.state.account[0].json_metadata === "" ||
-      this.state.account[0].json_metadata === "{}"
-        ? ""
-        : JSON.parse(this.state.account[0].json_metadata);
     const query = {
       author: this.props.post.author,
       startPermlink: this.props.post.permlink,
@@ -181,8 +170,16 @@ export default class BlogModal extends Component {
             />
           </Banner>
           <BlogTitle>
-            <b>{jsonMetadata === "" ? void 0 : jsonMetadata.profile.name}</b>
-            <p>{jsonMetadata === "" ? void 0 : jsonMetadata.profile.about}</p>
+            <b>
+              {this.state.account === undefined
+                ? void 0
+                : this.state.account.name}
+            </b>
+            <p>
+              {this.state.account === undefined
+                ? void 0
+                : this.state.account.about}
+            </p>
           </BlogTitle>
           <Content>
             <PostsLoader query={query} />

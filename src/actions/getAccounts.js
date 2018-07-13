@@ -1,25 +1,28 @@
 import store from "../store";
-import steem from "steem";
+import defaultApp from "../environmentDev";
 import { GET_ACCOUNT } from "./types";
 export const getAccounts = props => async dispatch => {
   //Checking store for profile info, if profile not found calling api/db and dispatching to store
-  const query = props;
+
   let bucket = [];
   const oldState = store.getState().steemAccounts.accounts;
+  const dbRef = defaultApp
+    .firestore()
+    .collection("users")
+    .doc(props[0])
+    .collection("blog")
+    .doc("layout");
   const search = store.getState().steemAccounts.accounts.filter(acc => {
-    return acc.name === props[0];
+    return acc.author === props[0];
   });
   if (search.length !== 0) {
     return void 0;
   } else {
-    await steem.api
-      .getAccountsAsync(query)
-      .then(result => {
-        bucket.push(result);
-        return result;
-      })
+    await dbRef
+      .get()
+      .then(doc => bucket.push(doc.data()))
       .catch(function(error) {
-        console.log(error);
+        console.log("Error getting cached document:", error);
       });
     const newState = oldState.concat(bucket[0]);
     dispatch({

@@ -2,7 +2,6 @@ import store from "../store";
 import defaultApp from "../environmentDev";
 import { GET_POSTS_BY_AUTHOR } from "./types";
 export const getPostsByAuthor = props => async dispatch => {
-  console.log(props);
   const oldState = store.getState().steemPostsByAuthor.posts;
   let bucket = [];
   const dbRef = defaultApp
@@ -21,7 +20,6 @@ export const getPostsByAuthor = props => async dispatch => {
   dbRef
     .get()
     .then(snapshot => {
-      console.log(snapshot);
       snapshot.forEach(doc => {
         bucket.push(doc.data());
       });

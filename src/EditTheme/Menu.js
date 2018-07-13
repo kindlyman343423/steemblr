@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import { Link } from "react-router-dom";
+
+import AppearanceOptions from "./AppearanceOptions";
+
 const Container = styled.div`
   background-color: #37474f;
   display: block;
@@ -53,6 +56,7 @@ const SaveBtn = styled.button`
     transition: 0.5s;
   }
 `;
+
 export default class Menu extends Component {
   render() {
     return (
@@ -64,6 +68,7 @@ export default class Menu extends Component {
           <h2>Edit Theme</h2>
           <SaveBtn>Save</SaveBtn>
         </Header>
+        <AppearanceOptions />
       </Container>
     );
   }

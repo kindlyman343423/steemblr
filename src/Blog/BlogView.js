@@ -23,7 +23,6 @@ const Container = styled.div`
 const Banner = styled.div`
   background: url(${props => props.coverImage});
   box-sizing: border-box;
-  position: relative;
   background-attachment: fixed;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -59,9 +58,9 @@ const BannerActions = styled.div`
   margin-bottom: -40px;
   color: #fff;
   background: linear-gradient(
-    rgba(38, 50, 56, 0.5),
-    rgba(38, 50, 56, 0.4),
-    rgba(38, 50, 56, 0.12)
+    rgba(38, 50, 56, 0.2),
+    rgba(38, 50, 56, 0.15),
+    rgba(38, 50, 56, 0.01)
   );
   button {
     margin-right: 0;
@@ -89,22 +88,29 @@ const Avatar = styled.div`
   height: 100px;
   position: absolute;
   left: calc(50% - 50px);
-  margin-bottom: -35px;
-  bottom: 0;
+  margin-top: -60px;
+  top: 0;
 `;
 const BlogTitle = styled.div`
+  @font-face {
+    font-family: ${props => props.font.family};
+    src: url(${props => props.font.url});
+  }
   box-sizing: border-box;
-  margin-top: 60px;
+  margin-top: ${props => props.margin};
   display: flex;
   text-align: center;
   flex-direction: column;
   justify-content: center;
+  position: relative;
   h1 {
+    font-family: ${props => props.font.family}, ${props => props.font.category};
     font-size: 52px;
-    margin: 0;
+    margin-top: ${props => props.marginTop};
+    margin-bottom: 20px;
   }
   p {
-    padding-top: 10px;
+    margin-top: ${props => props.marginNoTitle};
     padding-left: 20px;
     padding-right: 20px;
     white-space: inherit;
@@ -119,6 +125,7 @@ const BlogTitle = styled.div`
 `;
 const Content = styled.div`
   box-sizing: border-box;
+  margin-top: ${props => props.marginNoTitle}
   padding: 20px;
   min-height: 100vh;
   display: flex;
@@ -175,29 +182,66 @@ export default class Blog extends Component {
             )}
           </BannerActions>
 
-          <Banner coverImage={this.state.coverImageUrl}>
-            <Avatar
-              url={`https://steemitimages.com/u/${
-                this.props.match.params.username
-              }/avatar`}
-              avatarShape={
-                this.state.account.avatar_shape === "circle" ? "50%" : 0
-              }
-            />
-          </Banner>
-          <BlogTitle titleColor={this.state.account.title_color}>
-            <h1>
-              {this.state.account === undefined
-                ? void 0
-                : this.state.account.name}
-            </h1>
-            <p>
-              {this.state.account === undefined
-                ? void 0
-                : this.state.account.about}
-            </p>
+          {this.state.account.show_header_image ? (
+            <Banner coverImage={this.state.coverImageUrl} />
+          ) : (
+            void 0
+          )}
+          <BlogTitle
+            titleColor={this.state.account.title_color}
+            font={this.state.account.title_font}
+            margin={
+              this.state.account.show_header_image === false &&
+              this.state.account.show_avatar
+                ? "100px"
+                : "0px"
+            }
+            marginTop={
+              this.state.account.show_avatar === false ? "40px" : "60px"
+            }
+            marginNoTitle={
+              this.state.account.show_title === false ? "100px" : "0px"
+            }
+          >
+            {this.state.account.show_avatar ? (
+              <Avatar
+                url={`https://steemitimages.com/u/${
+                  this.props.match.params.username
+                }/avatar`}
+                avatarShape={
+                  this.state.account.avatar_shape === "circle" ? "50%" : 0
+                }
+              />
+            ) : (
+              void 0
+            )}
+            {this.state.account.show_title ? (
+              <h1>
+                {this.state.account === undefined
+                  ? void 0
+                  : this.state.account.name}
+              </h1>
+            ) : (
+              void 0
+            )}
+            {this.state.account.show_description ? (
+              <p>
+                {this.state.account === undefined
+                  ? void 0
+                  : this.state.account.about}
+              </p>
+            ) : (
+              void 0
+            )}
           </BlogTitle>
-          <Content>
+          <Content
+            marginNoTitle={
+              this.state.account.show_title === false &&
+              this.state.account.show_description === false
+                ? "100px"
+                : "0px"
+            }
+          >
             <PostsLoader
               key={this.props.location.key}
               query={query}

@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import { Link } from "react-router-dom";
-
+import { connect } from "react-redux";
 import AppearanceOptions from "./AppearanceOptions";
-
+import saveTheme from "../Functions/saveTheme";
 const Container = styled.div`
-  background-color: #37474f;
+  background-color: #9e9e9e;
   display: block;
   overflow-y: scroll;
   max-height: 100vh;
@@ -57,7 +57,17 @@ const SaveBtn = styled.button`
   }
 `;
 
-export default class Menu extends Component {
+class Menu extends Component {
+  save = () => {
+    const account = this.props.steemAccounts.accounts.filter(acc => {
+      return acc.author === this.props.steemProfile.profile._id;
+    })[0];
+    const props = {
+      user: this.props.steemProfile.profile._id,
+      layout: account
+    };
+    saveTheme(props);
+  };
   render() {
     return (
       <Container>
@@ -66,10 +76,18 @@ export default class Menu extends Component {
             <ExitBtn>Exit</ExitBtn>
           </Link>
           <h2>Edit Theme</h2>
-          <SaveBtn>Save</SaveBtn>
+          <SaveBtn onClick={this.save}>Save</SaveBtn>
         </Header>
         <AppearanceOptions />
       </Container>
     );
   }
 }
+const mapStateToProps = state => ({
+  steemProfile: state.steemProfile,
+  steemAccounts: state.steemAccounts
+});
+export default connect(
+  mapStateToProps,
+  {}
+)(Menu);

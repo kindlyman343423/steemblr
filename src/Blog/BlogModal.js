@@ -6,22 +6,7 @@ import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
 import { Link } from "react-router-dom";
-const ModalStyle = {
-  overlay: {
-    backgroundColor: "rgba(80,80,80, 0.3)"
-  },
 
-  content: {
-    top: 0,
-    left: window.screen.width > 768 ? "50vw" : "15vw",
-    right: 0,
-    bottom: 0,
-    borderRadius: 0,
-    border: 0,
-    boxSizing: "border-box",
-    padding: 0
-  }
-};
 const Container = styled.div`
   border-radius: 2px;
   background-color: rgba(
@@ -174,9 +159,30 @@ export default class BlogModal extends Component {
       beforeDate: this.props.post.active,
       initial: true
     };
+
     if (this.state.account === undefined) {
       return <div />;
     } else {
+      const ModalStyle = {
+        overlay: {
+          backgroundColor: "rgba(80,80,80, 0.3)"
+        },
+
+        content: {
+          top: 0,
+          left: window.screen.width > 768 ? "50vw" : "15vw",
+          right: 0,
+          bottom: 0,
+          borderRadius: 0,
+          border: 0,
+          boxSizing: "border-box",
+          padding: 0,
+          background: `rgba( ${this.state.account.background_color.r},
+            ${this.state.account.background_color.g},
+            ${this.state.account.background_color.b},
+            ${this.state.account.background_color.a})`
+        }
+      };
       return (
         <Modal
           isOpen={this.props.isOpen}

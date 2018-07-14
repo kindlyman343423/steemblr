@@ -108,6 +108,8 @@ const BlogTitle = styled.div`
     font-size: 52px;
     margin-top: ${props => props.marginTop};
     margin-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   p {
     margin-top: ${props => props.marginNoTitle};

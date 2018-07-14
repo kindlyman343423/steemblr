@@ -106,6 +106,8 @@ const BlogTitle = styled.div`
   h1 {
     font-family: ${props => props.font.family}, ${props => props.font.category};
     font-size: 52px;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-top: ${props => props.marginTop};
     margin-bottom: 20px;
   }

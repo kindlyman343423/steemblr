@@ -12,10 +12,20 @@ const Layout = styled.div`
   margin-top: 3em;
   grid-template-columns: 17% 43% auto;
   grid-column-gap: 25px;
+  grid-template-areas:
+    "userBlog main sidebar"
+  }
   @media (max-width: 768px) {
+    grid-template-columns: 60% 35%;
+    grid-template-areas:
+    "main sidebar";
+    grid-column-gap: 10px;
   }
   @media (max-width: 425px) {
-    grid-template-columns: 100% auto;
+    grid-template-columns: 100%;
+    grid-template-areas:
+    "main"
+
     margin-top: 2em;
   }
   @media (max-width: 375px) {
@@ -33,6 +43,7 @@ const PostsContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 50px;
+  grid-area: main;
   @media (max-width: 2560px) {
   }
   @media (max-width: 1920px) {

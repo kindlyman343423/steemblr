@@ -10,6 +10,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-start;
   margin-top: 25px;
+  grid-area: sidebar;
   span {
     box-sizing: border-box;
     padding-left: 5px;

@@ -8,6 +8,10 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  grid-area: userBlog;
+  @media (max-width: 425px) {
+    display: none;
+  }
 `;
 const Avatar = styled.div`
   box-sizing: border-box;

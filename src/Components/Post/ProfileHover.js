@@ -12,6 +12,12 @@ const Container = styled.div`
   margin-top: -20px;
   top: 80px;
   z-index: 600;
+  background-color: rgba(
+    ${props => props.backgroundColor.r},
+    ${props => props.backgroundColor.g},
+    ${props => props.backgroundColor.b},
+    ${props => props.backgroundColor.a}
+  );
   @media (max-width: 768px) {
     display: none;
     width: 250px;
@@ -66,16 +72,23 @@ const Avatar = styled.div`
   left: calc(50% - 35px);
   margin-bottom: -35px;
   bottom: 0;
+  border-radius: ${props => props.avatarShape};
 `;
 const Content = styled.div`
+  @font-face {
+    font-family: ${props => props.font.family};
+    src: url(${props => props.font.url});
+  }
+
   box-sizing: border-box;
-  margin-top: 50px;
+  margin-top: ${props => props.marginTop};
   display: flex;
   text-align: center;
   flex-direction: column;
   justify-content: center;
 
   b {
+    font-family: ${props => props.font.family}, ${props => props.font.category};
     cursor: inherit;
     font-size: 24px;
   }
@@ -85,7 +98,19 @@ const Content = styled.div`
     padding-right: 20px;
     white-space: inherit;
     overflow: hidden;
+    color: rgba(
+      ${props => props.titleColor.r},
+      ${props => props.titleColor.g},
+      ${props => props.titleColor.b},
+      ${props => props.titleColor.a}
+    );
   }
+  color: rgba(
+    ${props => props.titleColor.r},
+    ${props => props.titleColor.g},
+    ${props => props.titleColor.b},
+    ${props => props.titleColor.a}
+  );
 `;
 const FeaturedPosts = styled.div`
   box-sizing: border-box;
@@ -125,42 +150,55 @@ export default class ProfileHover extends Component {
     });
   }
   render() {
-    return (
-      <Container
-        onMouseOver={this.props.handleProfileDivHover}
-        onMouseLeave={this.props.handleProfileHover}
-      >
-        <Header coverImage={this.state.coverImageUrl}>
-          <HeaderActions>
-            <Link to={"/@" + this.props.author}>{this.props.author}</Link>
-            {this.props.isFollowing ? (
-              void 0
+    if (this.state.account === undefined) {
+      return <div />;
+    } else {
+      return (
+        <Container
+          onMouseOver={this.props.handleProfileDivHover}
+          onMouseLeave={this.props.handleProfileHover}
+          backgroundColor={this.state.account.background_color}
+        >
+          <Header coverImage={this.state.account.cover_image}>
+            <HeaderActions>
+              <Link to={"/@" + this.props.author}>{this.props.author}</Link>
+              {this.props.isFollowing ? (
+                void 0
+              ) : (
+                <FollowBtn onClick={this.props.handleFollowBtn}>
+                  Follow
+                </FollowBtn>
+              )}
+            </HeaderActions>
+            {this.state.account.show_avatar ? (
+              <Avatar
+                url={`https://steemitimages.com/u/${this.props.author}/avatar`}
+                avatarShape={
+                  this.state.account.avatar_shape === "circle" ? "50%" : 0
+                }
+              />
             ) : (
-              <FollowBtn onClick={this.props.handleFollowBtn}>Follow</FollowBtn>
+              void 0
             )}
-          </HeaderActions>
-          <Avatar
-            url={`https://steemitimages.com/u/${this.props.author}/avatar`}
-          />
-        </Header>
-        <Content>
-          <b>
-            {this.state.account === undefined
-              ? void 0
-              : this.state.account.name}
-          </b>
-          <p>
-            {this.state.account === undefined
-              ? void 0
-              : this.state.account.about}
-          </p>
-          <FeaturedPosts>
-            <Post />
-            <Post />
-            <Post />
-          </FeaturedPosts>
-        </Content>
-      </Container>
-    );
+          </Header>
+          <Content
+            titleColor={this.state.account.title_color}
+            font={this.state.account.title_font}
+            marginTop={this.state.account.show_avatar ? "50px" : "10px"}
+          >
+            <b>
+              {this.state.account === undefined
+                ? void 0
+                : this.state.account.name}
+            </b>
+            <p>
+              {this.state.account === undefined
+                ? void 0
+                : this.state.account.about}
+            </p>
+          </Content>
+        </Container>
+      );
+    }
   }
 }

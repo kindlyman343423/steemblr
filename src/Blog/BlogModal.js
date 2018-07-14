@@ -6,7 +6,6 @@ import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
 import { Link } from "react-router-dom";
-import Spinner from "../Components/Spinner";
 const ModalStyle = {
   overlay: {
     backgroundColor: "rgba(80,80,80, 0.3)"
@@ -143,9 +142,6 @@ const Content = styled.div`
   box-sizing: border-box;
   margin-top: ${props => props.marginNoTitle};
   padding: 20px;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
 `;
 
 export default class BlogModal extends Component {

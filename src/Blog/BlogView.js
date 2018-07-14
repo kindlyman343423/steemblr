@@ -183,7 +183,7 @@ export default class Blog extends Component {
           </BannerActions>
 
           {this.state.account.show_header_image ? (
-            <Banner coverImage={this.state.coverImageUrl} />
+            <Banner coverImage={this.state.account.cover_image} />
           ) : (
             void 0
           )}

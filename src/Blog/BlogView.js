@@ -125,7 +125,7 @@ const BlogTitle = styled.div`
 `;
 const Content = styled.div`
   box-sizing: border-box;
-  margin-top: ${props => props.marginNoTitle}
+  margin-top: ${props => props.marginNoTitle};
   padding: 20px;
   min-height: 100vh;
   display: flex;
@@ -164,7 +164,13 @@ export default class Blog extends Component {
       initial: true
     };
     if (this.state.account === undefined) {
-      return <Spinner />;
+      return (
+        <div
+          style={{ height: "100vh", display: "flex", justifyContent: "center" }}
+        >
+          <Spinner />
+        </div>
+      );
     } else {
       return (
         <Container backgroundColor={this.state.account.background_color}>

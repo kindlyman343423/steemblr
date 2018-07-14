@@ -6,6 +6,7 @@ import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
 import { Link } from "react-router-dom";
+import Spinner from "../Components/Spinner";
 const ModalStyle = {
   overlay: {
     backgroundColor: "rgba(80,80,80, 0.3)"
@@ -24,18 +25,23 @@ const ModalStyle = {
 };
 const Container = styled.div`
   border-radius: 2px;
-  background-color: white;
+  background-color: rgba(
+    ${props => props.backgroundColor.r},
+    ${props => props.backgroundColor.g},
+    ${props => props.backgroundColor.b},
+    ${props => props.backgroundColor.a}
+  );
   width: 100%;
   z-index: 600;
 `;
 const Banner = styled.div`
   background: url(${props => props.coverImage});
   box-sizing: border-box;
-  position: relative;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
-  height: 250px;
+  background-color: #b4b4b4;
+  height: 350px;
   b {
     cursor: auto;
   }
@@ -53,29 +59,39 @@ const Banner = styled.div`
 const BannerActions = styled.div`
   position: sticky;
   top: 0;
-  z-index: 1500;
+  z-index: 1100;
   box-sizing: border-box;
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 10px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   height: 40px;
   margin-bottom: -40px;
   color: #fff;
   background: linear-gradient(
-    rgba(38, 50, 56, 0.5),
-    rgba(38, 50, 56, 0.4),
-    rgba(38, 50, 56, 0.12)
+    rgba(38, 50, 56, 0.2),
+    rgba(38, 50, 56, 0.15),
+    rgba(38, 50, 56, 0.01)
   );
+  a {
+    color: #fff;
+  }
   button {
     margin-right: 0;
     color: #fff;
   }
-  a {
-    color: #fff;
+  img {
+    transform: scale(0.7, 0.7);
+  }
+  svg {
+    cursor: pointer;
+  }
+  span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;
 
@@ -83,35 +99,53 @@ const Avatar = styled.div`
   background: url(${props => props.url});
   background-size: cover;
   background-repeat: no-repeat;
-  width: 80px;
-  height: 80px;
+  border-radius: ${props => props.avatarShape};
+  width: 100px;
+  height: 100px;
   position: absolute;
-  left: calc(50% - 40px);
-  margin-bottom: -40px;
-  bottom: 0;
+  left: calc(50% - 50px);
+  margin-top: -60px;
+  top: 0;
 `;
 const BlogTitle = styled.div`
+  @font-face {
+    font-family: ${props => props.font.family};
+    src: url(${props => props.font.url});
+  }
   box-sizing: border-box;
-  margin-top: 50px;
+  margin-top: ${props => props.margin};
   display: flex;
   text-align: center;
   flex-direction: column;
   justify-content: center;
-
-  b {
-    cursor: inherit;
-    font-size: 24px;
+  position: relative;
+  h1 {
+    font-family: ${props => props.font.family}, ${props => props.font.category};
+    font-size: 52px;
+    margin-top: ${props => props.marginTop};
+    margin-bottom: 20px;
   }
   p {
-    padding-top: 10px;
+    margin-top: ${props => props.marginNoTitle};
     padding-left: 20px;
     padding-right: 20px;
     white-space: inherit;
     overflow: hidden;
   }
+  color: rgba(
+    ${props => props.titleColor.r},
+    ${props => props.titleColor.g},
+    ${props => props.titleColor.b},
+    ${props => props.titleColor.a}
+  );
 `;
 const Content = styled.div`
+  box-sizing: border-box;
+  margin-top: ${props => props.marginNoTitle};
   padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
 `;
 
 export default class BlogModal extends Component {
@@ -144,48 +178,84 @@ export default class BlogModal extends Component {
       beforeDate: this.props.post.active,
       initial: true
     };
-    return (
-      <Modal
-        isOpen={this.props.isOpen}
-        onRequestClose={this.props.handleBlogModal}
-        style={ModalStyle}
-      >
-        <Container>
-          <BannerActions>
-            <Link to={"/@" + this.props.post.author}>
-              {this.props.post.author}
-            </Link>
-            {this.props.isFollowing ? (
-              void 0
-            ) : (
-              <FollowBtn onClick={this.props.handleFollowBtn}>Follow</FollowBtn>
-            )}
-          </BannerActions>
+    if (this.state.account === undefined) {
+      return <div />;
+    } else {
+      return (
+        <Modal
+          isOpen={this.props.isOpen}
+          onRequestClose={this.props.handleBlogModal}
+          style={ModalStyle}
+        >
+          <Container backgroundColor={this.state.account.background_color}>
+            <BannerActions>
+              <Link to={"/@" + this.props.post.author}>
+                {this.props.post.author}
+              </Link>
+              {this.props.isFollowing ? (
+                void 0
+              ) : (
+                <FollowBtn onClick={this.props.handleFollowBtn}>
+                  Follow
+                </FollowBtn>
+              )}
+            </BannerActions>
 
-          <Banner coverImage={this.state.coverImageUrl}>
-            <Avatar
-              url={`https://steemitimages.com/u/${
-                this.props.post.author
-              }/avatar`}
-            />
-          </Banner>
-          <BlogTitle>
-            <b>
-              {this.state.account === undefined
-                ? void 0
-                : this.state.account.name}
-            </b>
-            <p>
-              {this.state.account === undefined
-                ? void 0
-                : this.state.account.about}
-            </p>
-          </BlogTitle>
-          <Content>
-            <PostsLoader query={query} />
-          </Content>
-        </Container>
-      </Modal>
-    );
+            <Banner coverImage={this.state.account.cover_image} />
+
+            <BlogTitle
+              titleColor={this.state.account.title_color}
+              font={this.state.account.title_font}
+              margin={
+                this.state.account.show_header_image === false &&
+                this.state.account.show_avatar
+                  ? "100px"
+                  : "0px"
+              }
+              marginTop={
+                this.state.account.show_avatar === false ? "40px" : "60px"
+              }
+              marginNoTitle={
+                this.state.account.show_title === false ? "100px" : "0px"
+              }
+            >
+              {this.state.account.show_avatar ? (
+                <Avatar
+                  url={`https://steemitimages.com/u/${
+                    this.props.post.author
+                  }/avatar`}
+                  avatarShape={
+                    this.state.account.avatar_shape === "circle" ? "50%" : 0
+                  }
+                />
+              ) : (
+                void 0
+              )}
+              {this.state.account.show_title ? (
+                <h1>
+                  {this.state.account === undefined
+                    ? void 0
+                    : this.state.account.name}
+                </h1>
+              ) : (
+                void 0
+              )}
+              {this.state.account.show_description ? (
+                <p>
+                  {this.state.account === undefined
+                    ? void 0
+                    : this.state.account.about}
+                </p>
+              ) : (
+                void 0
+              )}
+            </BlogTitle>
+            <Content>
+              <PostsLoader query={query} />
+            </Content>
+          </Container>
+        </Modal>
+      );
+    }
   }
 }

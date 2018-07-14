@@ -203,7 +203,11 @@ export default class BlogModal extends Component {
               )}
             </BannerActions>
 
-            <Banner coverImage={this.state.account.cover_image} />
+            {this.state.account.show_header_image ? (
+              <Banner coverImage={this.state.account.cover_image} />
+            ) : (
+              void 0
+            )}
 
             <BlogTitle
               titleColor={this.state.account.title_color}

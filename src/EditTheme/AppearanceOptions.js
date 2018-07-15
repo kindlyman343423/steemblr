@@ -170,7 +170,7 @@ class AppearanceOptions extends Component {
       value: {
         family: nextFont.family,
         category: nextFont.category,
-        url: nextFont.files.regular
+        url: nextFont.files.regular.replace("http://", "https://")
       }
     };
     this.setState({

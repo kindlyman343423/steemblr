@@ -18,15 +18,17 @@ const createProfile = props => {
               store.getState().steemProfile.profile.account.json_metadata
             ).profile
           : void 0;
-
       const blog = {
         author: props,
-        about: json.about === undefined ? "" : json.about,
+        about: json === undefined || json.about === undefined ? "" : json.about,
         avatar_shape: "circle",
         background_color: { r: 225, g: 226, b: 225, a: 1 },
-        cover_image: json.cover_image === undefined ? "" : json.cover_image,
+        cover_image:
+          json === undefined || json.cover_image === undefined
+            ? ""
+            : json.cover_image,
         layout: "default",
-        name: json.name === undefined ? "" : json.name,
+        name: json === undefined || json.name === undefined ? "" : json.name,
         show_avatar: true,
         show_description: true,
         show_header_image: true,

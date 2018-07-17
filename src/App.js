@@ -2,16 +2,8 @@ import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 //CSS
 import "./App.css";
-//COMPONENTS
-import Home from "./Home/";
-import Logout from "./Components/Logout";
-import Explore from "./Explore/Explore";
-import RedirectLoginToken from "./Components/RedirectLoginToken";
-import Intro from "./Intro/";
-import Search from "./Search/";
-import Blog from "./Blog";
-import Settings from "./Settings";
-import EditTheme from "./EditTheme/";
+import Spinner from "./Components/Spinner";
+import LoadingSpin from "./Components/Loading";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
@@ -20,7 +12,6 @@ import getFollowing from "./Functions/getFollowing";
 import createProfile from "./Functions/createProfile";
 //REACT ROUTER
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-//REDUX STUFF
 import { connect } from "react-redux";
 import {
   getUserProfile,
@@ -35,8 +26,66 @@ import colors from "./styles/colors";
 
 import { injectGlobal } from "styled-components";
 import { IntlProvider } from "react-intl";
+import Loadable from "react-loadable";
 Modal.setAppElement("#root");
-
+function Loading(props) {
+  if (props.error) {
+    return (
+      <div>
+        Error! <button onClick={props.retry}>Retry</button>
+      </div>
+    );
+  } else if (props.pastDelay) {
+    return <LoadingSpin />;
+  } else {
+    return null;
+  }
+}
+const Intro = Loadable({
+  loader: () => import("./Intro/"),
+  loading: Loading,
+  delay: 300
+});
+const Explore = Loadable({
+  loader: () => import("./Explore/Explore"),
+  loading: Loading,
+  delay: 300
+});
+const Home = Loadable({
+  loader: () => import("./Home"),
+  loading: Loading,
+  delay: 300
+});
+const Settings = Loadable({
+  loader: () => import("./Settings"),
+  loading: Loading,
+  delay: 300
+});
+const EditTheme = Loadable({
+  loader: () => import("./EditTheme/"),
+  loading: Loading,
+  delay: 300
+});
+const Blog = Loadable({
+  loader: () => import("./Blog"),
+  loading: Loading,
+  delay: 300
+});
+const Search = Loadable({
+  loader: () => import("./Search/"),
+  loading: Loading,
+  delay: 300
+});
+const Logout = Loadable({
+  loader: () => import("./Components/Logout"),
+  loading: Loading,
+  delay: 300
+});
+const RedirectLoginToken = Loadable({
+  loader: () => import("./Components/RedirectLoginToken"),
+  loading: Loading,
+  delay: 300
+});
 injectGlobal`
   body {
     background-color:${colors.background}

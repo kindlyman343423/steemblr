@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import store from "../store";
 const deleteImage = () => {
   const imageUUID = store.getState().newPost.imageUUID;

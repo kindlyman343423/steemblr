@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 //CSS
 import "./App.css";
-import Spinner from "./Components/Spinner";
-import LoadingSpin from "./Components/Loading";
+import LoadingSpin from "./Components/LoadingSpin";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";

@@ -115,10 +115,12 @@ class App extends Component {
         followings: followingBucket
       });
       this.handleFirebaseLogin();
-      createProfile(this.props.steemProfile.profile._id);
+      this.handleProfileCreate();
     }
   }
-
+  async handleProfileCreate() {
+    await createProfile(this.props.steemProfile.profile._id);
+  }
   handleLogout() {
     this.setState({
       login: localStorage.getItem("token") !== null ? true : false,

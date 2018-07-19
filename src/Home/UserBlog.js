@@ -9,6 +9,9 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-end;
   grid-area: userBlog;
+  @media (max-width: 768px) {
+    display: none;
+  }
   @media (max-width: 425px) {
     display: none;
   }

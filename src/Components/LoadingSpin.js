@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import CircularProgress from "@material-ui/core/CircularProgress";
 const Container = styled.div`
   display: flex;
   justify-content: center;

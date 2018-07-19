@@ -112,7 +112,6 @@ class SideMenu extends Component {
           anchor="right"
           open={this.state.open}
           openSecondary={true}
-          docked={false}
           onClose={this.toggleDrawer("open", false)}
         >
           {window.innerWidth > 425 ? (

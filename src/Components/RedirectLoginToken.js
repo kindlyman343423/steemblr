@@ -19,6 +19,6 @@ export default class RedirectLoginToken extends Component {
   }
 
   render() {
-    return <Spinner />;
+    return <span />;
   }
 }

@@ -7,6 +7,10 @@ import Sidebar from "./Sidebar";
 import PostsLoader from "./PostsLoader";
 import UserBlog from "./UserBlog";
 import { connect } from "react-redux";
+import Modal from "react-modal";
+import FirstLoad from "./FirstLoad";
+import checkProfile from "../Functions/checkProfile";
+import delay from "../Functions/delay";
 const Layout = styled.div`
   display: grid;
   margin-top: 3em;
@@ -71,13 +75,49 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      text: ""
+      text: "",
+      isOpen: false
+    };
+    this.modalStyle = {
+      content: {
+        border: "0",
+        padding: "0"
+      }
     };
   }
-
+  componentDidMount() {
+    this.handleProps();
+  }
+  async handleProps() {
+    if (this.props.steemProfile.profile._id === undefined) {
+      await delay(200);
+      this.handleProps();
+    } else {
+      checkProfile(this.props.steemProfile.profile._id).then(value => {
+        if (value === false) {
+          this.setState({
+            isOpen: true
+          });
+        }
+      });
+    }
+  }
+  handleFirstLoad() {
+    this.setState({
+      isOpen: true
+    });
+  }
+  handleClose = () => {
+    this.setState({
+      isOpen: false
+    });
+  };
   render() {
     return (
       <div className="container">
+        <Modal isOpen={this.state.isOpen} style={this.modalStyle}>
+          <FirstLoad handleClose={this.handleClose} />
+        </Modal>
         <HeaderContainer>
           <Header />
         </HeaderContainer>

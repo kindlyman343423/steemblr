@@ -8,7 +8,6 @@ import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
 //FUNCTIONS
 import getFollowing from "./Functions/getFollowing";
-import createProfile from "./Functions/createProfile";
 //REACT ROUTER
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -115,12 +114,9 @@ class App extends Component {
         followings: followingBucket
       });
       this.handleFirebaseLogin();
-      this.handleProfileCreate();
     }
   }
-  async handleProfileCreate() {
-    await createProfile(this.props.steemProfile.profile._id);
-  }
+
   handleLogout() {
     this.setState({
       login: localStorage.getItem("token") !== null ? true : false,

@@ -7,13 +7,14 @@ const createProfile = async props => {
   if (localStorage.getItem("cToken") === null) {
     await getFirebaseToken(props);
     firebaseAuth();
-    await delay(500);
+    await delay(1000);
     createProfile(store.getState().steemProfile.profile._id);
   } else {
     if (props === undefined) {
       await delay(500);
       createProfile(store.getState().steemProfile.profile._id);
     }
+    firebaseAuth();
     const dbRef = defaultApp
       .firestore()
       .collection("users")

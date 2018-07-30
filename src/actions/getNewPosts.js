@@ -1,4 +1,4 @@
-import defaultApp from "../environmentDev";
+import defaultApp from "../environment";
 import store from "../store";
 import { GET_NEW_POSTS } from "./types";
 const getNewPosts = props => async dispatch => {

@@ -1,5 +1,5 @@
 import steem from "steem";
-import defaultApp from "../environmentDev";
+import defaultApp from "../environment";
 import { firestore } from "firebase/app";
 
 const postToDb = async (author, permlink, isNSFW, postType, tags) => {

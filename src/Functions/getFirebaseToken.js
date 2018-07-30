@@ -1,7 +1,7 @@
 const getFirebaseToken = async props => {
+  console.log(process.env);
   const call = await fetch(
-    `http://localhost:5000/steemblr/us-central1/reciveToken?uuid=${props}`,
-    //`https://us-central1-steemblr.cloudfunctions.net/reciveToken?uuid=${props}`,
+    `${process.env.REACT_APP_FIREBASE_TOKEN_URL}${props}`,
     {
       method: "GET",
       headers: {

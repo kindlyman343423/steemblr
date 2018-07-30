@@ -1,5 +1,5 @@
 import store from "../store";
-import defaultApp from "../environmentDev";
+import defaultApp from "../environment";
 import { GET_POSTS_BY_AUTHOR } from "./types";
 export const getPostsByAuthor = props => async dispatch => {
   const oldState = store.getState().steemPostsByAuthor.posts;

@@ -1,5 +1,5 @@
 import store from "../store";
-import defaultApp from "../environmentDev";
+import defaultApp from "../environment";
 import { GET_ACCOUNT } from "./types";
 export const getAccounts = props => async dispatch => {
   //Checking store for profile info, if profile not found calling api/db and dispatching to store

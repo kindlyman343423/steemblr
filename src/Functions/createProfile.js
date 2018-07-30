@@ -1,4 +1,4 @@
-import defaultApp from "../environmentDev";
+import defaultApp from "../environment";
 import store from "../store";
 import getFirebaseToken from "./getFirebaseToken";
 import firebaseAuth from "./firebaseAuth";

@@ -1,4 +1,4 @@
-import defaultApp from "../environmentDev";
+import defaultApp from "../environment";
 
 //Function to save edited theme to database
 const saveTheme = props => {

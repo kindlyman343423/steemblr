@@ -1,4 +1,4 @@
-import defaultApp from "../environmentDev";
+import defaultApp from "../environment";
 const checkProfile = props => {
   if (props === undefined) {
     return void 0;

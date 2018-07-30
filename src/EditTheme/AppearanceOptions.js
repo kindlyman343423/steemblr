@@ -257,7 +257,7 @@ class AppearanceOptions extends Component {
           <OptionContainerRow>
             <span>Title font</span>
             <FontPicker
-              apiKey="AIzaSyC-3VdWlpq-FgNk4cUYk22NapKqWFCTmcQ"
+              apiKey={process.env.REACT_APP_GOOGLE_FONTS_API}
               activeFont={this.state.titleFont}
               onChange={this.handleFontChange}
             />

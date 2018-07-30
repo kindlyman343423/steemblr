@@ -19,7 +19,7 @@ Create .env.development.local in root folder and enter necessary variables
 
 ```
 REACT_APP_LOGIN_URL = http://localhost:3000/redirect 
-REACT_APP_FIREBASE_TOKEN_URL = http://localhost:5000/steemblr/us-central1/reciveToken?uuid=
+REACT_APP_FIREBASE_TOKEN_URL = 
 REACT_APP_GOOGLE_FONTS_API = 
 REACT_APP_FIREBASE_API = 
 REACT_APP_FIREBASE_AUTH_DOMAIN = 

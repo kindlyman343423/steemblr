@@ -1,5 +1,4 @@
 const getFirebaseToken = async props => {
-  console.log(process.env);
   const call = await fetch(
     `${process.env.REACT_APP_FIREBASE_TOKEN_URL}${props}`,
     {

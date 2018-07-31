@@ -68,39 +68,42 @@ class PostsLoader extends Component {
     if (
       Object.keys(this.props.steemPosts.posts).length === 0 ||
       this.props.steemPosts.posts === undefined ||
-      this.state.fetchingData
+      this.state.fetchingData === true
     ) {
       return void 0;
-    }
-    const post = this.props.steemPosts.posts[
-      this.props.steemPosts.posts.length - 1
-    ];
-    const query = {
-      tag: "",
-      start_permlink: post.permlink,
-      start_author: post.author,
-      category: this.props.match.params.category
-    };
-    await this.setState({
-      fetchingData: true,
-      posts: this.props.steemPosts.posts
-    });
-    //loading post by the category
-    switch (this.props.match.params.category) {
-      case "trending":
-        await this.props.getSteemTrendingPosts(query);
-        break;
-      default:
-        await this.props.getNewPosts(query);
-        break;
-    }
-    await this.setState({
-      fetchingData: false
-    });
-    if (this.state.posts.length === this.props.steemPosts.posts.length) {
+    } else if (this.state.fetchingData === false) {
       this.setState({
-        hasMorePosts: false
+        fetchingData: true,
+        posts: this.props.steemPosts.posts
       });
+      const post = this.props.steemPosts.posts[
+        this.props.steemPosts.posts.length - 1
+      ];
+      const query = {
+        tag: "",
+        start_permlink: post.permlink,
+        timestamp: post.timestamp,
+        start_author: post.author,
+        category: this.props.match.params.category
+      };
+      //loading post by the category
+      switch (this.props.match.params.category) {
+        case "trending":
+          await this.props.getSteemTrendingPosts(query);
+          break;
+        default:
+          await this.props.getNewPosts(query);
+          break;
+      }
+
+      await this.setState({
+        fetchingData: false
+      });
+      if (this.state.posts.length === this.props.steemPosts.posts.length) {
+        this.setState({
+          hasMorePosts: false
+        });
+      }
     }
   }
   updateDimensions() {
@@ -132,7 +135,6 @@ class PostsLoader extends Component {
       fetchingData: false
     });
   }
-
   async handleVoting(username, author, permlink, votePercent) {
     const login = store.getState().login.status;
     if (login) {
@@ -234,7 +236,6 @@ class PostsLoader extends Component {
       768: 2,
       425: 1
     };
-
     return (
       <Container>
         <Masonry

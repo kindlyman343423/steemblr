@@ -58,31 +58,34 @@ class PostsLoader extends Component {
     if (
       Object.keys(this.props.steemPosts.posts).length === 0 ||
       this.props.steemPosts.posts === undefined ||
-      this.state.fetchingData
+      this.state.fetchingData === true
     ) {
       return void 0;
-    }
-    const post = this.props.steemPosts.posts[
-      this.props.steemPosts.posts.length - 1
-    ];
-    const query = {
-      tag: this.props.steemProfile.profile._id,
-      start_permlink: post.permlink,
-      start_author: post.author,
-      category: "new"
-    };
-    await this.setState({
-      fetchingData: true,
-      posts: this.props.steemPosts.posts
-    });
-    await this.props.getNewPosts(query);
-    await this.setState({
-      fetchingData: false
-    });
-    if (this.state.posts.length === this.props.steemPosts.posts.length) {
+    } else if (this.state.fetchingData === false) {
       this.setState({
-        hasMorePosts: false
+        fetchingData: true,
+        posts: this.props.steemPosts.posts
       });
+      const post = this.props.steemPosts.posts[
+        this.props.steemPosts.posts.length - 1
+      ];
+      const query = {
+        tag: "",
+        start_permlink: post.permlink,
+        timestamp: post.timestamp,
+        start_author: post.author,
+        category: "new"
+      };
+      await this.props.getNewPosts(query);
+
+      await this.setState({
+        fetchingData: false
+      });
+      if (this.state.posts.length === this.props.steemPosts.posts.length) {
+        this.setState({
+          hasMorePosts: false
+        });
+      }
     }
   }
   async componentWillMount() {

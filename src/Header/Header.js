@@ -10,7 +10,7 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import logo from "../icons/logo.svg";
 import SearchInput from "./SearchInput";
-
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 const Container = styled.div`
@@ -106,9 +106,11 @@ class Header extends Component {
   render() {
     return (
       <Container>
-        <LogoContainer>
-          <img src={logo} alt="logo" />
-        </LogoContainer>
+        <Link to="/">
+          <LogoContainer>
+            <img src={logo} alt="logo" />
+          </LogoContainer>
+        </Link>
         {window.innerWidth > 425 ? <SearchInput /> : <SearchInputMobile />}
 
         {this.state.login === true ? (

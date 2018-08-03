@@ -8,8 +8,9 @@ import Header from "./Header";
 import { Link, Redirect } from "react-router-dom";
 import logo from "../icons/logo.svg";
 import store from "../store";
+import Logo from "../Components/Logo";
 const Container = styled.div`
-  background-color: #00796b;
+  background-color: #06162b;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -33,12 +34,31 @@ const BtnContainer = styled.div`
     margin-bottom: 15px;
   }
 `;
+const LogoContainer = styled.div`
+  svg {
+    height: 128px;
+    width: auto;
+    margin-bottom: -10px;
+    animation: colorChange 5s infinite;
+  }
+  @keyframes colorChange {
+    0% {
+      filter: hue-rotate(0deg);
+    }
+    100% {
+      filter: hue-rotate(360deg);
+    }
+  }
+`;
 class Intro extends Component {
   render() {
     return (
       <Container>
         {store.getState().login.status ? <Redirect to="/home" /> : void 0}
         <Header />
+        <LogoContainer>
+          <Logo />
+        </LogoContainer>
         <img src={logo} alt="logo" />
         <BtnContainer>
           <LoginModal text="Login with steemconnect" />

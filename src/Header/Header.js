@@ -8,15 +8,14 @@ import "./Header.css";
 import SearchInputMobile from "./SearchInputMobile";
 import styled from "styled-components";
 import colors from "../styles/colors";
-import logo from "../icons/logo.svg";
 import SearchInput from "./SearchInput";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
+import Logo from "../Components/Logo";
 const Container = styled.div`
   color: grey;
   display: grid;
-  grid-template-columns: 15% 55% 30%;
+  grid-template-columns: 5% 65% 30%;
   align-items: center;
   align-content: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -63,6 +62,14 @@ const LogoContainer = styled.span`
   display: flex;
   justify-content: center;
   grid-area: logo;
+  a {
+    display: flex;
+    justify-content: center;
+    svg {
+      height: 45px;
+      width: auto;
+    }
+  }
 `;
 const BtnContainer = styled.div`
   display: flex;
@@ -106,11 +113,12 @@ class Header extends Component {
   render() {
     return (
       <Container>
-        <Link to="/">
-          <LogoContainer>
-            <img src={logo} alt="logo" />
-          </LogoContainer>
-        </Link>
+        <LogoContainer>
+          <Link to="/">
+            <Logo />
+          </Link>
+        </LogoContainer>
+
         {window.innerWidth > 425 ? <SearchInput /> : <SearchInputMobile />}
 
         {this.state.login === true ? (

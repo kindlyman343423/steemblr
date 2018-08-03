@@ -6,8 +6,24 @@ const Input = styled.input`
   height: 30px;
   padding-left: 5px;
   outline: none;
-  width: 85%;
-  border: 1px solid ${colors.borders.light};
+  width: 65%;
+  border: 0;
+  background: rgba(96, 125, 139, 0.2);
+  height: 30px;
+  width: 30vw;
+  font-size: 16px;
+  border-radius: 2px;
+  padding-left: 5px;
+  transition: 0.2s;
+
+  &:focus {
+    background: rgba(255, 255, 255, 1);
+    transition: 0.2s;
+  }
+`;
+const Form = styled.form`
+  display: flex;
+  justify-content: flex-start;
 `;
 class SearchInput extends Component {
   constructor(props) {
@@ -34,7 +50,7 @@ class SearchInput extends Component {
   }
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         {this.state.isSubmitted ? (
           <Redirect to={`/search/tag/?${this.state.search}`} />
         ) : (
@@ -46,7 +62,7 @@ class SearchInput extends Component {
           value={this.state.search}
           onChange={this.handleInput}
         />
-      </form>
+      </Form>
     );
   }
 }

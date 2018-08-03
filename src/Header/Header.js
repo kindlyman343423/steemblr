@@ -31,7 +31,7 @@ const Container = styled.div`
   background-color: ${colors.background};
   grid-template-areas: "logo input buttons";
   @media (max-width: 1024px) {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 5% 65% 30%;
 
     img {
       transform: scale(0.8, 0.8);
@@ -39,7 +39,7 @@ const Container = styled.div`
   }
   @media (max-width: 768px) {
     grid-template-areas: "logo input buttons";
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 6% 64% 30%;
 
     h2 {
       font-size: 1em;

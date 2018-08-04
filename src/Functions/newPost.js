@@ -24,11 +24,11 @@ const newPost = (user, titleProp, content, tagsProp, type, imageUrl) => {
         body: content,
         json_metadata: JSON.stringify({
           tags: uniqueTags,
-          app: `steemblr`,
+          app: `steemblr/0.1`,
           format: "markdown+html",
           community: "steemblr",
           post_type: type,
-          image: type === "photo" ? [imageUrl] : ""
+          image: type === "photo" || "gifs" ? [imageUrl] : ""
         })
       }
     ],

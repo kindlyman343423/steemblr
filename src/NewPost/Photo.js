@@ -180,6 +180,11 @@ export default class Photo extends Component {
   };
   async handleUpload(e) {
     firebaseAuth();
+    if (e.target.files[0].type === "image/gif") {
+      this.setState({
+        type: "gifs"
+      });
+    }
     await uploadFiles(e.target.files[0]).then(response => {
       this.setState({
         uploaded: true,
@@ -212,6 +217,7 @@ export default class Photo extends Component {
       this.state.type,
       this.state.imageUrl
     );
+
     this.setState({
       open: false
     });

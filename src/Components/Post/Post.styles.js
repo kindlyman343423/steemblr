@@ -106,4 +106,8 @@ export const FooterActions = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  span {
+    display: flex;
+    flex-direction: row;
+  }
 `;

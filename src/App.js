@@ -42,47 +42,47 @@ function Loading(props) {
 const Intro = Loadable({
   loader: () => import("./Intro/"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const Explore = Loadable({
   loader: () => import("./Explore/Explore"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const Home = Loadable({
   loader: () => import("./Home"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const Settings = Loadable({
   loader: () => import("./Settings"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const EditTheme = Loadable({
   loader: () => import("./EditTheme/"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const Blog = Loadable({
   loader: () => import("./Blog"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const Search = Loadable({
   loader: () => import("./Search/"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const Logout = Loadable({
   loader: () => import("./Components/Logout"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 const RedirectLoginToken = Loadable({
   loader: () => import("./Components/RedirectLoginToken"),
   loading: Loading,
-  delay: 300
+  delay: 400
 });
 injectGlobal`
   body {
@@ -161,7 +161,10 @@ class App extends Component {
               render={props => <Search {...props} login={this.state.login} />}
             />
             <Route path="/@:username" render={props => <Blog {...props} />} />
-
+            <Route
+              path="/post/@:username/:permlink"
+              render={props => <Blog {...props} />}
+            />
             <Route
               path="/settings/:option"
               render={props => <Settings {...props} />}

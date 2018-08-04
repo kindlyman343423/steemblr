@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import { Link } from "react-router-dom";
-
 import {
   tagStyles,
   Container,
@@ -17,7 +16,7 @@ import {
 import Comments from "./Comments";
 import CardContent from "./CardContent";
 import ProfileHover from "./ProfileHover";
-
+import ShareMenu from "./ShareMenu";
 import delay from "../../Functions/delay";
 import checkValueState from "../../Functions/checkValueState";
 import getVoteWorth from "../../Functions/getVoteWorth";
@@ -239,6 +238,10 @@ class Post extends Component {
             <FooterActions>
               <span>${Number(this.state.value).toFixed(2)}</span>
               <span>
+                <ShareMenu
+                  postAuthor={this.props.post.author}
+                  postPermlink={this.props.post.permlink}
+                />
                 {this.state.shouldOpenComments ? (
                   <Comments
                     likesNumber={this.props.post.net_votes}

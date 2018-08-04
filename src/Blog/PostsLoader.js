@@ -72,7 +72,8 @@ class PostsLoader extends Component {
       author: post.author,
       startPermlink: post.permlink,
       beforeDate: post.cashout_time,
-      initial: false
+      initial: false,
+      timestamp: post.timestamp
     };
 
     await this.setState({

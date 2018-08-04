@@ -32,7 +32,11 @@ const getNewPosts = props => async dispatch => {
           .get()
           .then(snapshot => {
             snapshot.forEach(doc => {
-              bucket.push(doc.data());
+              if (doc.data().author === "" || doc.data().author === undefined) {
+                return void 0;
+              } else {
+                bucket.push(doc.data());
+              }
             });
             dispatch({
               type: GET_NEW_POSTS,
@@ -50,7 +54,11 @@ const getNewPosts = props => async dispatch => {
           .get()
           .then(snapshot => {
             snapshot.forEach(doc => {
-              bucket.push(doc.data());
+              if (doc.data().author === "" || doc.data().author === undefined) {
+                return void 0;
+              } else {
+                bucket.push(doc.data());
+              }
             });
             dispatch({
               type: GET_NEW_POSTS,
@@ -76,7 +84,11 @@ const getNewPosts = props => async dispatch => {
           .get()
           .then(snapshot => {
             snapshot.forEach(doc => {
-              bucket.push(doc.data());
+              if (doc.data().author === "" || doc.data().author === undefined) {
+                return void 0;
+              } else {
+                bucket.push(doc.data());
+              }
             });
             dispatch({
               type: GET_NEW_POSTS,
@@ -94,7 +106,11 @@ const getNewPosts = props => async dispatch => {
           .get()
           .then(snapshot => {
             snapshot.forEach(doc => {
-              bucket.push(doc.data());
+              if (doc.data().author === "" || doc.data().author === undefined) {
+                return void 0;
+              } else {
+                bucket.push(doc.data());
+              }
             });
             dispatch({
               type: GET_NEW_POSTS,

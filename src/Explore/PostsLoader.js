@@ -86,10 +86,17 @@ class PostsLoader extends Component {
         start_author: post.author,
         category: this.props.match.params.category
       };
+      const query2 = {
+        tag: "",
+        start_permlink: post.permlink,
+        timestamp: post.timestamp,
+        start_author: post.author,
+        category: "new"
+      };
       //loading post by the category
       switch (this.props.match.params.category) {
         case "trending":
-          await this.props.getSteemTrendingPosts(query);
+          await this.props.getNewPosts(query2);
           break;
         default:
           await this.props.getNewPosts(query);
@@ -118,12 +125,16 @@ class PostsLoader extends Component {
       limit: 10,
       category: this.props.match.params.category
     };
-
+    const query2 = {
+      tag: "",
+      limit: 10,
+      category: "new"
+    };
     window.addEventListener("resize", this.updateDimensions);
     //loading post by the category
     switch (this.props.match.params.category) {
       case "trending":
-        await this.props.getSteemTrendingPosts(query);
+        await this.props.getNewPosts(query2);
         break;
       default:
         await this.props.getNewPosts(query);
@@ -232,7 +243,9 @@ class PostsLoader extends Component {
     const breakpointColumnsObj = {
       default: 3,
       2570: 4,
+      1440: 3,
       1368: 3,
+      1024: 2,
       768: 2,
       425: 1
     };

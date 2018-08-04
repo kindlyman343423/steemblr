@@ -163,7 +163,7 @@ export default class BlogModal extends Component {
     };
 
     if (this.state.account === undefined) {
-      return <div />;
+      return "";
     } else {
       const ModalStyle = {
         overlay: {

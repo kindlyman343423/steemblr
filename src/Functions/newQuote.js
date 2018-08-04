@@ -24,7 +24,7 @@ const newQuote = (user, titleProp, content, beneficiariesProp, tagsProp) => {
         body: content,
         json_metadata: JSON.stringify({
           tags: uniqueTags,
-          app: `steemblr`,
+          app: `steemblr/0.1`,
           format: "markdown+html",
           community: "steemblr",
           post_type: "quote"

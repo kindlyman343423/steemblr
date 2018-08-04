@@ -68,6 +68,10 @@ const LogoContainer = styled.span`
     svg {
       height: 45px;
       width: auto;
+      transition: 0.5s;
+      &:hover {
+        filter: hue-rotate(60deg);
+      }
     }
   }
 `;

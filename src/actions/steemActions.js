@@ -76,7 +76,10 @@ export const getProfileVotes = props => async dispatch => {
         type: GET_PROFILE_VOTES,
         payload: bucket
       })
-    );
+    )
+    .catch(error => {
+      console.log(error);
+    });
 };
 
 export const getSteemTrendingPosts = props => async dispatch => {

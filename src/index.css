@@ -11,3 +11,6 @@ body {
 .ReactModal__Overlay {
   z-index: 9999;
 }
+#simple-menu {
+  z-index: 9999;
+}

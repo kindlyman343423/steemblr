@@ -18,3 +18,4 @@ export const GET_FEED_POSTS = "GET_FEED_POSTS";
 export const GET_ACCOUNT = "GET_ACCOUNT";
 export const EDIT_THEME = "EDIT_THEME";
 export const GET_POSTS_BY_AUTHOR = "GET_POSTS_BY_AUTHOR";
+export const GET_SINGLE_POST = "GET_SINGLE_POST";

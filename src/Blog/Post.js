@@ -18,7 +18,7 @@ import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import store from "../store";
 import { injectIntl } from "react-intl";
 import { FormattedRelative } from "react-intl";
-
+import ShareMenu from "../Components/Post/ShareMenu";
 class Post extends Component {
   constructor(props) {
     super(props);
@@ -94,6 +94,10 @@ class Post extends Component {
           <FooterActions>
             <span>${Number(this.state.value).toFixed(2)}</span>
             <span>
+              <ShareMenu
+                postAuthor={this.props.post.author}
+                postPermlink={this.props.post.permlink}
+              />
               {
                 <Icon
                   icon={ic_message}

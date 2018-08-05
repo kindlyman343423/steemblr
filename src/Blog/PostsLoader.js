@@ -7,7 +7,8 @@ import steemVote from ".././Functions/steemVote";
 //REDUX
 import { connect } from "react-redux";
 import { getUserFollowing, getProfileVotes } from ".././actions/steemActions";
-import { getPostsByAuthor } from ".././actions/getPostsByAuthor";
+import { getPostsByAuthor } from "../actions/getPostsByAuthor";
+import getSinglePost from "../actions/getSinglePost";
 import {
   postFollowingToState,
   postVoteToState,
@@ -94,17 +95,32 @@ class PostsLoader extends Component {
     }
   }
   async componentWillMount() {
-    await this.props.removeAuthorPostsFromState();
+    if (
+      this.props.match !== undefined &&
+      this.props.match.params.permlink !== undefined
+    ) {
+      this.props.getSinglePost(this.props.match.params.permlink);
+      await this.setState({
+        fetchingData: false
+      });
+    } else {
+      await this.props.removeAuthorPostsFromState();
 
-    await this.props.getPostsByAuthor(this.props.query);
+      await this.props.getPostsByAuthor(this.props.query);
 
-    await this.setState({
-      posts: this.props.steemPostsByAuthor.posts,
-      fetchingData: false
-    });
+      await this.setState({
+        posts: this.props.steemPostsByAuthor.posts,
+        fetchingData: false
+      });
+    }
   }
   renderWaypoint() {
-    if (this.state.hasMorePosts) {
+    if (
+      this.props.match !== undefined &&
+      this.props.match.params.permlink !== undefined
+    ) {
+      return "";
+    } else if (this.state.hasMorePosts) {
       return (
         <Waypoint onEnter={this.loadMorePosts}>
           <span style={{ width: "50px", height: "50px" }}>Loading...</span>
@@ -165,25 +181,49 @@ class PostsLoader extends Component {
     }
   }
   renderPosts() {
-    return this.props.steemPostsByAuthor.posts.map(post => {
-      let fullPermlink = [post.root_author, post.root_permlink].join("/");
+    if (
+      this.props.match !== undefined &&
+      this.props.match.params.permlink !== undefined
+    ) {
+      return this.props.singlePost.post.map(post => {
+        let fullPermlink = [post.root_author, post.root_permlink].join("/");
+        return (
+          <Post
+            post={post}
+            username={this.props.steemProfile.profile._id}
+            key={post.id}
+            isFollowing={this.props.following.users.includes(post.author)}
+            updateFollowingState={this.updateFollowingState}
+            updateVotingState={this.updateVotingState}
+            voteStatus={this.checkVoteStatus(fullPermlink)}
+            fullPermlink={fullPermlink}
+            handleVoting={this.handleVoting}
+            homeComponent={true}
+            width="100%"
+          />
+        );
+      });
+    } else {
+      return this.props.steemPostsByAuthor.posts.map(post => {
+        let fullPermlink = [post.root_author, post.root_permlink].join("/");
 
-      return (
-        <Post
-          post={post}
-          username={this.props.steemProfile.profile._id}
-          key={post.id}
-          isFollowing={this.props.following.users.includes(post.author)}
-          updateFollowingState={this.updateFollowingState}
-          updateVotingState={this.updateVotingState}
-          voteStatus={this.checkVoteStatus(fullPermlink)}
-          fullPermlink={fullPermlink}
-          handleVoting={this.handleVoting}
-          homeComponent={true}
-          width="100%"
-        />
-      );
-    });
+        return (
+          <Post
+            post={post}
+            username={this.props.steemProfile.profile._id}
+            key={post.id}
+            isFollowing={this.props.following.users.includes(post.author)}
+            updateFollowingState={this.updateFollowingState}
+            updateVotingState={this.updateVotingState}
+            voteStatus={this.checkVoteStatus(fullPermlink)}
+            fullPermlink={fullPermlink}
+            handleVoting={this.handleVoting}
+            homeComponent={true}
+            width="100%"
+          />
+        );
+      });
+    }
   }
   render() {
     if (this.props.componentLocation === "blog") {
@@ -215,7 +255,8 @@ const mapStateToProps = state => ({
   following: state.following,
   steemProfileVotes: state.steemProfileVotes,
   steemPostsByAuthor: state.steemPostsByAuthor,
-  postFollowingToState: state.postFollowingToState
+  postFollowingToState: state.postFollowingToState,
+  singlePost: state.singlePost
 });
 
 export default connect(
@@ -227,6 +268,7 @@ export default connect(
     postFollowingToState,
     removeAuthorPostsFromState,
     postVoteToState,
-    removeVoteFromState
+    removeVoteFromState,
+    getSinglePost
   }
 )(PostsLoader);

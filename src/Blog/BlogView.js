@@ -24,9 +24,9 @@ const Banner = styled.div`
   background: url(${props => props.coverImage});
   box-sizing: border-box;
   background-attachment: fixed;
-  background-size: 100% 100%;
+  background-size: 100% 350px;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;
   background-color: #b4b4b4;
   height: 350px;
   b {
@@ -37,9 +37,11 @@ const Banner = styled.div`
     padding-left: 5px;
   }
   @media (max-width: 768px) {
+    background-size: 100% 200px;
     height: 200px;
   }
   @media (max-width: 425px) {
+    ackground-size: 100% 150px;
     height: 150px;
   }
 `;
@@ -124,6 +126,15 @@ const BlogTitle = styled.div`
     ${props => props.titleColor.b},
     ${props => props.titleColor.a}
   );
+  a {
+    text-decoration: none;
+    color: rgba(
+      ${props => props.titleColor.r},
+      ${props => props.titleColor.g},
+      ${props => props.titleColor.b},
+      ${props => props.titleColor.a}
+    );
+  }
 `;
 const Content = styled.div`
   box-sizing: border-box;
@@ -211,7 +222,7 @@ export default class Blog extends Component {
               this.state.account.show_title === false ? "100px" : "0px"
             }
           >
-            {this.state.account.show_avatar ? (
+            {this.state.account.show_avatar && (
               <Avatar
                 url={`https://steemitimages.com/u/${
                   this.props.match.params.username
@@ -220,26 +231,23 @@ export default class Blog extends Component {
                   this.state.account.avatar_shape === "circle" ? "50%" : 0
                 }
               />
-            ) : (
-              void 0
             )}
-            {this.state.account.show_title ? (
+            {this.state.account.show_title && (
               <h1>
                 {this.state.account === undefined
                   ? void 0
                   : this.state.account.name}
               </h1>
-            ) : (
-              void 0
             )}
-            {this.state.account.show_description ? (
+            {this.state.account.show_description && (
               <p>
                 {this.state.account === undefined
                   ? void 0
                   : this.state.account.about}
               </p>
-            ) : (
-              void 0
+            )}
+            {this.props.match.params.permlink !== undefined && (
+              <Link to={`/@` + this.props.match.params.username}>POSTS</Link>
             )}
           </BlogTitle>
           <Content
@@ -254,6 +262,7 @@ export default class Blog extends Component {
               key={this.props.location.key}
               query={query}
               componentLocation={"blog"}
+              match={this.props.match}
             />
           </Content>
         </Container>

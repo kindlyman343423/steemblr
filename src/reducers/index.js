@@ -10,6 +10,7 @@ import locationReducer from "./locationReducer";
 import steemAccountsReducer from "./steemAccountsReducer";
 import steemByAuthorPostsReducer from "./steemByAuthorPostsReducer";
 import singlePostReducer from "./singlePostReducer";
+import userSettingsReducer from "./userSettingsReducer";
 export default combineReducers({
   steemProfile: steemReducer,
   steemProfileVotes: steemProfileVotesReducer,
@@ -21,5 +22,6 @@ export default combineReducers({
   votePower: steemVotePowerReducer,
   newPost: newPostReducer,
   location: locationReducer,
-  singlePost: singlePostReducer
+  singlePost: singlePostReducer,
+  userSettings: userSettingsReducer
 });

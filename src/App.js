@@ -18,7 +18,7 @@ import {
   getProfileVotes,
   getSteemTrendingPosts
 } from "./actions/steemActions";
-
+import getUserSettings from "./actions/getUserSettings";
 import Modal from "react-modal";
 import colors from "./styles/colors";
 
@@ -97,23 +97,36 @@ class App extends Component {
       login: localStorage.getItem("token") !== null ? true : false,
       cLogin: localStorage.getItem("cToken") !== null ? true : false,
       steemProfile: [],
-      followings: ""
+      followings: "",
+      fetchingData: true
     };
     this.handleLogout = this.handleLogout.bind(this);
   }
   async componentWillMount() {
     if (this.state.login) {
+      Promise.all([
+        await this.props.getUserProfile(),
+        await this.props.getUserFollowing(this.props.steemProfile.profile._id),
+        await this.props.getProfileVotes(this.props.steemProfile.profile._id),
+        await this.handleFirebaseLogin(),
+        await this.props.getUserSettings()
+      ]).then(() => {
+        this.setState({
+          fetchingData: false
+        });
+      });
       this.props.changeLoginStatus(true);
-      await this.props.getUserProfile();
-      await this.props.getUserFollowing(this.props.steemProfile.profile._id);
-      await this.props.getProfileVotes(this.props.steemProfile.profile._id);
+
       const profile = await this.props.steemProfile;
       const followingBucket = await getFollowing(profile._id);
       this.setState({
         steemProfile: profile,
         followings: followingBucket
       });
-      this.handleFirebaseLogin();
+    } else {
+      this.setState({
+        fetchingData: false
+      });
     }
   }
 
@@ -128,55 +141,61 @@ class App extends Component {
     firebaseAuth();
   }
   render() {
-    return (
-      <IntlProvider locale={navigator.language}>
-        <Router>
-          <div id="root" className="App">
-            <Route exact path="/" component={Intro} />
-            <Route
-              exact
-              path="/home"
-              render={props => <Home {...props} login={this.state.login} />}
-            />
-            {window.location.pathname === "/" && this.state.login === true ? (
-              <Redirect to="/home" />
-            ) : (
-              void 0
-            )}
-            <Route
-              exact
-              path="/logout"
-              render={props => (
-                <Logout {...props} handleLogout={this.handleLogout} />
+    if (this.state.fetchingData) {
+      return <LoadingSpin />;
+    } else {
+      return (
+        <IntlProvider locale={navigator.language}>
+          <Router>
+            <div id="root" className="App">
+              <Route exact path="/" component={Intro} />
+              <Route
+                exact
+                path="/home"
+                render={props => <Home {...props} login={this.state.login} />}
+              />
+              {window.location.pathname === "/" && this.state.login === true ? (
+                <Redirect to="/home" />
+              ) : (
+                void 0
               )}
-            />
-            <Route
-              path="/explore"
-              render={props => <Explore {...props} login={this.state.login} />}
-            />
+              <Route
+                exact
+                path="/logout"
+                render={props => (
+                  <Logout {...props} handleLogout={this.handleLogout} />
+                )}
+              />
+              <Route
+                path="/explore"
+                render={props => (
+                  <Explore {...props} login={this.state.login} />
+                )}
+              />
 
-            <Route path="/redirect" component={RedirectLoginToken} />
-            <Route
-              path="/search"
-              render={props => <Search {...props} login={this.state.login} />}
-            />
-            <Route path="/@:username" render={props => <Blog {...props} />} />
-            <Route
-              path="/post/@:username/:permlink"
-              render={props => <Blog {...props} />}
-            />
-            <Route
-              path="/settings/:option"
-              render={props => <Settings {...props} />}
-            />
-            <Route
-              path="/customize/:username"
-              render={props => <EditTheme {...props} />}
-            />
-          </div>
-        </Router>
-      </IntlProvider>
-    );
+              <Route path="/redirect" component={RedirectLoginToken} />
+              <Route
+                path="/search"
+                render={props => <Search {...props} login={this.state.login} />}
+              />
+              <Route path="/@:username" render={props => <Blog {...props} />} />
+              <Route
+                path="/post/@:username/:permlink"
+                render={props => <Blog {...props} />}
+              />
+              <Route
+                path="/settings/:option"
+                render={props => <Settings {...props} />}
+              />
+              <Route
+                path="/customize/:username"
+                render={props => <EditTheme {...props} />}
+              />
+            </div>
+          </Router>
+        </IntlProvider>
+      );
+    }
   }
 }
 
@@ -195,6 +214,7 @@ export default connect(
     getUserFollowing,
     changeLoginStatus,
     getProfileVotes,
-    getSteemTrendingPosts
+    getSteemTrendingPosts,
+    getUserSettings
   }
 )(hot(module)(App));

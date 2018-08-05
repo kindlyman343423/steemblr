@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import createProfile from "../Functions/createProfile";
 import checkProfile from "../Functions/checkProfile";
 import delay from "../Functions/delay";
-
+import getUserSettings from "../actions/getUserSettings";
 const Container = styled.div`
   box-sizing: border-box;
   height: 100%;
@@ -39,6 +39,7 @@ class FirstLoad extends Component {
       await createProfile(this.props.steemProfile.profile._id);
       checkProfile(this.props.steemProfile.profile._id).then(value => {
         if (value) {
+          this.props.getUserSettings();
           this.props.handleClose();
         } else {
           this.handleProfileCreate();
@@ -60,5 +61,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  {}
+  { getUserSettings }
 )(FirstLoad);

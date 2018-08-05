@@ -77,6 +77,20 @@ class Post extends Component {
 
         <CardFooter>
           <TagContainer>
+            {JSON.parse(this.props.post.json_metadata).tags !== undefined &&
+            JSON.parse(this.props.post.json_metadata).tags.filter(tag => {
+              return tag === this.props.post.category;
+            }).length === 0 ? (
+              <Link
+                key={this.props.post.category}
+                style={tagStyles}
+                to={`/search/tag/?${this.props.post.category}`}
+              >
+                #{this.props.post.category}
+              </Link>
+            ) : (
+              void 0
+            )}
             {JSON.parse(this.props.post.json_metadata).tags === undefined
               ? "true"
               : JSON.parse(this.props.post.json_metadata).tags.map(tag => {

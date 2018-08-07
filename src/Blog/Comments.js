@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Icon from "react-icons-kit";
-import { ic_message } from "react-icons-kit/md/ic_message";
 import Spinner from "../Components/Spinner";
 import Comment from "./Comment";
 import getContentReplies from ".././Functions/getContentReplies";
@@ -11,7 +9,6 @@ import steemVote from "../Functions/steemVote";
 import { hot } from "react-hot-loader";
 import colors from "../styles/colors";
 import styled from "styled-components";
-import Modal from "react-modal";
 //REDUX
 import store from "../store";
 import { postVoteToState, removeVoteFromState } from "../actions/stateActions";

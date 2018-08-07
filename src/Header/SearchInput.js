@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import colors from "../styles/colors";
 import { Redirect } from "react-router-dom";
 const Input = styled.input`
   height: 30px;

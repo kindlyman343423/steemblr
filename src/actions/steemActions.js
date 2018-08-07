@@ -18,7 +18,6 @@ export const getUserProfile = () => async dispatch => {
       if (String(err).includes("sc2")) {
         localStorage.removeItem("token");
         localStorage.removeItem("cToken");
-        window.location.reload();
       }
       if (err !== null) {
         console.log();
@@ -32,7 +31,10 @@ export const getUserProfile = () => async dispatch => {
         type: GET_LOGGED_PROFILE,
         payload: res
       })
-    );
+    )
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 export const getUserFollowing = props => async dispatch => {
@@ -50,7 +52,10 @@ export const getUserFollowing = props => async dispatch => {
         type: GET_FOLLOWING,
         payload: bucket
       })
-    );
+    )
+    .catch(error => {
+      console.log(error);
+    });
 };
 export const changeLoginStatus = action => dispatch => {
   return dispatch({

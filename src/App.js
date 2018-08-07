@@ -6,8 +6,7 @@ import LoadingSpin from "./Components/LoadingSpin";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
-//FUNCTIONS
-import getFollowing from "./Functions/getFollowing";
+
 //REACT ROUTER
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -118,7 +117,7 @@ class App extends Component {
       this.props.changeLoginStatus(true);
 
       const profile = await this.props.steemProfile;
-      const followingBucket = await getFollowing(profile._id);
+      const followingBucket = await this.props.following.users;
       this.setState({
         steemProfile: profile,
         followings: followingBucket

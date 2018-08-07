@@ -1,7 +1,7 @@
 import steem from "steem";
 import defaultApp from "../environment";
 import { firestore } from "firebase/app";
-
+import delay from "./delay";
 const postToDb = async (author, permlink, isNSFW, postType, tags) => {
   const dbRef = defaultApp
     .firestore()
@@ -20,6 +20,7 @@ const postToDb = async (author, permlink, isNSFW, postType, tags) => {
       console.log(error);
     });
   if (bucket[0].parent_author === "") {
+    await delay(3000);
     const post = bucket[0];
     const batch = defaultApp.firestore().batch();
     batch.set(dbRef, post);

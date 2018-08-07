@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Spinner from "./Spinner";
 
 export default class RedirectLoginToken extends Component {
   constructor(props) {

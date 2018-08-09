@@ -68,7 +68,12 @@ class CardContent extends Component {
       case "audio":
         break;
       case "video":
-        return <CardVideo json_metadata={this.props.json_metadata} />;
+        return (
+          <CardVideo
+            text={this.props.text}
+            json_metadata={this.props.json_metadata}
+          />
+        );
       default:
         void 0;
     }

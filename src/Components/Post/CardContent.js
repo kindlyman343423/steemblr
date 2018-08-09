@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import CardMedia from "./CardMedia";
 import CardText from "./CardText";
-
+import CardVideo from "./CardVideo";
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -56,16 +56,28 @@ class CardContent extends Component {
       maxHeight: "unset"
     });
   }
-
+  handleMedia = props => {
+    switch (props) {
+      case "text":
+        void 0;
+        break;
+      case "photos":
+        return <CardMedia json_metadata={this.props.json_metadata} />;
+      case "gifs":
+        return <CardMedia json_metadata={this.props.json_metadata} />;
+      case "audio":
+        break;
+      case "video":
+        return <CardVideo json_metadata={this.props.json_metadata} />;
+      default:
+        void 0;
+    }
+  };
   render() {
     const { height } = this.props.size;
     return (
       <Container style={{ maxHeight: this.state.maxHeight }}>
-        {JSON.parse(this.props.json_metadata).post_type === undefined ? (
-          void 0
-        ) : (
-          <CardMedia json_metadata={this.props.json_metadata} />
-        )}
+        {this.handleMedia(this.props.post_type)}
         {this.props.text.length === 0 ? (
           void 0
         ) : (

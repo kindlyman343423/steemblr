@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import CardMedia from "./CardMedia";
+import CardVideo from "../Components/Post/CardVideo";
 import CardText from "./CardText";
 
 const Container = styled.div`
@@ -39,11 +40,27 @@ class CardContent extends Component {
       maxHeight: "unset"
     });
   }
-
+  handleMedia = props => {
+    switch (props) {
+      case "text":
+        void 0;
+        break;
+      case "photos":
+        return <CardMedia json_metadata={this.props.json_metadata} />;
+      case "gifs":
+        return <CardMedia json_metadata={this.props.json_metadata} />;
+      case "audio":
+        break;
+      case "video":
+        return <CardVideo json_metadata={this.props.json_metadata} />;
+      default:
+        void 0;
+    }
+  };
   render() {
     return (
       <Container>
-        <CardMedia json_metadata={this.props.json_metadata} />
+        {this.handleMedia(this.props.post_type)}
 
         <CardText text={this.props.text} />
       </Container>

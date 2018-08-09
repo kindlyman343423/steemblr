@@ -72,6 +72,7 @@ class Post extends Component {
       <Container>
         <CardContent
           text={this.props.post.body}
+          post_type={this.props.post.post_type}
           json_metadata={this.props.post.json_metadata}
         />
 

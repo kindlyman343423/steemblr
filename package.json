@@ -33,6 +33,7 @@
     "react-tagsinput": "^3.19.0",
     "react-tube-embed": "^1.1.3",
     "react-waypoint": "^8.0.1",
+    "react-youtube": "^7.6.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "remarkable": "^1.7.1",

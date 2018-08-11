@@ -6,7 +6,9 @@ import {
   PUT_NEW_POST_TAGS,
   PUT_NEW_POST_TITLE,
   NEW_POST_MODAL,
-  NEW_POST_FORM
+  NEW_POST_FORM,
+  PUT_NEW_POST_AUDIO,
+  PUT_NEW_POST_VIDEO
 } from "../actions/types";
 
 const initialState = {
@@ -16,6 +18,8 @@ const initialState = {
   title: "",
   tags: [],
   body: "",
+  audio: "",
+  video: "",
   modal: false,
   isForm: false
 };
@@ -46,6 +50,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         title: action.payload
+      };
+    case PUT_NEW_POST_AUDIO:
+      return {
+        ...state,
+        audio: action.payload
+      };
+    case PUT_NEW_POST_VIDEO:
+      return {
+        ...state,
+        video: action.payload
       };
     case NEW_POST_MODAL:
       return {

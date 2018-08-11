@@ -1,7 +1,6 @@
 .react-tagsinput {
   background-color: #fff;
 
-  padding-left: 5px;
   padding-top: 5px;
   margin-bottom: 10px;
 }
@@ -41,7 +40,7 @@
   margin-bottom: 6px;
   margin-top: 1px;
   outline: none;
-  padding: 5px;
+
   width: 80px;
 }
 .md-add-button {

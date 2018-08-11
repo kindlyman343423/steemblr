@@ -1,6 +1,6 @@
 import {
   POST_MEDIA,
-  CHANGE_NEW_POST_TYPE,
+  PUT_NEW_POST_TYPE,
   PUT_NEW_POST_BODY,
   PUT_UUID,
   PUT_NEW_POST_TAGS,
@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
         ...state,
         media: action.payload
       };
-    case CHANGE_NEW_POST_TYPE:
+    case PUT_NEW_POST_TYPE:
       return {
         ...state,
         type: action.payload

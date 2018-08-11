@@ -1,8 +1,8 @@
-import { CHANGE_NEW_POST_TYPE } from "./types";
+import { PUT_NEW_POST_TYPE } from "./types";
 
 const newPostType = props => dispatch => {
   dispatch({
-    type: CHANGE_NEW_POST_TYPE,
+    type: PUT_NEW_POST_TYPE,
     payload: props
   });
 };

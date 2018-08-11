@@ -25,3 +25,5 @@ export const PUT_NEW_POST_TYPE = "PUT_NEW_POST_TYPE";
 export const PUT_NEW_POST_BODY = "PUT_NEW_POST_BODY";
 export const PUT_NEW_POST_TAGS = "PUT_NEW_POST_TAGS";
 export const PUT_NEW_POST_TITLE = "PUT_NEW_POST_TITLE";
+export const NEW_POST_MODAL = "NEW_POST_MODAL";
+export const NEW_POST_FORM = "NEW_POST_FORM";

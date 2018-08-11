@@ -4,7 +4,9 @@ import {
   PUT_NEW_POST_BODY,
   PUT_UUID,
   PUT_NEW_POST_TAGS,
-  PUT_NEW_POST_TITLE
+  PUT_NEW_POST_TITLE,
+  NEW_POST_MODAL,
+  NEW_POST_FORM
 } from "../actions/types";
 
 const initialState = {
@@ -13,7 +15,9 @@ const initialState = {
   imageUUID: "",
   title: "",
   tags: [],
-  body: ""
+  body: "",
+  modal: false,
+  isForm: false
 };
 
 export default function(state = initialState, action) {
@@ -42,6 +46,16 @@ export default function(state = initialState, action) {
       return {
         ...state,
         title: action.payload
+      };
+    case NEW_POST_MODAL:
+      return {
+        ...state,
+        modal: action.payload
+      };
+    case NEW_POST_FORM:
+      return {
+        ...state,
+        isForm: action.payload
       };
     case PUT_UUID:
       return {

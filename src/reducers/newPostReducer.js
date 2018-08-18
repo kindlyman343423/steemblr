@@ -5,10 +5,11 @@ import {
   PUT_UUID,
   PUT_NEW_POST_TAGS,
   PUT_NEW_POST_TITLE,
-  NEW_POST_MODAL,
-  NEW_POST_FORM,
   PUT_NEW_POST_AUDIO,
-  PUT_NEW_POST_VIDEO
+  PUT_NEW_POST_VIDEO,
+  PUT_NEW_POST_QUOTE,
+  PUT_NEW_POST_QUOTE_SOURCE,
+  PUT_NEW_POST_PHOTO
 } from "../actions/types";
 
 const initialState = {
@@ -20,8 +21,9 @@ const initialState = {
   body: "",
   audio: "",
   video: "",
-  modal: false,
-  isForm: false
+  quote: "",
+  quoteSource: "",
+  photo: ""
 };
 
 export default function(state = initialState, action) {
@@ -61,15 +63,20 @@ export default function(state = initialState, action) {
         ...state,
         video: action.payload
       };
-    case NEW_POST_MODAL:
+    case PUT_NEW_POST_PHOTO:
       return {
         ...state,
-        modal: action.payload
+        photo: action.payload
       };
-    case NEW_POST_FORM:
+    case PUT_NEW_POST_QUOTE:
       return {
         ...state,
-        isForm: action.payload
+        quote: action.payload
+      };
+    case PUT_NEW_POST_QUOTE_SOURCE:
+      return {
+        ...state,
+        quoteSource: action.payload
       };
     case PUT_UUID:
       return {

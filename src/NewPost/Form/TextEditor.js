@@ -31,6 +31,7 @@ export default class TextEditor extends Component {
           editorState={this.state.editorState}
           onChange={this.onChange}
           sideButtons={[]}
+          required
         />
       </Container>
     );

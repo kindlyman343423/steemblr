@@ -6,6 +6,15 @@ import Title from "./Title";
 import CloseBtn from "../../Components/CloseBtn";
 import SendBtn from "../../Components/SendBtn";
 import SpinnerOverlay from "../SpinnerOverlay";
+import {
+  newPostModal,
+  newPostIsError,
+  newPostErrorMsg
+} from "../../actions/newPostInterface";
+import store from "../../store";
+import Quote from "./Quote";
+import QuoteSource from "./QuoteSource";
+import newPost from "../../Functions/newPost";
 const Form = styled.form`
   box-sizing: border-box;
   position: relative;
@@ -28,16 +37,49 @@ export default class PostForm extends Component {
       isSending: this.props.isSending
     };
   }
+  handleSend = async e => {
+    e.preventDefault();
+    this.setState({
+      isSending: true
+    });
 
+    await newPost()
+      .then()
+      .catch(err => {
+        store.dispatch(newPostIsError(true));
+        store.dispatch(newPostErrorMsg(err));
+      });
+    this.handleClose();
+  };
+  handleClose = () => {
+    store.dispatch(newPostModal(false));
+  };
   render() {
+    if (store.getState().newPost.type === "quote") {
+      return (
+        <Form onSubmit={this.handleSend}>
+          {this.state.isSending ? <SpinnerOverlay /> : void 0}
+          <Title />
+          <Quote />
+          <QuoteSource />
+          <Tags />
+          <Buttons>
+            <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
+            <SendBtn type="submit" value="submit">
+              Send
+            </SendBtn>
+          </Buttons>
+        </Form>
+      );
+    }
     return (
-      <Form onSubmit={this.handleSend}>
+      <Form onSubmit={e => this.handleSend(e)}>
         {this.state.isSending ? <SpinnerOverlay /> : void 0}
         <Title />
         <TextEditor />
         <Tags />
         <Buttons>
-          <CloseBtn onClick={this.props.handleClose}>Close</CloseBtn>
+          <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
           <SendBtn type="submit" value="submit">
             Send
           </SendBtn>

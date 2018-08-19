@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import Text from "../NewPost/Text";
-import Photo from "../NewPost/Photo";
-import Quote from "../NewPost/Quote";
-import Audio from "../NewPost/Audio";
-import Video from "../NewPost/Video";
-import colors from "../styles/colors";
 
+import PostCreator from "../NewPost/";
+import colors from "../styles/colors";
+import store from "../store";
+import newPostType from "../actions/newPostType";
+import {
+  newPostModal,
+  newPostForm,
+  newPostIsError
+} from "../actions/newPostInterface";
 import Icon from "react-icons-kit";
 import { ic_camera_alt } from "react-icons-kit/md/ic_camera_alt";
 import { ic_format_quote } from "react-icons-kit/md/ic_format_quote";
@@ -58,20 +61,24 @@ export default class AddNew extends Component {
 
     this.state = {
       open: false,
-      text: false,
-      photo: false,
-      audio: false,
-      quote: false,
-      video: false
+      postCreator: false
     };
     this.handleNewModal = this.handleNewModal.bind(this);
     this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleNewModal(name) {
+    store.dispatch(newPostForm(false));
+    store.dispatch(newPostIsError(false));
     this.setState({
       open: false,
-      [name]: true
+      [name]: true,
+      postCreator: true
     });
+    if (name === "text") {
+      store.dispatch(newPostForm(true));
+    }
+    store.dispatch(newPostType(name));
+    store.dispatch(newPostModal(true));
   }
   unMountChildren(name) {
     this.setState({
@@ -81,30 +88,8 @@ export default class AddNew extends Component {
   render() {
     return (
       <Container>
-        {this.state.text === true ? (
-          <Text isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.photo === true ? (
-          <Photo isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.quote === true ? (
-          <Quote isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.audio === true ? (
-          <Audio isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.video === true ? (
-          <Video isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
+        {this.state.postCreator === true && (
+          <PostCreator unMountChildren={this.unMountChildren} />
         )}
         <IconDiv
           style={{ color: colors.postTypes.text }}
@@ -115,7 +100,7 @@ export default class AddNew extends Component {
         </IconDiv>
         <IconDiv
           style={{ color: colors.postTypes.photo }}
-          onClick={() => this.handleNewModal("photo")}
+          onClick={() => this.handleNewModal("photos")}
         >
           <Icon icon={ic_camera_alt} size={32} />
           <span>Photo</span>

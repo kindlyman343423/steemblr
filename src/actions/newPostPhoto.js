@@ -1,9 +1,14 @@
-import { PUT_NEW_POST_PHOTO } from "./types";
+import { PUT_NEW_POST_PHOTO, DEL_NEW_POST_PHOTO } from "./types";
 
-const newPostTags = props => dispatch => {
+export const newPostPhoto = props => dispatch => {
   dispatch({
     type: PUT_NEW_POST_PHOTO,
     payload: props
   });
 };
-export default newPostTags;
+export const newPostPhotoDel = props => dispatch => {
+  dispatch({
+    type: DEL_NEW_POST_PHOTO,
+    payload: ""
+  });
+};

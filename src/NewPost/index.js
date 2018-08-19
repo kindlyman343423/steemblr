@@ -6,7 +6,6 @@ import Modal from "react-modal";
 import { hot } from "react-hot-loader";
 import store from "../store";
 
-import newPost from "../Functions/newPost";
 import { connect } from "react-redux";
 
 import Photo from "./Photo/";
@@ -14,7 +13,8 @@ import Quote from "./Quote/";
 import Audio from "./Audio/";
 import Video from "./Video/";
 import PostForm from "./Form";
-import { newPostForm } from "../actions/newPostInterface";
+import Errors from "./Errors";
+import { newPostForm, newPostModal } from "../actions/newPostInterface";
 
 injectGlobal`
   .md-editor-toolbar {
@@ -37,9 +37,7 @@ class PostCreator extends Component {
       innerWidth: window.innerWidth
     };
 
-    this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleSend = this.handleSend.bind(this);
 
     this.sideButtons = [
       {
@@ -62,24 +60,10 @@ class PostCreator extends Component {
   }
   handleClose() {
     this.setState({
-      open: false,
       isSending: false
     });
     this.props.unMountChildren("postCreator");
-  }
-  async handleSend() {
-    this.setState({
-      isSending: true
-    });
-
-    await newPost(
-      this.state.user,
-      this.state.title,
-      "text goes here",
-      this.state.tags,
-      this.state.type
-    );
-    this.handleClose();
+    store.dispatch(newPostModal(false));
   }
   showForm = () => {
     store.dispatch(newPostForm(true));
@@ -127,9 +111,12 @@ class PostCreator extends Component {
       }
     };
     return (
-      <Modal isOpen={this.props.newPost.modal} style={modalStyle}>
+      <Modal isOpen={this.props.newPostInterface.modal} style={modalStyle}>
+        {this.props.newPostInterface.isError && (
+          <Errors error={this.props.newPostInterface.errorMsg} />
+        )}
         {this.renderTypeComponents()}
-        {this.props.newPost.isForm && (
+        {this.props.newPostInterface.isForm && (
           <PostForm
             handleClose={this.handleClose}
             isSending={this.state.isSending}
@@ -141,7 +128,9 @@ class PostCreator extends Component {
 }
 
 const mapStateToProps = state => ({
-  newPost: state.newPost
+  steemProfile: state.steemProfile,
+  newPost: state.newPost,
+  newPostInterface: state.newPostInterface
 });
 
 export default connect(

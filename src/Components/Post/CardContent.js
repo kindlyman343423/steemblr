@@ -66,7 +66,12 @@ class CardContent extends Component {
       case "gifs":
         return <CardMedia json_metadata={this.props.json_metadata} />;
       case "audio":
-        break;
+        return (
+          <CardVideo
+            text={this.props.text}
+            json_metadata={this.props.json_metadata}
+          />
+        );
       case "video":
         return (
           <CardVideo

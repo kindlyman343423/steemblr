@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactPlayer from "react-player";
 
-export default class Video extends Component {
+export default class MediaContainer extends Component {
   getLink(text) {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.match(urlRegex)[0];
@@ -11,8 +11,7 @@ export default class Video extends Component {
     const links = [
       "https://www.youtube.com/watch?v=",
       "https://youtu.be/",
-      "https://soundcloud.com/",
-      "https://www.mixcloud.com/"
+      "https://soundcloud.com/"
     ];
     const filter = links.filter(e => {
       return url.includes(e);

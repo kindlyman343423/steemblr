@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import Text from "../NewPost/Text";
-import Photo from "../NewPost/Photo";
-import Quote from "../NewPost/Quote";
-import Audio from "../NewPost/Audio";
-import Video from "../NewPost/Video";
+
+import PostCreator from "../NewPost/";
 import styled from "styled-components";
 
 import Modal from "react-modal";
@@ -18,6 +15,14 @@ import { ic_format_align_left } from "react-icons-kit/md/ic_format_align_left";
 import { ic_music_note } from "react-icons-kit/md/ic_music_note";
 import { ic_videocam } from "react-icons-kit/md/ic_videocam";
 
+import store from "../store";
+import newPostType from "../actions/newPostType";
+
+import {
+  newPostModal,
+  newPostForm,
+  newPostIsError
+} from "../actions/newPostInterface";
 const modalStyle = {
   postion: "fixed",
   height: "100%",
@@ -98,12 +103,7 @@ export default class AddNew extends Component {
     super(props);
 
     this.state = {
-      open: false,
-      text: false,
-      photo: false,
-      audio: false,
-      quote: false,
-      video: false
+      open: false
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -111,12 +111,10 @@ export default class AddNew extends Component {
     this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleOpen() {
+    store.dispatch(newPostIsError(false));
     this.setState({
       open: true,
-      text: false,
-      photo: false,
-      audio: false,
-      video: false
+      postCreator: false
     });
   }
   handleClose() {
@@ -125,14 +123,21 @@ export default class AddNew extends Component {
     });
   }
   handleNewModal(name) {
+    store.dispatch(newPostForm(false));
     this.setState({
       open: false,
-      [name]: true
+      [name]: true,
+      postCreator: true
     });
+    if (name === "text") {
+      store.dispatch(newPostForm(true));
+    }
+    store.dispatch(newPostType(name));
+    store.dispatch(newPostModal(true));
   }
-  unMountChildren(name) {
+  unMountChildren() {
     this.setState({
-      [name]: false
+      postCreator: false
     });
   }
   render() {
@@ -151,30 +156,8 @@ export default class AddNew extends Component {
           </span>
         )}
 
-        {this.state.text === true ? (
-          <Text isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.photo === true ? (
-          <Photo isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.quote === true ? (
-          <Quote isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.audio === true ? (
-          <Audio isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
-        )}
-        {this.state.video === true ? (
-          <Video isOpen={true} unMountChildren={this.unMountChildren} />
-        ) : (
-          void 0
+        {this.state.postCreator === true && (
+          <PostCreator unMountChildren={this.unMountChildren} />
         )}
         <Modal
           isOpen={this.state.open}
@@ -191,7 +174,7 @@ export default class AddNew extends Component {
 
           <IconDiv
             style={{ backgroundColor: colors.postTypes.photo }}
-            onClick={() => this.handleNewModal("photo")}
+            onClick={() => this.handleNewModal("photos")}
           >
             <Icon icon={ic_camera_alt} size={50} />
             <span>Photo</span>

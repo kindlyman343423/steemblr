@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const CloseBtn = styled.button`
-  align-self: flex-end;
   padding: 10px;
   border: 0;
   background-color: transparent;

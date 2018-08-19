@@ -10,8 +10,10 @@ import { ic_insert_photo } from "react-icons-kit/md/ic_insert_photo";
 import { ic_public } from "react-icons-kit/md/ic_public";
 import store from "../../store";
 import newPostType from "../../actions/newPostType";
+import { newPostPhoto, newPostPhotoDel } from "../../actions/newPostPhoto";
 import { debounce } from "lodash";
 import CloseModal from "../CloseModal";
+
 const FileInputLabel = styled.label`
   display: flex;
   text-align: center;
@@ -138,6 +140,7 @@ export default class Photo extends Component {
         isSending: false
       });
     });
+    store.dispatch(newPostPhoto(e.target.value));
     this.props.showForm();
   }
   handleOpenTextArea() {
@@ -151,12 +154,14 @@ export default class Photo extends Component {
     });
     e.persist();
     this.inputDebounce(e);
+    store.dispatch(newPostPhoto(e.target.value));
   }
   getUrl() {
     this.setState({
       imageUrl: this.state.inputUrl,
       isUploaded: true
     });
+
     this.props.showForm();
   }
   handleCancel = () => {
@@ -165,9 +170,7 @@ export default class Photo extends Component {
       inputUrl: "",
       fromWeb: false
     });
-    if (this.state.fromWeb === false) {
-      deleteImage();
-    }
+    store.dispatch(newPostPhotoDel());
   };
 
   render() {
@@ -209,7 +212,7 @@ export default class Photo extends Component {
           <ClosePhotoBtn onClick={this.handleCancel}>X</ClosePhotoBtn>
         )}
         {this.state.isUploaded === false &&
-          store.getState().newPost.isForm === false && <CloseModal />}
+          store.getState().newPostInterface.isForm === false && <CloseModal />}
       </Container>
     );
   }

@@ -37,20 +37,46 @@ export default class PostForm extends Component {
       isSending: this.props.isSending
     };
   }
+  postValidation() {
+    const post = store.getState().newPost;
+
+    if (
+      (post.type === "photos" && post.photo === "") ||
+      (post.type === "gifs" && post.photo === "")
+    ) {
+      store.dispatch(newPostIsError(true));
+      store.dispatch(newPostErrorMsg("You have to upload photo"));
+      return false;
+    } else if (
+      (post.type === "video" && post.video === "") ||
+      (post.type === "audio" && post.audio === "")
+    ) {
+      store.dispatch(newPostIsError(true));
+      store.dispatch(newPostErrorMsg("You have to paste URL"));
+      return false;
+    } else {
+      return true;
+    }
+  }
   handleSend = async e => {
     e.preventDefault();
+    if (this.postValidation() === false) {
+      return void 0;
+    }
     this.setState({
       isSending: true
     });
 
-    await newPost()
-      .then()
-      .catch(err => {
-        store.dispatch(newPostIsError(true));
-        store.dispatch(newPostErrorMsg(err));
+    await newPost();
+    if (!store.getState().newPostInterface.isError) {
+      this.handleClose();
+    } else {
+      this.setState({
+        isSending: false
       });
-    this.handleClose();
+    }
   };
+
   handleClose = () => {
     store.dispatch(newPostModal(false));
   };

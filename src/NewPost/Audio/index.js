@@ -4,7 +4,7 @@ import store from "../../store";
 import { debounce } from "lodash";
 import CloseModal from "../CloseModal";
 import MediaContainer from "../MediaContainer";
-import { newPostVideo, newPostVideoDel } from "../../actions/newPostVideo";
+import { newPostAudio, newPostAudioDel } from "../../actions/newPostAudio";
 const TextArea = styled.textarea`
   box-sizing: border-box;
   border: 0;
@@ -19,7 +19,7 @@ const Container = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   align-content: flex-start;
-  padding: ${props => (props.isVideoSet ? 0 : "30px")};
+  padding: ${props => (props.isAudioSet ? 0 : "30px")};
 `;
 const InnerContainer = styled.div`
   box-sizing: border-box;
@@ -48,16 +48,16 @@ export default class Video extends Component {
 
     this.state = {
       textarea: "",
-      isVideoSet: false,
+      isAudioSet: false,
       tags: [],
-      type: "video",
+      type: "audio",
       innerWidth: window.innerWidth
     };
 
     this.handleTextArea = this.handleTextArea.bind(this);
-    this.cancelVideo = this.cancelVideo.bind(this);
+    this.cancelAudio = this.cancelAudio.bind(this);
     this.inputDebounce = debounce(async function(e) {
-      await this.setVideo();
+      await this.setAudio();
     }, 1000);
   }
 
@@ -68,51 +68,51 @@ export default class Video extends Component {
     e.persist();
     this.inputDebounce(e);
   }
-  async setVideo() {
+  async setAudio() {
     if (this.state.textarea.includes("https://")) {
-      if (this.state.isVideoSet === true) {
+      if (this.state.isAudioSet === true) {
         await this.setState({
-          isVideoSet: false
+          isAudioSet: false
         });
         this.setState({
-          isVideoSet: true
+          isAudioSet: true
         });
         this.props.showForm();
-        store.dispatch(newPostVideo(this.state.textarea));
+        store.dispatch(newPostAudio(this.state.textarea));
       } else {
         await this.setState({
-          isVideoSet: true
+          isAudioSet: true
         });
         this.props.showForm();
-        store.dispatch(newPostVideo(this.state.textarea));
+        store.dispatch(newPostAudio(this.state.textarea));
       }
     } else {
       return void 0;
     }
   }
-  cancelVideo() {
+  cancelAudio() {
     this.setState({
-      isVideoSet: false,
+      isAudioSet: false,
       textarea: ""
     });
-    store.dispatch(newPostVideoDel());
+    store.dispatch(newPostAudioDel());
   }
   render() {
     return (
-      <Container isVideoSet={this.state.isVideoSet}>
-        {this.state.isVideoSet ? (
+      <Container isAudioSet={this.state.isAudioSet}>
+        {this.state.isAudioSet ? (
           <InnerContainer>
             <MediaContainer text={this.state.textarea} />
-            <Button onClick={this.cancelVideo}>X</Button>
+            <Button onClick={this.cancelAudio}>X</Button>
           </InnerContainer>
         ) : (
           <TextArea
             name="textarea"
-            placeholder="Paste a URL"
+            placeholder="Paste a URL to soundcloud"
             onChange={this.handleTextArea}
           />
         )}
-        {this.state.isVideoSet === false &&
+        {this.state.isAudioSet === false &&
           store.getState().newPostInterface.isForm === false && <CloseModal />}
       </Container>
     );

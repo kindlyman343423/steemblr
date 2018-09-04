@@ -10,11 +10,7 @@ import Waypoint from "react-waypoint";
 import styled from "styled-components";
 //REDUX
 import { connect } from "react-redux";
-import {
-  getUserFollowing,
-  getProfileVotes,
-  getSteemTrendingPosts
-} from ".././actions/steemActions";
+import { getUserFollowing, getProfileVotes } from ".././actions/steemActions";
 import {
   postFollowingToState,
   postVoteToState,
@@ -22,6 +18,7 @@ import {
   removePostsFromState
 } from "../actions/stateActions";
 import getNewPosts from ".././actions/getNewPosts";
+import getTrendingPosts from ".././actions/getTrendingPosts";
 import store from ".././store";
 const Container = styled.div`
   box-sizing: border-box;
@@ -86,17 +83,10 @@ class PostsLoader extends Component {
         start_author: post.author,
         category: this.props.match.params.category
       };
-      const query2 = {
-        tag: "",
-        start_permlink: post.permlink,
-        timestamp: post.timestamp,
-        start_author: post.author,
-        category: "new"
-      };
       //loading post by the category
       switch (this.props.match.params.category) {
         case "trending":
-          await this.props.getNewPosts(query2);
+          await this.props.getTrendingPosts(query);
           break;
         default:
           await this.props.getNewPosts(query);
@@ -125,16 +115,11 @@ class PostsLoader extends Component {
       limit: 10,
       category: this.props.match.params.category
     };
-    const query2 = {
-      tag: "",
-      limit: 10,
-      category: "new"
-    };
     window.addEventListener("resize", this.updateDimensions);
     //loading post by the category
     switch (this.props.match.params.category) {
       case "trending":
-        await this.props.getNewPosts(query2);
+        await this.props.getTrendingPosts(query);
         break;
       default:
         await this.props.getNewPosts(query);
@@ -277,8 +262,8 @@ export default connect(
   {
     getUserFollowing,
     getProfileVotes,
-    getSteemTrendingPosts,
     getNewPosts,
+    getTrendingPosts,
     removePostsFromState,
     postFollowingToState,
     postVoteToState,

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import { hot } from "react-hot-loader";
 import { NavLink } from "react-router-dom";
-import "./Explore.css";
 const NavBar = styled.div`
   display: inline-flex;
   background-color: ${colors.background};

@@ -14,12 +14,11 @@ const NavBar = styled.div`
   padding-bottom: 5px;
 
   a {
-    text-align: center;
+    margin-right: 0.5em;
     align-self: center;
   }
   font-weight: 300;
-  @media (max-width: 1024px) {
-  }
+
   @media (max-width: 768px) {
     a {
       text-transform: uppercase;

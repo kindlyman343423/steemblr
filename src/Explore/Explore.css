@@ -1,9 +1,3 @@
-.navLinks {
-  cursor: pointer;
-}
-.navLinks * {
-  margin-right: 0.5em;
-}
 .my-masonry-grid {
   box-sizing: border-box;
   display: flex;

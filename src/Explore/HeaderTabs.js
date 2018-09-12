@@ -15,6 +15,8 @@ const NavBar = styled.div`
   padding-bottom: 5px;
 
   a {
+    cursor: pointer;
+    margin-right: 0.5em;
     text-align: center;
     align-self: center;
   }

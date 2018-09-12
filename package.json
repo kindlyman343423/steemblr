@@ -6,7 +6,7 @@
     "@material-ui/core": "^1.2.0",
     "axios": "^0.18.0",
     "draft-convert": "^2.1.2",
-    "firebase": "^5.2.0",
+    "firebase": "^5.4.2",
     "font-picker-react": "^2.0.4",
     "history": "^4.7.2",
     "immutable": "^3.8.2",

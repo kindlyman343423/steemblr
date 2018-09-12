@@ -67,7 +67,7 @@ export default class SearchInput extends Component {
     return (
       <Container>
         {this.state.isSubmitted ? (
-          <Redirect to={`/search/tag/?${this.state.search}`} />
+          <Redirect to={`/search/${this.state.search}/new`} />
         ) : (
           void 0
         )}

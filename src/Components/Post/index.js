@@ -223,7 +223,7 @@ class Post extends Component {
                 <Link
                   key={this.props.post.category}
                   style={tagStyles}
-                  to={`/search/tag/?${this.props.post.category}`}
+                  to={`/search/${this.props.post.category}/new`}
                 >
                   #{this.props.post.category}
                 </Link>
@@ -238,7 +238,7 @@ class Post extends Component {
                       <Link
                         key={tag}
                         style={tagStyles}
-                        to={`/search/tag/?${tag}`}
+                        to={`/search/${tag}/new`}
                       >
                         #{tag}
                       </Link>

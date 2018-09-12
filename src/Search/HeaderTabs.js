@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import { hot } from "react-hot-loader";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 const NavBar = styled.div`
   display: inline-flex;
   background-color: ${colors.background};
@@ -58,9 +58,13 @@ const HeaderTabs = ({ match }) => {
         {content.map(name => {
           const treatedName = name[0].toUpperCase() + name.slice(1);
           return (
-            <Link key={name} activeClassName="selected" to={`/explore/${name}`}>
+            <NavLink
+              key={name}
+              activeClassName="selected"
+              to={`/search/${match.params.tag}/${name}`}
+            >
               {treatedName.replace("-", " ")}
-            </Link>
+            </NavLink>
           );
         })}
       </NavBar>

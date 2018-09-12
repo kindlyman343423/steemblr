@@ -174,7 +174,7 @@ class App extends Component {
 
               <Route path="/redirect" component={RedirectLoginToken} />
               <Route
-                path="/search"
+                path="/search/:tag/:category"
                 render={props => <Search {...props} login={this.state.login} />}
               />
               <Route path="/@:username" render={props => <Blog {...props} />} />

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import HeaderTabs from "./HeaderTabs";
 import PostsLoader from "./PostsLoader";
 import { Route, Redirect } from "react-router-dom";
-import "./Explore.css";
 import styled from "styled-components";
 import Header from "../Header/Header";
 import colors from "../styles/colors";

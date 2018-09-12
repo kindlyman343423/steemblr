@@ -51,7 +51,7 @@ class SearchInput extends Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         {this.state.isSubmitted ? (
-          <Redirect to={`/search/tag/?${this.state.search}`} />
+          <Redirect to={`/search/${this.state.search}/new`} />
         ) : (
           void 0
         )}

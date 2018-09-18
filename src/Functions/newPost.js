@@ -9,7 +9,6 @@ const newPost = async () => {
   const post = makePost();
   const storeState = store.getState();
   const uniqueTags = [...new Set(storeState.newPost.tags)];
-  const finalTags = uniqueTags.slice(1, uniqueTags.length);
   const uuid = uuidv4() + "u02x93";
   store.dispatch(newPostIsError(false));
   await api
@@ -25,7 +24,7 @@ const newPost = async () => {
           title: post.title, //Title of the post
           body: post.body,
           json_metadata: JSON.stringify({
-            tags: finalTags,
+            tags: uniqueTags,
             app: `steemblr/0.1`,
             format: "markdown+html",
             community: "steemblr",

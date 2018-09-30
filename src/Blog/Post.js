@@ -19,6 +19,7 @@ import store from "../store";
 import { injectIntl } from "react-intl";
 import { FormattedRelative } from "react-intl";
 import ShareMenu from "../Components/Post/ShareMenu";
+import EditPost from "../Components/Post/EditPost";
 class Post extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +33,8 @@ class Post extends Component {
         this.props.post.total_payout_value.replace("SBD", ""),
         this.props.post.pending_payout_value.replace("SBD", ""),
         this.props.post.total_pending_payout_value.replace("STEEM", "")
-      ])
+      ]),
+      allowEdit: this.props.post.author === this.props.username
     };
 
     this.setState({
@@ -109,6 +111,7 @@ class Post extends Component {
           <FooterActions>
             <span>${Number(this.state.value).toFixed(2)}</span>
             <span>
+              {this.state.allowEdit && <EditPost post={this.props.post} />}
               <ShareMenu
                 postAuthor={this.props.post.author}
                 postPermlink={this.props.post.permlink}

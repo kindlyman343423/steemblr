@@ -22,6 +22,13 @@ export default class Title extends Component {
     this.state = { title: "" };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+  componentDidMount() {
+    if (store.getState().newPostInterface.editingExistingPost === true) {
+      this.setState({
+        title: store.getState().newPost.title
+      });
+    }
+  }
   handleInputChange(e) {
     this.setState({
       [e.target.name]: e.target.value

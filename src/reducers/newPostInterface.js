@@ -2,14 +2,16 @@ import {
   NEW_POST_MODAL,
   NEW_POST_FORM,
   NEW_POST_IS_ERROR,
-  NEW_POST_ERROR_MSG
+  NEW_POST_ERROR_MSG,
+  EDITING_EXISTING_POST
 } from "../actions/types";
 
 const initialState = {
   modal: false,
   isForm: false,
   isError: false,
-  errorMsg: ""
+  errorMsg: "",
+  editingExistingPost: false
 };
 
 export default function(state = initialState, action) {
@@ -33,6 +35,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         errorMsg: action.payload
+      };
+    case EDITING_EXISTING_POST:
+      return {
+        ...state,
+        editingExistingPost: action.payload
       };
     default:
       return {

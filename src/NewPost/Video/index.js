@@ -60,7 +60,14 @@ export default class Video extends Component {
       await this.setVideo();
     }, 1000);
   }
-
+  componentDidMount() {
+    if (store.getState().newPostInterface.editingExistingPost === true) {
+      this.setState({
+        textarea: store.getState().newPost.video,
+        isVideoSet: true
+      });
+    }
+  }
   async handleTextArea(e) {
     await this.setState({
       textarea: e.target.value

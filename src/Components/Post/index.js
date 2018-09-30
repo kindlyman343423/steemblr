@@ -17,6 +17,7 @@ import Comments from "./Comments";
 import CardContent from "./CardContent";
 import ProfileHover from "./ProfileHover";
 import ShareMenu from "./ShareMenu";
+import EditPost from "./EditPost";
 import delay from "../../Functions/delay";
 import checkValueState from "../../Functions/checkValueState";
 import getVoteWorth from "../../Functions/getVoteWorth";
@@ -52,7 +53,8 @@ class Post extends Component {
         this.props.post.total_payout_value.replace("SBD", ""),
         this.props.post.pending_payout_value.replace("SBD", ""),
         this.props.post.total_pending_payout_value.replace("STEEM", "")
-      ])
+      ]),
+      allowEdit: this.props.post.author === this.props.username
     };
 
     this.setState({
@@ -248,6 +250,7 @@ class Post extends Component {
             <FooterActions>
               <span>${Number(this.state.value).toFixed(2)}</span>
               <span>
+                {this.state.allowEdit && <EditPost post={this.props.post} />}
                 <ShareMenu
                   postAuthor={this.props.post.author}
                   postPermlink={this.props.post.permlink}

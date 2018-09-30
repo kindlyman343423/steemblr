@@ -125,7 +125,15 @@ export default class Photo extends Component {
       await this.getUrl();
     }, 500);
   }
-
+  componentDidMount() {
+    if (store.getState().newPostInterface.editingExistingPost === true) {
+      this.setState({
+        fromWeb: true,
+        isUploaded: true,
+        imageUrl: store.getState().newPost.photo[0]
+      });
+    }
+  }
   async handleUpload(e) {
     this.setState({
       isSending: true

@@ -17,6 +17,13 @@ export default class Tags extends Component {
       tags: []
     };
   }
+  componentDidMount() {
+    if (store.getState().newPostInterface.editingExistingPost === true) {
+      this.setState({
+        tags: store.getState().newPost.tags
+      });
+    }
+  }
   handleTagsChange = async props => {
     await this.setState({ tags: props });
     store.dispatch(newPostTags(this.state.tags));

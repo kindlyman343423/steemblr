@@ -2,7 +2,7 @@ import steem from "steem";
 import defaultApp from "../environment";
 import { firestore } from "firebase/app";
 import delay from "./delay";
-
+import store from "../store";
 const postToDb = async (author, permlink, isNSFW, postType, tags) => {
   const dbRef = defaultApp
     .firestore()
@@ -40,7 +40,11 @@ const postToDb = async (author, permlink, isNSFW, postType, tags) => {
       isNSFW: isNSFW,
       post_type: postType,
       timestamp: firestore.FieldValue.serverTimestamp(),
-      tags: tags
+      tags: tags,
+      video: store.getState().newPost.video,
+      audio: store.getState().newPost.audio,
+      quote: store.getState().newPost.quote,
+      quoteSource: store.getState().newPost.quoteSource
     });
     batch
       .commit()

@@ -21,7 +21,8 @@ import newPostType from "../actions/newPostType";
 import {
   newPostModal,
   newPostForm,
-  newPostIsError
+  newPostIsError,
+  editingExistingPost
 } from "../actions/newPostInterface";
 const modalStyle = {
   postion: "fixed",
@@ -123,6 +124,7 @@ export default class AddNew extends Component {
     });
   }
   handleNewModal(name) {
+    store.dispatch(editingExistingPost(false));
     store.dispatch(newPostForm(false));
     this.setState({
       open: false,

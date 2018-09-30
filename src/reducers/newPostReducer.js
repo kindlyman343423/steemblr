@@ -12,7 +12,8 @@ import {
   PUT_NEW_POST_PHOTO,
   DEL_NEW_POST_PHOTO,
   DEL_NEW_POST_VIDEO,
-  DEL_NEW_POST_AUDIO
+  DEL_NEW_POST_AUDIO,
+  PUT_EXISTING_POST_PERMLINK
 } from "../actions/types";
 
 const initialState = {
@@ -26,7 +27,8 @@ const initialState = {
   video: "",
   quote: "",
   quoteSource: "",
-  photo: ""
+  photo: "",
+  permlink: ""
 };
 
 export default function(state = initialState, action) {
@@ -90,6 +92,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         quoteSource: action.payload
+      };
+    case PUT_EXISTING_POST_PERMLINK:
+      return {
+        ...state,
+        permlink: action.payload
       };
     case DEL_NEW_POST_PHOTO:
       return {

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-
+import { convertToRaw } from "draft-js";
 import store from "../../store";
 import newPostBody from "../../actions/newPostBody";
+import mediumDraftImporter from "medium-draft/lib/importer";
 import mediumDraftExporter from "medium-draft/lib/exporter";
 import styled from "styled-components";
 import { Editor, createEditorState } from "medium-draft";
@@ -14,6 +15,15 @@ export default class TextEditor extends Component {
     super(props);
 
     this.state = { editorState: createEditorState() };
+  }
+  componentDidMount() {
+    if (store.getState().newPostInterface.editingExistingPost === true) {
+      this.setState({
+        editorState: createEditorState(
+          convertToRaw(mediumDraftImporter(store.getState().newPost.body))
+        )
+      });
+    }
   }
   onChange = editorState => {
     this.setState({ editorState });

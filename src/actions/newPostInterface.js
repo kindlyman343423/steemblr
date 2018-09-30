@@ -2,7 +2,8 @@ import {
   NEW_POST_MODAL,
   NEW_POST_FORM,
   NEW_POST_IS_ERROR,
-  NEW_POST_ERROR_MSG
+  NEW_POST_ERROR_MSG,
+  EDITING_EXISTING_POST
 } from "./types";
 
 export const newPostModal = props => dispatch => {
@@ -26,6 +27,12 @@ export const newPostIsError = props => dispatch => {
 export const newPostErrorMsg = props => dispatch => {
   dispatch({
     type: NEW_POST_ERROR_MSG,
+    payload: props
+  });
+};
+export const editingExistingPost = props => dispatch => {
+  dispatch({
+    type: EDITING_EXISTING_POST,
     payload: props
   });
 };

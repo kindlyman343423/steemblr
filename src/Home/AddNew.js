@@ -8,7 +8,8 @@ import newPostType from "../actions/newPostType";
 import {
   newPostModal,
   newPostForm,
-  newPostIsError
+  newPostIsError,
+  editingExistingPost
 } from "../actions/newPostInterface";
 import Icon from "react-icons-kit";
 import { ic_camera_alt } from "react-icons-kit/md/ic_camera_alt";
@@ -67,6 +68,7 @@ export default class AddNew extends Component {
     this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleNewModal(name) {
+    store.dispatch(editingExistingPost(false));
     store.dispatch(newPostForm(false));
     store.dispatch(newPostIsError(false));
     this.setState({

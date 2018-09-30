@@ -86,7 +86,7 @@ const newPost = async () => {
               [
                 0,
                 {
-                  beneficiaries: [{ account: "steemblr", weight: 1500 }]
+                  beneficiaries: [{ account: "steemblr", weight: 1000 }]
                 }
               ]
             ]

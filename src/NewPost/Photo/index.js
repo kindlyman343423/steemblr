@@ -148,7 +148,7 @@ export default class Photo extends Component {
         isSending: false
       });
     });
-    store.dispatch(newPostPhoto(e.target.value));
+    store.dispatch(newPostPhoto(this.state.imageUrl));
     this.props.showForm();
   }
   handleOpenTextArea() {

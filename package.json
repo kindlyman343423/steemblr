@@ -9,6 +9,7 @@
     "firebase": "^5.4.2",
     "font-picker-react": "^2.0.4",
     "history": "^4.7.2",
+    "image-compressor.js": "^1.1.4",
     "immutable": "^3.8.2",
     "lodash": "^4.17.10",
     "medium-draft": "^0.6.0-beta1",

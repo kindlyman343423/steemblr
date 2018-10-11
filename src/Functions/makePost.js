@@ -5,7 +5,7 @@ const makePost = () => {
   if (state.type === "text") {
     return state;
   } else if (state.type === "photos" || state.type === "gifs") {
-    const img = `<img src=${state.photo} />`;
+    const img = `![](${state.photo})`;
     return {
       type: state.type,
       body: img.concat(state.body),

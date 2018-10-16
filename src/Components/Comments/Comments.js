@@ -29,7 +29,8 @@ class Comments extends Component {
       votesToRemove: [],
       isLoading: true,
       innerWidth: window.innerWidth,
-      username: store.getState().steemProfile.profile.user
+      username: store.getState().steemProfile.profile.user,
+      showInput: false
     };
 
     this.handleSendComment = this.handleSendComment.bind(this);
@@ -60,24 +61,14 @@ class Comments extends Component {
       comments: apiCall[0]
     });
   }
-  async handleSendComment() {
+  async handleSendComment(author, permlink, comment) {
     const login = store.getState().login.status;
     if (login) {
-      if (this.state.comment === "") {
-        alert("Comment can't be empty");
-      } else {
-        sendComment(
-          this.props.postAuthor,
-          this.props.postPermlink,
-          this.props.username,
-          this.state.comment,
-          uuidv4()
-        );
-        this.setState({
-          comment: ""
-        });
-        this.updateComments();
-      }
+      sendComment(author, permlink, this.state.username, comment, uuidv4());
+      this.setState({
+        comment: ""
+      });
+      this.updateComments();
     } else {
       alert("You have to login first");
     }
@@ -169,6 +160,7 @@ class Comments extends Component {
         {this.state.comments.map(comment => {
           return (
             <Comment
+              handleSendComment={this.handleSendComment}
               comment={comment}
               author={comment.author}
               body={comment.body}

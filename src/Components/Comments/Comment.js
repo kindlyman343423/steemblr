@@ -7,6 +7,8 @@ import Remarkable from "remarkable";
 import { hot } from "react-hot-loader";
 import { Link } from "react-router-dom";
 import Comments from "./Comments";
+import store from "../../store";
+import SendBtn from "../SendBtn";
 const Container = styled.div`
   position: relative;
   font-family: "Roboto", sans-serif;
@@ -51,12 +53,26 @@ const md = new Remarkable({
 const RepliesContainer = styled.div`
   margin-left: 5px;
 `;
+const ReplyForm = styled.form`
+  box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 40px;
+`;
+const ReplyInput = styled.input`
+  box-sizing: border-box;
+  outline: none;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+`;
 
 class Comment extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showReplies: false,
+      showReplyForm: false,
+      reply: "",
       status: false,
       percent: 0,
       value: checkValueState([
@@ -66,7 +82,7 @@ class Comment extends Component {
         this.props.comment.curator_payout_value.replace("SBD", "")
       ])
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleVoteClick = this.handleVoteClick.bind(this);
   }
   componentWillMount() {
     this.setState({
@@ -74,23 +90,47 @@ class Comment extends Component {
       percent: this.props.voteStatus.percent
     });
   }
-  async handleClick() {
-    await this.props.handleVoting(
-      this.props.username,
+  async handleVoteClick() {
+    const login = store.getState().login.status;
+    if (login) {
+      await this.props.handleVoting(
+        this.props.username,
+        this.props.author,
+        this.props.permlink,
+        this.props.voteStatus.percent
+      );
+      const vote = await getVoteWorth();
+      this.setState({
+        status: !this.state.status,
+        value: this.state.status
+          ? Number(this.state.value) - Number(vote)
+          : Number(this.state.value) + Number(vote),
+        percent: this.state.status === true ? 1 : 0
+      });
+    } else {
+      alert("You have to login first");
+    }
+  }
+  handleFormSubmit = e => {
+    e.preventDefault();
+    this.props.handleSendComment(
       this.props.author,
       this.props.permlink,
-      this.props.voteStatus.percent
+      this.state.reply
     );
-    const vote = await getVoteWorth();
     this.setState({
-      status: !this.state.status,
-      value: this.state.status
-        ? Number(this.state.value) - Number(vote)
-        : Number(this.state.value) + Number(vote),
-      percent: this.state.status === true ? 1 : 0
+      showReplyForm: false
     });
-  }
+  };
+  handleInputChange = e => {
+    const target = e.target;
+    let value = e.target.value;
+    const name = target.name;
 
+    this.setState({
+      [name]: value
+    });
+  };
   handleShowRepliesButton = () => {
     const children = this.props.comment.children;
     if (this.state.showReplies) {
@@ -148,15 +188,37 @@ class Comment extends Component {
             cursor: "pointer",
             color: this.props.voteStatus.percent > 0 ? "green" : "black"
           }}
-          onClick={this.handleClick}
+          onClick={this.handleVoteClick}
         >
           ${Number(this.state.value).toFixed(2)}
         </span>
         {ReactHtmlParser(md.render(this.props.body))}
+
         <ReplyBtnsContainer>
           {this.handleShowRepliesButton()}
-          <RepliesBtn>Reply</RepliesBtn>
+          <RepliesBtn
+            onClick={() =>
+              this.setState({
+                showReplyForm: !this.state.showReplyForm
+              })
+            }
+          >
+            Reply
+          </RepliesBtn>
         </ReplyBtnsContainer>
+        {this.state.showReplyForm && (
+          <ReplyForm onSubmit={e => this.handleFormSubmit(e)}>
+            <ReplyInput
+              placeholder="Reply"
+              type="text"
+              name="reply"
+              value={this.state.reply}
+              onChange={e => this.handleInputChange(e)}
+              required
+            />
+            <SendBtn type="submit">Send</SendBtn>
+          </ReplyForm>
+        )}
         <RepliesContainer>
           {this.state.showReplies && (
             <Comments

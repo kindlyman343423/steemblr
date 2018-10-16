@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
-import Spinner from ".././Spinner";
 import Comments from "../Comments/Comments";
 import getContentReplies from "../.././Functions/getContentReplies";
 import sendComment from "../.././Functions/sendComment";
@@ -99,15 +98,8 @@ class CommentsModal extends Component {
   async componentWillMount() {
     window.addEventListener("resize", this.updateDimensions);
 
-    const apiCall = await getContentReplies(
-      this.props.postAuthor,
-      this.props.postPermlink
-    );
-
     this.setState({
-      comments: apiCall[0],
       open: true,
-      votedComments: await store.getState().steemProfileVotes.votes,
       isLoading: false
     });
   }

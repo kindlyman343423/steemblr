@@ -262,6 +262,7 @@ class Post extends Component {
                     postAuthor={this.props.post.author}
                     postPermlink={this.props.post.permlink}
                     username={this.props.username}
+                    children={this.props.post.children}
                   />
                 ) : (
                   <Icon

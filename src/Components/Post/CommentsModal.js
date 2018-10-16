@@ -209,7 +209,7 @@ class CommentsModal extends Component {
           title={
             this.props.likesNumber +
             " Likes " +
-            this.state.comments.length +
+            this.props.children +
             " Comments"
           }
           modal={false}
@@ -220,7 +220,7 @@ class CommentsModal extends Component {
           <Title>
             {this.props.likesNumber +
               " Likes " +
-              this.state.comments.length +
+              this.props.children +
               " Comments"}
           </Title>
 

@@ -144,6 +144,7 @@ class Post extends Component {
         </CardFooter>
         {this.state.shouldOpenComments ? (
           <CommentsContainer
+            children={this.props.post.children}
             likesNumber={this.props.post.net_votes}
             postAuthor={this.props.post.author}
             postPermlink={this.props.post.permlink}

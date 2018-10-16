@@ -10,7 +10,7 @@ import {
 } from "./Post.styles";
 import checkValueState from "../Functions/checkValueState";
 import getVoteWorth from "../Functions/getVoteWorth";
-import Comments from "./Comments";
+import CommentsContainer from "./CommentsContainer";
 import CardContent from "./CardContent";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
@@ -32,7 +32,8 @@ class Post extends Component {
       value: checkValueState([
         this.props.post.total_payout_value.replace("SBD", ""),
         this.props.post.pending_payout_value.replace("SBD", ""),
-        this.props.post.total_pending_payout_value.replace("STEEM", "")
+        this.props.post.total_pending_payout_value.replace("STEEM", ""),
+        this.props.post.curator_payout_value.replace("SBD", "")
       ]),
       allowEdit: this.props.post.author === this.props.username
     };
@@ -142,11 +143,10 @@ class Post extends Component {
           />
         </CardFooter>
         {this.state.shouldOpenComments ? (
-          <Comments
+          <CommentsContainer
             likesNumber={this.props.post.net_votes}
             postAuthor={this.props.post.author}
             postPermlink={this.props.post.permlink}
-            username={this.props.username}
           />
         ) : (
           void 0

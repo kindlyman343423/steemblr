@@ -11,6 +11,7 @@ import Modal from "react-modal";
 import FirstLoad from "./FirstLoad";
 import checkProfile from "../Functions/checkProfile";
 import delay from "../Functions/delay";
+import { Redirect } from "react-router-dom";
 const Layout = styled.div`
   display: grid;
   margin-top: 3em;
@@ -115,6 +116,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
+        {this.props.login.status === false ? <Redirect to="/" /> : void 0}
         <Modal isOpen={this.state.isOpen} style={this.modalStyle}>
           <FirstLoad handleClose={this.handleClose} />
         </Modal>
@@ -136,6 +138,7 @@ class Home extends Component {
   }
 }
 const mapStateToProps = state => ({
-  steemProfile: state.steemProfile
+  steemProfile: state.steemProfile,
+  login: state.login
 });
 export default hot(module)(connect(mapStateToProps)(Home));

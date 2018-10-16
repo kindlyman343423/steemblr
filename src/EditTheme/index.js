@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Menu from "./Menu";
 import Blog from "../Blog/";
 import SwitchBtn from "./SwitchBtn";
+import { Redirect } from "react-router-dom";
+import store from "../store";
 const Container = styled.div`
   box-sizing: border-box;
   display: grid;
@@ -32,7 +34,6 @@ export default class EditTheme extends Component {
   }
 
   handleViewSwitch = () => {
-    console.log("test");
     if (this.state.mobileGrid === 100) {
       console.log("100 grid", this.state.mobileGrid);
       this.setState({
@@ -48,6 +49,7 @@ export default class EditTheme extends Component {
   render() {
     return (
       <Container mobileGrid={this.state.mobileGrid}>
+        {store.getState().login.status === false ? <Redirect to="/" /> : void 0}
         <Menu />
         <BlogContainer>
           <Blog {...this.props} />

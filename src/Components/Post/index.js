@@ -13,7 +13,7 @@ import {
   TagContainer,
   FooterActions
 } from "./Post.styles";
-import Comments from "./Comments";
+import CommentsModal from "./CommentsModal";
 import CardContent from "./CardContent";
 import ProfileHover from "./ProfileHover";
 import ShareMenu from "./ShareMenu";
@@ -52,7 +52,8 @@ class Post extends Component {
       value: checkValueState([
         this.props.post.total_payout_value.replace("SBD", ""),
         this.props.post.pending_payout_value.replace("SBD", ""),
-        this.props.post.total_pending_payout_value.replace("STEEM", "")
+        this.props.post.total_pending_payout_value.replace("STEEM", ""),
+        this.props.post.curator_payout_value.replace("SBD", "")
       ]),
       allowEdit: this.props.post.author === this.props.username
     };
@@ -256,7 +257,7 @@ class Post extends Component {
                   postPermlink={this.props.post.permlink}
                 />
                 {this.state.shouldOpenComments ? (
-                  <Comments
+                  <CommentsModal
                     likesNumber={this.props.post.net_votes}
                     postAuthor={this.props.post.author}
                     postPermlink={this.props.post.permlink}

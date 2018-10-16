@@ -2,22 +2,19 @@ import React, { Component } from "react";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import Spinner from ".././Spinner";
-import Comment from "./Comment";
+import Comments from "../Comments/Comments";
 import getContentReplies from "../.././Functions/getContentReplies";
 import sendComment from "../.././Functions/sendComment";
 import uuidv4 from "uuid/v4";
 import delay from "../../Functions/delay";
-import steemVote from "../.././Functions/steemVote";
+
 import { hot } from "react-hot-loader";
 import colors from "../../styles/colors";
 import styled from "styled-components";
 import Modal from "react-modal";
-//REDUX
+
 import store from "../../store";
-import {
-  postVoteToState,
-  removeVoteFromState
-} from "../../actions/stateActions";
+
 const Title = styled.div`
   box-sizing: border-box;
   text-align: center;
@@ -78,7 +75,8 @@ const SendButton = styled.button`
   border: 0;
   cursor: pointer;
 `;
-class Comments extends Component {
+
+class CommentsModal extends Component {
   constructor(props) {
     super(props);
 
@@ -96,12 +94,11 @@ class Comments extends Component {
     this.handleSendComment = this.handleSendComment.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.updateComments = this.updateComments.bind(this);
-    this.updateVotingState = this.updateVotingState.bind(this);
-    this.handleVoting = this.handleVoting.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
   }
   async componentWillMount() {
     window.addEventListener("resize", this.updateDimensions);
+
     const apiCall = await getContentReplies(
       this.props.postAuthor,
       this.props.postPermlink
@@ -185,71 +182,6 @@ class Comments extends Component {
     });
   }
 
-  async handleVoting(username, author, permlink, votePercent) {
-    const login = store.getState().login.status;
-    if (login) {
-      const votePower = store.getState().votePower.power;
-      if (votePercent === 0 || votePercent === undefined) {
-        await steemVote(username, author, permlink, votePower);
-        const state = this.state.votedComments;
-        const newItem = [
-          {
-            permlink: author + "/" + permlink,
-            percent: votePower
-          }
-        ];
-        let newState = [];
-        await this.setState({
-          votedComments: newState.concat(state, newItem),
-
-          votesToPush: this.state.votesToPush.concat(newItem)
-        });
-      } else if (votePercent > 0) {
-        await steemVote(username, author, permlink, 0);
-
-        const state = this.state.votedComments;
-        const fullPermlink = author + "/" + permlink;
-        let newState = state.filter(item => {
-          return item.permlink !== fullPermlink;
-        });
-        const newItem = [
-          {
-            permlink: fullPermlink,
-            percent: votePercent
-          }
-        ];
-        this.setState({
-          votedComments: newState,
-          votesToRemove: this.state.votesToRemove.concat(newItem)
-        });
-      }
-    } else {
-      alert("You have to login first");
-    }
-  }
-  async updateVotingState(props, action) {
-    if (action === true) {
-      store.dispatch(postVoteToState(props));
-    } else if (action === false) {
-      store.dispatch(removeVoteFromState(props));
-    }
-  }
-  checkVoteStatus(props) {
-    const find = this.state.votedComments.find(o => o.permlink === props);
-
-    if (find) {
-      return {
-        status: true,
-        percent: find.percent
-      };
-    } else {
-      return {
-        status: false,
-        percent: 0
-      };
-    }
-  }
-
   render() {
     const modalStyle = {
       content: {
@@ -301,30 +233,10 @@ class Comments extends Component {
           </Title>
 
           <Content>
-            {this.state.comments.length === 0 &&
-            this.state.isLoading === false ? (
-              <p>No comments yet :(</p>
-            ) : (
-              void 0
-            )}
-            {this.state.isLoading ? <Spinner marginTop="2" /> : void 0}
-            {this.state.comments.map(comment => {
-              return (
-                <Comment
-                  comment={comment}
-                  author={comment.author}
-                  body={comment.body}
-                  key={comment.id}
-                  handleVoting={this.handleVoting}
-                  username={this.props.username}
-                  permlink={comment.permlink}
-                  fullPermlink={comment.author + "/" + comment.permlink}
-                  voteStatus={this.checkVoteStatus(
-                    comment.author + "/" + comment.permlink
-                  )}
-                />
-              );
-            })}
+            <Comments
+              postAuthor={this.props.postAuthor}
+              postPermlink={this.props.postPermlink}
+            />
           </Content>
           <InputContainer>
             <Input
@@ -346,4 +258,4 @@ class Comments extends Component {
   }
 }
 
-export default hot(module)(Comments);
+export default hot(module)(CommentsModal);

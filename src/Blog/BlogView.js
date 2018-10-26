@@ -194,7 +194,9 @@ export default class Blog extends Component {
                 <img src={logo} alt="logo" />
               </Link>
             </span>
-            {this.props.isFollowing ? (
+            {this.props.isFollowing ||
+            store.getState().steemProfile.profile.user ===
+              this.props.match.params.username ? (
               void 0
             ) : (
               <FollowBtn onClick={this.props.handleFollowBtn}>Follow</FollowBtn>

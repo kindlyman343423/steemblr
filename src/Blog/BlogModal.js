@@ -196,7 +196,9 @@ export default class BlogModal extends Component {
               <Link to={"/@" + this.props.post.author}>
                 {this.props.post.author}
               </Link>
-              {this.props.isFollowing ? (
+              {this.props.isFollowing ||
+              store.getState().steemProfile.profile.user ===
+                this.props.post.author ? (
                 void 0
               ) : (
                 <FollowBtn onClick={this.props.handleFollowBtn}>

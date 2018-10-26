@@ -198,7 +198,9 @@ class Post extends Component {
             </CardTitle>
 
             <BtnContainer>
-              {this.state.isFollowing ? (
+              {this.state.isFollowing ||
+              store.getState().steemProfile.profile.user ===
+                this.props.post.author ? (
                 ""
               ) : (
                 <FollowBtn

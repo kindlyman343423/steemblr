@@ -187,7 +187,7 @@ class App extends Component {
                 render={props => <Settings {...props} />}
               />
               <Route
-                path="/customize/:username"
+                path="/customize/:username/:option"
                 render={props => <EditTheme {...props} />}
               />
             </div>

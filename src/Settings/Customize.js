@@ -50,7 +50,9 @@ export default class Customize extends Component {
           <b>Website Theme</b>
           <span>
             <Link
-              to={"/customize/" + store.getState().steemProfile.profile.user}
+              to={`/customize/${
+                store.getState().steemProfile.profile.user
+              }/theme`}
             >
               <Button>Edit Theme</Button>
             </Link>
@@ -63,6 +65,20 @@ export default class Customize extends Component {
                 store.getState().steemProfile.profile.user
               }`}</Link>
             </p>
+          </span>
+        </Option>
+        <Option>
+          <b>SEO</b>
+          <span>
+            <Link
+              to={`/customize/${
+                store.getState().steemProfile.profile.user
+              }/seo`}
+            >
+              <Button>Meta Tags</Button>
+            </Link>
+
+            <p>Change your meta tags for better search engine optimization.</p>
           </span>
         </Option>
       </Container>

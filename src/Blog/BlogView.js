@@ -9,6 +9,7 @@ import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
 import logo from "../icons/logo.svg";
 import { Link } from "react-router-dom";
+import MetaTags from "./MetaTags";
 const Container = styled.div`
   border-radius: 2px;
   width: 100%;
@@ -187,6 +188,7 @@ export default class Blog extends Component {
     } else {
       return (
         <Container backgroundColor={this.state.account.background_color}>
+          <MetaTags account={this.state.account} />
           <BannerActions>
             <span>
               {store.getState().login.status ? <SideMenu /> : false}

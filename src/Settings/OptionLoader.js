@@ -26,7 +26,7 @@ export default class OptionLoader extends Component {
   constructor(props) {
     super(props);
 
-    this.laodComponent = this.loadComponent.bind(this);
+    this.loadComponent = this.loadComponent.bind(this);
   }
   loadComponent() {
     switch (this.props.option) {

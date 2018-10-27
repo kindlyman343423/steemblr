@@ -5,6 +5,8 @@ import Blog from "../Blog/";
 import SwitchBtn from "./SwitchBtn";
 import { Redirect } from "react-router-dom";
 import store from "../store";
+import EditSeo from "./EditSeo";
+
 const Container = styled.div`
   box-sizing: border-box;
   display: grid;
@@ -35,27 +37,44 @@ export default class EditTheme extends Component {
 
   handleViewSwitch = () => {
     if (this.state.mobileGrid === 100) {
-      console.log("100 grid", this.state.mobileGrid);
       this.setState({
         mobileGrid: 0
       });
     } else if (this.state.mobileGrid === 0) {
-      console.log(this.state.mobileGrid);
       this.setState({
         mobileGrid: 100
       });
     }
   };
+  loadComponent() {
+    switch (this.props.match.params.option) {
+      case "theme":
+        return (
+          <Container mobileGrid={this.state.mobileGrid}>
+            <Menu />
+            <BlogContainer>
+              <Blog {...this.props} />
+            </BlogContainer>
+            <SwitchBtn handleViewSwitch={this.handleViewSwitch} />
+          </Container>
+        );
+      case "seo":
+        return <EditSeo {...this.props} />;
+      default:
+        return "";
+    }
+  }
   render() {
     return (
-      <Container mobileGrid={this.state.mobileGrid}>
+      <div>
         {store.getState().login.status === false ? <Redirect to="/" /> : void 0}
-        <Menu />
-        <BlogContainer>
-          <Blog {...this.props} />
-        </BlogContainer>
-        <SwitchBtn handleViewSwitch={this.handleViewSwitch} />
-      </Container>
+        {store.getState().steemProfile.profile.user ===
+        this.props.match.params.username ? (
+          this.loadComponent()
+        ) : (
+          <Redirect to="/" />
+        )}
+      </div>
     );
   }
 }

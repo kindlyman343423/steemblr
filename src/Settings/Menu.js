@@ -33,7 +33,7 @@ export default class Menu extends Component {
         <NavLink activeClassName="activeOption" to="/settings/customize">
           <div>
             <b>Customize</b>
-            <p>Essential settings</p>
+            <p>Your blog settings</p>
           </div>
         </NavLink>
       </Container>

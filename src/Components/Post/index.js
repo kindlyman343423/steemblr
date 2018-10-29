@@ -159,11 +159,18 @@ class Post extends Component {
         )}
         <Container>
           <CardHeader>
-            <CardAvatar
-              url={`https://steemitimages.com/u/${
-                this.props.post.author
-              }/avatar`}
-            />
+            <Link
+              to={`/post/@${this.props.post.author}/${
+                this.props.post.permlink
+              }`}
+              target="_blank"
+            >
+              <CardAvatar
+                url={`https://steemitimages.com/u/${
+                  this.props.post.author
+                }/avatar`}
+              />
+            </Link>
             <CardTitle>
               <UsernameContainer>
                 <HoverIntet

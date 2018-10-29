@@ -9,7 +9,8 @@ const newPost = async () => {
   const post = makePost();
   const storeState = store.getState();
   const isEditing = storeState.newPostInterface.editingExistingPost;
-  const uniqueTags = [...new Set(storeState.newPost.tags)];
+  let uniqueTags = [...new Set(storeState.newPost.tags)];
+  uniqueTags.includes("steemblr") ? void 0 : uniqueTags.push("steemblr");
   const uuid = isEditing ? storeState.newPost.permlink : uuidv4() + "u02x93";
   store.dispatch(newPostIsError(false));
   if (isEditing) {

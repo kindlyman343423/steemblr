@@ -75,16 +75,13 @@ const SaveBtn = styled.button`
   outline: none;
   padding: 10px;
   border: 0;
-  background-color: ${colors.buttons.login};
+  background-color: ${props =>
+    props.isSaved ? "green" : colors.buttons.login};
   outline: none;
   color: white;
   font-weight: 700;
   transition: 0.5s;
   cursor: pointer;
-  &:focus {
-    background-color: #1c313a;
-    transition: 0.5s;
-  }
 `;
 const BtnsContainer = styled.div`
   display: flex;
@@ -97,7 +94,9 @@ class EditSeo extends Component {
     super(props);
 
     this.state = {
-      account: ""
+      account: "",
+      isSaved: false,
+      isSending: false
     };
     this.loadAccount();
   }
@@ -115,6 +114,9 @@ class EditSeo extends Component {
   }
   async handleForm(e) {
     e.preventDefault();
+    await this.setState({
+      isSending: true
+    });
     const props = {
       author: this.props.steemProfile.profile._id,
       property: "seo",
@@ -131,9 +133,16 @@ class EditSeo extends Component {
       user: this.props.steemProfile.profile._id,
       layout: account
     };
-    saveTheme(toSave);
+    await saveTheme(toSave);
+    this.setState({
+      isSaved: true,
+      isSending: false
+    });
   }
   handleChange(e) {
+    this.setState({
+      isSaved: false
+    });
     const name = e.target.name;
     const value = e.target.value;
     this.setState({
@@ -183,7 +192,11 @@ class EditSeo extends Component {
               <Link to="/settings/customize">
                 <ExitBtn type="button">Exit</ExitBtn>
               </Link>
-              <SaveBtn type="submit">Save</SaveBtn>
+              <span>
+                <SaveBtn type="submit" isSaved={this.state.isSaved}>
+                  {this.state.isSaved ? "Saved" : "Save"}
+                </SaveBtn>
+              </span>
             </BtnsContainer>
           </Form>
         </Container>

@@ -3,12 +3,21 @@ import Remarkable from "remarkable";
 import sanitizeHtml from "sanitize-html";
 import ReactHtmlParser from "react-html-parser";
 import styled from "styled-components";
+import postAllowedHtml from "../Functions/postAllowedHtml";
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
   overflow: hidden;
   padding-left: 20px;
   padding-right: 20px;
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong {
+    font-weight: 500;
+  }
 `;
 const md = new Remarkable({
   html: true,
@@ -18,36 +27,7 @@ export default class CardText extends Component {
   parseContent() {
     return ReactHtmlParser(
       sanitizeHtml(md.render(this.props.text), {
-        allowedTags: [
-          "h3",
-          "h4",
-          "h5",
-          "h6",
-          "blockquote",
-          "p",
-          "a",
-          "ul",
-          "ol",
-          "nl",
-          "li",
-          "b",
-          "i",
-          "strong",
-          "em",
-          "strike",
-          "code",
-          "hr",
-          "br",
-          "div",
-          "table",
-          "thead",
-          "caption",
-          "tbody",
-          "tr",
-          "th",
-          "td",
-          "pre"
-        ]
+        allowedTags: postAllowedHtml(this.props.post_type)
       })
     );
   }

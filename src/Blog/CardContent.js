@@ -67,7 +67,7 @@ class CardContent extends Component {
       <Container>
         {this.handleMedia(this.props.post_type)}
 
-        <CardText text={this.props.text} />
+        <CardText text={this.props.text} post_type={this.props.post_type} />
       </Container>
     );
   }

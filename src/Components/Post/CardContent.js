@@ -91,7 +91,7 @@ class CardContent extends Component {
         {this.props.text.length === 0 ? (
           void 0
         ) : (
-          <CardText text={this.props.text} />
+          <CardText text={this.props.text} post_type={this.props.post_type} />
         )}
         {height >= 350 && this.state.isExpanded !== true ? (
           <ExpandBtn onClick={this.handleExpand}>Expand</ExpandBtn>

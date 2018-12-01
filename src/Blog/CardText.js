@@ -18,6 +18,9 @@ const Container = styled.div`
   strong {
     font-weight: 500;
   }
+  a {
+    word-wrap: break-word;
+  }
 `;
 const md = new Remarkable({
   html: true,
@@ -27,7 +30,27 @@ export default class CardText extends Component {
   parseContent() {
     return ReactHtmlParser(
       sanitizeHtml(md.render(this.props.text), {
-        allowedTags: postAllowedHtml(this.props.post_type)
+        allowedTags: postAllowedHtml(this.props.post_type),
+        transformTags: {
+          a: function(tagName, attribs) {
+            const re = /(https?:\/\/.*\.(?:png|jpg|gif|jpeg))/i;
+            if (re.test(attribs.href)) {
+              return {
+                tagName: "img",
+                attribs: {
+                  src: attribs.href
+                },
+                text: ""
+              };
+            }
+            return {
+              tagName: "a",
+              attribs: {
+                href: attribs.href
+              }
+            };
+          }
+        }
       })
     );
   }

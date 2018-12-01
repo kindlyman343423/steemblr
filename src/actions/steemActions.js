@@ -18,6 +18,7 @@ export const getUserProfile = () => async dispatch => {
       if (String(err).includes("sc2")) {
         localStorage.removeItem("token");
         localStorage.removeItem("cToken");
+        window.location.reload();
       }
       if (err !== null) {
         console.log();

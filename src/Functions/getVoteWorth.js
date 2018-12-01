@@ -39,8 +39,8 @@ const getVoteWorth = async props => {
     .then(result => {
       price = result;
     });
-  let m = parseInt((100 * votingPower * (100 * 100)) / 10000);
-  m = parseInt((m + 49) / 50);
+  let m = parseInt((100 * votingPower * (100 * 100)) / 10000, 10);
+  m = parseInt((m + 49) / 50, 10);
   const i =
     parseFloat(rewardFund[0].reward_balance.replace(" STEEM", "")) /
     parseFloat(rewardFund[0].recent_claims);
@@ -52,7 +52,7 @@ const getVoteWorth = async props => {
     globalData[0].total_vesting_shares.replace(" VESTS", "");
   const r = steemPower / a;
   let vote;
-  vote = parseInt(r * m * 100) * i * o;
+  vote = parseInt(r * m * 100, 10) * i * o;
   vote = vote / 100;
   return vote.toFixed(3);
 };

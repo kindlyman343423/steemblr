@@ -4,6 +4,9 @@ import { GET_USER_SETTINGS } from "./types";
 
 const getUserSettings = props => async dispatch => {
   const username = store.getState().steemProfile.profile._id;
+  if (username === undefined) {
+    window.location.reload();
+  }
   const dbRef = defaultApp
     .firestore()
     .collection("users")

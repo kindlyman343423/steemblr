@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import uuidv4 from "uuid/v4";
 import ImageCompressor from "image-compressor.js";
 import store from "../store";

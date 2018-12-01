@@ -9,7 +9,6 @@ import delay from "../../Functions/delay";
 import steemVote from "../.././Functions/steemVote";
 import { hot } from "react-hot-loader";
 
-import styled from "styled-components";
 import store from "../../store";
 
 import {

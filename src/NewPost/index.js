@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import CustomImageSideButton from "./ImageSideButton";
-import styled, { injectGlobal } from "styled-components";
+import { injectGlobal } from "styled-components";
 import Modal from "react-modal";
 import { hot } from "react-hot-loader";
 import store from "../store";

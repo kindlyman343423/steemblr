@@ -44,7 +44,7 @@ export const getUserFollowing = props => async dispatch => {
     .getFollowingAsync(props, 0, "blog", 1000)
     .then(result => {
       result.map(item => {
-        bucket.push(item.following);
+        return bucket.push(item.following);
       });
       return result;
     })
@@ -71,7 +71,7 @@ export const getProfileVotes = props => async dispatch => {
     .getAccountVotesAsync(props)
     .then(result => {
       result.map(vote => {
-        bucket.push({
+        return bucket.push({
           permlink: vote.authorperm,
           percent: vote.percent
         });

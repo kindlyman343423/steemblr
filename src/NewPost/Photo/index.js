@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import colors from "../../styles/colors";
 import uploadFiles from "../../Functions/uploadFiles";
-import deleteImage from "../../Functions/deleteImage";
 import SpinnerOverlay from "../SpinnerOverlay";
 import Icon from "react-icons-kit";
 import { ic_insert_photo } from "react-icons-kit/md/ic_insert_photo";

@@ -112,6 +112,7 @@ const Content = styled.div`
     ${props => props.titleColor.a}
   );
 `;
+/*
 const FeaturedPosts = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -123,7 +124,7 @@ const Post = styled.div`
   background-color: #e2e1e2;
   width: calc(18vw / 3.2);
   height: calc(18vw / 3.2);
-`;
+`;*/
 export default class ProfileHover extends Component {
   constructor(props) {
     super(props);

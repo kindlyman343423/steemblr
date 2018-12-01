@@ -12,7 +12,10 @@ import newPostType from "../../actions/newPostType";
 import { newPostPhoto, newPostPhotoDel } from "../../actions/newPostPhoto";
 import { debounce } from "lodash";
 import CloseModal from "../CloseModal";
-
+import {
+  newPostIsError,
+  newPostErrorMsg
+} from "../../actions/newPostInterface";
 const FileInputLabel = styled.label`
   display: flex;
   text-align: center;
@@ -164,18 +167,37 @@ export default class Photo extends Component {
     store.dispatch(newPostPhoto(e.target.value));
   }
   getUrl() {
-    this.setState({
-      imageUrl: this.state.inputUrl,
-      isUploaded: true
-    });
+    const re = /(https?:\/\/.*\.(?:png|jpg|gif|jpeg))/i;
+    if (re.test(this.state.inputUrl)) {
+      this.setState({
+        imageUrl: this.state.inputUrl,
+        isUploaded: true
+      });
+      store.dispatch(newPostIsError(false));
+      store.dispatch(newPostPhoto(this.state.imageUrl));
+    } else {
+      store.dispatch(newPostIsError(true));
+      store.dispatch(
+        newPostErrorMsg(
+          "Unsupported link, it should have file name at the end."
+        )
+      );
+      this.setState({
+        isUploaded: false,
+        imageUrl: "",
+        fromWeb: false,
+        inputUrl: ""
+      });
+    }
 
     this.props.showForm();
   }
   handleCancel = () => {
     this.setState({
       isUploaded: false,
-      inputUrl: "",
-      fromWeb: false
+      imageUrl: "",
+      fromWeb: false,
+      inputUrl: ""
     });
     store.dispatch(newPostPhotoDel());
   };

@@ -5,6 +5,10 @@ import { debounce } from "lodash";
 import CloseModal from "../CloseModal";
 import MediaContainer from "../MediaContainer";
 import { newPostAudio, newPostAudioDel } from "../../actions/newPostAudio";
+import {
+  newPostIsError,
+  newPostErrorMsg
+} from "../../actions/newPostInterface";
 const TextArea = styled.textarea`
   box-sizing: border-box;
   border: 0;
@@ -76,7 +80,11 @@ export default class Video extends Component {
     this.inputDebounce(e);
   }
   async setAudio() {
-    if (this.state.textarea.includes("https://")) {
+    const re = /^(http(s)?:\/\/)?((w){3}.)?soundcloud|youtu(be|.be)?(\.com)?\/.+/i;
+    if (
+      this.state.textarea.includes("https://") &&
+      re.test(this.state.textarea)
+    ) {
       if (this.state.isAudioSet === true) {
         await this.setState({
           isAudioSet: false
@@ -84,16 +92,22 @@ export default class Video extends Component {
         this.setState({
           isAudioSet: true
         });
+        store.dispatch(newPostIsError(false));
         this.props.showForm();
         store.dispatch(newPostAudio(this.state.textarea));
       } else {
         await this.setState({
           isAudioSet: true
         });
+        store.dispatch(newPostIsError(false));
         this.props.showForm();
         store.dispatch(newPostAudio(this.state.textarea));
       }
     } else {
+      store.dispatch(newPostIsError(true));
+      store.dispatch(
+        newPostErrorMsg("Only Soundcloud & YouTube links are supported.")
+      );
       return void 0;
     }
   }
@@ -115,7 +129,7 @@ export default class Video extends Component {
         ) : (
           <TextArea
             name="textarea"
-            placeholder="Paste a URL to soundcloud"
+            placeholder="Paste a URL to soundcloud or youtube"
             onChange={this.handleTextArea}
           />
         )}

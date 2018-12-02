@@ -5,6 +5,10 @@ import { debounce } from "lodash";
 import CloseModal from "../CloseModal";
 import MediaContainer from "../MediaContainer";
 import { newPostVideo, newPostVideoDel } from "../../actions/newPostVideo";
+import {
+  newPostIsError,
+  newPostErrorMsg
+} from "../../actions/newPostInterface";
 const TextArea = styled.textarea`
   box-sizing: border-box;
   border: 0;
@@ -76,7 +80,11 @@ export default class Video extends Component {
     this.inputDebounce(e);
   }
   async setVideo() {
-    if (this.state.textarea.includes("https://")) {
+    const re = /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+/i;
+    if (
+      this.state.textarea.includes("https://") &&
+      re.test(this.state.textarea)
+    ) {
       if (this.state.isVideoSet === true) {
         await this.setState({
           isVideoSet: false
@@ -84,16 +92,20 @@ export default class Video extends Component {
         this.setState({
           isVideoSet: true
         });
+        store.dispatch(newPostIsError(false));
         this.props.showForm();
         store.dispatch(newPostVideo(this.state.textarea));
       } else {
         await this.setState({
           isVideoSet: true
         });
+        store.dispatch(newPostIsError(false));
         this.props.showForm();
         store.dispatch(newPostVideo(this.state.textarea));
       }
     } else {
+      store.dispatch(newPostIsError(true));
+      store.dispatch(newPostErrorMsg("Only YouTube links are supported."));
       return void 0;
     }
   }

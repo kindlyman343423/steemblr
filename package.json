@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^1.2.0",
     "axios": "^0.18.0",
-    "draft-convert": "^2.1.2",
+    "draft-convert": "^2.1.4",
     "firebase": "^5.6.0",
     "font-picker-react": "^2.0.4",
     "history": "^4.7.2",

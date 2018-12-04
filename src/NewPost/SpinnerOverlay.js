@@ -12,6 +12,10 @@ const Container = styled.div`
   align-items: center;
   margin-top: -20px;
   background-color: rgba(29, 49, 57, 0.6);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   div {
     svg {
       z-index: 4000;

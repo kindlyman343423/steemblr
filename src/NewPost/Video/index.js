@@ -127,7 +127,7 @@ export default class Video extends Component {
         ) : (
           <TextArea
             name="textarea"
-            placeholder="Paste a URL"
+            placeholder="Paste link to YouTube"
             onChange={this.handleTextArea}
           />
         )}

@@ -1,70 +1,47 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import styled from "styled-components";
-import colors from "../styles/colors";
-import LoginModal from "../Header/LoginModal";
-import Register from "../Components/Register";
-import Header from "./Header";
-import { Link, Redirect } from "react-router-dom";
-import logo from "../icons/logo.svg";
-import store from "../store";
-import Logo from "../Components/Logo";
-const Container = styled.div`
-  background-color: #06162b;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  position: relative;
 
-  img {
-    transform: scale(1.5, 1.5);
-    margin-bottom: 20px;
-  }
-  a {
-    color: ${colors.font.lightNormal};
-  }
+import Header from "./Header";
+import Buttons from "./Buttons";
+import Welcome from "./Welcome";
+import About from "./About";
+import BuzzWords from "./BuzzWords";
+import store from "../store";
+import { Redirect } from "react-router-dom";
+import SectionIndicator from "./SectionIndicator";
+
+const Container = styled.div`
+  max-width: 100vw;
+  min-height: 100vh;
+  position: relative;
 `;
-const BtnContainer = styled.div`
-  button {
-    width: 250px;
-    margin-bottom: 15px;
-  }
-`;
-const LogoContainer = styled.div`
-  svg {
-    height: 128px;
-    width: auto;
-    margin-bottom: -10px;
-    animation: colorChange 5s infinite;
-  }
-  @keyframes colorChange {
-    0% {
-      filter: hue-rotate(0deg);
-    }
-    100% {
-      filter: hue-rotate(360deg);
-    }
-  }
-`;
+
 class Intro extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      section: 1
+    };
+  }
+
+  handleWaypoints = props => {
+    this.setState({
+      section: props
+    });
+  };
   render() {
     return (
       <Container>
         {store.getState().login.status ? <Redirect to="/home" /> : void 0}
         <Header />
-        <LogoContainer>
-          <Logo />
-        </LogoContainer>
-        <img src={logo} alt="logo" />
-        <BtnContainer>
-          <LoginModal text="Login with steemconnect" />
-          <Register />
-        </BtnContainer>
-        <Link to="explore/trending/">Check what's trending</Link>
+        {this.state.section !== 1 && <Buttons />}
+        <SectionIndicator section={this.state.section} />
+
+        <Welcome handleWaypoints={this.handleWaypoints} />
+        <About handleWaypoints={this.handleWaypoints} />
+        <BuzzWords handleWaypoints={this.handleWaypoints} />
       </Container>
     );
   }

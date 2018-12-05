@@ -28,9 +28,7 @@ const Layout = styled.div`
   }
   @media (max-width: 425px) {
     grid-template-columns: 100%;
-    grid-template-areas:
-    "main"
-
+    grid-template-areas:"main";
     margin-top: 2em;
   }
   @media (max-width: 375px) {

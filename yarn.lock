@@ -2458,9 +2458,10 @@ dotenv@4.0.0, dotenv@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
-draft-convert@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/draft-convert/-/draft-convert-2.1.2.tgz#00624b40fc80dca320c4e693a5fd21debb78206d"
+draft-convert@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/draft-convert/-/draft-convert-2.1.4.tgz#b8817000eaf251e95583c987adda085d67254a0d"
+  integrity sha1-uIFwAOryUelVg8mHrdoIXWclSg0=
   dependencies:
     immutable "~3.7.4"
     invariant "^2.2.1"
@@ -6299,6 +6300,11 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-anchor-link-smooth-scroll@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/react-anchor-link-smooth-scroll/-/react-anchor-link-smooth-scroll-1.0.11.tgz#e53f55b89382df0d85470ebd20e6b349d62eb19d"
+  integrity sha512-PaAFtqs00eXbbYPTaiG7sEL2EkVfs+PiarzMnMN66JQWamORiNOzyhumW2tImKeKFUZeFdifqz9iJy/2e4RLnw==
+
 react-app-rewire-hot-loader@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-app-rewire-hot-loader/-/react-app-rewire-hot-loader-1.0.1.tgz#511f06d85e1c05d3ea1c3cdaede352e1871183ba"
@@ -6410,9 +6416,10 @@ react-html-parser@^2.0.2:
   dependencies:
     htmlparser2 "^3.9.0"
 
-react-icons-kit@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/react-icons-kit/-/react-icons-kit-1.1.5.tgz#e8103015a0292e9900a2fe071c6cb9ca50d76ae2"
+react-icons-kit@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-icons-kit/-/react-icons-kit-1.2.1.tgz#8c4ff22fbe70a6e014f1952eac0494bca4b006b5"
+  integrity sha512-H9R9nudQKdGT8j69kamUh8OVDfhV061+pYe6fxjstQZIvylJkQQ7m6AJMu4tg6gK8UK8s5q+YG2ahmY7fLIcyg==
   dependencies:
     camel-case "^3.0.0"
     prop-types "^15.5.8"

@@ -153,7 +153,17 @@ export default class BuzzWords extends Component {
                 rel="noopener noreferrer"
               >
                 here
-              </a>instatly.
+              </a>instantly.
+            </p>
+            <p>
+              Need cryptocurrency? Get some
+              <a
+                href="https://www.coinbase.com/join/5a3670723460ff02f4fc46fe"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                here
+              </a>
             </p>
           </Explaination>
         );
@@ -195,7 +205,7 @@ export default class BuzzWords extends Component {
           <Explaination>
             <h3>Steem Wallet</h3>
             <p>
-              Since steemblr is still in early stage to make an steem related
+              Since steemblr is still in early stage to make steem related
               transactions head to
               <a
                 href="https://steemit.com"

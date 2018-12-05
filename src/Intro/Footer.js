@@ -25,7 +25,7 @@ export default class Footer extends Component {
     return (
       <Container>
         <a
-          href="https://github.com/snwolak"
+          href="https://github.com/snwolak/steemblr"
           target="_blank"
           rel="noopener noreferrer"
         >

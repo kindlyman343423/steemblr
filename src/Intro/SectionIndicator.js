@@ -15,6 +15,9 @@ const Container = styled.div`
     padding: 5px;
     transition: 0.5s;
   }
+  @media (max-width: 425px) {
+    display: none;
+  }
 `;
 export default class SectionIndicator extends Component {
   render() {
@@ -34,7 +37,7 @@ export default class SectionIndicator extends Component {
             }}
           />
         </a>
-        <a href="#about-section">
+        <a href="#buzzwords-section">
           <div
             style={{
               background: this.props.section === 3 ? "white" : "transparent"

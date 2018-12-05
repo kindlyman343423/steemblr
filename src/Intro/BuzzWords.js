@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import styled from "styled-components";
 import Waypoint from "react-waypoint";
-
+import Footer from "./Footer";
 const Container = styled.section`
   color: #fff;
   background: #bb4d00;
@@ -39,6 +39,9 @@ const Grid = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 50%);
+  @media (max-width: 425px) {
+    grid-template-columns: 100%;
+  }
 `;
 const ConceptContainer = styled.div`
   display: flex;
@@ -54,6 +57,9 @@ const ConceptContainer = styled.div`
     color: #fff;
     cursor: pointer;
   }
+  @media (max-width: 425px) {
+    margin-bottom: 20px;
+  }
 `;
 const ExplainationsContainer = styled.div`
   display: flex;
@@ -62,6 +68,9 @@ const ExplainationsContainer = styled.div`
   align-items: center;
   align-content: center;
   background-color: #1c313a;
+  @media (max-width: 425px) {
+    margin-bottom: 50px;
+  }
 `;
 const Explaination = styled.div`
   display: flex;
@@ -266,6 +275,7 @@ export default class BuzzWords extends Component {
           </ConceptContainer>
           <ExplainationsContainer>{this.handleInfo()}</ExplainationsContainer>
         </Grid>
+        <Footer />
       </Container>
     );
   }

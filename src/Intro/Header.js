@@ -26,7 +26,7 @@ const Container = styled.div`
   }
   @media (max-width: 768px) {
     input {
-      width: 60vw;
+      width: 55vw;
     }
   }
   @media (max-width: 425px) {

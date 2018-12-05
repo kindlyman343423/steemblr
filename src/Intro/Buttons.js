@@ -24,6 +24,9 @@ const Container = styled.div`
       opacity: 1;
     }
   }
+  @media (max-width: 425px) {
+    display: none;
+  }
 `;
 export default class Buttons extends Component {
   render() {

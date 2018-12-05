@@ -172,9 +172,10 @@ export default class BuzzWords extends Component {
               After creating new post or comment people can upvote it and then
               accordingly to their steem power you will get rewards after 7 days
               of content creation.
+              <br />
+              <br />To sustain itself steemblr is taking 5% of your author
+              reward
             </p>
-
-            <p>You can </p>
           </Explaination>
         );
       case 5:

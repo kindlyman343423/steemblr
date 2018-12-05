@@ -62,6 +62,7 @@ const ConceptContainer = styled.div`
   }
 `;
 const ExplainationsContainer = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,6 +71,8 @@ const ExplainationsContainer = styled.div`
   background-color: #1c313a;
   @media (max-width: 425px) {
     margin-bottom: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 `;
 const Explaination = styled.div`

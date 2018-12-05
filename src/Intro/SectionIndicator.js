@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import AnchorLink from "react-anchor-link-smooth-scroll";
 const Container = styled.div`
   position: fixed;
   left: 25px;
@@ -23,27 +24,27 @@ export default class SectionIndicator extends Component {
   render() {
     return (
       <Container>
-        <a href="#welcome-section">
+        <AnchorLink href="#welcome-section">
           <div
             style={{
               background: this.props.section === 1 ? "white" : "transparent"
             }}
           />
-        </a>
-        <a href="#about-section">
+        </AnchorLink>
+        <AnchorLink href="#about-section">
           <div
             style={{
               background: this.props.section === 2 ? "white" : "transparent"
             }}
           />
-        </a>
-        <a href="#buzzwords-section">
+        </AnchorLink>
+        <AnchorLink href="#buzzwords-section">
           <div
             style={{
               background: this.props.section === 3 ? "white" : "transparent"
             }}
           />
-        </a>
+        </AnchorLink>
       </Container>
     );
   }

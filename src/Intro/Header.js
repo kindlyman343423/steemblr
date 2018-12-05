@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import SearchInput from "../Header/SearchInput";
+
 const Container = styled.div`
   box-sizing: border-box;
   align-self: flex-start;
-  position: absolute;
+  position: fixed;
   top: 0;
   padding: 25px;
+  z-index: 20;
   input {
     border: 0;
     outline: 0;

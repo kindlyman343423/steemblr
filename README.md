@@ -7,6 +7,7 @@ Read more [here](https://steemit.com/utopian-io/@snwolak/introducing-steemblr-a-
 
 ### Setup
 ```
+first setup and run api from this repo https://github.com/snwolak/steemblr_api
 git clone https://github.com/snwolak/steemblr.git
 cd steemblr
 create .env files

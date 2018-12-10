@@ -26,8 +26,7 @@ const newPost = async () => {
           "comment",
           {
             parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
-            parent_permlink:
-              uniqueTags[0] === undefined ? "steemblr" : uniqueTags[0], // MAIN TAG
+            parent_permlink: storeState.newPost.parent_permlink, // MAIN TAG CANNOT BE CHANGED
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post

@@ -8,7 +8,10 @@ import newPostType from "../../actions/newPostType";
 import newPostBody from "../../actions/newPostBody";
 import newPostTitle from "../../actions/newPostTitle";
 import newPostTags from "../../actions/newPostTags";
-import { existingPostPermlink } from "../../actions/newPostPermlink";
+import {
+  existingPostPermlink,
+  existingPostParentPermlink
+} from "../../actions/newPostPermlink";
 import { newPostPhoto } from "../../actions/newPostPhoto";
 import { newPostVideo } from "../../actions/newPostVideo";
 import { newPostAudio } from "../../actions/newPostAudio";
@@ -69,6 +72,7 @@ export default class AddNew extends Component {
     store.dispatch(newPostIsError(false));
     store.dispatch(editingExistingPost(true));
     store.dispatch(existingPostPermlink(this.props.post.root_permlink));
+    store.dispatch(existingPostParentPermlink(this.props.post.parent_permlink));
     this.setState({
       open: false,
       [name]: true,

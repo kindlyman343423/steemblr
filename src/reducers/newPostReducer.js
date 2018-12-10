@@ -13,7 +13,8 @@ import {
   DEL_NEW_POST_PHOTO,
   DEL_NEW_POST_VIDEO,
   DEL_NEW_POST_AUDIO,
-  PUT_EXISTING_POST_PERMLINK
+  PUT_EXISTING_POST_PERMLINK,
+  PUT_EXISTING_POST_PARENT_PERMLINK
 } from "../actions/types";
 
 const initialState = {
@@ -28,7 +29,8 @@ const initialState = {
   quote: "",
   quoteSource: "",
   photo: "",
-  permlink: ""
+  permlink: "",
+  parent_permlink: ""
 };
 
 export default function(state = initialState, action) {
@@ -97,6 +99,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         permlink: action.payload
+      };
+    case PUT_EXISTING_POST_PARENT_PERMLINK:
+      return {
+        ...state,
+        parent_permlink: action.payload
       };
     case DEL_NEW_POST_PHOTO:
       return {

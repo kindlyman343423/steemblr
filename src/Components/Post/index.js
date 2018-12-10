@@ -31,6 +31,7 @@ import followSteem from "../.././Functions/followSteem";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
+import { ic_repeat } from "react-icons-kit/md/ic_repeat";
 
 import store from "../../store";
 import BlogModal from "../../Blog/BlogModal";
@@ -142,6 +143,12 @@ class Post extends Component {
   }
 
   render() {
+    console.log(
+      this.props.post.steemblr_body === undefined
+        ? this.props.post.body
+        : this.props.post.steemblr_body
+    );
+
     const heartIconStyle = {
       cursor: "pointer",
       color: this.props.voteStatus.percent > 0 ? "red" : "black"
@@ -223,13 +230,17 @@ class Post extends Component {
           <CardContent
             post_type={this.props.post.post_type}
             section={this.props.section}
-            text={this.props.post.body}
+            text={
+              this.props.post.steemblr_body === undefined
+                ? this.props.post.body
+                : this.props.post.steemblr_body
+            }
             json_metadata={this.props.post.json_metadata}
           />
           <CardFooter>
             <TagContainer>
-              {JSON.parse(this.props.post.json_metadata).tags !== undefined &&
-              JSON.parse(this.props.post.json_metadata).tags.filter(tag => {
+              {this.props.post.tags !== undefined &&
+              this.props.post.tags.filter(tag => {
                 return tag === this.props.post.category;
               }).length === 0 ? (
                 <Link
@@ -243,9 +254,9 @@ class Post extends Component {
                 void 0
               )}
 
-              {JSON.parse(this.props.post.json_metadata).tags === undefined
+              {this.props.post.tags === undefined
                 ? ""
-                : JSON.parse(this.props.post.json_metadata).tags.map(tag => {
+                : this.props.post.tags.map(tag => {
                     return (
                       <Link
                         key={tag}
@@ -264,6 +275,11 @@ class Post extends Component {
                 <ShareMenu
                   postAuthor={this.props.post.author}
                   postPermlink={this.props.post.permlink}
+                />
+                <Icon
+                  icon={ic_repeat}
+                  size={20}
+                  style={{ cursor: "pointer" }}
                 />
                 {this.state.shouldOpenComments ? (
                   <CommentsModal

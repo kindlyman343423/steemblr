@@ -9,9 +9,15 @@ const newPost = async () => {
   const post = makePost();
   const storeState = store.getState();
   const isEditing = storeState.newPostInterface.editingExistingPost;
+  const uniqueTagsForDB = [...new Set(storeState.newPost.tags)];
   let uniqueTags = [...new Set(storeState.newPost.tags)];
   uniqueTags.includes("steemblr") ? void 0 : uniqueTags.push("steemblr");
   const uuid = isEditing ? storeState.newPost.permlink : uuidv4() + "u02x93";
+  const postFooter = [
+    `<a href="${`https://steemblr.com/post/@${
+      store.getState().steemProfile.profile.user
+    }/` + uuid}">View this post on steemblr</a>`
+  ];
   store.dispatch(newPostIsError(false));
   if (isEditing) {
     await api
@@ -59,7 +65,7 @@ const newPost = async () => {
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post
-            body: post.body,
+            body: post.body.concat(postFooter),
             json_metadata: JSON.stringify({
               tags: uniqueTags,
               app: `steemblr/0.1`,
@@ -108,7 +114,8 @@ const newPost = async () => {
     uuid,
     tagsNSFWCheck(uniqueTags),
     storeState.newPost.type,
-    uniqueTags
+    uniqueTagsForDB,
+    post.body
   );
 };
 

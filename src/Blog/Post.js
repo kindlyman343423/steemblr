@@ -74,15 +74,19 @@ class Post extends Component {
     return (
       <Container>
         <CardContent
-          text={this.props.post.body}
+          text={
+            this.props.post.steemblr_body === undefined
+              ? this.props.post.body
+              : this.props.post.steemblr_body
+          }
           post_type={this.props.post.post_type}
           json_metadata={this.props.post.json_metadata}
         />
 
         <CardFooter>
           <TagContainer>
-            {JSON.parse(this.props.post.json_metadata).tags !== undefined &&
-            JSON.parse(this.props.post.json_metadata).tags.filter(tag => {
+            {this.props.post.tags !== undefined &&
+            this.props.post.tags.filter(tag => {
               return tag === this.props.post.category;
             }).length === 0 ? (
               <Link
@@ -95,9 +99,9 @@ class Post extends Component {
             ) : (
               void 0
             )}
-            {JSON.parse(this.props.post.json_metadata).tags === undefined
+            {this.props.post.tags === undefined
               ? "true"
-              : JSON.parse(this.props.post.json_metadata).tags.map(tag => {
+              : this.props.post.tags.map(tag => {
                   return (
                     <Link
                       key={tag}

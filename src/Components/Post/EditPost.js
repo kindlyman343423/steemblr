@@ -42,7 +42,13 @@ export default class AddNew extends Component {
     this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleNewModal(name) {
-    store.dispatch(newPostBody(this.props.post.body));
+    store.dispatch(
+      newPostBody(
+        this.props.post.steemblr_body === undefined
+          ? this.props.post.body
+          : this.props.post.steemblr_body
+      )
+    );
     store.dispatch(newPostTitle(this.props.post.title));
     store.dispatch(newPostTags(this.props.post.tags));
     if (

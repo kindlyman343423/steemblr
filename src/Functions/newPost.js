@@ -31,7 +31,7 @@ const newPost = async () => {
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post
-            body: post.body,
+            body: post.body.concat(postFooter),
             json_metadata: JSON.stringify({
               tags: uniqueTags,
               app: `steemblr/0.1`,

@@ -143,12 +143,6 @@ class Post extends Component {
   }
 
   render() {
-    console.log(
-      this.props.post.steemblr_body === undefined
-        ? this.props.post.body
-        : this.props.post.steemblr_body
-    );
-
     const heartIconStyle = {
       cursor: "pointer",
       color: this.props.voteStatus.percent > 0 ? "red" : "black"

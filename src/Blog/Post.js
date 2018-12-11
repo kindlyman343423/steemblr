@@ -103,11 +103,7 @@ class Post extends Component {
               ? "true"
               : this.props.post.tags.map(tag => {
                   return (
-                    <Link
-                      key={tag}
-                      style={tagStyles}
-                      to={`/search/${this.props.post.category}/new`}
-                    >
+                    <Link key={tag} style={tagStyles} to={`/search/${tag}/new`}>
                       #{tag}
                     </Link>
                   );

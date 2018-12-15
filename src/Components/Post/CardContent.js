@@ -5,6 +5,7 @@ import styled from "styled-components";
 import CardMedia from "./CardMedia";
 import CardText from "./CardText";
 import CardVideo from "./CardVideo";
+import color from "../../styles/colors";
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -14,6 +15,8 @@ const Container = styled.div`
     padding-right: 0;
     margin-left: 0px;
   }
+  border-bottom: ${props =>
+    props.isReblogged ? `1px solid ${color.borders.light}` : void 0};
 `;
 const ExpandBtn = styled.button`
   font-family: "Roboto", sans-serif;
@@ -86,7 +89,10 @@ class CardContent extends Component {
   render() {
     const { height } = this.props.size;
     return (
-      <Container style={{ maxHeight: this.state.maxHeight }}>
+      <Container
+        style={{ maxHeight: this.state.maxHeight }}
+        isReblogged={this.props.isReblogged}
+      >
         {this.handleMedia(this.props.post_type)}
         {this.props.text.length === 0 ? (
           void 0

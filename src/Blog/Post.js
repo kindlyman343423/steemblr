@@ -6,15 +6,21 @@ import {
   Container,
   CardFooter,
   TagContainer,
-  FooterActions
+  FooterActions,
+  CardHeader,
+  CardAvatar,
+  ReblogHeader,
+  CardTitle,
+  UsernameContainer
 } from "./Post.styles";
 import checkValueState from "../Functions/checkValueState";
 import getVoteWorth from "../Functions/getVoteWorth";
 import CommentsContainer from "./CommentsContainer";
-import CardContent from "./CardContent";
+import CardContent from "../Components/Post/CardContent";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
+import { ic_repeat } from "react-icons-kit/md/ic_repeat";
 import store from "../store";
 import { injectIntl } from "react-intl";
 import { FormattedRelative } from "react-intl";
@@ -73,7 +79,69 @@ class Post extends Component {
     };
     return (
       <Container>
+        {this.props.post.is_reblogged && (
+          <ReblogHeader>
+            <CardTitle>
+              <UsernameContainer>
+                {this.props.post.is_reblogged && (
+                  <span>
+                    <Icon icon={ic_repeat} size={20} />
+                    <b>
+                      <Link
+                        to={`/post/@${this.props.post.reblogged_post.author}/${
+                          this.props.post.reblogged_post.permlink
+                        }`}
+                      >
+                        {this.props.post.reblogged_post.author}
+                      </Link>
+                    </b>
+                  </span>
+                )}
+              </UsernameContainer>
+            </CardTitle>
+          </ReblogHeader>
+        )}
+        {this.props.post.is_reblogged && (
+          <CardContent
+            isReblogged={true}
+            post_type={this.props.post.reblogged_post.post_type}
+            section={"home"}
+            text={
+              this.props.post.reblogged_post.steemblr_body === undefined
+                ? this.props.post.reblogged_post.body
+                : this.props.post.reblogged_post.steemblr_body
+            }
+            json_metadata={this.props.post.reblogged_post.json_metadata}
+          />
+        )}
+        {this.props.post.is_reblogged && (
+          <CardHeader>
+            <Link
+              to={`/post/@${this.props.post.author}/${
+                this.props.post.permlink
+              }`}
+              target="_blank"
+            >
+              <CardAvatar
+                url={`https://steemitimages.com/u/${
+                  this.props.post.author
+                }/avatar`}
+              />
+            </Link>
+
+            <CardTitle>
+              <UsernameContainer>
+                <span>
+                  <b>{this.props.post.author}</b>
+                </span>
+              </UsernameContainer>
+            </CardTitle>
+          </CardHeader>
+        )}
+
         <CardContent
+          isReblogged={false}
+          section={"home"}
           text={
             this.props.post.steemblr_body === undefined
               ? this.props.post.body

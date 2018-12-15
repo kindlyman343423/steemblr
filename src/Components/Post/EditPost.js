@@ -20,7 +20,8 @@ import {
   newPostModal,
   newPostForm,
   newPostIsError,
-  editingExistingPost
+  editingExistingPost,
+  newPostIsReblogging
 } from "../../actions/newPostInterface";
 import Icon from "react-icons-kit";
 
@@ -68,6 +69,7 @@ export default class AddNew extends Component {
       store.dispatch(newPostQuote(this.props.post.quote));
       store.dispatch(newPostQuoteSource(this.props.post.quoteSource));
     }
+    store.dispatch(newPostIsReblogging(false));
     store.dispatch(newPostForm(true));
     store.dispatch(newPostIsError(false));
     store.dispatch(editingExistingPost(true));

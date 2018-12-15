@@ -50,7 +50,8 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
         quoteSource: store.getState().newPost.quoteSource,
         steemblr_body: newPost.body,
         reblogged_post: newPost.reblogged_post,
-        is_reblogged: true
+        is_reblogged: true,
+        posted_by: "steem"
       });
     } else {
       batch.update(dbRef, {
@@ -63,7 +64,8 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
         quote: store.getState().newPost.quote,
         quoteSource: store.getState().newPost.quoteSource,
         steemblr_body: postBody,
-        is_reblogged: false
+        is_reblogged: false,
+        posted_by: "steem"
       });
     }
 

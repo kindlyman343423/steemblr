@@ -16,6 +16,9 @@ export const Container = styled.div`
   margin-bottom: 20px;
   border-radius: 2px;
   text-align: left;
+  a {
+    text-decoration: none;
+  }
   svg {
     padding-right: 10px;
   }

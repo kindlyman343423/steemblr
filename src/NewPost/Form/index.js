@@ -15,6 +15,8 @@ import store from "../../store";
 import Quote from "./Quote";
 import QuoteSource from "./QuoteSource";
 import newPost from "../../Functions/newPost";
+import RebloggedPost from "../../Components/Post/RebloggedPost";
+import PostHeader from "./PostHeader";
 const Form = styled.form`
   box-sizing: border-box;
   position: relative;
@@ -34,7 +36,8 @@ export default class PostForm extends Component {
     super(props);
 
     this.state = {
-      isSending: this.props.isSending
+      isSending: this.props.isSending,
+      isReblogged: store.getState().newPostInterface.isReblogged
     };
   }
   postValidation() {
@@ -81,6 +84,7 @@ export default class PostForm extends Component {
     store.dispatch(newPostModal(false));
   };
   render() {
+    const { isReblogged, isSending } = this.state;
     if (store.getState().newPost.type === "quote") {
       return (
         <Form onSubmit={this.handleSend}>
@@ -100,7 +104,9 @@ export default class PostForm extends Component {
     }
     return (
       <Form onSubmit={e => this.handleSend(e)}>
-        {this.state.isSending ? <SpinnerOverlay /> : void 0}
+        {isReblogged && <PostHeader />}
+        {isReblogged && <RebloggedPost />}
+        {isSending && <SpinnerOverlay />}
         <Title />
         <TextEditor />
         <Tags />

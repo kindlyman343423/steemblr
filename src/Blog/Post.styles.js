@@ -16,6 +16,9 @@ export const Container = styled.div`
   margin-bottom: 20px;
   border-radius: 2px;
   text-align: left;
+  a {
+    text-decoration: none;
+  }
   svg {
     padding-right: 10px;
   }
@@ -36,8 +39,19 @@ export const CardHeader = styled.div`
   box-sizing: border-box;
   padding: 10px;
   display: grid;
-  grid-template-columns: 12% 60% auto;
+  grid-template-columns: 45px 60% auto;
   height: 75px;
+  grid-column-gap: 10px;
+  b {
+    font-weight: 500;
+  }
+`;
+export const ReblogHeader = styled.div`
+  box-sizing: border-box;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: auto auto;
+  height: 40px;
   grid-column-gap: 10px;
 `;
 export const CardTitle = styled.div`
@@ -72,7 +86,25 @@ export const CardAvatar = styled.div`
   justify-content: center;
   align-content: flex-start;
 `;
+export const UsernameContainer = styled.span`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
+  display: flex;
+  flex-direction: row;
+  b {
+    padding-right: 5px;
+  }
+  svg {
+    padding-right: 5px;
+  }
+  span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+`;
 export const Avatar2 = styled.img`
   width: 40px;
   max-height: 40px;

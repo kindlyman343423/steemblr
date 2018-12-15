@@ -14,7 +14,7 @@ const sendComment = async (
         parent_author: postAuthor, //AUTHOR OF ORGINAL POST
         parent_permlink: postPermlink, //PERMLINK OF THE POST
         author: commentAuthor, //AUTHOR OF THE COMMENT
-        permlink: uuid, // PERMLINK OF THE COMMENT MUST BE GENERATED
+        permlink: uuid, // PERMLINK OF THE COMMENT
         title: "",
         body: comment,
         json_metadata: JSON.stringify({

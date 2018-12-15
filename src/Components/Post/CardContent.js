@@ -5,6 +5,7 @@ import styled from "styled-components";
 import CardMedia from "./CardMedia";
 import CardText from "./CardText";
 import CardVideo from "./CardVideo";
+import color from "../../styles/colors";
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -14,6 +15,8 @@ const Container = styled.div`
     padding-right: 0;
     margin-left: 0px;
   }
+  border-bottom: ${props =>
+    props.isReblogged ? `1px solid ${color.borders.light}` : void 0};
 `;
 const ExpandBtn = styled.button`
   font-family: "Roboto", sans-serif;
@@ -37,7 +40,7 @@ class CardContent extends Component {
 
     this.state = {
       isExpanded: this.props.section === "home" ? true : false,
-      maxHeight: this.props.section === "home" ? "unset" : "350px"
+      maxHeight: this.props.section === "home" ? "unset" : "450px"
     };
     this.handleExpand = this.handleExpand.bind(this);
     this.style = {
@@ -86,14 +89,17 @@ class CardContent extends Component {
   render() {
     const { height } = this.props.size;
     return (
-      <Container style={{ maxHeight: this.state.maxHeight }}>
+      <Container
+        style={{ maxHeight: this.state.maxHeight }}
+        isReblogged={this.props.isReblogged}
+      >
         {this.handleMedia(this.props.post_type)}
         {this.props.text.length === 0 ? (
           void 0
         ) : (
           <CardText text={this.props.text} post_type={this.props.post_type} />
         )}
-        {height >= 350 && this.state.isExpanded !== true ? (
+        {height >= 450 && this.state.isExpanded !== true ? (
           <ExpandBtn onClick={this.handleExpand}>Expand</ExpandBtn>
         ) : (
           void 0

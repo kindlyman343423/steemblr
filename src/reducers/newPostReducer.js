@@ -13,7 +13,9 @@ import {
   DEL_NEW_POST_PHOTO,
   DEL_NEW_POST_VIDEO,
   DEL_NEW_POST_AUDIO,
-  PUT_EXISTING_POST_PERMLINK
+  PUT_EXISTING_POST_PERMLINK,
+  PUT_EXISTING_POST_PARENT_PERMLINK,
+  PUT_REBLOGGED_POST_BODY
 } from "../actions/types";
 
 const initialState = {
@@ -28,7 +30,9 @@ const initialState = {
   quote: "",
   quoteSource: "",
   photo: "",
-  permlink: ""
+  permlink: "",
+  parent_permlink: "",
+  reblogged_post: {}
 };
 
 export default function(state = initialState, action) {
@@ -98,6 +102,11 @@ export default function(state = initialState, action) {
         ...state,
         permlink: action.payload
       };
+    case PUT_EXISTING_POST_PARENT_PERMLINK:
+      return {
+        ...state,
+        parent_permlink: action.payload
+      };
     case DEL_NEW_POST_PHOTO:
       return {
         ...state,
@@ -107,6 +116,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         imageUUID: action.payload
+      };
+    case PUT_REBLOGGED_POST_BODY:
+      return {
+        ...state,
+        reblogged_post: action.payload
       };
     default:
       return {

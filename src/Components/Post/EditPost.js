@@ -8,7 +8,10 @@ import newPostType from "../../actions/newPostType";
 import newPostBody from "../../actions/newPostBody";
 import newPostTitle from "../../actions/newPostTitle";
 import newPostTags from "../../actions/newPostTags";
-import { existingPostPermlink } from "../../actions/newPostPermlink";
+import {
+  existingPostPermlink,
+  existingPostParentPermlink
+} from "../../actions/newPostPermlink";
 import { newPostPhoto } from "../../actions/newPostPhoto";
 import { newPostVideo } from "../../actions/newPostVideo";
 import { newPostAudio } from "../../actions/newPostAudio";
@@ -17,7 +20,8 @@ import {
   newPostModal,
   newPostForm,
   newPostIsError,
-  editingExistingPost
+  editingExistingPost,
+  newPostIsReblogging
 } from "../../actions/newPostInterface";
 import Icon from "react-icons-kit";
 
@@ -42,7 +46,13 @@ export default class AddNew extends Component {
     this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleNewModal(name) {
-    store.dispatch(newPostBody(this.props.post.body));
+    store.dispatch(
+      newPostBody(
+        this.props.post.steemblr_body === undefined
+          ? this.props.post.body
+          : this.props.post.steemblr_body
+      )
+    );
     store.dispatch(newPostTitle(this.props.post.title));
     store.dispatch(newPostTags(this.props.post.tags));
     if (
@@ -59,10 +69,12 @@ export default class AddNew extends Component {
       store.dispatch(newPostQuote(this.props.post.quote));
       store.dispatch(newPostQuoteSource(this.props.post.quoteSource));
     }
+    store.dispatch(newPostIsReblogging(false));
     store.dispatch(newPostForm(true));
     store.dispatch(newPostIsError(false));
     store.dispatch(editingExistingPost(true));
     store.dispatch(existingPostPermlink(this.props.post.root_permlink));
+    store.dispatch(existingPostParentPermlink(this.props.post.parent_permlink));
     this.setState({
       open: false,
       [name]: true,

@@ -9,7 +9,8 @@ import {
   newPostModal,
   newPostForm,
   newPostIsError,
-  editingExistingPost
+  editingExistingPost,
+  newPostIsReblogging
 } from "../actions/newPostInterface";
 import Icon from "react-icons-kit";
 import { ic_camera_alt } from "react-icons-kit/md/ic_camera_alt";
@@ -71,6 +72,7 @@ export default class AddNew extends Component {
     store.dispatch(editingExistingPost(false));
     store.dispatch(newPostForm(false));
     store.dispatch(newPostIsError(false));
+    store.dispatch(newPostIsReblogging(false));
     this.setState({
       open: false,
       [name]: true,

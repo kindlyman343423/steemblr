@@ -3,7 +3,8 @@ import {
   NEW_POST_FORM,
   NEW_POST_IS_ERROR,
   NEW_POST_ERROR_MSG,
-  EDITING_EXISTING_POST
+  EDITING_EXISTING_POST,
+  CHANGE_NEW_POST_REBLOGGING_STATUS
 } from "../actions/types";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   isForm: false,
   isError: false,
   errorMsg: "",
-  editingExistingPost: false
+  editingExistingPost: false,
+  isReblogged: false
 };
 
 export default function(state = initialState, action) {
@@ -40,6 +42,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         editingExistingPost: action.payload
+      };
+    case CHANGE_NEW_POST_REBLOGGING_STATUS:
+      return {
+        ...state,
+        isReblogged: action.payload
       };
     default:
       return {

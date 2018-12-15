@@ -3,7 +3,8 @@ import {
   NEW_POST_FORM,
   NEW_POST_IS_ERROR,
   NEW_POST_ERROR_MSG,
-  EDITING_EXISTING_POST
+  EDITING_EXISTING_POST,
+  CHANGE_NEW_POST_REBLOGGING_STATUS
 } from "./types";
 
 export const newPostModal = props => dispatch => {
@@ -33,6 +34,12 @@ export const newPostErrorMsg = props => dispatch => {
 export const editingExistingPost = props => dispatch => {
   dispatch({
     type: EDITING_EXISTING_POST,
+    payload: props
+  });
+};
+export const newPostIsReblogging = props => dispatch => {
+  dispatch({
+    type: CHANGE_NEW_POST_REBLOGGING_STATUS,
     payload: props
   });
 };

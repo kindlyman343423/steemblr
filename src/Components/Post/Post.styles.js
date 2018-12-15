@@ -15,8 +15,8 @@ export const Container = styled.div`
   padding: 0px !important;
   border-radius: 2px;
   text-align: left;
-  svg {
-    padding-right: 10px;
+  a {
+    text-decoration: none;
   }
   img {
     max-width: 100%;
@@ -47,6 +47,9 @@ export const CardTitle = styled.div`
   text-align: left;
   align-content: center;
 
+  svg {
+    margin-left: -2px;
+  }
   p {
     margin-top: 0;
     font-size: 14px;
@@ -64,6 +67,20 @@ export const UsernameContainer = styled.span`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  display: flex;
+  flex-direction: row;
+  b {
+    padding-right: 5px;
+  }
+  svg {
+    padding-right: 5px;
+  }
+  span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;
 export const CardAvatar = styled.div`
   background: url(${props => props.url});
@@ -106,6 +123,9 @@ export const FooterActions = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  svg {
+    padding-right: 10px;
+  }
   span {
     display: flex;
     flex-direction: row;

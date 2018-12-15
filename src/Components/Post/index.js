@@ -18,6 +18,7 @@ import CardContent from "./CardContent";
 import ProfileHover from "./ProfileHover";
 import ShareMenu from "./ShareMenu";
 import EditPost from "./EditPost";
+import Reblog from "./Reblog";
 import delay from "../../Functions/delay";
 import checkValueState from "../../Functions/checkValueState";
 import getVoteWorth from "../../Functions/getVoteWorth";
@@ -31,7 +32,7 @@ import followSteem from "../.././Functions/followSteem";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
-
+import { ic_repeat } from "react-icons-kit/md/ic_repeat";
 import store from "../../store";
 import BlogModal from "../../Blog/BlogModal";
 
@@ -180,17 +181,32 @@ class Post extends Component {
                   interval={600}
                   timeout={250}
                 >
-                  <b onClick={this.handleBlogModal}>
-                    {this.props.post.author}{" "}
-                  </b>
+                  <b onClick={this.handleBlogModal}>{this.props.post.author}</b>
                 </HoverIntet>
+
                 <FormattedRelative
                   {...this.props}
                   value={this.props.post.created + "Z"}
                 />
               </UsernameContainer>
 
-              <p title={this.props.post.title}>{this.props.post.title}</p>
+              <p>
+                {this.props.post.is_reblogged && (
+                  <span>
+                    <Icon icon={ic_repeat} size={20} />
+                    <b>
+                      <Link
+                        to={`/post/@${this.props.post.reblogged_post.author}/${
+                          this.props.post.reblogged_post.permlink
+                        }`}
+                      >
+                        {this.props.post.reblogged_post.author}
+                      </Link>
+                    </b>
+                  </span>
+                )}{" "}
+                {this.props.post.title}
+              </p>
               {this.state.isHover ? (
                 <ProfileHover
                   author={this.props.post.author}
@@ -220,16 +236,35 @@ class Post extends Component {
               )}
             </BtnContainer>
           </CardHeader>
+          {this.props.post.is_reblogged && (
+            <CardContent
+              isReblogged={true}
+              post_type={this.props.post.reblogged_post.post_type}
+              section={this.props.section}
+              text={
+                this.props.post.reblogged_post.steemblr_body === undefined
+                  ? this.props.post.reblogged_post.body
+                  : this.props.post.reblogged_post.steemblr_body
+              }
+              json_metadata={this.props.post.reblogged_post.json_metadata}
+            />
+          )}
+
           <CardContent
+            isReblogged={false}
             post_type={this.props.post.post_type}
             section={this.props.section}
-            text={this.props.post.body}
+            text={
+              this.props.post.steemblr_body === undefined
+                ? this.props.post.body
+                : this.props.post.steemblr_body
+            }
             json_metadata={this.props.post.json_metadata}
           />
           <CardFooter>
             <TagContainer>
-              {JSON.parse(this.props.post.json_metadata).tags !== undefined &&
-              JSON.parse(this.props.post.json_metadata).tags.filter(tag => {
+              {this.props.post.tags !== undefined &&
+              this.props.post.tags.filter(tag => {
                 return tag === this.props.post.category;
               }).length === 0 ? (
                 <Link
@@ -243,9 +278,9 @@ class Post extends Component {
                 void 0
               )}
 
-              {JSON.parse(this.props.post.json_metadata).tags === undefined
+              {this.props.post.tags === undefined
                 ? ""
-                : JSON.parse(this.props.post.json_metadata).tags.map(tag => {
+                : this.props.post.tags.map(tag => {
                     return (
                       <Link
                         key={tag}
@@ -264,6 +299,10 @@ class Post extends Component {
                 <ShareMenu
                   postAuthor={this.props.post.author}
                   postPermlink={this.props.post.permlink}
+                />
+                <Reblog
+                  permlink={this.props.post.permlink}
+                  post={this.props.post}
                 />
                 {this.state.shouldOpenComments ? (
                   <CommentsModal

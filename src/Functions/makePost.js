@@ -2,7 +2,23 @@ import store from "../store";
 
 const makePost = () => {
   const state = store.getState().newPost;
-  if (state.type === "text") {
+  const newPostInterface = store.getState().newPostInterface;
+
+  if (newPostInterface.isReblogged === true) {
+    //steemblr_body prop doesn't exist in older posts so it checks
+    //to support reblogging of older posts
+    if (state.reblogged_post.steemblr_body === undefined) {
+      return {
+        ...state,
+        body: state.reblogged_post.body.concat(state.body)
+      };
+    } else {
+      return {
+        ...state,
+        body: state.reblogged_post.body.concat(state.steemblr_body)
+      };
+    }
+  } else if (state.type === "text") {
     return state;
   } else if (state.type === "photos" || state.type === "gifs") {
     const img = `![](${state.photo})`;

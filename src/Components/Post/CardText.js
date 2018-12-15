@@ -4,6 +4,7 @@ import sanitizeHtml from "sanitize-html";
 import ReactHtmlParser from "react-html-parser";
 import styled from "styled-components";
 import postAllowedHtml from "../../Functions/postAllowedHtml";
+import PropTypes from "prop-types";
 const Container = styled.div`
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
@@ -59,3 +60,6 @@ export default class CardText extends Component {
     return <Container>{this.parseContent()}</Container>;
   }
 }
+CardText.propTypes = {
+  text: PropTypes.string
+};

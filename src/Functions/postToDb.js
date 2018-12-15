@@ -35,18 +35,38 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
       });
     const post = bucket2[0];
     const batch = defaultApp.firestore().batch();
+    const isReblogged = store.getState().newPostInterface.isReblogged;
+    const newPost = store.getState().newPost;
     batch.set(dbRef, post);
-    batch.update(dbRef, {
-      isNSFW: isNSFW,
-      post_type: postType,
-      timestamp: firestore.FieldValue.serverTimestamp(),
-      tags: tags,
-      video: store.getState().newPost.video,
-      audio: store.getState().newPost.audio,
-      quote: store.getState().newPost.quote,
-      quoteSource: store.getState().newPost.quoteSource,
-      steemblr_body: postBody
-    });
+    if (isReblogged) {
+      batch.update(dbRef, {
+        isNSFW: isNSFW,
+        post_type: postType,
+        timestamp: firestore.FieldValue.serverTimestamp(),
+        tags: tags,
+        video: store.getState().newPost.video,
+        audio: store.getState().newPost.audio,
+        quote: store.getState().newPost.quote,
+        quoteSource: store.getState().newPost.quoteSource,
+        steemblr_body: newPost.body,
+        reblogged_post: newPost.reblogged_post,
+        is_reblogged: true
+      });
+    } else {
+      batch.update(dbRef, {
+        isNSFW: isNSFW,
+        post_type: postType,
+        timestamp: firestore.FieldValue.serverTimestamp(),
+        tags: tags,
+        video: store.getState().newPost.video,
+        audio: store.getState().newPost.audio,
+        quote: store.getState().newPost.quote,
+        quoteSource: store.getState().newPost.quoteSource,
+        steemblr_body: postBody,
+        is_reblogged: false
+      });
+    }
+
     batch
       .commit()
       .then(function() {

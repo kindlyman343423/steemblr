@@ -16,6 +16,7 @@ import {
 import checkValueState from "../Functions/checkValueState";
 import getVoteWorth from "../Functions/getVoteWorth";
 import CommentsContainer from "./CommentsContainer";
+import Reblog from "../Components/Post/Reblog";
 import CardContent from "../Components/Post/CardContent";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
@@ -197,6 +198,10 @@ class Post extends Component {
                   }
                 />
               }
+              <Reblog
+                permlink={this.props.post.permlink}
+                post={this.props.post}
+              />
               <Icon
                 size={20}
                 icon={ic_favorite}

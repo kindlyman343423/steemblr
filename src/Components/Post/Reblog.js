@@ -38,20 +38,25 @@ export default class AddNew extends Component {
     this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleNewModal(name) {
-    store.dispatch(newPostForm(true));
-    store.dispatch(newPostIsError(false));
-    store.dispatch(editingExistingPost(false));
-    store.dispatch(newPostIsReblogging(true));
-    store.dispatch(existingPostPermlink(this.props.permlink));
-    this.setState({
-      open: false,
-      [name]: true,
-      postCreator: true
-    });
+    const login = store.getState().login.status;
+    if (login) {
+      store.dispatch(newPostForm(true));
+      store.dispatch(newPostIsError(false));
+      store.dispatch(editingExistingPost(false));
+      store.dispatch(newPostIsReblogging(true));
+      store.dispatch(existingPostPermlink(this.props.permlink));
+      this.setState({
+        open: false,
+        [name]: true,
+        postCreator: true
+      });
 
-    store.dispatch(newPostType(name));
-    store.dispatch(putRebloggedPost(this.props.post));
-    store.dispatch(newPostModal(true));
+      store.dispatch(newPostType(name));
+      store.dispatch(putRebloggedPost(this.props.post));
+      store.dispatch(newPostModal(true));
+    } else {
+      alert("You have to login!");
+    }
   }
   unMountChildren(name) {
     this.setState({

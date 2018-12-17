@@ -23,16 +23,24 @@ const Container = styled.div`
     width: 250px;
   }
 `;
+const InsideContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  margin: 0;
+`;
 const Header = styled.div`
   background: url(${props => props.coverImage});
   box-sizing: border-box;
-  position: relative;
+  position: absolute;
+  top: 0;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-color: #b4b4b4;
   height: 150px;
-
+  width: 100%;
   b {
     cursor: auto;
   }
@@ -43,7 +51,10 @@ const Header = styled.div`
 `;
 const HeaderActions = styled.div`
   box-sizing: border-box;
-  padding: 5px;
+  position: absolute;
+  top: 0;
+  z-index: 200;
+  padding: 10px;
   padding-top: 10px;
   display: flex;
   align-items: flex-start;
@@ -51,6 +62,10 @@ const HeaderActions = styled.div`
   width: 100%;
   height: 40px;
   color: #fff;
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
   background: linear-gradient(
     rgba(38, 50, 56, 0.5),
     rgba(38, 50, 56, 0.3),
@@ -70,8 +85,8 @@ const Avatar = styled.div`
   height: 70px;
   position: absolute;
   left: calc(50% - 35px);
-  margin-bottom: -35px;
-  bottom: 0;
+  top: ${props => props.topPosition};
+  z-index: 200;
   border-radius: ${props => props.avatarShape};
 `;
 const Content = styled.div`
@@ -79,9 +94,10 @@ const Content = styled.div`
     font-family: ${props => props.font.family};
     src: url(${props => props.font.url});
   }
-
+  padding-top: ${props => props.paddingTop};
+  position: relative;
   box-sizing: border-box;
-  margin-top: ${props => props.marginTop};
+  margin-top: 0;
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -160,7 +176,11 @@ export default class ProfileHover extends Component {
           onMouseLeave={this.props.handleProfileHover}
           backgroundColor={this.state.account.background_color}
         >
-          <Header coverImage={this.state.account.cover_image}>
+          <InsideContainer>
+            {this.state.account.show_header_image && (
+              <Header coverImage={this.state.account.cover_image} />
+            )}
+
             <HeaderActions>
               <Link to={"/@" + this.props.author}>{this.props.author}</Link>
               {this.props.isFollowing ? (
@@ -171,33 +191,46 @@ export default class ProfileHover extends Component {
                 </FollowBtn>
               )}
             </HeaderActions>
-            {this.state.account.show_avatar ? (
-              <Avatar
-                url={`https://steemitimages.com/u/${this.props.author}/avatar`}
-                avatarShape={
-                  this.state.account.avatar_shape === "circle" ? "50%" : 0
-                }
-              />
-            ) : (
-              void 0
-            )}
-          </Header>
-          <Content
-            titleColor={this.state.account.title_color}
-            font={this.state.account.title_font}
-            marginTop={this.state.account.show_avatar ? "50px" : "10px"}
-          >
-            <b>
-              {this.state.account === undefined
-                ? void 0
-                : this.state.account.name}
-            </b>
-            <p>
-              {this.state.account === undefined
-                ? void 0
-                : this.state.account.about}
-            </p>
-          </Content>
+
+            <Content
+              titleColor={this.state.account.title_color}
+              font={this.state.account.title_font}
+              marginTop={this.state.account.show_avatar ? "0px" : "10px"}
+              paddingTop={
+                this.state.account.show_header_image &&
+                this.state.account.show_avatar
+                  ? "180px"
+                  : this.state.account.show_header_image === false &&
+                    this.state.account.show_avatar === false
+                    ? "70px"
+                    : "120px"
+              }
+            >
+              {this.state.account.show_avatar && (
+                <Avatar
+                  url={`https://steemitimages.com/u/${
+                    this.props.author
+                  }/avatar`}
+                  avatarShape={
+                    this.state.account.avatar_shape === "circle" ? "50%" : 0
+                  }
+                  topPosition={
+                    this.state.account.show_header_image ? "100px" : "35px"
+                  }
+                />
+              )}
+              <b>
+                {this.state.account === undefined
+                  ? void 0
+                  : this.state.account.name}
+              </b>
+              <p>
+                {this.state.account === undefined
+                  ? void 0
+                  : this.state.account.about}
+              </p>
+            </Content>
+          </InsideContainer>
         </Container>
       );
     }

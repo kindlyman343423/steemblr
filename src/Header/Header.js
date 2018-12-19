@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Dashboard from "./Dashboard";
 import LoginModal from "./LoginModal";
-import Register from "../Components/Register";
+import Register from "../Components/RegisterBtn";
 import { hot } from "react-hot-loader";
 import "./Header.css";
 import SearchInputMobile from "./SearchInputMobile";
@@ -130,7 +130,9 @@ class Header extends Component {
         ) : (
           <BtnContainer>
             <LoginModal text="Login" />
-            <Register />
+            <Link to="/">
+              <Register>Sign Up</Register>
+            </Link>
           </BtnContainer>
         )}
       </Container>

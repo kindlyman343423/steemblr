@@ -3,10 +3,11 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import { Link } from "react-router-dom";
 import LoginModal from "../Header/LoginModal";
-import Register from "../Components/Register";
+import RegisterBtn from "../Components/RegisterBtn";
 import logo from "../icons/logo.svg";
 import Logo from "../Components/Logo";
 import Waypoint from "react-waypoint";
+import Register from "./Register/";
 const Container = styled.section`
   box-sizing: border-box;
   background: #06162b;
@@ -28,6 +29,8 @@ const Steemblr = styled.img`
   margin-bottom: 20px;
 `;
 const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   button {
     width: 250px;
     margin-bottom: 15px;
@@ -50,6 +53,17 @@ const LogoContainer = styled.div`
   }
 `;
 export default class Welcome extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      loadRegister: false
+    };
+  }
+  loadRegister = () => {
+    this.setState({
+      loadRegister: true
+    });
+  };
   render() {
     return (
       <Container id="welcome-section">
@@ -58,11 +72,19 @@ export default class Welcome extends Component {
           <Logo />
         </LogoContainer>
         <Steemblr src={logo} alt="logo" />
-        <BtnContainer>
-          <LoginModal text="Login with steemconnect" />
+        {this.state.loadRegister ? (
           <Register />
-        </BtnContainer>
-        <Link to="explore/trending/">Check what's trending</Link>
+        ) : (
+          <BtnContainer>
+            <LoginModal text="Login with steemconnect" />
+
+            <RegisterBtn onClick={this.loadRegister}>
+              Register with e-mail
+            </RegisterBtn>
+
+            <Link to="explore/trending/">Check what's trending</Link>
+          </BtnContainer>
+        )}
       </Container>
     );
   }

@@ -42,7 +42,7 @@ export default class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      isSignedUp: true,
+      isSignedUp: false,
       isSending: false,
       isError: false,
       errorMsg: ""

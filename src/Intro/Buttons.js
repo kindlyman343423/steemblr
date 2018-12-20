@@ -1,8 +1,7 @@
-import LoginModal from "../Header/LoginModal";
+import LoginBtn from "../Components/LoginBtn";
 import Register from "../Components/RegisterBtn";
 import React, { Component } from "react";
 import styled from "styled-components";
-import Link from "react-router-dom";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 const Container = styled.div`
   box-sizing: border-box;
@@ -33,7 +32,9 @@ export default class Buttons extends Component {
   render() {
     return (
       <Container>
-        <LoginModal text="Login with steemconnect" />
+        <AnchorLink href="#welcome-section">
+          <LoginBtn>Login</LoginBtn>
+        </AnchorLink>
         <AnchorLink href="#welcome-section">
           <Register>Sign Up</Register>
         </AnchorLink>

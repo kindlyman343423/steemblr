@@ -17,8 +17,8 @@ const Container = styled.div`
   justify-content: center;
   svg {
     padding-right: 10px;
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 38px;
   }
   @media (max-width: 768px) {
     svg {

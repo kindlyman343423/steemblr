@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import { Link } from "react-router-dom";
-import LoginModal from "../Header/LoginModal";
+import LoginBtn from "../Components/LoginBtn";
 import RegisterBtn from "../Components/RegisterBtn";
 import logo from "../icons/logo.svg";
 import Logo from "../Components/Logo";
 import Waypoint from "react-waypoint";
 import Register from "./Register/";
+import Login from "./Login/";
 const Container = styled.section`
   box-sizing: border-box;
   background: #06162b;
@@ -56,13 +57,35 @@ export default class Welcome extends Component {
   constructor(props) {
     super();
     this.state = {
-      loadRegister: false
+      formToLoad: ""
     };
   }
-  loadRegister = () => {
+
+  handleForm = props => {
     this.setState({
-      loadRegister: true
+      formToLoad: props
     });
+  };
+  loadForm = () => {
+    switch (this.state.formToLoad) {
+      case "login": {
+        return <Login handleForm={this.handleForm} />;
+      }
+      case "register": {
+        return <Register handleForm={this.handleForm} />;
+      }
+      default:
+        return (
+          <BtnContainer>
+            <LoginBtn onClick={() => this.handleForm("login")}>Login</LoginBtn>
+            <RegisterBtn onClick={() => this.handleForm("register")}>
+              Sign Up
+            </RegisterBtn>
+
+            <Link to="explore/trending/">Check what's trending</Link>
+          </BtnContainer>
+        );
+    }
   };
   render() {
     return (
@@ -72,19 +95,8 @@ export default class Welcome extends Component {
           <Logo />
         </LogoContainer>
         <Steemblr src={logo} alt="logo" />
-        {this.state.loadRegister ? (
-          <Register />
-        ) : (
-          <BtnContainer>
-            <LoginModal text="Login with steemconnect" />
 
-            <RegisterBtn onClick={this.loadRegister}>
-              Register with e-mail
-            </RegisterBtn>
-
-            <Link to="explore/trending/">Check what's trending</Link>
-          </BtnContainer>
-        )}
+        {this.loadForm()}
       </Container>
     );
   }

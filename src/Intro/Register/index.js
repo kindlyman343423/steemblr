@@ -5,6 +5,7 @@ import "firebase/auth";
 import RegisterBtn from "../../Components/RegisterBtn";
 import Success from "./Success";
 import Spinner from "../../Components/Spinner";
+import BackBtn from "../../Components/BackBtn";
 const Container = styled.div`
   animation: pulse 1s 1;
   p {
@@ -128,6 +129,7 @@ export default class Register extends Component {
             )}
           </Form>
         )}
+        <BackBtn onClick={() => this.props.handleForm("")}>Back</BackBtn>
       </Container>
     );
   }

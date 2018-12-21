@@ -74,9 +74,7 @@ const newPost = async () => {
           {
             parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
             parent_permlink:
-              uniqueTags[0] === undefined
-                ? "steemblr"
-                : uniqueTags[0].replace(/[^A-Za-z0-9]/gi, ""), // MAIN TAG
+              uniqueTags[0] === undefined ? "steemblr" : uniqueTags[0], // MAIN TAG
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post
@@ -133,9 +131,7 @@ const newPost = async () => {
           {
             parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
             parent_permlink:
-              uniqueTags[0] === undefined
-                ? "steemblr"
-                : uniqueTags[0].replace(/[^A-Za-z0-9]/gi, ""), // MAIN TAG
+              uniqueTags[0] === undefined ? "steemblr" : uniqueTags[0], // MAIN TAG
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post

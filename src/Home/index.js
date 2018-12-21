@@ -9,7 +9,7 @@ import UserBlog from "./UserBlog";
 import { connect } from "react-redux";
 import Modal from "react-modal";
 import FirstLoad from "./FirstLoad";
-import checkProfile from "../Functions/checkProfile";
+import checkProfile from "../Functions/Firebase/checkProfile";
 import delay from "../Functions/delay";
 import { Redirect } from "react-router-dom";
 const Layout = styled.div`

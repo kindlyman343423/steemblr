@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Spinner from "../Components/Spinner";
 import { connect } from "react-redux";
 import createProfile from "../Functions/createProfile";
-import checkProfile from "../Functions/checkProfile";
+import checkProfile from "../Functions/Firebase/checkProfile";
 import delay from "../Functions/delay";
 import getUserSettings from "../actions/getUserSettings";
 const Container = styled.div`

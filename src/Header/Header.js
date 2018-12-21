@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import Dashboard from "./Dashboard";
-import LoginModal from "./LoginModal";
+
 import Register from "../Components/RegisterBtn";
 import { hot } from "react-hot-loader";
 import "./Header.css";
@@ -12,6 +12,7 @@ import SearchInput from "./SearchInput";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Logo from "../Components/Logo";
+import LoginBtn from "../Components/LoginBtn";
 const Container = styled.div`
   color: grey;
   display: grid;
@@ -129,7 +130,9 @@ class Header extends Component {
           <Dashboard />
         ) : (
           <BtnContainer>
-            <LoginModal text="Login" />
+            <Link to="/">
+              <LoginBtn>Login</LoginBtn>
+            </Link>
             <Link to="/">
               <Register>Sign Up</Register>
             </Link>

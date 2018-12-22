@@ -1,7 +1,8 @@
 import { CHANGE_LOGIN_STATUS } from "../actions/types";
 
 const initialState = {
-  status: false
+  status: false,
+  platform: ""
 };
 
 export default function(state = initialState, action) {
@@ -9,7 +10,7 @@ export default function(state = initialState, action) {
     case CHANGE_LOGIN_STATUS:
       return {
         ...state,
-        status: action.payload
+        ...action.payload
       };
     default:
       return state;

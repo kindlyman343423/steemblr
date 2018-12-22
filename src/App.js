@@ -13,10 +13,10 @@ import { connect } from "react-redux";
 import {
   getUserProfile,
   getUserFollowing,
-  changeLoginStatus,
   getProfileVotes,
   getSteemTrendingPosts
 } from "./actions/steemActions";
+import { changeLoginStatus } from "./actions/stateActions";
 import getUserSettings from "./actions/getUserSettings";
 import Modal from "react-modal";
 import colors from "./styles/colors";
@@ -24,6 +24,7 @@ import colors from "./styles/colors";
 import { injectGlobal } from "styled-components";
 import { IntlProvider } from "react-intl";
 import Loadable from "react-loadable";
+
 Modal.setAppElement("#root");
 function Loading(props) {
   if (props.error) {
@@ -93,16 +94,15 @@ class App extends Component {
     super(props);
 
     this.state = {
-      login: localStorage.getItem("token") !== null ? true : false,
-      cLogin: localStorage.getItem("cToken") !== null ? true : false,
+      steemToken: localStorage.getItem("steemToken") !== null ? true : false,
+      googleToken: localStorage.getItem("googleToken") !== null ? true : false,
       steemProfile: [],
       followings: "",
       fetchingData: true
     };
-    this.handleLogout = this.handleLogout.bind(this);
   }
   async componentWillMount() {
-    if (this.state.login) {
+    if (this.state.steemToken) {
       Promise.all([
         await this.props.getUserProfile(),
         await this.props.getUserFollowing(this.props.steemProfile.profile._id),
@@ -114,7 +114,7 @@ class App extends Component {
           fetchingData: false
         });
       });
-      this.props.changeLoginStatus(true);
+      this.props.changeLoginStatus({ status: true, platform: "steem" });
 
       const profile = await this.props.steemProfile;
       const followingBucket = await this.props.following.users;
@@ -129,12 +129,13 @@ class App extends Component {
     }
   }
 
-  handleLogout() {
+  handleLogout = () => {
     this.setState({
-      login: localStorage.getItem("token") !== null ? true : false,
-      cLogin: localStorage.getItem("cToken") !== null ? true : false
+      steemToken: localStorage.getItem("steemToken") !== null ? true : false,
+      googleToken: localStorage.getItem("googleToken") !== null ? true : false
     });
-  }
+    this.props.changeLoginStatus({ status: false, platform: "" });
+  };
   async handleFirebaseLogin() {
     await getFirebaseToken(this.props.steemProfile.profile._id);
     firebaseAuth();

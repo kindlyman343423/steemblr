@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import steemReducer from "./steemReducer";
 import steemFollowingReducer from "./steemFollowingReducer";
-import steemLoginReducer from "./steemLoginReducer";
+import loginReducer from "./loginReducer";
 import steemProfileVotesReducer from "./steemProfileVotesReducer";
 import steemPostsReducer from "./steemPostsReducer";
 import steemVotePowerReducer from "./steemVotePowerReducer";
@@ -18,7 +18,7 @@ export default combineReducers({
   steemPostsByAuthor: steemByAuthorPostsReducer,
   steemAccounts: steemAccountsReducer,
   following: steemFollowingReducer,
-  login: steemLoginReducer,
+  login: loginReducer,
   steemPosts: steemPostsReducer,
   votePower: steemVotePowerReducer,
   newPost: newPostReducer,

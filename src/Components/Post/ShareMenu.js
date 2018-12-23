@@ -35,6 +35,7 @@ export default class ShareMenu extends Component {
           icon={ic_more_horiz}
           aria-owns={anchorEl ? "simple-menu" : null}
           aria-haspopup="true"
+          size={30}
           onClick={this.handleClick}
         />
 

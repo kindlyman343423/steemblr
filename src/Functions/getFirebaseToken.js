@@ -10,7 +10,7 @@ const getFirebaseToken = async props => {
   ).then(function(response) {
     return response.json();
   });
-  localStorage.setItem("cToken", call.token);
+  localStorage.setItem("googleToken", call.token);
   return call.token;
 };
 

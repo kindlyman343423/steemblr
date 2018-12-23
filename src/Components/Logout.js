@@ -8,8 +8,8 @@ export default class Logout extends Component {
   }
 
   componentWillMount() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("cToken");
+    localStorage.removeItem("steemToken");
+    localStorage.removeItem("googleToken");
     this.props.handleLogout();
   }
 

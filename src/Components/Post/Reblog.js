@@ -72,7 +72,7 @@ export default class AddNew extends Component {
 
         <Icon
           icon={ic_repeat}
-          size={20}
+          size={30}
           onClick={() => this.handleNewModal("text")}
         />
       </Container>

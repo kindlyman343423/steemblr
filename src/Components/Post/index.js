@@ -315,7 +315,7 @@ class Post extends Component {
                 ) : (
                   <Icon
                     icon={ic_message}
-                    size={20}
+                    size={30}
                     style={{ cursor: "pointer" }}
                     onClick={() =>
                       this.setState({
@@ -325,7 +325,7 @@ class Post extends Component {
                   />
                 )}
                 <Icon
-                  size={20}
+                  size={30}
                   icon={ic_favorite}
                   style={heartIconStyle}
                   onClick={this.handleVoteBtn}

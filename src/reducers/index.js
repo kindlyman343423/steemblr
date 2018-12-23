@@ -12,6 +12,7 @@ import steemAccountsReducer from "./steemAccountsReducer";
 import steemByAuthorPostsReducer from "./steemByAuthorPostsReducer";
 import singlePostReducer from "./singlePostReducer";
 import userSettingsReducer from "./userSettingsReducer";
+import profileReducer from "./profileReducer";
 export default combineReducers({
   steemProfile: steemReducer,
   steemProfileVotes: steemProfileVotesReducer,
@@ -25,5 +26,6 @@ export default combineReducers({
   newPostInterface: newPostInterface,
   location: locationReducer,
   singlePost: singlePostReducer,
-  userSettings: userSettingsReducer
+  userSettings: userSettingsReducer,
+  profile: profileReducer
 });

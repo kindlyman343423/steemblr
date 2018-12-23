@@ -1,14 +1,10 @@
-import { CHANGE_LOGIN_STATUS } from "../actions/types";
+import { PROFILE_GET } from "../actions/types";
 
-const initialState = {
-  status: false,
-  platform: "",
-  username: ""
-};
+const initialState = {};
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_LOGIN_STATUS:
+    case PROFILE_GET:
       return {
         ...state,
         ...action.payload

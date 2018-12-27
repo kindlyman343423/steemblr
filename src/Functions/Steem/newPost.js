@@ -1,10 +1,13 @@
-import api from ".././Api";
+import api from "../.././Api";
 import uuidv4 from "uuid/v4";
-import store from "../store";
-import postToDb from "./postToDb";
-import tagsNSFWCheck from "./tagsNSFWCheck";
-import makePost from "./makePost";
-import { newPostIsError, newPostErrorMsg } from "../actions/newPostInterface";
+import store from "../../store";
+import postToDb from "../postToDb";
+import tagsNSFWCheck from "../tagsNSFWCheck";
+import makePost from "../makePost";
+import {
+  newPostIsError,
+  newPostErrorMsg
+} from "../../actions/newPostInterface";
 const newPost = async () => {
   const post = makePost();
   const storeState = store.getState();
@@ -31,7 +34,6 @@ const newPost = async () => {
     }/${rebloggedPost.permlink}`}">post made by ${rebloggedPost.author}</a>.
     Original author is getting 47.5% beneficiary rewards.</p>`
   ];
-  console.log(post);
   store.dispatch(newPostIsError(false));
   if (isEditing) {
     await api

@@ -14,7 +14,8 @@ import {
 import store from "../../store";
 import Quote from "./Quote";
 import QuoteSource from "./QuoteSource";
-import newPost from "../../Functions/newPost";
+import newPost from "../../Functions/Steem/newPost";
+import newPostFirebase from "../../Functions/Firebase/newPostFirebase";
 import RebloggedPost from "../../Components/Post/RebloggedPost";
 import PostHeader from "./PostHeader";
 const Form = styled.form`
@@ -32,6 +33,7 @@ const Buttons = styled.div`
   padding-right: 30px;
 `;
 export default class PostForm extends Component {
+  //Component handling post form, validation and sending
   constructor(props) {
     super(props);
 
@@ -62,6 +64,7 @@ export default class PostForm extends Component {
     }
   }
   handleSend = async e => {
+    const platform = store.getState().login.platform;
     e.preventDefault();
     if (this.postValidation() === false) {
       return void 0;
@@ -69,8 +72,12 @@ export default class PostForm extends Component {
     this.setState({
       isSending: true
     });
+    if (platform === "steem") {
+      await newPost();
+    } else if (platform === "email") {
+      await newPostFirebase();
+    }
 
-    await newPost();
     if (!store.getState().newPostInterface.isError) {
       this.handleClose();
     } else {
@@ -85,7 +92,7 @@ export default class PostForm extends Component {
   };
   render() {
     const { isReblogged, isSending } = this.state;
-    if (store.getState().newPost.type === "quote") {
+    if (store.getState().newPost.type === "quotes") {
       return (
         <Form onSubmit={this.handleSend}>
           {this.state.isSending ? <SpinnerOverlay /> : void 0}

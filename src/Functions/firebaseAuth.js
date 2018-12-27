@@ -3,7 +3,7 @@ import "firebase/auth";
 const firebaseAuth = async () => {
   defaultApp
     .auth()
-    .signInWithCustomToken(localStorage.getItem("cToken"))
+    .signInWithCustomToken(localStorage.getItem("googleToken"))
     .catch(function(error) {});
 };
 

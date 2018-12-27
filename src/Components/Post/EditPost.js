@@ -65,7 +65,7 @@ export default class AddNew extends Component {
       store.dispatch(newPostVideo(this.props.post.video));
     } else if (this.props.post.post_type === "audio") {
       store.dispatch(newPostAudio(this.props.post.audio));
-    } else if (this.props.post.post_type === "quote") {
+    } else if (this.props.post.post_type === "quotes") {
       store.dispatch(newPostQuote(this.props.post.quote));
       store.dispatch(newPostQuoteSource(this.props.post.quoteSource));
     }

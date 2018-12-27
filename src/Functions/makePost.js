@@ -42,7 +42,7 @@ const makePost = () => {
       tags: state.tags,
       title: state.title
     };
-  } else if (state.type === "quote") {
+  } else if (state.type === "quotes") {
     return {
       type: state.type,
       body: state.quote.concat(state.quoteSource),

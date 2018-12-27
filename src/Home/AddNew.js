@@ -111,7 +111,7 @@ export default class AddNew extends Component {
         </IconDiv>
         <IconDiv
           style={{ color: colors.postTypes.quote }}
-          onClick={() => this.handleNewModal("quote")}
+          onClick={() => this.handleNewModal("quotes")}
         >
           <Icon icon={ic_format_quote} size={32} />
           <span>Quote</span>

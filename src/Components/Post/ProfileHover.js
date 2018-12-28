@@ -4,6 +4,7 @@ import FollowBtn from "./FollowBtn";
 import store from "../../store";
 import { getAccounts } from "../../actions/getAccounts";
 import { Link } from "react-router-dom";
+import getAvatarURL from "../../Functions/getAvatarURL";
 const Container = styled.div`
   border-radius: 2px;
   background-color: white;
@@ -161,12 +162,16 @@ export default class ProfileHover extends Component {
       search[0] === undefined || search[0] === null || search[0] === ""
         ? void 0
         : search[0].cover_image;
+    const platform = search[0].platform;
+    const URL = await getAvatarURL(platform, search[0].author);
     await this.setState({
       account: search[0],
-      coverImageUrl: coverImage
+      coverImageUrl: coverImage,
+      url: URL
     });
   }
   render() {
+    const { account, url } = this.state;
     if (this.state.account === undefined) {
       return <div />;
     } else {
@@ -174,11 +179,11 @@ export default class ProfileHover extends Component {
         <Container
           onMouseOver={this.props.handleProfileDivHover}
           onMouseLeave={this.props.handleProfileHover}
-          backgroundColor={this.state.account.background_color}
+          backgroundColor={account.background_color}
         >
           <InsideContainer>
-            {this.state.account.show_header_image && (
-              <Header coverImage={this.state.account.cover_image} />
+            {account.show_header_image && (
+              <Header coverImage={account.cover_image} />
             )}
 
             <HeaderActions>
@@ -193,42 +198,27 @@ export default class ProfileHover extends Component {
             </HeaderActions>
 
             <Content
-              titleColor={this.state.account.title_color}
-              font={this.state.account.title_font}
-              marginTop={this.state.account.show_avatar ? "0px" : "10px"}
+              titleColor={account.title_color}
+              font={account.title_font}
+              marginTop={account.show_avatar ? "0px" : "10px"}
               paddingTop={
-                this.state.account.show_header_image &&
-                this.state.account.show_avatar
+                account.show_header_image && account.show_avatar
                   ? "180px"
-                  : this.state.account.show_header_image === false &&
-                    this.state.account.show_avatar === false
+                  : account.show_header_image === false &&
+                    account.show_avatar === false
                     ? "70px"
                     : "120px"
               }
             >
-              {this.state.account.show_avatar && (
+              {account.show_avatar && (
                 <Avatar
-                  url={`https://steemitimages.com/u/${
-                    this.props.author
-                  }/avatar`}
-                  avatarShape={
-                    this.state.account.avatar_shape === "circle" ? "50%" : 0
-                  }
-                  topPosition={
-                    this.state.account.show_header_image ? "100px" : "35px"
-                  }
+                  url={url}
+                  avatarShape={account.avatar_shape === "circle" ? "50%" : 0}
+                  topPosition={account.show_header_image ? "100px" : "35px"}
                 />
               )}
-              <b>
-                {this.state.account === undefined
-                  ? void 0
-                  : this.state.account.name}
-              </b>
-              <p>
-                {this.state.account === undefined
-                  ? void 0
-                  : this.state.account.about}
-              </p>
+              <b>{account === undefined ? void 0 : account.name}</b>
+              <p>{account === undefined ? void 0 : account.about}</p>
             </Content>
           </InsideContainer>
         </Container>

@@ -6,7 +6,7 @@ import FollowBtn from "../Components/Post/FollowBtn";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
 import { Link } from "react-router-dom";
-
+import BlogAvatar from "./BlogAvatar";
 const Container = styled.div`
   border-radius: 2px;
   background-color: rgba(
@@ -161,7 +161,7 @@ export default class BlogModal extends Component {
       beforeDate: this.props.post.active,
       initial: true
     };
-
+    const { account } = this.state;
     if (this.state.account === undefined) {
       return "";
     } else {
@@ -179,10 +179,10 @@ export default class BlogModal extends Component {
           border: 0,
           boxSizing: "border-box",
           padding: 0,
-          background: `rgba( ${this.state.account.background_color.r},
-            ${this.state.account.background_color.g},
-            ${this.state.account.background_color.b},
-            ${this.state.account.background_color.a})`
+          background: `rgba( ${account.background_color.r},
+            ${account.background_color.g},
+            ${account.background_color.b},
+            ${account.background_color.a})`
         }
       };
       return (
@@ -191,7 +191,7 @@ export default class BlogModal extends Component {
           onRequestClose={this.props.handleBlogModal}
           style={ModalStyle}
         >
-          <Container backgroundColor={this.state.account.background_color}>
+          <Container backgroundColor={account.background_color}>
             <BannerActions>
               <Link to={"/@" + this.props.post.author}>
                 {this.props.post.author}
@@ -207,55 +207,39 @@ export default class BlogModal extends Component {
               )}
             </BannerActions>
 
-            {this.state.account.show_header_image ? (
-              <Banner coverImage={this.state.account.cover_image} />
+            {account.show_header_image ? (
+              <Banner coverImage={account.cover_image} />
             ) : (
               void 0
             )}
 
             <BlogTitle
-              titleColor={this.state.account.title_color}
-              font={this.state.account.title_font}
+              titleColor={account.title_color}
+              font={account.title_font}
               margin={
-                this.state.account.show_header_image === false &&
-                this.state.account.show_avatar
+                account.show_header_image === false && account.show_avatar
                   ? "100px"
                   : "0px"
               }
-              marginTop={
-                this.state.account.show_avatar === false ? "40px" : "60px"
-              }
-              marginNoTitle={
-                this.state.account.show_title === false ? "100px" : "0px"
-              }
+              marginTop={account.show_avatar === false ? "40px" : "60px"}
+              marginNoTitle={account.show_title === false ? "100px" : "0px"}
             >
-              {this.state.account.show_avatar ? (
-                <Avatar
-                  url={`https://steemitimages.com/u/${
-                    this.props.post.author
-                  }/avatar`}
-                  avatarShape={
-                    this.state.account.avatar_shape === "circle" ? "50%" : 0
-                  }
+              {account.show_avatar ? (
+                <BlogAvatar
+                  platform={account.platform}
+                  author={account.author}
+                  avatarShape={account.avatar_shape === "circle" ? "50%" : 0}
                 />
               ) : (
                 void 0
               )}
-              {this.state.account.show_title ? (
-                <h1>
-                  {this.state.account === undefined
-                    ? void 0
-                    : this.state.account.name}
-                </h1>
+              {account.show_title ? (
+                <h1>{account === undefined ? void 0 : account.name}</h1>
               ) : (
                 void 0
               )}
-              {this.state.account.show_description ? (
-                <p>
-                  {this.state.account === undefined
-                    ? void 0
-                    : this.state.account.about}
-                </p>
+              {account.show_description ? (
+                <p>{account === undefined ? void 0 : account.about}</p>
               ) : (
                 void 0
               )}

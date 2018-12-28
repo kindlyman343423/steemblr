@@ -5,22 +5,18 @@ import {
   tagStyles,
   Container,
   CardHeader,
-  CardAvatar,
   CardTitle,
   UsernameContainer,
   BtnContainer,
   CardFooter,
-  TagContainer,
-  FooterActions
+  TagContainer
 } from "./Post.styles";
-import CommentsModal from "./CommentsModal";
 import CardContent from "./CardContent";
+import CardAvatar from "./CardAvatar";
 import ProfileHover from "./ProfileHover";
-import ShareMenu from "./ShareMenu";
-import EditPost from "./EditPost";
-import Reblog from "./Reblog";
+
 import delay from "../../Functions/delay";
-import checkValueState from "../../Functions/checkValueState";
+
 import getVoteWorth from "../../Functions/getVoteWorth";
 
 import FollowBtn from "./FollowBtn";
@@ -30,11 +26,10 @@ import { FormattedRelative } from "react-intl";
 import followSteem from "../.././Functions/followSteem";
 
 import Icon from "react-icons-kit";
-import { ic_message } from "react-icons-kit/md/ic_message";
-import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
 import store from "../../store";
 import BlogModal from "../../Blog/BlogModal";
+import SteemFooterActions from "./Steem/FooterActions";
 
 class Post extends Component {
   constructor(props) {
@@ -50,12 +45,7 @@ class Post extends Component {
       isBlogModalOpen: false,
       isFollowing: this.props.isFollowing,
       votePercent: this.props.voteStatus.percent,
-      value: checkValueState([
-        this.props.post.total_payout_value.replace("SBD", ""),
-        this.props.post.pending_payout_value.replace("SBD", ""),
-        this.props.post.total_pending_payout_value.replace("STEEM", ""),
-        this.props.post.curator_payout_value.replace("SBD", "")
-      ]),
+      value: 0,
       allowEdit: this.props.post.author === this.props.username
     };
 
@@ -143,10 +133,9 @@ class Post extends Component {
   }
 
   render() {
-    const heartIconStyle = {
-      cursor: "pointer",
-      color: this.props.voteStatus.percent > 0 ? "red" : "black"
-    };
+    const { post } = this.props;
+    const { username, votePercent } = this.state;
+
     return (
       <LazyLoad height={600}>
         {this.state.isBlogModalOpen ? (
@@ -166,11 +155,7 @@ class Post extends Component {
               }`}
               target="_blank"
             >
-              <CardAvatar
-                url={`https://steemitimages.com/u/${
-                  this.props.post.author
-                }/avatar`}
-              />
+              <CardAvatar platform={post.platform} author={post.author} />
             </Link>
             <CardTitle>
               <UsernameContainer>
@@ -263,24 +248,25 @@ class Post extends Component {
           />
           <CardFooter>
             <TagContainer>
-              {this.props.post.tags !== undefined &&
-              this.props.post.tags.filter(tag => {
-                return tag === this.props.post.category;
+              {post.tags !== undefined &&
+              post.platform === "steem" &&
+              post.tags.filter(tag => {
+                return tag === post.category;
               }).length === 0 ? (
                 <Link
-                  key={this.props.post.category}
+                  key={post.category}
                   style={tagStyles}
-                  to={`/search/${this.props.post.category}/new`}
+                  to={`/search/${post.category}/new`}
                 >
-                  #{this.props.post.category}
+                  #{post.category}
                 </Link>
               ) : (
                 void 0
               )}
 
-              {this.props.post.tags === undefined
+              {post.tags === undefined
                 ? ""
-                : this.props.post.tags.map(tag => {
+                : post.tags.map(tag => {
                     return (
                       <Link
                         key={tag}
@@ -292,46 +278,13 @@ class Post extends Component {
                     );
                   })}
             </TagContainer>
-            <FooterActions>
-              <span>${Number(this.state.value).toFixed(2)}</span>
-              <span>
-                {this.state.allowEdit && <EditPost post={this.props.post} />}
-                <ShareMenu
-                  postAuthor={this.props.post.author}
-                  postPermlink={this.props.post.permlink}
-                />
-                <Reblog
-                  permlink={this.props.post.permlink}
-                  post={this.props.post}
-                />
-                {this.state.shouldOpenComments ? (
-                  <CommentsModal
-                    likesNumber={this.props.post.net_votes}
-                    postAuthor={this.props.post.author}
-                    postPermlink={this.props.post.permlink}
-                    username={this.props.username}
-                    children={this.props.post.children}
-                  />
-                ) : (
-                  <Icon
-                    icon={ic_message}
-                    size={30}
-                    style={{ cursor: "pointer" }}
-                    onClick={() =>
-                      this.setState({
-                        shouldOpenComments: true
-                      })
-                    }
-                  />
-                )}
-                <Icon
-                  size={30}
-                  icon={ic_favorite}
-                  style={heartIconStyle}
-                  onClick={this.handleVoteBtn}
-                />
-              </span>
-            </FooterActions>
+            {post.platform === "steem" && (
+              <SteemFooterActions
+                post={post}
+                username={username}
+                votePercent={votePercent}
+              />
+            )}
           </CardFooter>
         </Container>
       </LazyLoad>

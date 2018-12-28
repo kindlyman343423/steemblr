@@ -10,6 +10,7 @@ import PostsLoader from "./PostsLoader";
 import logo from "../icons/logo.svg";
 import { Link } from "react-router-dom";
 import MetaTags from "./MetaTags";
+import BlogAvatar from "./BlogAvatar";
 const Container = styled.div`
   border-radius: 2px;
   width: 100%;
@@ -82,18 +83,6 @@ const BannerActions = styled.div`
   }
 `;
 
-const Avatar = styled.div`
-  background: url(${props => props.url});
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: ${props => props.avatarShape};
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  left: calc(50% - 50px);
-  margin-top: -60px;
-  top: 0;
-`;
 const BlogTitle = styled.div`
   @font-face {
     font-family: ${props => props.font.family};
@@ -177,7 +166,8 @@ export default class Blog extends Component {
       beforeDate: "2018-06-12T16:49:32",
       initial: true
     };
-    if (this.state.account === undefined) {
+    const { account } = this.state;
+    if (account === undefined) {
       return (
         <div
           style={{ height: "100vh", display: "flex", justifyContent: "center" }}
@@ -185,10 +175,10 @@ export default class Blog extends Component {
           <Spinner />
         </div>
       );
-    } else {
+    } else if (account !== undefined) {
       return (
-        <Container backgroundColor={this.state.account.background_color}>
-          <MetaTags account={this.state.account} />
+        <Container backgroundColor={account.background_color}>
+          <MetaTags account={account} />
           <BannerActions>
             <span>
               {store.getState().login.status ? <SideMenu /> : false}
@@ -205,50 +195,34 @@ export default class Blog extends Component {
             )}
           </BannerActions>
 
-          {this.state.account.show_header_image ? (
-            <Banner coverImage={this.state.account.cover_image} />
+          {account.show_header_image ? (
+            <Banner coverImage={account.cover_image} />
           ) : (
             void 0
           )}
           <BlogTitle
-            titleColor={this.state.account.title_color}
-            font={this.state.account.title_font}
+            titleColor={account.title_color}
+            font={account.title_font}
             margin={
-              this.state.account.show_header_image === false &&
-              this.state.account.show_avatar
+              account.show_header_image === false && account.show_avatar
                 ? "100px"
                 : "0px"
             }
-            marginTop={
-              this.state.account.show_avatar === false ? "40px" : "60px"
-            }
-            marginNoTitle={
-              this.state.account.show_title === false ? "100px" : "0px"
-            }
+            marginTop={account.show_avatar === false ? "40px" : "60px"}
+            marginNoTitle={account.show_title === false ? "100px" : "0px"}
           >
-            {this.state.account.show_avatar && (
-              <Avatar
-                url={`https://steemitimages.com/u/${
-                  this.props.match.params.username
-                }/avatar`}
-                avatarShape={
-                  this.state.account.avatar_shape === "circle" ? "50%" : 0
-                }
+            {account.show_avatar && (
+              <BlogAvatar
+                platform={account.platform}
+                author={account.author}
+                avatarShape={account.avatar_shape === "circle" ? "50%" : 0}
               />
             )}
-            {this.state.account.show_title && (
-              <h1>
-                {this.state.account === undefined
-                  ? void 0
-                  : this.state.account.name}
-              </h1>
+            {account.show_title && (
+              <h1>{account === undefined ? void 0 : account.name}</h1>
             )}
-            {this.state.account.show_description && (
-              <p>
-                {this.state.account === undefined
-                  ? void 0
-                  : this.state.account.about}
-              </p>
+            {account.show_description && (
+              <p>{account === undefined ? void 0 : account.about}</p>
             )}
             {this.props.match.params.permlink !== undefined && (
               <Link to={`/@` + this.props.match.params.username}>POSTS</Link>
@@ -256,8 +230,7 @@ export default class Blog extends Component {
           </BlogTitle>
           <Content
             marginNoTitle={
-              this.state.account.show_title === false &&
-              this.state.account.show_description === false
+              account.show_title === false && account.show_description === false
                 ? "100px"
                 : "0px"
             }

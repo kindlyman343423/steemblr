@@ -2,17 +2,15 @@ import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import { Link } from "react-router-dom";
 import {
-  tagStyles,
   Container,
   CardHeader,
   CardTitle,
   UsernameContainer,
-  BtnContainer,
-  CardFooter,
-  TagContainer
+  BtnContainer
 } from "./Post.styles";
 import CardContent from "./CardContent";
 import CardAvatar from "./CardAvatar";
+import CardFooter from "./Footer/";
 import ProfileHover from "./ProfileHover";
 
 import delay from "../../Functions/delay";
@@ -29,7 +27,6 @@ import Icon from "react-icons-kit";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
 import store from "../../store";
 import BlogModal from "../../Blog/BlogModal";
-import SteemFooterActions from "./Steem/FooterActions";
 
 class Post extends Component {
   constructor(props) {
@@ -168,11 +165,12 @@ class Post extends Component {
                 >
                   <b onClick={this.handleBlogModal}>{this.props.post.author}</b>
                 </HoverIntet>
-
-                <FormattedRelative
-                  {...this.props}
-                  value={this.props.post.created + "Z"}
-                />
+                {post.platform === "steem" && (
+                  <FormattedRelative
+                    {...this.props}
+                    value={this.props.post.created + "Z"}
+                  />
+                )}
               </UsernameContainer>
 
               <p>
@@ -246,46 +244,11 @@ class Post extends Component {
             }
             json_metadata={this.props.post.json_metadata}
           />
-          <CardFooter>
-            <TagContainer>
-              {post.tags !== undefined &&
-              post.platform === "steem" &&
-              post.tags.filter(tag => {
-                return tag === post.category;
-              }).length === 0 ? (
-                <Link
-                  key={post.category}
-                  style={tagStyles}
-                  to={`/search/${post.category}/new`}
-                >
-                  #{post.category}
-                </Link>
-              ) : (
-                void 0
-              )}
-
-              {post.tags === undefined
-                ? ""
-                : post.tags.map(tag => {
-                    return (
-                      <Link
-                        key={tag}
-                        style={tagStyles}
-                        to={`/search/${tag}/new`}
-                      >
-                        #{tag}
-                      </Link>
-                    );
-                  })}
-            </TagContainer>
-            {post.platform === "steem" && (
-              <SteemFooterActions
-                post={post}
-                username={username}
-                votePercent={votePercent}
-              />
-            )}
-          </CardFooter>
+          <CardFooter
+            post={post}
+            username={username}
+            votePercent={votePercent}
+          />
         </Container>
       </LazyLoad>
     );

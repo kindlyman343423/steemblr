@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import colors from "../styles/colors";
+import colors from "styles/colors";
 
 export const tagStyles = {
   cursor: "pointer",
@@ -117,7 +117,7 @@ export const BtnContainer = styled.div`
     height: 50%;
   }
 `;
-export const CardFooter = styled.div`
+export const FooterContainer = styled.div`
   border-radius: 2px;
   z-index: 500;
   background-color: #fff;
@@ -133,10 +133,16 @@ export const TagContainer = styled.div`
 `;
 export const FooterActions = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin-top: 20px;
+  span
+`;
+export const FooterItem = styled.span`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   span {
-    display: flex;
-    flex-direction: row;
+    padding-right: 5px;
   }
 `;

@@ -6,7 +6,7 @@ import getContentReplies from "../.././Functions/getContentReplies";
 import sendComment from "../.././Functions/sendComment";
 import uuidv4 from "uuid/v4";
 import delay from "../../Functions/delay";
-import steemVote from "../.././Functions/steemVote";
+import steemVote from "../.././Functions/Steem/steemVote";
 import { hot } from "react-hot-loader";
 
 import store from "../../store";

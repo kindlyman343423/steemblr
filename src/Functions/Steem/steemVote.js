@@ -1,4 +1,4 @@
-import api from ".././Api";
+import api from "../../Api";
 
 const steemVote = (voter, author, permlink, weight) => {
   api.vote(voter, author, permlink, weight, function(err, res) {

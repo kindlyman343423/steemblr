@@ -1,28 +1,28 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import PostCreator from "../../NewPost/";
+import PostCreator from "NewPost/";
 
-import store from "../../store";
-import newPostType from "../../actions/newPostType";
-import newPostBody from "../../actions/newPostBody";
-import newPostTitle from "../../actions/newPostTitle";
-import newPostTags from "../../actions/newPostTags";
+import store from "../../../store";
+import newPostType from "actions/newPostType";
+import newPostBody from "actions/newPostBody";
+import newPostTitle from "actions/newPostTitle";
+import newPostTags from "actions/newPostTags";
 import {
   existingPostPermlink,
   existingPostParentPermlink
-} from "../../actions/newPostPermlink";
-import { newPostPhoto } from "../../actions/newPostPhoto";
-import { newPostVideo } from "../../actions/newPostVideo";
-import { newPostAudio } from "../../actions/newPostAudio";
-import { newPostQuote, newPostQuoteSource } from "../../actions/newPostQuote";
+} from "actions/newPostPermlink";
+import { newPostPhoto } from "actions/newPostPhoto";
+import { newPostVideo } from "actions/newPostVideo";
+import { newPostAudio } from "actions/newPostAudio";
+import { newPostQuote, newPostQuoteSource } from "actions/newPostQuote";
 import {
   newPostModal,
   newPostForm,
   newPostIsError,
   editingExistingPost,
   newPostIsReblogging
-} from "../../actions/newPostInterface";
+} from "actions/newPostInterface";
 import Icon from "react-icons-kit";
 
 import { ic_edit } from "react-icons-kit/md/ic_edit";

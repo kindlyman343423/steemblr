@@ -95,7 +95,7 @@ export const BtnContainer = styled.div`
     height: 50%;
   }
 `;
-export const CardFooter = styled.div`
+export const FooterContainer = styled.div`
   border-radius: 2px;
   z-index: 500;
   background-color: #fff;

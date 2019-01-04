@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import CardContent from "./CardContent";
-import store from "../../store";
+import CardContent from "../CardContent";
+import store from "../../../store";
 import styled from "styled-components";
-import colors from "../../styles/colors";
+import colors from "styles/colors";
 const Container = styled.div`
   border-bottom: 1px solid ${colors.borders.light};
   margin-bottom: 10px;

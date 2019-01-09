@@ -60,10 +60,10 @@ const SaveBtn = styled.button`
 class Menu extends Component {
   save = () => {
     const account = this.props.steemAccounts.accounts.filter(acc => {
-      return acc.author === this.props.steemProfile.profile._id;
+      return acc.author === this.props.login.username;
     })[0];
     const props = {
-      user: this.props.steemProfile.profile._id,
+      user: this.props.login.username,
       layout: account
     };
     saveTheme(props);
@@ -84,7 +84,7 @@ class Menu extends Component {
   }
 }
 const mapStateToProps = state => ({
-  steemProfile: state.steemProfile,
+  login: state.login,
   steemAccounts: state.steemAccounts
 });
 export default connect(

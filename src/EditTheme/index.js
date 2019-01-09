@@ -68,7 +68,7 @@ export default class EditTheme extends Component {
     return (
       <div>
         {store.getState().login.status === false ? <Redirect to="/" /> : void 0}
-        {store.getState().steemProfile.profile.user ===
+        {store.getState().login.username ===
         this.props.match.params.username ? (
           this.loadComponent()
         ) : (

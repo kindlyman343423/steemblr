@@ -44,37 +44,26 @@ export default class Customize extends Component {
   }
 
   render() {
+    const username = store.getState().login.username;
     return (
       <Container>
         <Option>
           <b>Website Theme</b>
           <span>
-            <Link
-              to={`/customize/${
-                store.getState().steemProfile.profile.user
-              }/theme`}
-            >
+            <Link to={`/customize/${username}/theme`}>
               <Button>Edit Theme</Button>
             </Link>
 
             <p>
               Change appearance on
-              <Link
-                to={`/@${store.getState().steemProfile.profile.user}`}
-              >{` steemblr.com/@${
-                store.getState().steemProfile.profile.user
-              }`}</Link>
+              <Link to={`/@${username}`}>{` steemblr.com/@${username}`}</Link>
             </p>
           </span>
         </Option>
         <Option>
           <b>SEO</b>
           <span>
-            <Link
-              to={`/customize/${
-                store.getState().steemProfile.profile.user
-              }/seo`}
-            >
+            <Link to={`/customize/${username}/seo`}>
               <Button>Meta Tags</Button>
             </Link>
 

@@ -6,7 +6,8 @@ import LoadingSpin from "./Components/LoadingSpin";
 //FIREBASE
 import getFirebaseToken from "./Functions/getFirebaseToken";
 import firebaseAuth from "./Functions/firebaseAuth";
-
+import defaultApp from "./environment";
+import "firebase/auth";
 //REACT ROUTER
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -16,7 +17,7 @@ import {
   getProfileVotes,
   getSteemTrendingPosts
 } from "./actions/steemActions";
-import { changeLoginStatus } from "./actions/stateActions";
+import { changeLoginStatus, getLoggedProfile } from "./actions/stateActions";
 import getUserSettings from "./actions/getUserSettings";
 import Modal from "react-modal";
 import colors from "./styles/colors";
@@ -24,7 +25,6 @@ import colors from "./styles/colors";
 import { injectGlobal } from "styled-components";
 import { IntlProvider } from "react-intl";
 import Loadable from "react-loadable";
-
 Modal.setAppElement("#root");
 function Loading(props) {
   if (props.error) {
@@ -101,9 +101,20 @@ class App extends Component {
       fetchingData: true
     };
   }
-  async componentWillMount() {
+  async componentDidMount() {
+    await defaultApp.auth().onAuthStateChanged(user => {
+      if (user.displayName !== null) {
+        this.handleEmailLogin(user);
+        this.props.getLoggedProfile(user);
+      }
+    });
+
     if (this.state.steemToken) {
       Promise.all([
+        await this.props.changeLoginStatus({
+          status: false,
+          platform: "steem"
+        }),
         await this.props.getUserProfile(),
         await this.props.getUserFollowing(this.props.steemProfile.profile._id),
         await this.props.getProfileVotes(this.props.steemProfile.profile._id),
@@ -114,7 +125,13 @@ class App extends Component {
           fetchingData: false
         });
       });
-      this.props.changeLoginStatus({ status: true, platform: "steem" });
+      const username = this.props.steemProfile.profile._id;
+      this.props.changeLoginStatus({
+        status: true,
+        platform: "steem",
+        username: username,
+        token: this.state.steemToken
+      });
 
       const profile = await this.props.steemProfile;
       const followingBucket = await this.props.following.users;
@@ -128,13 +145,35 @@ class App extends Component {
       });
     }
   }
-
+  handleEmailLogin = async props => {
+    await this.props.changeLoginStatus({
+      status: false,
+      platform: "email",
+      username: props.displayName,
+      token: props._lat
+    });
+    await this.props.getLoggedProfile(props);
+    await this.props.getUserSettings();
+    await this.props.changeLoginStatus({ status: true, platform: "email" });
+    this.setState({
+      fetchingData: false
+    });
+  };
   handleLogout = () => {
     this.setState({
       steemToken: localStorage.getItem("steemToken") !== null ? true : false,
       googleToken: localStorage.getItem("googleToken") !== null ? true : false
     });
     this.props.changeLoginStatus({ status: false, platform: "" });
+    defaultApp
+      .auth()
+      .signOut()
+      .then(res => {
+        // Sign-out successful.
+      })
+      .catch(err => {
+        // An error happened.
+      });
   };
   async handleFirebaseLogin() {
     await getFirebaseToken(this.props.steemProfile.profile._id);
@@ -204,7 +243,8 @@ const mapStateToProps = state => ({
   following: state.following,
   login: state.login,
   steemProfileVotes: state.steemProfileVotes,
-  trendingPosts: state.trendingPosts
+  trendingPosts: state.trendingPosts,
+  profile: state.profile
 });
 
 export default connect(
@@ -215,6 +255,7 @@ export default connect(
     changeLoginStatus,
     getProfileVotes,
     getSteemTrendingPosts,
-    getUserSettings
+    getUserSettings,
+    getLoggedProfile
   }
 )(hot(module)(App));

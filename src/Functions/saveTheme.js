@@ -1,22 +1,26 @@
-import defaultApp from "../environment";
-
+import store from "../store";
 //Function to save edited theme to database
 const saveTheme = props => {
-  const dbRef = defaultApp
-    .firestore()
-    .collection("users")
-    .doc(props.user)
-    .collection("blog")
-    .doc("layout");
-  dbRef
-    .update(props.layout)
-    .then(function() {
-      //console.log("Document successfully updated!");
+  //Calling Firebase functions to save the data
+  //Needs username, token and platform for verification
+  const userData = store.getState();
+  const url = process.env.REACT_APP_FIREBASE_EDIT_THEME;
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify({
+      username: userData.login.username,
+      token: userData.login.token,
+      layout: props.layout,
+      platform: userData.login.platform
+    }),
+    headers: {
+      Accept: "application/json"
+    }
+  })
+    .then(res => {
+      return res;
     })
-    .catch(function(error) {
-      // The document probably doesn't exist.
-      console.error("Error updating document: ", error);
-    });
+    .catch(err => err);
 };
 
 export default saveTheme;

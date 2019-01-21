@@ -61,7 +61,7 @@ export default class Register extends Component {
       isSending: false,
       isError: false,
       errorMsg: "",
-      username: "",
+      blogsname: "",
       showUsernameChecker: false,
       isUsernameTaken: true
     };
@@ -76,7 +76,7 @@ export default class Register extends Component {
     this.setState({
       [name]: value
     });
-    if (name === "username") {
+    if (name === "blogsname") {
       e.persist();
       this.usernameInputDebounce(e);
     }
@@ -90,6 +90,11 @@ export default class Register extends Component {
     await defaultApp
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(res => {
+        res.user.updateProfile({
+          displayName: this.state.blogsname
+        });
+      })
       .catch(error => {
         this.setState({
           isSending: false,
@@ -112,7 +117,7 @@ export default class Register extends Component {
   checkUsername = async () => {
     //function which checks username availability
     //it check steem usernames and firebase db
-    const checkDB = await checkProfile(this.state.username);
+    const checkDB = await checkProfile(this.state.blogsname);
     if (checkDB) {
       this.setState({
         isUsernameTaken: true,
@@ -120,7 +125,7 @@ export default class Register extends Component {
       });
     } else {
       const checkSTEEM = await steem.api
-        .lookupAccountNamesAsync([this.state.username])
+        .lookupAccountNamesAsync([this.state.blogsname])
         .then(res => {
           return res;
         })
@@ -149,7 +154,7 @@ export default class Register extends Component {
       isSending,
       isError,
       errorMsg,
-      username,
+      blogsname,
       isUsernameTaken,
       showUsernameChecker
     } = this.state;
@@ -184,18 +189,18 @@ export default class Register extends Component {
             <UsernameContainer>
               <input
                 type="text"
-                name="username"
-                placeholder="Username"
-                autoComplete="new-password"
+                name="blogsname"
+                placeholder="Blog display name"
+                autoComplete="blogsname"
                 onChange={e => this.handleChange(e)}
                 minLength="3"
                 maxLength="32"
-                value={username}
+                value={blogsname}
                 required
               />
               {showUsernameChecker && (
                 <UsernameChecker
-                  username={username}
+                  username={blogsname}
                   isUsernameTaken={isUsernameTaken}
                 />
               )}

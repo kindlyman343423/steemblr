@@ -130,7 +130,7 @@ class App extends Component {
         status: true,
         platform: "steem",
         username: username,
-        token: this.state.steemToken
+        token: this.props.profile._lat
       });
 
       const profile = await this.props.steemProfile;

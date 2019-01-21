@@ -1,11 +1,11 @@
 const createProfile = async props => {
   //Function to send api call to create profile
   //it needs token for verification
-  const url = "http://localhost:5000/steemblr/us-central1/createProfile";
+  const url = process.env.REACT_APP_FIREBASE_CREATE_PROFILE;
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      token: props._lat,
+      token: props.token,
       displayName: props.displayName,
       email: props.email
     }),

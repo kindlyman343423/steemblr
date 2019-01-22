@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import store from "../../store";
 import { newPostQuote } from "../../actions/newPostQuote";
-const Input = styled.input`
+const Input = styled.textarea`
   box-sizing: border-box;
   padding-left: 30px;
   font-size: 24px;

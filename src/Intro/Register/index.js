@@ -117,7 +117,11 @@ export default class Register extends Component {
   checkUsername = async () => {
     //function which checks username availability
     //it check steem usernames and firebase db
-    const checkDB = await checkProfile(this.state.blogsname);
+    const { blogsname } = this.state;
+    if (blogsname.length < 3) {
+      return void 0;
+    }
+    const checkDB = await checkProfile(blogsname);
     if (checkDB) {
       this.setState({
         isUsernameTaken: true,
@@ -125,7 +129,7 @@ export default class Register extends Component {
       });
     } else {
       const checkSTEEM = await steem.api
-        .lookupAccountNamesAsync([this.state.blogsname])
+        .lookupAccountNamesAsync([blogsname])
         .then(res => {
           return res;
         })

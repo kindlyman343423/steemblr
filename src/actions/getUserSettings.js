@@ -27,7 +27,8 @@ const getUserSettings = props => async dispatch => {
           createProfile({
             token: emailProfile._lat,
             displayName: emailProfile.displayName,
-            email: emailProfile.email
+            email: emailProfile.email,
+            uid: emailProfile.uid
           });
         }
       }

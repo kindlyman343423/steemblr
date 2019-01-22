@@ -7,7 +7,8 @@ const createProfile = async props => {
     body: JSON.stringify({
       token: props.token,
       displayName: props.displayName,
-      email: props.email
+      email: props.email,
+      uid: props.uid
     }),
     headers: {
       "Content-Type": "application/json"

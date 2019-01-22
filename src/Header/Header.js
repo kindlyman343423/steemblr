@@ -107,15 +107,8 @@ const BtnContainer = styled.div`
   }
 `;
 class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      login: this.props.login.status
-    };
-  }
-
   render() {
+    const { login } = this.props;
     return (
       <Container>
         <LogoContainer>
@@ -126,7 +119,7 @@ class Header extends Component {
 
         {window.innerWidth > 425 ? <SearchInput /> : <SearchInputMobile />}
 
-        {this.state.login === true ? (
+        {login.status === true ? (
           <Dashboard />
         ) : (
           <BtnContainer>

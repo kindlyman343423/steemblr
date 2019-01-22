@@ -28,6 +28,7 @@ export default class RebloggedPost extends Component {
             post.steemblr_body === undefined ? post.body : post.steemblr_body
           }
           json_metadata={post.json_metadata}
+          post={post}
         />
       </Container>
     );

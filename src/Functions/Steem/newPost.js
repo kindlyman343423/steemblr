@@ -1,7 +1,7 @@
 import api from "../.././Api";
 import uuidv4 from "uuid/v4";
 import store from "../../store";
-import postToDb from "../postToDb";
+import postToDb from "./postToDb";
 import tagsNSFWCheck from "../tagsNSFWCheck";
 import makePost from "../makePost";
 import {
@@ -19,7 +19,7 @@ const newPost = async () => {
   const uuid = isEditing ? storeState.newPost.permlink : uuidv4() + "u02x93";
   const rebloggedPost = store.getState().newPost.reblogged_post;
   const postFooter = [
-    `<a href="${`https://steemblr.com/post/@${
+    `</br><a href="${`https://steemblr.com/post/@${
       store.getState().steemProfile.profile.user
     }/` + uuid}">View this post on steemblr</a>`
   ];

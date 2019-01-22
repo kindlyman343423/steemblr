@@ -86,6 +86,7 @@ class Post extends Component {
         )}
         {post.is_reblogged && (
           <CardContent
+            post={post}
             isReblogged={true}
             post_type={post.reblogged_post.post_type}
             section={"home"}
@@ -116,6 +117,7 @@ class Post extends Component {
         )}
 
         <CardContent
+          post={post}
           isReblogged={false}
           section={"home"}
           text={

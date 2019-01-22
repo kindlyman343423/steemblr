@@ -16,7 +16,7 @@ import Quote from "./Quote";
 import QuoteSource from "./QuoteSource";
 import newPost from "../../Functions/Steem/newPost";
 import newPostFirebase from "../../Functions/Firebase/newPostFirebase";
-import RebloggedPost from "../../Components/Post/RebloggedPost";
+import RebloggedPost from "../../Components/Post/Footer/RebloggedPost";
 import PostHeader from "./PostHeader";
 const Form = styled.form`
   box-sizing: border-box;

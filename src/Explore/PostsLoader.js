@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import Post from ".././Components/Post/";
-import steemVote from ".././Functions/steemVote";
+import steemVote from ".././Functions/Steem/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
 import Masonry from "react-masonry-css";
 import Spinner from ".././Components/Spinner";

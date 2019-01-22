@@ -2,8 +2,8 @@ import React, { Component } from "react";
 
 import styled from "styled-components";
 import Spinner from ".././Components/Spinner";
-import Post from "./Post";
-import steemVote from ".././Functions/steemVote";
+import Post from "./Post/";
+import steemVote from ".././Functions/Steem/steemVote";
 //REDUX
 import { connect } from "react-redux";
 import { getUserFollowing, getProfileVotes } from ".././actions/steemActions";

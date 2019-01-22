@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { CardAvatar } from "../../Components/Post/Post.styles";
+import CardAvatar from "../../Components/Post/CardAvatar";
 import store from "../../store";
 import styled from "styled-components";
 import Icon from "react-icons-kit";
@@ -19,17 +19,19 @@ export default class PostHeader extends Component {
     super(props);
 
     this.state = {
-      author: store.getState().steemProfile.profile.user,
+      author: store.getState().login.username,
+      platform: store.getState().login.platform,
       isReblogged: store.getState().newPostInterface.isReblogged,
-      rebloggedAuthor: store.getState().newPost.reblogged_post.author
+      rebloggedAuthor: store.getState().newPost.reblogged_post.author,
+      rebloggedPost: store.getState().newPost.reblogged_post
     };
   }
 
   render() {
-    const { author, isReblogged, rebloggedAuthor } = this.state;
+    const { author, isReblogged, rebloggedAuthor, platform } = this.state;
     return (
       <CardHeader>
-        <CardAvatar url={`https://steemitimages.com/u/${author}/avatar`} />
+        <CardAvatar author={author} platform={platform} />
         <b>{author}</b>
         {isReblogged && (
           <span>

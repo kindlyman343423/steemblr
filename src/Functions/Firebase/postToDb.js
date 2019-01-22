@@ -14,6 +14,7 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
   batch.set(dbRef, { permlink: permlink });
 
   batch.update(dbRef, {
+    uid: store.getState().profile.uid,
     isNSFW: isNSFW,
     post_type: postType,
     timestamp: firestore.FieldValue.serverTimestamp(),
@@ -21,15 +22,20 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
     video: newPost.video,
     audio: newPost.audio,
     quote: newPost.quote,
+    photo: [newPost.photo],
     quoteSource: newPost.quoteSource,
     steemblr_body: postBody,
-    posted_by: platform,
+    platform: platform,
     trending: false,
     rating: 0,
     author: username,
     children: 0,
     active_votes: [],
-    title: newPost.title
+    title: newPost.title,
+    actions: 0,
+    comments: [],
+    upvotes: [],
+    rebloggs: []
   });
   if (isReblogged) {
     batch.update(dbRef, {

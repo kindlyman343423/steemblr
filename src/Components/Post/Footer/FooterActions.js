@@ -1,26 +1,31 @@
 import React, { Component } from "react";
-import ShareMenu from "Components/Post/Footer/ShareMenu";
-import Reblog from "Components/Post/Footer/Reblog";
-import CommentsContainer from "../CommentsContainer";
-import { FooterActions, FooterItem } from "../../Post.styles";
+import ShareMenu from "./ShareMenu";
+import Reblog from "./Reblog";
+import CommentsModal from "./CommentsModal";
+import { FooterActionsContainer } from "../Post.styles";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
 import { ic_favorite } from "react-icons-kit/md/ic_favorite";
-import EditPost from "Components/Post/Footer/EditPost";
+import EditPost from "./EditPost";
 import checkValueState from "Functions/checkValueState";
-import store from "../../../../store";
+import store from "../../../store";
 import steemVote from "Functions/Steem/steemVote";
 import { postVoteToState, removeVoteFromState } from "actions/stateActions";
 import getVoteWorth from "Functions/getVoteWorth";
 import PropTypes from "prop-types";
-import { FormattedRelative } from "react-intl";
-
-export default class SteemFooterActions extends Component {
+import styled from "styled-components";
+import CommentsContainer from "Blog/Post/Footer/CommentsContainer";
+const Actions = styled.span`
+  display: flex;
+  align-items: center;
+`;
+export default class FooterActions extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: 0,
-      weight: this.props.votePercent
+      weight: this.props.votePercent,
+      userPlatform: store.getState().login.platform
     };
   }
 
@@ -101,55 +106,55 @@ export default class SteemFooterActions extends Component {
     }
   };
   render() {
-    const { post } = this.props;
-    const { value, weight, shouldOpenComments } = this.state;
+    const { post, username } = this.props;
+    const { value, weight } = this.state;
     const heartIconStyle = {
       cursor: "pointer",
       color: weight > 0 ? "red" : "black"
     };
     return (
-      <FooterActions>
-        <FooterItem>
-          <FooterItem>
-            <span>${Number(value).toFixed(2) + " "}</span>
-            <span>Posted</span>
-            <span>
-              <FormattedRelative value={post.created + "Z"} />
-            </span>
-          </FooterItem>
-
-          <FooterItem>
-            {this.state.allowEdit && <EditPost post={post} />}
-            <ShareMenu postAuthor={post.author} postPermlink={post.permlink} />
+      <FooterActionsContainer>
+        {post.platform === "steem" ? (
+          <span>${Number(value).toFixed(2)}</span>
+        ) : (
+          <Actions>{post.actions}</Actions>
+        )}
+        <span>
+          {this.state.allowEdit && <EditPost post={post} />}
+          <ShareMenu postAuthor={post.author} postPermlink={post.permlink} />
+          {post.platform === "steem" && (
             <Reblog permlink={post.permlink} post={post} />
+          )}
+          {this.state.shouldOpenComments ? (
+            <CommentsModal
+              likesNumber={post.net_votes}
+              postAuthor={post.author}
+              postPermlink={post.permlink}
+              postPlatform={post.platform}
+              username={username}
+              children={post.children}
+              post={post}
+            />
+          ) : (
             <Icon
               icon={ic_message}
               size={30}
               style={{ cursor: "pointer" }}
               onClick={() =>
                 this.setState({
-                  shouldOpenComments: !shouldOpenComments
+                  shouldOpenComments: true
                 })
               }
             />
-
-            <Icon
-              size={30}
-              icon={ic_favorite}
-              style={heartIconStyle}
-              onClick={this.handleVoteBtn}
-            />
-          </FooterItem>
-        </FooterItem>
-        {shouldOpenComments && (
-          <CommentsContainer
-            children={post.children}
-            likesNumber={post.net_votes}
-            postAuthor={post.author}
-            postPermlink={post.permlink}
+          )}
+          <Icon
+            size={30}
+            icon={ic_favorite}
+            style={heartIconStyle}
+            onClick={this.handleVoteBtn}
           />
-        )}
-      </FooterActions>
+        </span>
+      </FooterActionsContainer>
     );
   }
 }

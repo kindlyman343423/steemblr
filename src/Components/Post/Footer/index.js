@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FooterContainer } from "../Post.styles.js";
-import SteemFooterActions from "./Steem/FooterActions";
+import FooterActions from "./FooterActions";
 import Tags from "./Tags";
 export default class CardFooter extends Component {
   render() {
@@ -8,13 +8,11 @@ export default class CardFooter extends Component {
     return (
       <FooterContainer>
         <Tags post={post} />
-        {post.platform === "steem" && (
-          <SteemFooterActions
-            post={post}
-            username={username}
-            votePercent={votePercent}
-          />
-        )}
+        <FooterActions
+          post={post}
+          username={username}
+          votePercent={votePercent}
+        />
       </FooterContainer>
     );
   }

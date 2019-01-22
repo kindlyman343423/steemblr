@@ -131,7 +131,7 @@ export const TagContainer = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
 `;
-export const FooterActions = styled.div`
+export const FooterActionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 20px;

@@ -15,10 +15,12 @@ const Container = styled.div`
   color: black;
   background-color: white;
   margin-bottom: 10px;
-  word-wrap: break-word;
   box-sizing: border-box;
   padding: 10px;
   border-radius: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
   img {
     max-width: 100%;
     max-height: auto;
@@ -75,20 +77,48 @@ class Comment extends Component {
       reply: "",
       status: false,
       percent: 0,
-      value: checkValueState([
-        this.props.comment.total_payout_value.replace("SBD", ""),
-        this.props.comment.pending_payout_value.replace("SBD", ""),
-        this.props.comment.total_pending_payout_value.replace("STEEM", ""),
-        this.props.comment.curator_payout_value.replace("SBD", "")
-      ])
+      value: 0,
+      firebaseReplies: []
     };
     this.handleVoteClick = this.handleVoteClick.bind(this);
   }
-  componentWillMount() {
-    this.setState({
-      status: this.props.voteStatus.status,
-      percent: this.props.voteStatus.percent
-    });
+  componentDidMount() {
+    const { platform, firebaseComments, comment } = this.props;
+    if (platform === "steem") {
+      this.setState({
+        status: this.props.voteStatus.status,
+        percent: this.props.voteStatus.percent,
+        value: checkValueState([
+          this.props.comment.total_payout_value.replace("SBD", ""),
+          this.props.comment.pending_payout_value.replace("SBD", ""),
+          this.props.comment.total_pending_payout_value.replace("STEEM", ""),
+          this.props.comment.curator_payout_value.replace("SBD", "")
+        ])
+      });
+    } else if (platform === "email") {
+      const children = firebaseComments.filter(item => {
+        return item.replyTo === comment.permlink;
+      });
+
+      this.setState({
+        status: this.props.voteStatus.status,
+        percent: 0,
+        firebaseReplies: children
+      });
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.firebaseComments !== prevProps.firebaseComments) {
+      const { platform, firebaseComments, comment } = this.props;
+      if (platform === "email" && comment.isReply === false) {
+        const children = firebaseComments.filter(item => {
+          return item.replyTo === comment.permlink;
+        });
+        this.setState({
+          firebaseReplies: children
+        });
+      }
+    }
   }
   async handleVoteClick() {
     const login = store.getState().login.status;
@@ -113,13 +143,38 @@ class Comment extends Component {
   }
   handleFormSubmit = e => {
     e.preventDefault();
-    this.props.handleSendComment(
-      this.props.author,
-      this.props.permlink,
-      this.state.reply
-    );
+    const login = store.getState().login.platform;
+    const { comment, platform } = this.props;
+    if (platform === "steem" && login === "email") {
+      return alert("You can't reply to steem comments without steem account");
+    }
+    if (platform === "email") {
+      if (comment.isReply) {
+        this.props.handleSendComment(
+          this.props.author,
+          this.props.origin,
+          this.state.reply,
+          this.props.comment.replyTo
+        );
+      } else {
+        this.props.handleSendComment(
+          this.props.author,
+          this.props.postPermlink,
+          this.state.reply,
+          this.props.comment.permlink
+        );
+      }
+    } else if (platform === "steem") {
+      this.props.handleSendComment(
+        this.props.author,
+        this.props.permlink,
+        this.state.reply
+      );
+    }
+
     this.setState({
-      showReplyForm: false
+      showReplyForm: false,
+      reply: ""
     });
   };
   handleInputChange = e => {
@@ -131,69 +186,123 @@ class Comment extends Component {
       [name]: value
     });
   };
+
   handleShowRepliesButton = () => {
-    const children = this.props.comment.children;
-    if (this.state.showReplies) {
-      return (
-        <RepliesBtn
-          onClick={() =>
-            this.setState({
-              showReplies: false
-            })
-          }
-        >
-          Hide replies
-        </RepliesBtn>
-      );
-    } else {
-      switch (children) {
-        case 0:
-          return void 0;
-        case 1:
-          return (
-            <RepliesBtn
-              onClick={() =>
-                this.setState({
-                  showReplies: true
-                })
-              }
-            >
-              Show 1 reply
-            </RepliesBtn>
-          );
-        default:
-          return (
-            <RepliesBtn
-              onClick={() =>
-                this.setState({
-                  showReplies: true
-                })
-              }
-            >
-              Show {this.props.comment.children} replies
-            </RepliesBtn>
-          );
+    const { platform, comment, firebaseComments } = this.props;
+
+    if (platform === "steem") {
+      const children = this.props.comment.children;
+      if (this.state.showReplies) {
+        return (
+          <RepliesBtn
+            onClick={() =>
+              this.setState({
+                showReplies: false
+              })
+            }
+          >
+            Hide replies
+          </RepliesBtn>
+        );
+      } else {
+        switch (children) {
+          case 0:
+            return void 0;
+          case 1:
+            return (
+              <RepliesBtn
+                onClick={() =>
+                  this.setState({
+                    showReplies: true
+                  })
+                }
+              >
+                Show 1 reply
+              </RepliesBtn>
+            );
+          default:
+            return (
+              <RepliesBtn
+                onClick={() =>
+                  this.setState({
+                    showReplies: true
+                  })
+                }
+              >
+                Show {this.props.comment.children} replies
+              </RepliesBtn>
+            );
+        }
+      }
+    } else if (platform === "email") {
+      const children = firebaseComments.filter(item => {
+        return item.replyTo === comment.permlink;
+      });
+      if (this.state.showReplies) {
+        return (
+          <RepliesBtn
+            onClick={() =>
+              this.setState({
+                showReplies: false
+              })
+            }
+          >
+            Hide replies
+          </RepliesBtn>
+        );
+      } else {
+        switch (children.length) {
+          case 0:
+            return void 0;
+          case 1:
+            return (
+              <RepliesBtn
+                onClick={() =>
+                  this.setState({
+                    showReplies: true
+                  })
+                }
+              >
+                Show 1 reply
+              </RepliesBtn>
+            );
+          default:
+            return (
+              <RepliesBtn
+                onClick={() =>
+                  this.setState({
+                    showReplies: true
+                  })
+                }
+              >
+                Show {children.length} replies
+              </RepliesBtn>
+            );
+        }
       }
     }
   };
   render() {
+    const { platform, postPermlink, comment, comLocation } = this.props;
+    const { firebaseReplies } = this.state;
     return (
       <Container>
         <Link to={"/@" + this.props.author}>
           <Nickname>{this.props.author}</Nickname>
         </Link>
-        <span
-          style={{
-            paddingLeft: "5px",
-            cursor: "pointer",
-            color: this.props.voteStatus.percent > 0 ? "green" : "black"
-          }}
-          onClick={this.handleVoteClick}
-        >
-          ${Number(this.state.value).toFixed(2)}
-        </span>
+        {platform === "steem" && (
+          <span
+            style={{
+              paddingLeft: "5px",
+              cursor: "pointer",
+              color: this.props.voteStatus.percent > 0 ? "green" : "black"
+            }}
+            onClick={this.handleVoteClick}
+          >
+            ${Number(this.state.value).toFixed(2)}
+          </span>
+        )}
         {ReactHtmlParser(md.render(this.props.body))}
-
         <ReplyBtnsContainer>
           {this.handleShowRepliesButton()}
           <RepliesBtn
@@ -224,6 +333,12 @@ class Comment extends Component {
             <Comments
               postAuthor={this.props.author}
               postPermlink={this.props.permlink}
+              postPlatform={platform}
+              firebaseComments={firebaseReplies}
+              inReply={true}
+              origin={this.props.origin}
+              replyTo={comment.permlink}
+              comLocation={comLocation}
             />
           )}
         </RepliesContainer>

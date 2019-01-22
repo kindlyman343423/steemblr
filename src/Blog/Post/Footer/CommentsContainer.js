@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import getContentReplies from "Functions/getContentReplies";
-import sendComment from "Functions/sendComment";
+import sendComment from "Functions/Steem/sendComment";
+import sendCommentFirebase from "Functions/Firebase/sendComment";
 import uuidv4 from "uuid/v4";
 import delay from "Functions/delay";
 
@@ -10,6 +11,7 @@ import colors from "styles/colors";
 import styled from "styled-components";
 
 import store from "../../../store";
+import { updatePostByAuthor } from "actions/updatePost";
 import Comments from "Components/Comments/Comments";
 const Container = styled.div`
   overflow: hidden;
@@ -88,7 +90,8 @@ class CommentsModal extends Component {
       votedComments: [],
       votesToPush: [],
       votesToRemove: [],
-      innerWidth: window.innerWidth
+      innerWidth: window.innerWidth,
+      firebaseComments: []
     };
 
     this.handleSendComment = this.handleSendComment.bind(this);
@@ -98,17 +101,17 @@ class CommentsModal extends Component {
   }
   async componentWillMount() {
     window.addEventListener("resize", this.updateDimensions);
-
+    const { post } = this.props;
     const apiCall = await getContentReplies(
       this.props.postAuthor,
       this.props.postPermlink
     );
-
     this.setState({
       comments: apiCall[0],
       open: true,
       votedComments: await store.getState().steemProfileVotes.votes,
-      isLoading: false
+      isLoading: false,
+      firebaseComments: post.comments !== undefined ? post.comments : []
     });
   }
   updateDimensions() {
@@ -117,34 +120,75 @@ class CommentsModal extends Component {
     });
   }
 
-  async updateComments() {
-    await delay(3000);
-    const apiCall = await getContentReplies(
-      this.props.postAuthor,
-      this.props.postPermlink
-    );
-    this.setState({
-      comments: apiCall[0]
-    });
+  async updateComments(platform) {
+    const { postAuthor, postPermlink } = this.props;
+    if (platform === "steem") {
+      await delay(3000);
+      const apiCall = await getContentReplies(postAuthor, postPermlink);
+      this.setState({
+        comments: apiCall[0]
+      });
+    } else if (platform === "email") {
+      await store.dispatch(updatePostByAuthor(postPermlink));
+    }
+  }
+  componentDidUpdate(prevProps) {
+    const { post } = this.props;
+    if (post !== prevProps.post) {
+      this.setState({
+        firebaseComments: post.comments
+      });
+    }
   }
   async handleSendComment() {
-    const login = store.getState().login.status;
-    if (login) {
-      if (this.state.comment === "") {
-        alert("Comment can't be empty");
-      } else {
+    const login = store.getState().login;
+    const { post, postPlatform } = this.props;
+    if (login.status && login.platform === "steem") {
+      //handling sending comments for STEEM users
+      const commentToSend = {
+        permlink: post.permlink,
+        comment: this.state.comment,
+        username: login.username,
+        platform: login.platform,
+        isReply: false,
+        replyTo: "",
+        token: login.token
+      };
+      if (postPlatform === "steem") {
         sendComment(
           this.props.postAuthor,
           this.props.postPermlink,
-          this.props.username,
+          login.username,
           this.state.comment,
           uuidv4()
         );
         this.setState({
           comment: ""
         });
-        this.updateComments();
+        this.updateComments("steem");
+      } else if (postPlatform === "email") {
+        await sendCommentFirebase(commentToSend);
+        this.setState({
+          comment: ""
+        });
+        this.updateComments("email");
       }
+    } else if (login.status && login.platform === "email") {
+      //handling sending comments for firebase users
+      const commentToSend = {
+        permlink: post.permlink,
+        comment: this.state.comment,
+        username: login.username,
+        platform: login.platform,
+        isReply: false,
+        replyTo: "",
+        token: login.token
+      };
+      sendCommentFirebase(commentToSend);
+      this.setState({
+        comment: ""
+      });
+      this.updateComments("email");
     } else {
       alert("You have to login first");
     }
@@ -160,19 +204,37 @@ class CommentsModal extends Component {
   }
 
   render() {
+    const { firebaseComments, comment } = this.state;
+    const { post, postAuthor, postPermlink, postPlatform } = this.props;
+    const numOfUpvotes = post.upvotes !== undefined ? post.upvotes.length : 0;
+    const numOfComments =
+      post.comments !== undefined ? post.comments.length : 0;
     return (
       <Container>
-        <Title>
-          {this.props.likesNumber +
-            " Likes " +
-            this.props.children +
-            " Comments"}
-        </Title>
+        {postPlatform === "steem" && (
+          <Title>
+            {this.props.likesNumber + numOfUpvotes + " Likes "}
+            {this.props.children + numOfComments + " Comments"}
+          </Title>
+        )}
+        {postPlatform === "email" && (
+          <Title>
+            {numOfUpvotes + " Likes "}
+            {numOfComments + " Comments"}
+          </Title>
+        )}
 
         <Content>
           <Comments
-            postAuthor={this.props.postAuthor}
-            postPermlink={this.props.postPermlink}
+            postAuthor={postAuthor}
+            postPermlink={postPermlink}
+            postPlatform={postPlatform}
+            firebaseComments={
+              firebaseComments !== undefined ? firebaseComments : []
+            }
+            inReply={false}
+            origin={postPermlink}
+            comLocation={"blog"}
           />
         </Content>
 
@@ -181,10 +243,10 @@ class CommentsModal extends Component {
             placeholder="Send something"
             name="comment"
             type="text"
-            value={this.state.comment}
+            value={comment}
             onChange={this.handleInputChange}
           />
-          {this.state.comment.length > 1 ? (
+          {comment.length > 1 ? (
             <SendButton onClick={this.handleSendComment}>Reply</SendButton>
           ) : (
             <SendButton disabled>Reply</SendButton>

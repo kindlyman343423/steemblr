@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Lightbox from "react-image-lightbox";
+import PropTypes from "prop-types";
 const Img = styled.img`
   cursor: pointer;
   width: 100%;
@@ -11,12 +12,24 @@ export default class CardMedia extends Component {
     super(props);
 
     this.state = {
-      json_metadata: JSON.parse(this.props.json_metadata),
+      data: [],
       photoIndex: 0,
       isOpen: false,
       images: []
     };
     this.handleOpen = this.handleOpen.bind(this);
+  }
+  componentDidMount() {
+    const { post } = this.props;
+    if (post !== undefined && post.platform === "steem") {
+      this.setState({
+        data: JSON.parse(post.json_metadata).image
+      });
+    } else if (post !== undefined && post.platform === "email") {
+      this.setState({
+        data: post.photo
+      });
+    }
   }
   handleOpen() {
     this.loadImages();
@@ -26,36 +39,28 @@ export default class CardMedia extends Component {
   }
   async loadImages() {
     await this.setState({
-      images: this.state.json_metadata.image
+      images: this.state.data
     });
   }
   render() {
-    const { images } = this.state;
+    const { images, data, photoIndex, isOpen } = this.state;
     return (
       <div>
-        <Img
-          src={this.state.json_metadata.image[0]}
-          onClick={this.handleOpen}
-        />
-        {this.state.isOpen && (
+        <Img src={data[0]} onClick={this.handleOpen} />
+        {isOpen && (
           <Lightbox
-            mainSrc={this.state.images[this.state.photoIndex]}
-            nextSrc={images[(this.state.photoIndex + 1) % images.length]}
-            prevSrc={
-              images[
-                (this.state.photoIndex + images.length - 1) % images.length
-              ]
-            }
+            mainSrc={images[photoIndex]}
+            nextSrc={images[(photoIndex + 1) % images.length]}
+            prevSrc={images[(photoIndex + images.length - 1) % images.length]}
             onCloseRequest={() => this.setState({ isOpen: false })}
             onMovePrevRequest={() =>
               this.setState({
-                photoIndex:
-                  (this.state.photoIndex + images.length - 1) % images.length
+                photoIndex: (photoIndex + images.length - 1) % images.length
               })
             }
             onMoveNextRequest={() =>
               this.setState({
-                photoIndex: (this.state.photoIndex + 1) % images.length
+                photoIndex: (photoIndex + 1) % images.length
               })
             }
           />
@@ -64,3 +69,6 @@ export default class CardMedia extends Component {
     );
   }
 }
+CardMedia.propTypes = {
+  post: PropTypes.object
+};

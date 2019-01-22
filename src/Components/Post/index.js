@@ -221,6 +221,7 @@ class Post extends Component {
           </CardHeader>
           {this.props.post.is_reblogged && (
             <CardContent
+              post={post}
               isReblogged={true}
               post_type={this.props.post.reblogged_post.post_type}
               section={this.props.section}
@@ -234,6 +235,8 @@ class Post extends Component {
           )}
 
           <CardContent
+            post={post}
+            platform={post.platform}
             isReblogged={false}
             post_type={this.props.post.post_type}
             section={this.props.section}
@@ -244,6 +247,7 @@ class Post extends Component {
             }
             json_metadata={this.props.post.json_metadata}
           />
+
           <CardFooter
             post={post}
             username={username}

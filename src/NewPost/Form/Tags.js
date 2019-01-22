@@ -36,6 +36,7 @@ export default class Tags extends Component {
           value={this.state.tags}
           onChange={this.handleTagsChange}
           addKeys={[188, 32, 9, 13]}
+          maxTags={5}
         />
       </Container>
     );

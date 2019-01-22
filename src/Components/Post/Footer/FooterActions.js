@@ -14,7 +14,6 @@ import { postVoteToState, removeVoteFromState } from "actions/stateActions";
 import getVoteWorth from "Functions/getVoteWorth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import CommentsContainer from "Blog/Post/Footer/CommentsContainer";
 const Actions = styled.span`
   display: flex;
   align-items: center;
@@ -80,10 +79,10 @@ export default class FooterActions extends Component {
     }
   };
   handleVoteBtn = async () => {
-    const login = store.getState().login.status;
+    const login = store.getState().login;
     const { post, username, votePercent } = this.props;
     const { value } = this.state;
-    if (login) {
+    if (login.status && login.platform === "steem") {
       this.handleVoting(username, post.author, post.permlink, votePercent);
       const vote = await getVoteWorth();
 
@@ -147,12 +146,14 @@ export default class FooterActions extends Component {
               }
             />
           )}
-          <Icon
-            size={30}
-            icon={ic_favorite}
-            style={heartIconStyle}
-            onClick={this.handleVoteBtn}
-          />
+          {post.platform === "steem" && (
+            <Icon
+              size={30}
+              icon={ic_favorite}
+              style={heartIconStyle}
+              onClick={this.handleVoteBtn}
+            />
+          )}
         </span>
       </FooterActionsContainer>
     );

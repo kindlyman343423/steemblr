@@ -44,8 +44,8 @@ export default class FooterActions extends Component {
   }
   handleVoting = async (username, author, permlink, votePercent) => {
     //casting a vote to the blockchain and dispatching to redux store
-    const login = store.getState().login.status;
-    if (login) {
+    const login = store.getState().login;
+    if (login.status && login.platform === "steem") {
       if (votePercent === 0) {
         await steemVote(
           username,
@@ -144,12 +144,14 @@ export default class FooterActions extends Component {
                 })
               }
             />
-            <Icon
-              size={30}
-              icon={ic_favorite}
-              style={heartIconStyle}
-              onClick={this.handleVoteBtn}
-            />
+            {post.platform === "steem" && (
+              <Icon
+                size={30}
+                icon={ic_favorite}
+                style={heartIconStyle}
+                onClick={this.handleVoteBtn}
+              />
+            )}
           </FooterItem>
         </FooterItem>
         {shouldOpenComments && (

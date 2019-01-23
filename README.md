@@ -1,7 +1,7 @@
 # STEEMBLR
 Open source social media app based on steem blockchain.
 Read more [here](https://steemit.com/utopian-io/@snwolak/introducing-steemblr-a-blockchain-alternative-for-tumblr)
-[![website.png](http://steemimages.com/images/2018/06/03/website.png)](http://steemimages.com/image/03jo)
+[![website.png](https://i.imgsafe.org/87/874083479f.jpeg)](https://i.imgsafe.org/87/874083479f.jpeg)
 
 
 
@@ -19,6 +19,7 @@ yarn start
 Create .env.development.local in root folder and enter necessary variables
 
 ```
+NODE_PATH = src/
 REACT_APP_LOGIN_URL = http://localhost:3000/redirect 
 REACT_APP_FIREBASE_TOKEN_URL = 
 REACT_APP_GOOGLE_FONTS_API = 
@@ -28,6 +29,10 @@ REACT_APP_FIREBASE_DATABASE_URL =
 REACT_APP_FIREBASE_PROJECT_ID = 
 REACT_APP_FIREBASE_STORAGE_BUCKET = 
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID = 
+REACT_APP_FIREBASE_CREATE_PROFILE =
+REACT_APP_FIREBASE_CREATE_PROFILE_STEEM =
+REACT_APP_FIREBASE_EDIT_THEME =
+REACT_APP_FIREBASE_SEND_COMMENT =
 ```
 
 ### Contribution

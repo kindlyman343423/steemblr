@@ -40,10 +40,12 @@ const createProfile = async props => {
   await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      token: props.token,
-      steemAccount: props.steemAccount,
-      blog: blog,
-      uid: props.uid
+      data: {
+        token: props.token,
+        steemAccount: props.steemAccount,
+        blog: blog,
+        uid: props.uid
+      }
     }),
     headers: {
       "Content-Type": "application/json"

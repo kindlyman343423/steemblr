@@ -8,13 +8,16 @@ const saveTheme = props => {
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      username: userData.login.username,
-      token: userData.login.token,
-      layout: props.layout,
-      platform: userData.login.platform
+      data: {
+        username: userData.login.username,
+        token: userData.login.token,
+        uid: userData.profile.uid,
+        layout: props.layout,
+        platform: userData.login.platform
+      }
     }),
     headers: {
-      Accept: "application/json"
+      "Content-Type": "application/json"
     }
   })
     .then(res => {

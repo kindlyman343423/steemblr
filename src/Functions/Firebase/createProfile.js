@@ -5,10 +5,12 @@ const createProfile = async props => {
   return await fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      token: props.token,
-      displayName: props.displayName,
-      email: props.email,
-      uid: props.uid
+      data: {
+        token: props.token,
+        displayName: props.displayName,
+        email: props.email,
+        uid: props.uid
+      }
     }),
     headers: {
       "Content-Type": "application/json"

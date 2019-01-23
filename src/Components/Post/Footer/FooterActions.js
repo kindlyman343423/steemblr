@@ -27,7 +27,19 @@ export default class FooterActions extends Component {
       userPlatform: store.getState().login.platform
     };
   }
-
+  componentDidMount() {
+    const { post } = this.props;
+    if (post.platform === "steem") {
+      this.setState({
+        value: checkValueState([
+          post.total_payout_value.replace("SBD", ""),
+          post.pending_payout_value.replace("SBD", ""),
+          post.total_pending_payout_value.replace("STEEM", ""),
+          post.curator_payout_value.replace("SBD", "")
+        ])
+      });
+    }
+  }
   handleValue() {
     //checking value of the post
     this.setState({

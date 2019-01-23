@@ -6,7 +6,9 @@ import {
   CHANGE_POST_TYPE,
   PUT_UUID,
   REMOVE_POSTS_FROM_STATE,
-  REMOVE_AUTHOR_POSTS_FROM_STATE
+  REMOVE_AUTHOR_POSTS_FROM_STATE,
+  CHANGE_LOGIN_STATUS,
+  PROFILE_GET
 } from "./types";
 import store from ".././store";
 
@@ -71,5 +73,17 @@ export const removeAuthorPostsFromState = props => dispatch => {
   dispatch({
     type: REMOVE_AUTHOR_POSTS_FROM_STATE,
     payload: []
+  });
+};
+export const changeLoginStatus = props => dispatch => {
+  return dispatch({
+    type: CHANGE_LOGIN_STATUS,
+    payload: props
+  });
+};
+export const getLoggedProfile = props => dispatch => {
+  return dispatch({
+    type: PROFILE_GET,
+    payload: props
   });
 };

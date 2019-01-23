@@ -1,28 +1,28 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import PostCreator from "../../NewPost/";
+import PostCreator from "NewPost/";
 
-import store from "../../store";
-import newPostType from "../../actions/newPostType";
-import newPostBody from "../../actions/newPostBody";
-import newPostTitle from "../../actions/newPostTitle";
-import newPostTags from "../../actions/newPostTags";
+import store from "../../../store";
+import newPostType from "actions/newPostType";
+import newPostBody from "actions/newPostBody";
+import newPostTitle from "actions/newPostTitle";
+import newPostTags from "actions/newPostTags";
 import {
   existingPostPermlink,
   existingPostParentPermlink
-} from "../../actions/newPostPermlink";
-import { newPostPhoto } from "../../actions/newPostPhoto";
-import { newPostVideo } from "../../actions/newPostVideo";
-import { newPostAudio } from "../../actions/newPostAudio";
-import { newPostQuote, newPostQuoteSource } from "../../actions/newPostQuote";
+} from "actions/newPostPermlink";
+import { newPostPhoto } from "actions/newPostPhoto";
+import { newPostVideo } from "actions/newPostVideo";
+import { newPostAudio } from "actions/newPostAudio";
+import { newPostQuote, newPostQuoteSource } from "actions/newPostQuote";
 import {
   newPostModal,
   newPostForm,
   newPostIsError,
   editingExistingPost,
   newPostIsReblogging
-} from "../../actions/newPostInterface";
+} from "actions/newPostInterface";
 import Icon from "react-icons-kit";
 
 import { ic_edit } from "react-icons-kit/md/ic_edit";
@@ -65,7 +65,7 @@ export default class AddNew extends Component {
       store.dispatch(newPostVideo(this.props.post.video));
     } else if (this.props.post.post_type === "audio") {
       store.dispatch(newPostAudio(this.props.post.audio));
-    } else if (this.props.post.post_type === "quote") {
+    } else if (this.props.post.post_type === "quotes") {
       store.dispatch(newPostQuote(this.props.post.quote));
       store.dispatch(newPostQuoteSource(this.props.post.quoteSource));
     }

@@ -30,14 +30,14 @@ const Container = styled.section`
 `;
 
 const FirstRow = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, auto);
+  display: flex;
+  flex-direction: row;
 `;
 const SecondRow = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, auto);
+  display: flex;
+  flex-direction: row;
 `;
-const IconContainer = styled.div`
+const IconContainer = styled.span`
   background: #fff;
   svg: {
     margin-right: 0px;
@@ -83,14 +83,17 @@ export default class About extends Component {
             <Icon icon={ic_videocam} size={48} />
           </IconContainer>
         </SecondRow>
-        <h1>What is steemblr?</h1>
-        <p>
-          Censorship-free monetized microblogging platform powered by steem
-          blockchain. Here you can share your thoughts, photos, gifs, music and
-          videos. Everything you are all about.
-        </p>
 
-        <p>Just log in with steem account and start blogging</p>
+        <div>
+          <h1>What is steemblr?</h1>
+          <p>
+            Censorship-free monetized microblogging platform powered by steem
+            blockchain. Here you can share your thoughts, photos, gifs, music
+            and videos. Everything you are all about.
+          </p>
+
+          <p>Just log in with steem account and start blogging</p>
+        </div>
       </Container>
     );
   }

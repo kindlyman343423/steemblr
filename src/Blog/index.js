@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import checkProfile from "../Functions/checkProfile";
+import checkProfile from "../Functions/Firebase/checkProfile";
 import BlogView from "./BlogView";
 import NotFound from "../Components/NotFound";
 import Spinner from "../Components/Spinner";

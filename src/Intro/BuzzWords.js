@@ -8,7 +8,7 @@ const Container = styled.section`
   background: #bb4d00;
   position: relative;
   box-sizing: border-box;
-  height: 100vh;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,22 +32,26 @@ const Container = styled.section`
   b {
     font-size: 24px;
   }
+  @media (max-width: 425px) {
+  }
 `;
 const Grid = styled.div`
-  position: absolute;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 50%);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
   @media (max-width: 425px) {
-    grid-template-columns: 100%;
+    flex-direction: column;
   }
 `;
 const ConceptContainer = styled.div`
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 50vw;
   button {
     background-color: transparent;
     padding: 10px;
@@ -58,11 +62,13 @@ const ConceptContainer = styled.div`
     cursor: pointer;
   }
   @media (max-width: 425px) {
-    margin-bottom: 20px;
+    width: 100vw;
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
 `;
 const ExplainationsContainer = styled.div`
-  height: 100%;
+  width: 50vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -70,7 +76,9 @@ const ExplainationsContainer = styled.div`
   align-content: center;
   background-color: #1c313a;
   @media (max-width: 425px) {
-    margin-bottom: 50px;
+    width: 100vw;
+    height: auto;
+
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -120,7 +128,7 @@ export default class BuzzWords extends Component {
         return (
           <Explaination>
             <h3>STEEM</h3>
-            <blockquote>
+            <p>
               Steem is a social blockchain that grows communities and makes
               immediate revenue streams possible for users by rewarding them for
               sharing content. It’s currently the only blockchain that can power
@@ -134,7 +142,7 @@ export default class BuzzWords extends Component {
               >
                 Source
               </a>
-            </blockquote>
+            </p>
 
             <b>How to get an account?</b>
             <p>

@@ -103,7 +103,7 @@ class AppearanceOptions extends Component {
 
     this.state = {
       account: this.props.steemAccounts.accounts.filter(acc => {
-        return acc.author === this.props.steemProfile.profile._id;
+        return acc.author === this.props.login.username;
       })[0],
       backgroundColor: "",
       titleColor: "",
@@ -117,7 +117,7 @@ class AppearanceOptions extends Component {
     const name = event.target.name;
     const value = event.target.value;
     const props = {
-      author: this.props.steemProfile.profile._id,
+      author: this.props.login.username,
       property: name,
       value: value
     };
@@ -138,7 +138,7 @@ class AppearanceOptions extends Component {
       backgroundColor: color.rgb
     });
     const props = {
-      author: this.props.steemProfile.profile._id,
+      author: this.props.login.username,
       property: "background_color",
       value: color.rgb
     };
@@ -149,7 +149,7 @@ class AppearanceOptions extends Component {
       titleColor: color.rgb
     });
     const props = {
-      author: this.props.steemProfile.profile._id,
+      author: this.props.login.username,
       property: "title_color",
       value: color.rgb
     };
@@ -157,7 +157,7 @@ class AppearanceOptions extends Component {
   };
   handleAvatarShape = shape => {
     const props = {
-      author: this.props.steemProfile.profile._id,
+      author: this.props.login.username,
       property: "avatar_shape",
       value: shape
     };
@@ -165,7 +165,7 @@ class AppearanceOptions extends Component {
   };
   handleFontChange = nextFont => {
     const props = {
-      author: this.props.steemProfile.profile._id,
+      author: this.props.login.username,
       property: "title_font",
       value: {
         family: nextFont.family,
@@ -180,7 +180,7 @@ class AppearanceOptions extends Component {
   };
   handleCheckbox = e => {
     const props = {
-      author: this.props.steemProfile.profile._id,
+      author: this.props.login.username,
       property: e.target.name,
       value: e.target.checked
     };
@@ -189,7 +189,7 @@ class AppearanceOptions extends Component {
   handleUpload = async e => {
     await uploadHeader(e.target.files[0]).then(response => {
       const props = {
-        author: this.props.steemProfile.profile._id,
+        author: this.props.login.username,
         property: "cover_image",
         value: response
       };
@@ -198,9 +198,11 @@ class AppearanceOptions extends Component {
   };
 
   render() {
-    const account = this.props.steemAccounts.accounts.filter(acc => {
-      return acc.author === this.props.steemProfile.profile._id;
+    const { login, steemAccounts } = this.props;
+    const account = steemAccounts.accounts.filter(acc => {
+      return acc.author === login.username;
     })[0];
+
     if (account === undefined) {
       return <p>Loading...</p>;
     } else {
@@ -338,7 +340,7 @@ class AppearanceOptions extends Component {
   }
 }
 const mapStateToProps = state => ({
-  steemProfile: state.steemProfile,
+  login: state.login,
   steemAccounts: state.steemAccounts
 });
 export default connect(

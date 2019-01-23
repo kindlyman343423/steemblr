@@ -22,16 +22,16 @@ const Container = styled.div`
   }
   @media (max-width: 768px) {
     svg {
-      width: 28px;
-      width: 28px;
+      width: 32px;
+      width: 32px;
     }
   }
   @media (max-width: 425px) {
     justify-content: flex-start;
     svg {
       padding-left: 6px;
-      width: 24px;
-      width: 24px;
+      width: 34px;
+      width: 34px;
     }
   }
   @media (max-width: 375px) {

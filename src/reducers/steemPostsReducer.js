@@ -2,7 +2,8 @@ import {
   GET_TRENDING_POSTS,
   GET_NEW_POSTS,
   GET_FEED_POSTS,
-  REMOVE_POSTS_FROM_STATE
+  REMOVE_POSTS_FROM_STATE,
+  UPDATE_POST
 } from "../actions/types";
 
 const initialState = {
@@ -27,6 +28,11 @@ export default function(state = initialState, action) {
         posts: action.payload
       };
     case GET_FEED_POSTS:
+      return {
+        ...state,
+        posts: action.payload
+      };
+    case UPDATE_POST:
       return {
         ...state,
         posts: action.payload

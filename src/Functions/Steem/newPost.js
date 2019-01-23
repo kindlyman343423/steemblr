@@ -1,10 +1,13 @@
-import api from ".././Api";
+import api from "../.././Api";
 import uuidv4 from "uuid/v4";
-import store from "../store";
+import store from "../../store";
 import postToDb from "./postToDb";
-import tagsNSFWCheck from "./tagsNSFWCheck";
-import makePost from "./makePost";
-import { newPostIsError, newPostErrorMsg } from "../actions/newPostInterface";
+import tagsNSFWCheck from "../tagsNSFWCheck";
+import makePost from "../makePost";
+import {
+  newPostIsError,
+  newPostErrorMsg
+} from "../../actions/newPostInterface";
 const newPost = async () => {
   const post = makePost();
   const storeState = store.getState();
@@ -16,7 +19,7 @@ const newPost = async () => {
   const uuid = isEditing ? storeState.newPost.permlink : uuidv4() + "u02x93";
   const rebloggedPost = store.getState().newPost.reblogged_post;
   const postFooter = [
-    `<a href="${`https://steemblr.com/post/@${
+    `</br><a href="${`https://steemblr.com/post/@${
       store.getState().steemProfile.profile.user
     }/` + uuid}">View this post on steemblr</a>`
   ];
@@ -31,7 +34,6 @@ const newPost = async () => {
     }/${rebloggedPost.permlink}`}">post made by ${rebloggedPost.author}</a>.
     Original author is getting 47.5% beneficiary rewards.</p>`
   ];
-  console.log(post);
   store.dispatch(newPostIsError(false));
   if (isEditing) {
     await api
@@ -74,9 +76,7 @@ const newPost = async () => {
           {
             parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
             parent_permlink:
-              uniqueTags[0] === undefined
-                ? "steemblr"
-                : uniqueTags[0].replace(/[^A-Za-z0-9]/gi, ""), // MAIN TAG
+              uniqueTags[0] === undefined ? "steemblr" : uniqueTags[0], // MAIN TAG
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post
@@ -133,9 +133,7 @@ const newPost = async () => {
           {
             parent_author: "", //MUST BE EMPTY WHEN CREATING NEW POST
             parent_permlink:
-              uniqueTags[0] === undefined
-                ? "steemblr"
-                : uniqueTags[0].replace(/[^A-Za-z0-9]/gi, ""), // MAIN TAG
+              uniqueTags[0] === undefined ? "steemblr" : uniqueTags[0], // MAIN TAG
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post

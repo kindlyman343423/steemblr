@@ -5,10 +5,11 @@ import defaultApp from "../../environment";
 import "firebase/auth";
 import Spinner from "../../Components/Spinner";
 import { Redirect } from "react-router-dom";
+import handleLogin from "Functions/Firebase/handleLogin";
 const Container = styled.div`
   animation: pulse 1s 1;
   p {
-    color #fff;
+    color: #fff;
   }
   @keyframes pulse {
     0% {
@@ -74,6 +75,10 @@ export default class LoginForm extends Component {
         });
       });
     if (this.state.isError === false) {
+      await defaultApp.auth().onAuthStateChanged(user => {
+        localStorage.setItem("loginEmail", user.email);
+        handleLogin(user);
+      });
       this.setState({
         isSending: false,
         isSignedIn: true

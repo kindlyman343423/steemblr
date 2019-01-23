@@ -1,7 +1,6 @@
 import {
   GET_LOGGED_PROFILE,
   GET_FOLLOWING,
-  CHANGE_LOGIN_STATUS,
   GET_PROFILE_VOTES,
   GET_TRENDING_POSTS,
   CHANGE_VOTE_POWER,
@@ -16,8 +15,8 @@ export const getUserProfile = () => async dispatch => {
   await api
     .me(function(err, res) {
       if (String(err).includes("sc2")) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("cToken");
+        localStorage.removeItem("steemToken");
+        localStorage.removeItem("googleToken");
         window.location.reload();
       }
       if (err !== null) {
@@ -58,13 +57,6 @@ export const getUserFollowing = props => async dispatch => {
       console.log(error);
     });
 };
-export const changeLoginStatus = action => dispatch => {
-  return dispatch({
-    type: CHANGE_LOGIN_STATUS,
-    payload: action
-  });
-};
-
 export const getProfileVotes = props => async dispatch => {
   let bucket = [];
   await steem.api

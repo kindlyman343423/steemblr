@@ -1,6 +1,6 @@
 import sc2 from "sc2-sdk";
 
-const token = localStorage.getItem("token");
+const token = localStorage.getItem("steemToken");
 // prettier-ignore
 const api = sc2.Initialize({
   app: 'steembler.app',

@@ -82,16 +82,6 @@ export const UsernameContainer = styled.span`
     text-overflow: ellipsis;
   }
 `;
-export const CardAvatar = styled.div`
-  background: url(${props => props.url});
-  width: 40px;
-  height: 40px;
-  background-size: cover;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-content: flex-start;
-`;
 
 export const Avatar2 = styled.img`
   width: 40px;
@@ -105,7 +95,7 @@ export const BtnContainer = styled.div`
     height: 50%;
   }
 `;
-export const CardFooter = styled.div`
+export const FooterContainer = styled.div`
   border-radius: 2px;
   z-index: 500;
   background-color: #fff;
@@ -119,7 +109,7 @@ export const TagContainer = styled.div`
   white-space: nowrap;
   text-overflow: ellipsis;
 `;
-export const FooterActions = styled.div`
+export const FooterActionsContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;

@@ -1,4 +1,4 @@
-import defaultApp from "../environment";
+import defaultApp from "../../environment";
 const checkProfile = props => {
   if (props === undefined) {
     return void 0;
@@ -6,16 +6,16 @@ const checkProfile = props => {
   const dbRef = defaultApp
     .firestore()
     .collection("users")
-    .doc(props)
-    .collection("blog")
-    .doc("layout");
+    .doc(props);
 
   //checking if profile exist in database to decide about loading user blog
   return dbRef
     .get()
     .then(doc => {
-      if (doc.exists) {
+      if (doc.exists && doc.data().owner === props) {
         return true;
+      } else if (doc.exists && doc.data().owner !== props) {
+        return "taken";
       } else {
         return false;
       }

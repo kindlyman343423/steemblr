@@ -12,7 +12,7 @@ export default class RedirectLoginToken extends Component {
         .pop()
         .split("&")
         .shift();
-      localStorage.setItem("token", accessToken);
+      localStorage.setItem("steemToken", accessToken);
       window.location = "home";
     }
   }

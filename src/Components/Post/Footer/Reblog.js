@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import PostCreator from "../../NewPost/";
+import PostCreator from "NewPost/";
 
-import store from "../../store";
-import newPostType from "../../actions/newPostType";
+import store from "../../../store";
+import newPostType from "actions/newPostType";
 
 import {
   newPostModal,
@@ -12,9 +12,9 @@ import {
   newPostIsError,
   editingExistingPost,
   newPostIsReblogging
-} from "../../actions/newPostInterface";
-import { putRebloggedPost } from "../../actions/newPostBody";
-import { existingPostPermlink } from "../../actions/newPostPermlink";
+} from "actions/newPostInterface";
+import { putRebloggedPost } from "actions/newPostBody";
+import { existingPostPermlink } from "actions/newPostPermlink";
 import Icon from "react-icons-kit";
 
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
@@ -72,7 +72,7 @@ export default class AddNew extends Component {
 
         <Icon
           icon={ic_repeat}
-          size={20}
+          size={30}
           onClick={() => this.handleNewModal("text")}
         />
       </Container>

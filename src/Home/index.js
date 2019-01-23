@@ -9,7 +9,7 @@ import UserBlog from "./UserBlog";
 import { connect } from "react-redux";
 import Modal from "react-modal";
 import FirstLoad from "./FirstLoad";
-import checkProfile from "../Functions/checkProfile";
+import checkProfile from "../Functions/Firebase/checkProfile";
 import delay from "../Functions/delay";
 import { Redirect } from "react-router-dom";
 const Layout = styled.div`
@@ -75,7 +75,9 @@ class Home extends Component {
 
     this.state = {
       text: "",
-      isOpen: false
+      isOpen: false,
+      username: "",
+      logout: false
     };
     this.modalStyle = {
       content: {
@@ -84,20 +86,37 @@ class Home extends Component {
       }
     };
   }
-  componentDidMount() {
-    this.handleProps();
+  async componentDidMount() {
+    await this.handleProps();
   }
   async handleProps() {
-    if (this.props.steemProfile.profile._id === undefined) {
-      await delay(200);
-      this.handleProps();
-    } else {
-      checkProfile(this.props.steemProfile.profile._id).then(value => {
-        if (value === false) {
-          this.setState({
-            isOpen: true
-          });
-        }
+    const platform = this.props.login.platform;
+    if (platform === "steem") {
+      if (this.props.steemProfile.profile._id === undefined) {
+        await delay(200);
+        this.handleProps();
+      } else {
+        checkProfile(this.props.steemProfile.profile._id).then(value => {
+          if (value === false) {
+            this.setState({
+              isOpen: true
+            });
+          } else if (value === "taken") {
+            //For now when the blog name is taken you wont login with your steem account
+            alert("This username is already taken you cant login");
+            this.setState({
+              logout: true
+            });
+          } else {
+            this.setState({
+              username: this.props.steemProfile.profile._id
+            });
+          }
+        });
+      }
+    } else if (platform === "email") {
+      this.setState({
+        username: this.props.profile.displayName
       });
     }
   }
@@ -112,24 +131,25 @@ class Home extends Component {
     });
   };
   render() {
+    const { login } = this.props;
+    const { logout, isOpen } = this.state;
     return (
       <div className="container">
-        {this.props.login.status === false ? <Redirect to="/" /> : void 0}
-        <Modal isOpen={this.state.isOpen} style={this.modalStyle}>
+        {login.status === false ? <Redirect to="/" /> : void 0}
+        {logout && <Redirect to="/logout" />}
+        <Modal isOpen={isOpen} style={this.modalStyle}>
           <FirstLoad handleClose={this.handleClose} />
         </Modal>
         <HeaderContainer>
           <Header />
         </HeaderContainer>
         <Layout>
-          <UserBlog user={this.props.steemProfile} />
+          <UserBlog username={login.username} platform={login.platform} />
           <PostsContainer>
             <AddNew />
             <PostsLoader />
           </PostsContainer>
-          <SidebarContainer>
-            <Sidebar />
-          </SidebarContainer>
+          <SidebarContainer />
         </Layout>
       </div>
     );
@@ -137,6 +157,7 @@ class Home extends Component {
 }
 const mapStateToProps = state => ({
   steemProfile: state.steemProfile,
+  profile: state.profile,
   login: state.login
 });
 export default hot(module)(connect(mapStateToProps)(Home));

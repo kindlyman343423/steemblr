@@ -2,25 +2,19 @@ import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import { Link } from "react-router-dom";
 import {
-  tagStyles,
   Container,
   CardHeader,
-  CardAvatar,
   CardTitle,
   UsernameContainer,
-  BtnContainer,
-  CardFooter,
-  TagContainer,
-  FooterActions
+  BtnContainer
 } from "./Post.styles";
-import CommentsModal from "./CommentsModal";
 import CardContent from "./CardContent";
+import CardAvatar from "./CardAvatar";
+import CardFooter from "./Footer/";
 import ProfileHover from "./ProfileHover";
-import ShareMenu from "./ShareMenu";
-import EditPost from "./EditPost";
-import Reblog from "./Reblog";
+
 import delay from "../../Functions/delay";
-import checkValueState from "../../Functions/checkValueState";
+
 import getVoteWorth from "../../Functions/getVoteWorth";
 
 import FollowBtn from "./FollowBtn";
@@ -30,8 +24,6 @@ import { FormattedRelative } from "react-intl";
 import followSteem from "../.././Functions/followSteem";
 
 import Icon from "react-icons-kit";
-import { ic_message } from "react-icons-kit/md/ic_message";
-import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
 import store from "../../store";
 import BlogModal from "../../Blog/BlogModal";
@@ -50,12 +42,7 @@ class Post extends Component {
       isBlogModalOpen: false,
       isFollowing: this.props.isFollowing,
       votePercent: this.props.voteStatus.percent,
-      value: checkValueState([
-        this.props.post.total_payout_value.replace("SBD", ""),
-        this.props.post.pending_payout_value.replace("SBD", ""),
-        this.props.post.total_pending_payout_value.replace("STEEM", ""),
-        this.props.post.curator_payout_value.replace("SBD", "")
-      ]),
+      value: 0,
       allowEdit: this.props.post.author === this.props.username
     };
 
@@ -143,10 +130,9 @@ class Post extends Component {
   }
 
   render() {
-    const heartIconStyle = {
-      cursor: "pointer",
-      color: this.props.voteStatus.percent > 0 ? "red" : "black"
-    };
+    const { post } = this.props;
+    const { username, votePercent } = this.state;
+
     return (
       <LazyLoad height={600}>
         {this.state.isBlogModalOpen ? (
@@ -166,11 +152,7 @@ class Post extends Component {
               }`}
               target="_blank"
             >
-              <CardAvatar
-                url={`https://steemitimages.com/u/${
-                  this.props.post.author
-                }/avatar`}
-              />
+              <CardAvatar platform={post.platform} author={post.author} />
             </Link>
             <CardTitle>
               <UsernameContainer>
@@ -183,11 +165,12 @@ class Post extends Component {
                 >
                   <b onClick={this.handleBlogModal}>{this.props.post.author}</b>
                 </HoverIntet>
-
-                <FormattedRelative
-                  {...this.props}
-                  value={this.props.post.created + "Z"}
-                />
+                {post.platform === "steem" && (
+                  <FormattedRelative
+                    {...this.props}
+                    value={this.props.post.created + "Z"}
+                  />
+                )}
               </UsernameContainer>
 
               <p>
@@ -238,6 +221,7 @@ class Post extends Component {
           </CardHeader>
           {this.props.post.is_reblogged && (
             <CardContent
+              post={post}
               isReblogged={true}
               post_type={this.props.post.reblogged_post.post_type}
               section={this.props.section}
@@ -251,6 +235,8 @@ class Post extends Component {
           )}
 
           <CardContent
+            post={post}
+            platform={post.platform}
             isReblogged={false}
             post_type={this.props.post.post_type}
             section={this.props.section}
@@ -261,78 +247,12 @@ class Post extends Component {
             }
             json_metadata={this.props.post.json_metadata}
           />
-          <CardFooter>
-            <TagContainer>
-              {this.props.post.tags !== undefined &&
-              this.props.post.tags.filter(tag => {
-                return tag === this.props.post.category;
-              }).length === 0 ? (
-                <Link
-                  key={this.props.post.category}
-                  style={tagStyles}
-                  to={`/search/${this.props.post.category}/new`}
-                >
-                  #{this.props.post.category}
-                </Link>
-              ) : (
-                void 0
-              )}
 
-              {this.props.post.tags === undefined
-                ? ""
-                : this.props.post.tags.map(tag => {
-                    return (
-                      <Link
-                        key={tag}
-                        style={tagStyles}
-                        to={`/search/${tag}/new`}
-                      >
-                        #{tag}
-                      </Link>
-                    );
-                  })}
-            </TagContainer>
-            <FooterActions>
-              <span>${Number(this.state.value).toFixed(2)}</span>
-              <span>
-                {this.state.allowEdit && <EditPost post={this.props.post} />}
-                <ShareMenu
-                  postAuthor={this.props.post.author}
-                  postPermlink={this.props.post.permlink}
-                />
-                <Reblog
-                  permlink={this.props.post.permlink}
-                  post={this.props.post}
-                />
-                {this.state.shouldOpenComments ? (
-                  <CommentsModal
-                    likesNumber={this.props.post.net_votes}
-                    postAuthor={this.props.post.author}
-                    postPermlink={this.props.post.permlink}
-                    username={this.props.username}
-                    children={this.props.post.children}
-                  />
-                ) : (
-                  <Icon
-                    icon={ic_message}
-                    size={20}
-                    style={{ cursor: "pointer" }}
-                    onClick={() =>
-                      this.setState({
-                        shouldOpenComments: true
-                      })
-                    }
-                  />
-                )}
-                <Icon
-                  size={20}
-                  icon={ic_favorite}
-                  style={heartIconStyle}
-                  onClick={this.handleVoteBtn}
-                />
-              </span>
-            </FooterActions>
-          </CardFooter>
+          <CardFooter
+            post={post}
+            username={username}
+            votePercent={votePercent}
+          />
         </Container>
       </LazyLoad>
     );

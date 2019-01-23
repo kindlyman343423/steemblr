@@ -74,7 +74,7 @@ class PostCreator extends Component {
         return <Photo showForm={this.showForm} />;
       case "gifs":
         return <Photo showForm={this.showForm} />;
-      case "quote":
+      case "quotes":
         return <Quote showForm={this.showForm} />;
       case "audio":
         return <Audio showForm={this.showForm} />;

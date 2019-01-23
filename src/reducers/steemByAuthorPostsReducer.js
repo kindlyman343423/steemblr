@@ -1,6 +1,7 @@
 import {
   GET_POSTS_BY_AUTHOR,
-  REMOVE_AUTHOR_POSTS_FROM_STATE
+  REMOVE_AUTHOR_POSTS_FROM_STATE,
+  UPDATE_POST_BY_AUTHOR
 } from "../actions/types";
 
 const initialState = {
@@ -15,6 +16,11 @@ export default function(state = initialState, action) {
         posts: action.payload
       };
     case REMOVE_AUTHOR_POSTS_FROM_STATE:
+      return {
+        ...state,
+        posts: action.payload
+      };
+    case UPDATE_POST_BY_AUTHOR:
       return {
         ...state,
         posts: action.payload

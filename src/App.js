@@ -14,7 +14,6 @@ import { connect } from "react-redux";
 import {
   getUserProfile,
   getUserFollowing,
-  getProfileVotes,
   getSteemTrendingPosts
 } from "./actions/steemActions";
 import { changeLoginStatus, getLoggedProfile } from "./actions/stateActions";
@@ -117,7 +116,6 @@ class App extends Component {
         }),
         await this.props.getUserProfile(),
         await this.props.getUserFollowing(this.props.steemProfile.profile._id),
-        await this.props.getProfileVotes(this.props.steemProfile.profile._id),
         await this.handleFirebaseLogin(),
         await this.props.getUserSettings()
       ]).then(() => {
@@ -253,7 +251,6 @@ export default connect(
     getUserProfile,
     getUserFollowing,
     changeLoginStatus,
-    getProfileVotes,
     getSteemTrendingPosts,
     getUserSettings,
     getLoggedProfile

@@ -119,5 +119,6 @@ export const FooterActionsContainer = styled.div`
   span {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
 `;

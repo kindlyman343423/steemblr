@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import ShareMenu from "Components/Post/Footer/ShareMenu";
 import Reblog from "Components/Post/Footer/Reblog";
-
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
-import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import EditPost from "Components/Post/Footer/EditPost";
 import checkValueState from "Functions/checkValueState";
 import store from "../../../store";
@@ -16,6 +14,7 @@ import styled from "styled-components";
 import CommentsContainer from "Blog/Post/Footer/CommentsContainer";
 import { FooterActionsContainer, FooterItem } from "../Post.styles";
 import { FormattedRelative } from "react-intl";
+import UpvoteButton from "Components/Post/Footer/UpvoteButton";
 const Actions = styled.span`
   display: flex;
   align-items: center;
@@ -25,9 +24,10 @@ export default class FooterActions extends Component {
     super(props);
     this.state = {
       value: 0,
-      weight: this.props.votePercent,
       userPlatform: store.getState().login.platform,
-      shouldOpenComments: false
+      shouldOpenComments: false,
+      allowEdit: false,
+      actions: 0
     };
   }
 
@@ -43,7 +43,12 @@ export default class FooterActions extends Component {
     });
   }
   componentDidMount() {
+    const login = store.getState().login;
+    const profile = store.getState().profile;
     const { post } = this.props;
+    this.setState({
+      actions: post.actions
+    });
     if (post.platform === "steem") {
       this.setState({
         value: checkValueState([
@@ -52,6 +57,11 @@ export default class FooterActions extends Component {
           post.total_pending_payout_value.replace("STEEM", ""),
           post.curator_payout_value.replace("SBD", "")
         ])
+      });
+    }
+    if (login.status && profile.uid === post.uid) {
+      this.setState({
+        allowEdit: true
       });
     }
   }
@@ -120,13 +130,20 @@ export default class FooterActions extends Component {
       store.dispatch(removeVoteFromState(props));
     }
   };
+  updateValue = async props => {
+    const { value, actions } = this.state;
+
+    const vote = await getVoteWorth();
+    this.setState({
+      actions: props > 0 ? actions + 1 : actions - 1,
+      value:
+        props > 0 ? Number(value) - Number(vote) : Number(value) + Number(vote)
+    });
+  };
   render() {
-    const { post, username } = this.props;
-    const { value, weight, shouldOpenComments } = this.state;
-    const heartIconStyle = {
-      cursor: "pointer",
-      color: weight > 0 ? "red" : "black"
-    };
+    const { post, username, votePercent } = this.props;
+    const { value, shouldOpenComments } = this.state;
+
     return (
       <FooterActionsContainer>
         <FooterItem>
@@ -157,14 +174,16 @@ export default class FooterActions extends Component {
                 })
               }
             />
-            {post.platform === "steem" && (
-              <Icon
-                size={30}
-                icon={ic_favorite}
-                style={heartIconStyle}
-                onClick={this.handleVoteBtn}
-              />
-            )}
+            <UpvoteButton
+              platform={post.platform}
+              upvotes={post.upvotes}
+              activeVotes={post.active_votes}
+              votePercent={votePercent}
+              permlink={post.permlink}
+              author={post.author}
+              updateValue={this.updateValue}
+              location={"blog"}
+            />
           </FooterItem>
         </FooterItem>
         {shouldOpenComments && (

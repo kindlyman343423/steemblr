@@ -78,19 +78,6 @@ const BannerActions = styled.div`
     align-items: center;
   }
 `;
-
-const Avatar = styled.div`
-  background: url(${props => props.url});
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: ${props => props.avatarShape};
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  left: calc(50% - 50px);
-  margin-top: -60px;
-  top: 0;
-`;
 const BlogTitle = styled.div`
   @font-face {
     font-family: ${props => props.font.family};

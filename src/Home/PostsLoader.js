@@ -9,7 +9,6 @@ import "./index.css";
 import { connect } from "react-redux";
 import {
   getUserFollowing,
-  getProfileVotes,
   getSteemFeedPosts,
   getUserProfile
 } from ".././actions/steemActions";
@@ -41,7 +40,6 @@ class PostsLoader extends Component {
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.updateFollowingState = this.updateFollowingState.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
-    this.handleVoting = this.handleVoting.bind(this);
     this.renderWaypoint = this.renderWaypoint.bind(this);
   }
   async updateFollowingState(props) {
@@ -130,40 +128,6 @@ class PostsLoader extends Component {
       return <EndMessage>No more posts to load</EndMessage>;
     }
   }
-
-  async handleVoting(username, author, permlink, votePercent) {
-    const login = store.getState().login.status;
-    if (login) {
-      if (votePercent === 0) {
-        await steemVote(
-          username,
-          author,
-          permlink,
-          store.getState().votePower.power
-        );
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: store.getState().votePower.power
-          },
-          true
-        );
-      } else if (votePercent > 0) {
-        await steemVote(username, author, permlink, 0);
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: 0
-          },
-          false
-        );
-      }
-    } else {
-      alert("You have to login first");
-    }
-  }
   checkVoteStatus(props) {
     const find = this.props.steemProfileVotes.votes.find(
       o => o.permlink === props
@@ -195,7 +159,6 @@ class PostsLoader extends Component {
             updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
-            handleVoting={this.handleVoting}
             homeComponent={true}
             width="100%"
             section="home"
@@ -213,7 +176,6 @@ class PostsLoader extends Component {
             updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
-            handleVoting={this.handleVoting}
             homeComponent={true}
             width="100%"
             section="home"
@@ -250,7 +212,6 @@ export default connect(
   {
     getUserProfile,
     getUserFollowing,
-    getProfileVotes,
     getNewPosts,
     getSteemFeedPosts,
     postFollowingToState,

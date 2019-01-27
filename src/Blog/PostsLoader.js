@@ -3,10 +3,9 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Spinner from ".././Components/Spinner";
 import Post from "./Post/";
-import steemVote from ".././Functions/Steem/steemVote";
 //REDUX
 import { connect } from "react-redux";
-import { getUserFollowing, getProfileVotes } from ".././actions/steemActions";
+import { getUserFollowing } from ".././actions/steemActions";
 import { getPostsByAuthor } from "../actions/getPostsByAuthor";
 import getSinglePost from "../actions/getSinglePost";
 import {
@@ -45,7 +44,6 @@ class PostsLoader extends Component {
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.updateFollowingState = this.updateFollowingState.bind(this);
     this.updateVotingState = this.updateVotingState.bind(this);
-    this.handleVoting = this.handleVoting.bind(this);
     this.renderWaypoint = this.renderWaypoint.bind(this);
   }
   async updateFollowingState(props) {
@@ -130,40 +128,6 @@ class PostsLoader extends Component {
       return <EndMessage>No more posts to load</EndMessage>;
     }
   }
-
-  async handleVoting(username, author, permlink, votePercent) {
-    const login = store.getState().login.status;
-    if (login) {
-      if (votePercent === 0) {
-        await steemVote(
-          username,
-          author,
-          permlink,
-          store.getState().votePower.power
-        );
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: store.getState().votePower.power
-          },
-          true
-        );
-      } else if (votePercent > 0) {
-        await steemVote(username, author, permlink, 0);
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: 0
-          },
-          false
-        );
-      }
-    } else {
-      alert("You have to login first");
-    }
-  }
   checkVoteStatus(props) {
     const find = this.props.steemProfileVotes.votes.find(
       o => o.permlink === props
@@ -197,7 +161,6 @@ class PostsLoader extends Component {
             updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
-            handleVoting={this.handleVoting}
             homeComponent={true}
             width="100%"
           />
@@ -217,7 +180,6 @@ class PostsLoader extends Component {
             updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
-            handleVoting={this.handleVoting}
             homeComponent={true}
             width="100%"
           />
@@ -263,7 +225,6 @@ export default connect(
   mapStateToProps,
   {
     getUserFollowing,
-    getProfileVotes,
     getPostsByAuthor,
     postFollowingToState,
     removeAuthorPostsFromState,

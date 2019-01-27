@@ -57,29 +57,6 @@ export const getUserFollowing = props => async dispatch => {
       console.log(error);
     });
 };
-export const getProfileVotes = props => async dispatch => {
-  let bucket = [];
-  await steem.api
-    .getAccountVotesAsync(props)
-    .then(result => {
-      result.map(vote => {
-        return bucket.push({
-          permlink: vote.authorperm,
-          percent: vote.percent
-        });
-      });
-    })
-    .then(res =>
-      dispatch({
-        type: GET_PROFILE_VOTES,
-        payload: bucket
-      })
-    )
-    .catch(error => {
-      console.log(error);
-    });
-};
-
 export const getSteemTrendingPosts = props => async dispatch => {
   const query = {
     tag: props.tag,

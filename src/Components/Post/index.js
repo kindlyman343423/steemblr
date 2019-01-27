@@ -51,7 +51,6 @@ class Post extends Component {
     });
 
     this.handleFollowBtn = this.handleFollowBtn.bind(this);
-    this.handleVoteBtn = this.handleVoteBtn.bind(this);
     this.handleProfileHover = this.handleProfileHover.bind(this);
     this.handleProfileUsernameHover = this.handleProfileUsernameHover.bind(
       this
@@ -66,28 +65,6 @@ class Post extends Component {
       followSteem(this.props.username, this.props.post.author);
       this.setState({
         isFollowing: true
-      });
-    } else {
-      alert("You have to login first");
-    }
-  }
-  async handleVoteBtn() {
-    const login = store.getState().login.status;
-    if (login) {
-      this.props.handleVoting(
-        this.props.username,
-        this.props.post.author,
-        this.props.post.permlink,
-        this.state.votePercent
-      );
-      const vote = await getVoteWorth();
-
-      await this.setState({
-        votePercent: store.getState().votePower.power,
-        value:
-          this.state.votePercent > 0
-            ? Number(this.state.value) - Number(vote)
-            : Number(this.state.value) + Number(vote)
       });
     } else {
       alert("You have to login first");

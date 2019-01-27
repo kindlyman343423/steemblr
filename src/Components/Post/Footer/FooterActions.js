@@ -65,12 +65,19 @@ export default class FooterActions extends Component {
   }
   updateValue = async props => {
     const { value, actions } = this.state;
-
-    const vote = await getVoteWorth();
+    const { post } = this.props;
+    const login = store.getState().login;
+    if (login.platform === "steem" && post.platform === "steem") {
+      const vote = await getVoteWorth();
+      this.setState({
+        value:
+          props > 0
+            ? Number(value) - Number(vote)
+            : Number(value) + Number(vote)
+      });
+    }
     this.setState({
-      actions: props > 0 ? actions + 1 : actions - 1,
-      value:
-        props > 0 ? Number(value) - Number(vote) : Number(value) + Number(vote)
+      actions: props > 0 ? actions + 1 : actions - 1
     });
   };
   render() {

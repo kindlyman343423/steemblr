@@ -81,7 +81,7 @@ export default class UpvoteButton extends Component {
       if (weight === 0) {
         if (platform === "email") {
           //voting on non-blockchain posts
-          upvotePost({ permlink: permlink, weight: 1 });
+          await upvotePost({ permlink: permlink, weight: 1 });
           this.setState({
             weight: 1
           });
@@ -131,7 +131,7 @@ export default class UpvoteButton extends Component {
       //If user logged in with steem account
       if (weight === 0) {
         //upvoting the post
-        upvotePost({
+        await upvotePost({
           permlink: permlink,
           weight: 1
         });
@@ -141,7 +141,7 @@ export default class UpvoteButton extends Component {
         });
       } else if (weight > 0) {
         //unvoting the post
-        upvotePost({
+        await upvotePost({
           permlink: permlink,
           weight: 0
         });

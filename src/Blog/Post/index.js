@@ -86,7 +86,7 @@ class Post extends Component {
         )}
         {post.is_reblogged && (
           <CardContent
-            post={post}
+            post={post.reblogged_post}
             isReblogged={true}
             post_type={post.reblogged_post.post_type}
             section={"home"}

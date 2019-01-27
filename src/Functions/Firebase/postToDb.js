@@ -32,7 +32,6 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
     children: 0,
     active_votes: [],
     title: newPost.title,
-    actions: 0,
     comments: [],
     upvotes: [],
     rebloggs: []

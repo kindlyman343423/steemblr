@@ -15,6 +15,7 @@ import CommentsContainer from "Blog/Post/Footer/CommentsContainer";
 import { FooterActionsContainer, FooterItem } from "../Post.styles";
 import { FormattedRelative } from "react-intl";
 import UpvoteButton from "Components/Post/Footer/UpvoteButton";
+import countActions from "Functions/countActions";
 const Actions = styled.span`
   display: flex;
   align-items: center;
@@ -26,8 +27,7 @@ export default class FooterActions extends Component {
       value: 0,
       userPlatform: store.getState().login.platform,
       shouldOpenComments: false,
-      allowEdit: false,
-      actions: 0
+      allowEdit: false
     };
   }
 
@@ -112,7 +112,7 @@ export default class FooterActions extends Component {
     }
   };
   updateValue = async props => {
-    const { value, actions } = this.state;
+    const { value } = this.state;
     const { post } = this.props;
     const login = store.getState().login;
     if (login.platform === "steem" && post.platform === "steem") {
@@ -124,9 +124,6 @@ export default class FooterActions extends Component {
             : Number(value) + Number(vote)
       });
     }
-    this.setState({
-      actions: props > 0 ? actions + 1 : actions - 1
-    });
   };
   render() {
     const { post, username, votePercent } = this.props;
@@ -144,7 +141,7 @@ export default class FooterActions extends Component {
               </span>
             </FooterItem>
           ) : (
-            <Actions>{post.actions}</Actions>
+            <Actions>{countActions(post)}</Actions>
           )}
           <FooterItem>
             {this.state.allowEdit && <EditPost post={post} />}

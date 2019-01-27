@@ -12,7 +12,7 @@ import getVoteWorth from "Functions/getVoteWorth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import UpvoteButton from "./UpvoteButton";
-
+import countActions from "Functions/countActions";
 const Actions = styled.span`
   display: flex;
   align-items: center;
@@ -24,8 +24,7 @@ export default class FooterActions extends Component {
       value: 0,
       weight: 0,
       userPlatform: store.getState().login.platform,
-      allowEdit: false,
-      actions: 0
+      allowEdit: false
     };
   }
   componentDidMount() {
@@ -64,7 +63,7 @@ export default class FooterActions extends Component {
     });
   }
   updateValue = async props => {
-    const { value, actions } = this.state;
+    const { value } = this.state;
     const { post } = this.props;
     const login = store.getState().login;
     if (login.platform === "steem" && post.platform === "steem") {
@@ -76,10 +75,8 @@ export default class FooterActions extends Component {
             : Number(value) + Number(vote)
       });
     }
-    this.setState({
-      actions: props > 0 ? actions + 1 : actions - 1
-    });
   };
+
   render() {
     const { post, username, votePercent } = this.props;
     const { value } = this.state;
@@ -89,7 +86,7 @@ export default class FooterActions extends Component {
         {post.platform === "steem" ? (
           <span>${Number(value).toFixed(2)}</span>
         ) : (
-          <Actions>{post.actions}</Actions>
+          <Actions>{countActions(post)}</Actions>
         )}
         <span>
           {this.state.allowEdit && <EditPost post={post} />}

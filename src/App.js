@@ -24,6 +24,9 @@ import colors from "./styles/colors";
 import { injectGlobal } from "styled-components";
 import { IntlProvider } from "react-intl";
 import Loadable from "react-loadable";
+import Terms from "./Components/Terms";
+import CookieConsent from "react-cookie-consent";
+import GPDRModal from "./Components/GPDRModal";
 Modal.setAppElement("#root");
 function Loading(props) {
   if (props.error) {
@@ -97,7 +100,8 @@ class App extends Component {
       googleToken: localStorage.getItem("googleToken") !== null ? true : false,
       steemProfile: [],
       followings: "",
-      fetchingData: true
+      fetchingData: true,
+      gpdrAccepted: localStorage.getItem("gpdrAccepted") !== null ? true : false
     };
   }
   async componentDidMount() {
@@ -178,6 +182,7 @@ class App extends Component {
     firebaseAuth();
   }
   render() {
+    const { login, gpdrAccepted } = this.state;
     if (this.state.fetchingData) {
       return <LoadingSpin />;
     } else {
@@ -185,13 +190,14 @@ class App extends Component {
         <IntlProvider locale={navigator.language}>
           <Router>
             <div id="root" className="App">
+              {gpdrAccepted === false && <GPDRModal />}
               <Route exact path="/" component={Intro} />
               <Route
                 exact
                 path="/home"
-                render={props => <Home {...props} login={this.state.login} />}
+                render={props => <Home {...props} login={login} />}
               />
-              {window.location.pathname === "/" && this.state.login === true ? (
+              {window.location.pathname === "/" && login === true ? (
                 <Redirect to="/home" />
               ) : (
                 void 0
@@ -205,15 +211,12 @@ class App extends Component {
               />
               <Route
                 path="/explore"
-                render={props => (
-                  <Explore {...props} login={this.state.login} />
-                )}
+                render={props => <Explore {...props} login={login} />}
               />
-
               <Route path="/redirect" component={RedirectLoginToken} />
               <Route
                 path="/search/:tag/:category"
-                render={props => <Search {...props} login={this.state.login} />}
+                render={props => <Search {...props} login={login} />}
               />
               <Route path="/@:username" render={props => <Blog {...props} />} />
               <Route
@@ -228,6 +231,18 @@ class App extends Component {
                 path="/customize/:username/:option"
                 render={props => <EditTheme {...props} />}
               />
+              <Route path="/termsofservice" component={Terms} />
+
+              <CookieConsent
+                style={{ background: "#000a12" }}
+                buttonStyle={{
+                  backgroundColor: "#fff",
+                  color: "#000",
+                  fontSize: "13px"
+                }}
+              >
+                This website uses cookies to enhance the user experience.
+              </CookieConsent>
             </div>
           </Router>
         </IntlProvider>

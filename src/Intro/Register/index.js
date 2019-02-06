@@ -41,6 +41,13 @@ const Form = styled.form`
     width: 250px;
   }
 `;
+const Terms = styled.div`
+  width: 250px;
+  color: #fff;
+  padding: 10px;
+  font-size: 12px;
+`;
+
 const UsernameContainer = styled.div`
   position: relative;
 
@@ -209,6 +216,18 @@ export default class Register extends Component {
                 />
               )}
             </UsernameContainer>
+            <Terms>
+              By clicking submit, you agree to our{" "}
+              <a
+                href="/termsofservice"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Terms
+              </a>.
+            </Terms>
+
             {isSending || isUsernameTaken ? (
               <RegisterBtn type="submit" disabled>
                 Submit

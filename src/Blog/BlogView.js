@@ -158,7 +158,6 @@ export default class Blog extends Component {
       coverImageUrl: coverImage
     });
   }
-
   render() {
     const query = {
       author: this.props.match.params.username,
@@ -213,6 +212,7 @@ export default class Blog extends Component {
           >
             {account.show_avatar && (
               <BlogAvatar
+                url={account.avatar}
                 platform={account.platform}
                 author={account.author}
                 avatarShape={account.avatar_shape === "circle" ? "50%" : 0}

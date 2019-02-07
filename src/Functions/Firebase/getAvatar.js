@@ -7,13 +7,20 @@ const getAvatar = async props => {
 
   const storage = defaultApp.storage();
   const path = storage.ref("avatars/" + props);
+  const default_avatar = storage
+    .ref("defaults/default_avatar")
+    .getDownloadURL()
+    .then(url => {
+      return url;
+    })
+    .catch(err => err);
   return await path
     .getDownloadURL()
     .then(url => {
       return url;
     })
     .catch(err => {
-      console.log(err);
+      return default_avatar;
     });
 };
 

@@ -22,8 +22,16 @@ export default class Quote extends Component {
     this.state = { source: "" };
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+  componentDidMount() {
+    const isEditing = store.getState().newPostInterface.editingExistingPost;
+    if (isEditing) {
+      this.setState({
+        source: store.getState().newPost.quoteSource
+      });
+    }
+  }
   handleInputChange(e) {
-    const input = `<i>- ${e.target.value}</i>`;
+    const input = e.target.value;
     this.setState({
       [e.target.name]: e.target.value
     });

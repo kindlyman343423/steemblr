@@ -21,7 +21,7 @@ const newPost = async () => {
     tagsNSFWCheck(uniqueTags),
     storeState.newPost.type,
     uniqueTagsForDB,
-    post.body
+    post.steemblr_body
   );
 };
 

@@ -108,7 +108,7 @@ export default class UpvoteButton extends Component {
         //unvoting post
         if (platform === "email") {
           //voting on non-blockchain posts
-          upvotePost({ permlink: permlink, weight: 0 });
+          await upvotePost({ permlink: permlink, weight: 0 });
           this.setState({
             weight: 0
           });

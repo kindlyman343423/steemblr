@@ -4,9 +4,13 @@ import Modal from "react-modal";
 import colors from "styles/colors";
 const Container = styled.div`
   background: #fff;
-  z-index: 99999;
-  position: fixed:
-  top: 100px;
+  padding-bottom: 50px;
+`;
+const BtnContainer = styled.div`
+  position: fixed;
+  bottom: 50px;
+  right: 70px;
+  background: rgba(200, 200, 200, 0.5);
 `;
 const AcceptBtn = styled.button`
   padding: 10px;
@@ -17,6 +21,8 @@ const AcceptBtn = styled.button`
   font-weight: 700;
   transition: 0.1s;
   border-radius: 2px;
+  width: 150px;
+  height: 55px;
   cursor: pointer;
   &:hover {
     background-color: ${colors.buttons.loginHover};
@@ -310,7 +316,9 @@ export default class PrivacyPolicy extends Component {
             </li>
           </ul>
         </Container>
-        <AcceptBtn onClick={this.handleAccept}>Accept</AcceptBtn>
+        <BtnContainer>
+          <AcceptBtn onClick={this.handleAccept}>Accept</AcceptBtn>
+        </BtnContainer>
       </Modal>
     );
   }

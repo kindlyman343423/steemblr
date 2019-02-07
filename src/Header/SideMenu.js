@@ -99,6 +99,7 @@ class SideMenu extends Component {
   }
 
   render() {
+    const { login } = this.props;
     return (
       <StyledDiv>
         <Icon
@@ -134,17 +135,30 @@ class SideMenu extends Component {
           <NavLink to="/settings/account">
             <MenuItem>Settings</MenuItem>
           </NavLink>
-          <MenuItem>
-            Voting Power: {this.state.votingWeight} % <br />
-            <Slider
-              type="range"
-              min={1}
-              max={100}
-              value={this.state.votingWeight}
-              onChange={this.handleVotingSlider}
-              onBlur={this.handleVotingSliderDragStop}
-            />
-          </MenuItem>
+          {login.platform === "steem" && (
+            <MenuItem>
+              Voting Power: {this.state.votingWeight} % <br />
+              <Slider
+                type="range"
+                min={1}
+                max={100}
+                value={this.state.votingWeight}
+                onChange={this.handleVotingSlider}
+                onBlur={this.handleVotingSliderDragStop}
+              />
+            </MenuItem>
+          )}
+
+          <NavLink to="/termsofservice">
+            <MenuItem>Terms of service</MenuItem>
+          </NavLink>
+          <a
+            href="https://discord.gg/hHmZgk6"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <MenuItem>Discord</MenuItem>
+          </a>
           <NavLink to="/logout">
             <MenuItem>Logout</MenuItem>
           </NavLink>
@@ -154,7 +168,8 @@ class SideMenu extends Component {
   }
 }
 const mapStateToProps = state => ({
-  votePower: state.votePower
+  votePower: state.votePower,
+  login: state.login
 });
 export default connect(
   mapStateToProps,

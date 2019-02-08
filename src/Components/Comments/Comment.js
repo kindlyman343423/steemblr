@@ -283,7 +283,7 @@ class Comment extends Component {
     }
   };
   render() {
-    const { platform, postPermlink, comment, comLocation } = this.props;
+    const { platform, comment, comLocation } = this.props;
     const { firebaseReplies } = this.state;
     return (
       <Container>

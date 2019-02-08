@@ -46,35 +46,32 @@ export default class AddNew extends Component {
     this.unMountChildren = this.unMountChildren.bind(this);
   }
   handleNewModal(name) {
+    const { post } = this.props;
     store.dispatch(
       newPostBody(
-        this.props.post.steemblr_body === undefined
-          ? this.props.post.body
-          : this.props.post.steemblr_body
+        post.steemblr_body === undefined ? post.body : post.steemblr_body
       )
     );
-    store.dispatch(newPostTitle(this.props.post.title));
-    store.dispatch(newPostTags(this.props.post.tags));
-    if (
-      this.props.post.post_type === "photos" ||
-      this.props.post.post_type === "gifs"
-    ) {
-      const photo = JSON.parse(this.props.post.json_metadata).image;
-      store.dispatch(newPostPhoto(photo));
-    } else if (this.props.post.post_type === "video") {
-      store.dispatch(newPostVideo(this.props.post.video));
-    } else if (this.props.post.post_type === "audio") {
-      store.dispatch(newPostAudio(this.props.post.audio));
-    } else if (this.props.post.post_type === "quotes") {
-      store.dispatch(newPostQuote(this.props.post.quote));
-      store.dispatch(newPostQuoteSource(this.props.post.quoteSource));
+    store.dispatch(newPostTitle(post.title));
+    store.dispatch(newPostTags(post.tags));
+    if (post.post_type === "photos" || post.post_type === "gifs") {
+      store.dispatch(newPostPhoto(post.photo));
+    } else if (post.post_type === "video") {
+      store.dispatch(newPostVideo(post.video));
+    } else if (post.post_type === "audio") {
+      store.dispatch(newPostAudio(post.audio));
+    } else if (post.post_type === "quotes") {
+      store.dispatch(newPostQuote(post.quote));
+      store.dispatch(newPostQuoteSource(post.quoteSource));
     }
     store.dispatch(newPostIsReblogging(false));
     store.dispatch(newPostForm(true));
     store.dispatch(newPostIsError(false));
     store.dispatch(editingExistingPost(true));
-    store.dispatch(existingPostPermlink(this.props.post.root_permlink));
-    store.dispatch(existingPostParentPermlink(this.props.post.parent_permlink));
+    store.dispatch(existingPostPermlink(post.permlink));
+    if (post.platform === "steem") {
+      store.dispatch(existingPostParentPermlink(post.parent_permlink));
+    }
     this.setState({
       open: false,
       [name]: true,
@@ -100,7 +97,7 @@ export default class AddNew extends Component {
 
         <Icon
           icon={ic_edit}
-          size={20}
+          size={30}
           onClick={() => this.handleNewModal(this.props.post.post_type)}
         />
       </Container>

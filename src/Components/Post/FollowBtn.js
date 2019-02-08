@@ -1,6 +1,11 @@
 import styled from "styled-components";
-
-const FollowBtn = styled.button`
+import React, { Component } from "react";
+import store from "../../store";
+import follow from "Functions/Firebase/follow";
+import getUserSettings from "actions/getUserSettings";
+import { connect } from "react-redux";
+import { is } from "immutable";
+const Button = styled.button`
   cursor: pointer;
   font-family: "Roboto", sans-serif;
   font-size: 16px;
@@ -17,4 +22,77 @@ const FollowBtn = styled.button`
   @media (max-width: 425px) {
   }
 `;
-export default FollowBtn;
+class FollowBtn extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isFollowing: false
+    };
+  }
+  componentDidMount() {
+    const username = store.getState().login.username;
+    this.setState({
+      username: username
+    });
+    this.checkFollowing();
+  }
+  componentDidUpdate(prevProps) {
+    const { following } = this.props;
+    if (following !== prevProps.following) {
+      this.checkFollowing();
+    }
+  }
+  checkFollowing = () => {
+    const { author, following } = this.props;
+    const state = following;
+    const find = state.find(obj => obj.username === author);
+    if (find) {
+      this.setState({ isFollowing: true });
+    } else {
+      this.setState({
+        isFollowing: false
+      });
+    }
+  };
+  handleButton = async () => {
+    const login = store.getState().login.status;
+    if (login) {
+      const { author, platform, following } = this.props;
+      const { isFollowing } = this.state;
+      if (following.length === 100 && isFollowing === false) {
+        return alert("You can't follow more than 100 people.");
+      }
+      await follow({
+        usernameToFollow: author,
+        platform: platform,
+        action: isFollowing ? "unfollow" : "follow"
+      });
+      await store.dispatch(getUserSettings());
+      this.checkFollowing();
+    } else {
+      alert("You have to login first");
+    }
+  };
+  render() {
+    const { isFollowing, username } = this.state;
+    const { author } = this.props;
+    if (username === author) {
+      return <span />;
+    }
+    return (
+      <Button onClick={this.handleButton}>
+        {isFollowing ? "Unfollow" : "Follow"}
+      </Button>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  following: state.userSettings.following
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(FollowBtn);

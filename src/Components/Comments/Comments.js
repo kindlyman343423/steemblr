@@ -59,14 +59,7 @@ class Comments extends Component {
   }
 
   async updateComments(props) {
-    const {
-      postAuthor,
-      postPermlink,
-      origin,
-      inReply,
-      replyTo,
-      comLocation
-    } = this.props;
+    const { postAuthor, postPermlink, origin, comLocation } = this.props;
     if (props === "steem") {
       await delay(3000);
       const apiCall = await getContentReplies(postAuthor, postPermlink);

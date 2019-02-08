@@ -108,22 +108,23 @@ export default class PostForm extends Component {
           </Buttons>
         </Form>
       );
+    } else {
+      return (
+        <Form onSubmit={e => this.handleSend(e)}>
+          {isReblogged && <PostHeader />}
+          {isReblogged && <RebloggedPost />}
+          {isSending && <SpinnerOverlay />}
+          <Title />
+          <TextEditor />
+          <Tags />
+          <Buttons>
+            <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
+            <SendBtn type="submit" value="submit">
+              Send
+            </SendBtn>
+          </Buttons>
+        </Form>
+      );
     }
-    return (
-      <Form onSubmit={e => this.handleSend(e)}>
-        {isReblogged && <PostHeader />}
-        {isReblogged && <RebloggedPost />}
-        {isSending && <SpinnerOverlay />}
-        <Title />
-        <TextEditor />
-        <Tags />
-        <Buttons>
-          <CloseBtn onClick={this.handleClose}>Close</CloseBtn>
-          <SendBtn type="submit" value="submit">
-            Send
-          </SendBtn>
-        </Buttons>
-      </Form>
-    );
   }
 }

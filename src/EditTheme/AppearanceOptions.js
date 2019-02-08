@@ -8,6 +8,7 @@ import { editTheme } from "../actions/editTheme";
 
 import FontPicker from "font-picker-react";
 import uploadHeader from "../Functions/uploadHeader";
+import uploadAvatar from "../Functions/Firebase/uploadAvatar";
 import { Icon } from "react-icons-kit";
 import { checkboxUnchecked } from "react-icons-kit/icomoon/checkboxUnchecked";
 import { radioUnchecked } from "react-icons-kit/icomoon/radioUnchecked";
@@ -196,7 +197,21 @@ class AppearanceOptions extends Component {
       store.dispatch(editTheme(props));
     });
   };
-
+  handleAvatarUpload = async e => {
+    const size = e.target.files[0].size;
+    if (size > 584673) {
+      alert("Image has to be smaller than 570 kb");
+    } else {
+      await uploadAvatar(e.target.files[0]).then(response => {
+        const props = {
+          author: this.props.login.username,
+          property: "avatar",
+          value: response
+        };
+        store.dispatch(editTheme(props));
+      });
+    }
+  };
   render() {
     const { login, steemAccounts } = this.props;
     const account = steemAccounts.accounts.filter(acc => {
@@ -232,11 +247,25 @@ class AppearanceOptions extends Component {
               Upload
               <FileInput
                 type="file"
-                name="show_header_image"
+                name="upload_header_image"
                 onChange={this.handleUpload}
               />
             </FileInputLabel>
           </OptionContainerRow>
+          {login.platform === "email" && (
+            <OptionContainerRow>
+              <span>Avatar image</span>
+              <FileInputLabel for="file">
+                Upload
+                <FileInput
+                  type="file"
+                  name="upload_avatar_image"
+                  onChange={this.handleAvatarUpload}
+                />
+              </FileInputLabel>
+            </OptionContainerRow>
+          )}
+
           <OptionContainerRow>
             <span>Avatar shape</span>
             <span>

@@ -9,11 +9,9 @@ import {
   CardTitle,
   UsernameContainer
 } from "./Post.styles";
-import getVoteWorth from "../../Functions/getVoteWorth";
 import CardContent from "../../Components/Post/CardContent";
 import Icon from "react-icons-kit";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
-import store from "../../store";
 import { injectIntl } from "react-intl";
 import CardFooter from "./Footer/";
 class Post extends Component {
@@ -32,30 +30,6 @@ class Post extends Component {
     this.setState({
       username: this.props.username
     });
-
-    this.handleVoteBtn = this.handleVoteBtn.bind(this);
-  }
-  async handleVoteBtn() {
-    const login = store.getState().login.status;
-    if (login) {
-      this.props.handleVoting(
-        this.props.username,
-        this.props.post.author,
-        this.props.post.permlink,
-        this.state.votePercent
-      );
-      const vote = await getVoteWorth();
-
-      await this.setState({
-        votePercent: store.getState().votePower.power,
-        value:
-          this.state.votePercent > 0
-            ? Number(this.state.value) - Number(vote)
-            : Number(this.state.value) + Number(vote)
-      });
-    } else {
-      alert("You have to login first");
-    }
   }
   render() {
     const { post } = this.props;
@@ -86,7 +60,7 @@ class Post extends Component {
         )}
         {post.is_reblogged && (
           <CardContent
-            post={post}
+            post={post.reblogged_post}
             isReblogged={true}
             post_type={post.reblogged_post.post_type}
             section={"home"}

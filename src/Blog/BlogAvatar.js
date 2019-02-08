@@ -31,6 +31,13 @@ export default class BlogAvatar extends Component {
       url: URL
     });
   }
+  componentDidUpdate(prevProps) {
+    if (this.props.url !== prevProps.url) {
+      this.setState({
+        url: this.props.url
+      });
+    }
+  }
   render() {
     const { url } = this.state;
     const { avatarShape } = this.props;

@@ -5,15 +5,14 @@ import CommentsModal from "./CommentsModal";
 import { FooterActionsContainer } from "../Post.styles";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
-import { ic_favorite } from "react-icons-kit/md/ic_favorite";
 import EditPost from "./EditPost";
 import checkValueState from "Functions/checkValueState";
 import store from "../../../store";
-import steemVote from "Functions/Steem/steemVote";
-import { postVoteToState, removeVoteFromState } from "actions/stateActions";
 import getVoteWorth from "Functions/getVoteWorth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import UpvoteButton from "./UpvoteButton";
+import countActions from "Functions/countActions";
 const Actions = styled.span`
   display: flex;
   align-items: center;
@@ -23,100 +22,71 @@ export default class FooterActions extends Component {
     super(props);
     this.state = {
       value: 0,
-      weight: this.props.votePercent,
-      userPlatform: store.getState().login.platform
+      weight: 0,
+      userPlatform: store.getState().login.platform,
+      allowEdit: false
     };
   }
-
+  componentDidMount() {
+    const login = store.getState().login;
+    const profile = store.getState().profile;
+    const { post } = this.props;
+    this.setState({
+      actions: post.actions
+    });
+    if (post.platform === "steem") {
+      this.setState({
+        value: checkValueState([
+          post.total_payout_value.replace("SBD", ""),
+          post.pending_payout_value.replace("SBD", ""),
+          post.total_pending_payout_value.replace("STEEM", ""),
+          post.curator_payout_value.replace("SBD", "")
+        ])
+      });
+    }
+    if (login.status && profile.uid === post.uid) {
+      this.setState({
+        allowEdit: true
+      });
+    }
+  }
   handleValue() {
     //checking value of the post
+    const { post } = this.props;
     this.setState({
       value: checkValueState([
-        this.props.post.total_payout_value.replace("SBD", ""),
-        this.props.post.pending_payout_value.replace("SBD", ""),
-        this.props.post.total_pending_payout_value.replace("STEEM", ""),
-        this.props.post.curator_payout_value.replace("SBD", "")
+        post.total_payout_value.replace("SBD", ""),
+        post.pending_payout_value.replace("SBD", ""),
+        post.total_pending_payout_value.replace("STEEM", ""),
+        post.curator_payout_value.replace("SBD", "")
       ])
     });
   }
-  handleVoting = async (username, author, permlink, votePercent) => {
-    //casting a vote to the blockchain and dispatching to redux store
-    const login = store.getState().login.status;
-    if (login) {
-      if (votePercent === 0) {
-        await steemVote(
-          username,
-          author,
-          permlink,
-          store.getState().votePower.power
-        );
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: store.getState().votePower.power
-          },
-          true
-        );
-        this.setState({
-          weight: store.getState().votePower.power
-        });
-      } else if (votePercent > 0) {
-        await steemVote(username, author, permlink, 0);
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: 0
-          },
-          false
-        );
-        this.setState({
-          weight: 0
-        });
-      }
-    } else {
-      alert("You have to login first");
-    }
-  };
-  handleVoteBtn = async () => {
-    const login = store.getState().login;
-    const { post, username, votePercent } = this.props;
+  updateValue = async props => {
     const { value } = this.state;
-    if (login.status && login.platform === "steem") {
-      this.handleVoting(username, post.author, post.permlink, votePercent);
+    const { post } = this.props;
+    const login = store.getState().login;
+    if (login.platform === "steem" && post.platform === "steem") {
       const vote = await getVoteWorth();
-
-      await this.setState({
-        votePercent: store.getState().votePower.power,
+      this.setState({
         value:
-          votePercent > 0
+          props > 0
             ? Number(value) - Number(vote)
             : Number(value) + Number(vote)
       });
-    } else {
-      alert("You have to login first");
     }
   };
-  updateVotingState = (props, action) => {
-    if (action === true) {
-      store.dispatch(postVoteToState(props));
-    } else if (action === false) {
-      store.dispatch(removeVoteFromState(props));
-    }
-  };
+
   render() {
-    const { post, username } = this.props;
-    const { value, weight } = this.state;
-    const heartIconStyle = {
-      cursor: "pointer",
-      color: weight > 0 ? "red" : "black"
-    };
+    const { post, username, votePercent } = this.props;
+    const { value } = this.state;
+
     return (
       <FooterActionsContainer>
         {post.platform === "steem" ? (
           <span>${Number(value).toFixed(2)}</span>
         ) : (
-          <Actions>{post.actions}</Actions>
+          <Actions>{countActions(post)}</Actions>
         )}
         <span>
           {this.state.allowEdit && <EditPost post={post} />}
@@ -146,14 +116,15 @@ export default class FooterActions extends Component {
               }
             />
           )}
-          {post.platform === "steem" && (
-            <Icon
-              size={30}
-              icon={ic_favorite}
-              style={heartIconStyle}
-              onClick={this.handleVoteBtn}
-            />
-          )}
+          <UpvoteButton
+            platform={post.platform}
+            upvotes={post.upvotes}
+            activeVotes={post.active_votes}
+            votePercent={votePercent}
+            permlink={post.permlink}
+            author={post.author}
+            updateValue={this.updateValue}
+          />
         </span>
       </FooterActionsContainer>
     );

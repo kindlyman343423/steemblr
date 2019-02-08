@@ -69,7 +69,11 @@ class PostCreator extends Component {
     store.dispatch(newPostForm(true));
   };
   renderTypeComponents = () => {
-    switch (this.props.newPost.type) {
+    const { newPost, newPostInterface } = this.props;
+    if (newPostInterface.editingExistingPost && newPost.type === "quotes") {
+      return void 0;
+    }
+    switch (newPost.type) {
       case "photos":
         return <Photo showForm={this.showForm} />;
       case "gifs":
@@ -110,6 +114,7 @@ class PostCreator extends Component {
         transform: "translate(-50%, -50%)"
       }
     };
+    const { newPost } = this.props;
     return (
       <Modal isOpen={this.props.newPostInterface.modal} style={modalStyle}>
         {this.props.newPostInterface.isError && (

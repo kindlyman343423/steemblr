@@ -78,19 +78,6 @@ const BannerActions = styled.div`
     align-items: center;
   }
 `;
-
-const Avatar = styled.div`
-  background: url(${props => props.url});
-  background-size: cover;
-  background-repeat: no-repeat;
-  border-radius: ${props => props.avatarShape};
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  left: calc(50% - 50px);
-  margin-top: -60px;
-  top: 0;
-`;
 const BlogTitle = styled.div`
   @font-face {
     font-family: ${props => props.font.family};
@@ -162,6 +149,7 @@ export default class BlogModal extends Component {
       initial: true
     };
     const { account } = this.state;
+    const { post } = this.props;
     if (this.state.account === undefined) {
       return "";
     } else {
@@ -196,15 +184,7 @@ export default class BlogModal extends Component {
               <Link to={"/@" + this.props.post.author}>
                 {this.props.post.author}
               </Link>
-              {this.props.isFollowing ||
-              store.getState().steemProfile.profile.user ===
-                this.props.post.author ? (
-                void 0
-              ) : (
-                <FollowBtn onClick={this.props.handleFollowBtn}>
-                  Follow
-                </FollowBtn>
-              )}
+              <FollowBtn author={post.author} platform={account.platform} />
             </BannerActions>
 
             {account.show_header_image ? (

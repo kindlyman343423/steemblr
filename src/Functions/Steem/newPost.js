@@ -8,6 +8,7 @@ import {
   newPostIsError,
   newPostErrorMsg
 } from "../../actions/newPostInterface";
+import rebloggedBody from "./rebloggedBody";
 const newPost = async () => {
   const post = makePost();
   const storeState = store.getState();
@@ -23,18 +24,9 @@ const newPost = async () => {
       store.getState().steemProfile.profile.user
     }/` + uuid}">View this post on steemblr</a>`
   ];
-  const rebloggedFooter = [
-    `</br>
-    <a href="${`https://steemblr.com/post/@${
-      store.getState().steemProfile.profile.user
-    }/` + uuid}">View this post on steemblr</a>
-    </br>
-    <p>Reblog of a <a href="${`https://steemblr.com/post/@${
-      rebloggedPost.author
-    }/${rebloggedPost.permlink}`}">post made by ${rebloggedPost.author}</a>.
-    Original author is getting 47.5% beneficiary rewards.</p>`
-  ];
+
   store.dispatch(newPostIsError(false));
+
   if (isEditing) {
     await api
       .broadcast([
@@ -80,7 +72,7 @@ const newPost = async () => {
             author: store.getState().steemProfile.profile.user, //AUTHOR
             permlink: uuid, //permlink of the post
             title: post.title, //Title of the post
-            body: post.body.concat(rebloggedFooter),
+            body: rebloggedBody({ post: post.body, uuid: uuid }).body,
             json_metadata: JSON.stringify({
               tags: uniqueTags,
               app: `steemblr/0.1`,
@@ -180,14 +172,13 @@ const newPost = async () => {
         store.dispatch(newPostErrorMsg(err.error_description));
       });
   }
-
   postToDb(
     storeState.steemProfile.profile.user,
     uuid,
     tagsNSFWCheck(uniqueTags),
     storeState.newPost.type,
     uniqueTagsForDB,
-    post.body
+    post.steemblr_body
   );
 };
 

@@ -12,15 +12,26 @@ export const getAccounts = props => async dispatch => {
     .doc(props[0])
     .collection("blog")
     .doc("layout");
+  const platform = await defaultApp
+    .firestore()
+    .collection("users")
+    .doc(props[0])
+    .get()
+    .then(doc => doc.data().platform);
   const search = store.getState().steemAccounts.accounts.filter(acc => {
     return acc.author === props[0];
   });
+
   if (search.length !== 0) {
     return void 0;
   } else {
     await dbRef
       .get()
-      .then(doc => bucket.push(doc.data()))
+      .then(doc => {
+        let account = doc.data();
+        account.platform = platform;
+        return bucket.push(account);
+      })
       .catch(function(error) {
         console.log("Error getting cached document:", error);
       });

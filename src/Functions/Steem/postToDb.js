@@ -56,7 +56,7 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
       steemblr_body: postBody,
       platform: platform,
       photo: [newPost.photo],
-      actions: 0,
+      trending: false,
       comments: [],
       upvotes: [],
       rebloggs: []

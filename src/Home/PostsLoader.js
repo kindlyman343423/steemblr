@@ -9,7 +9,6 @@ import "./index.css";
 import { connect } from "react-redux";
 import {
   getUserFollowing,
-  getProfileVotes,
   getSteemFeedPosts,
   getUserProfile
 } from ".././actions/steemActions";
@@ -40,20 +39,12 @@ class PostsLoader extends Component {
 
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.updateFollowingState = this.updateFollowingState.bind(this);
-    this.updateVotingState = this.updateVotingState.bind(this);
-    this.handleVoting = this.handleVoting.bind(this);
     this.renderWaypoint = this.renderWaypoint.bind(this);
   }
   async updateFollowingState(props) {
     await this.props.postFollowingToState(props);
   }
-  updateVotingState = (props, action) => {
-    if (action === true) {
-      this.props.postVoteToState(props);
-    } else if (action === false) {
-      this.props.removeVoteFromState(props);
-    }
-  };
+
   async loadMorePosts() {
     if (
       Object.keys(this.props.steemPosts.posts).length === 0 ||
@@ -122,46 +113,16 @@ class PostsLoader extends Component {
   renderWaypoint() {
     if (this.state.hasMorePosts) {
       return (
-        <Waypoint scrollableAncestor={window} onEnter={this.loadMorePosts}>
+        <Waypoint
+          scrollableAncestor={window}
+          onEnter={this.loadMorePosts}
+          bottomOffset="-777px"
+        >
           <span style={{ color: "transparent" }}>Loading...</span>
         </Waypoint>
       );
     } else {
       return <EndMessage>No more posts to load</EndMessage>;
-    }
-  }
-
-  async handleVoting(username, author, permlink, votePercent) {
-    const login = store.getState().login.status;
-    if (login) {
-      if (votePercent === 0) {
-        await steemVote(
-          username,
-          author,
-          permlink,
-          store.getState().votePower.power
-        );
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: store.getState().votePower.power
-          },
-          true
-        );
-      } else if (votePercent > 0) {
-        await steemVote(username, author, permlink, 0);
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: 0
-          },
-          false
-        );
-      }
-    } else {
-      alert("You have to login first");
     }
   }
   checkVoteStatus(props) {
@@ -192,10 +153,8 @@ class PostsLoader extends Component {
             isFollowing={this.props.following.users.includes(post.author)}
             key={post.id}
             updateFollowingState={this.updateFollowingState}
-            updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
-            handleVoting={this.handleVoting}
             homeComponent={true}
             width="100%"
             section="home"
@@ -210,10 +169,8 @@ class PostsLoader extends Component {
             isFollowing={this.props.following.users.includes(post.author)}
             key={post.id}
             updateFollowingState={this.updateFollowingState}
-            updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
-            handleVoting={this.handleVoting}
             homeComponent={true}
             width="100%"
             section="home"
@@ -250,7 +207,6 @@ export default connect(
   {
     getUserProfile,
     getUserFollowing,
-    getProfileVotes,
     getNewPosts,
     getSteemFeedPosts,
     postFollowingToState,

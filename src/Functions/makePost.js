@@ -1,30 +1,17 @@
 import store from "../store";
 
 const makePost = () => {
-  const state = store.getState().newPost;
-  const newPostInterface = store.getState().newPostInterface;
+  const gStore = store.getState();
+  const state = gStore.newPost;
 
-  if (newPostInterface.isReblogged === true) {
-    //steemblr_body prop doesn't exist in older posts so it checks
-    //to support reblogging of older posts
-    if (state.reblogged_post.steemblr_body === undefined) {
-      return {
-        ...state,
-        body: state.reblogged_post.body.concat(state.body)
-      };
-    } else {
-      return {
-        ...state,
-        body: state.reblogged_post.body.concat(state.steemblr_body)
-      };
-    }
-  } else if (state.type === "text") {
+  if (state.type === "text") {
     return state;
   } else if (state.type === "photos" || state.type === "gifs") {
     const img = `![](${state.photo})`;
     return {
       type: state.type,
       body: img.concat(state.body),
+      steemblr_body: state.body,
       tags: state.tags,
       title: state.title
     };
@@ -32,6 +19,7 @@ const makePost = () => {
     return {
       type: state.type,
       body: state.video.concat(state.body),
+      steemblr_body: state.body,
       tags: state.tags,
       title: state.title
     };
@@ -39,14 +27,19 @@ const makePost = () => {
     return {
       type: state.type,
       body: state.audio.concat(state.body),
+      steemblr_body: state.body,
       tags: state.tags,
       title: state.title
     };
   } else if (state.type === "quotes") {
+    const quoteHTML = `<blockquote>${state.quote}</blockquote><i>- ${
+      state.quoteSource
+    }</i>`;
     return {
       type: state.type,
-      body: state.quote.concat(state.quoteSource),
+      body: quoteHTML,
       tags: state.tags,
+      steemblr_body: quoteHTML,
       title: state.title
     };
   }

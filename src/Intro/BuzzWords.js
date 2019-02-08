@@ -244,7 +244,6 @@ export default class BuzzWords extends Component {
   render() {
     return (
       <Container id="buzzwords-section">
-        <Waypoint onEnter={() => this.props.handleWaypoints(3)} />
         <Grid>
           <ConceptContainer>
             <h2>Buzzwords</h2>
@@ -296,6 +295,7 @@ export default class BuzzWords extends Component {
           </ConceptContainer>
           <ExplainationsContainer>{this.handleInfo()}</ExplainationsContainer>
         </Grid>
+        <Waypoint onEnter={() => this.props.handleWaypoints(3)} />
         <Footer />
       </Container>
     );

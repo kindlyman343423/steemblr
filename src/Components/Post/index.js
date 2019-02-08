@@ -15,13 +15,10 @@ import ProfileHover from "./ProfileHover";
 
 import delay from "../../Functions/delay";
 
-import getVoteWorth from "../../Functions/getVoteWorth";
-
 import FollowBtn from "./FollowBtn";
 import HoverIntet from "react-hoverintent";
 import LazyLoad from "react-lazyload";
 import { FormattedRelative } from "react-intl";
-import followSteem from "../.././Functions/followSteem";
 
 import Icon from "react-icons-kit";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
@@ -50,8 +47,6 @@ class Post extends Component {
       username: this.props.username
     });
 
-    this.handleFollowBtn = this.handleFollowBtn.bind(this);
-    this.handleVoteBtn = this.handleVoteBtn.bind(this);
     this.handleProfileHover = this.handleProfileHover.bind(this);
     this.handleProfileUsernameHover = this.handleProfileUsernameHover.bind(
       this
@@ -60,39 +55,6 @@ class Post extends Component {
     this.handleBlogModal = this.handleBlogModal.bind(this);
   }
 
-  handleFollowBtn() {
-    const login = store.getState().login.status;
-    if (login) {
-      followSteem(this.props.username, this.props.post.author);
-      this.setState({
-        isFollowing: true
-      });
-    } else {
-      alert("You have to login first");
-    }
-  }
-  async handleVoteBtn() {
-    const login = store.getState().login.status;
-    if (login) {
-      this.props.handleVoting(
-        this.props.username,
-        this.props.post.author,
-        this.props.post.permlink,
-        this.state.votePercent
-      );
-      const vote = await getVoteWorth();
-
-      await this.setState({
-        votePercent: store.getState().votePower.power,
-        value:
-          this.state.votePercent > 0
-            ? Number(this.state.value) - Number(vote)
-            : Number(this.state.value) + Number(vote)
-      });
-    } else {
-      alert("You have to login first");
-    }
-  }
   //Handling Mouse Events
   handleProfileHover() {
     if (this.state.isBlogModalOpen) {
@@ -137,7 +99,7 @@ class Post extends Component {
       <LazyLoad height={600}>
         {this.state.isBlogModalOpen ? (
           <BlogModal
-            post={this.props.post}
+            post={post}
             isOpen={this.state.isBlogModalOpen}
             handleBlogModal={this.handleBlogModal}
           />
@@ -146,12 +108,7 @@ class Post extends Component {
         )}
         <Container>
           <CardHeader>
-            <Link
-              to={`/post/@${this.props.post.author}/${
-                this.props.post.permlink
-              }`}
-              target="_blank"
-            >
+            <Link to={`/post/@${post.author}/${post.permlink}`} target="_blank">
               <CardAvatar platform={post.platform} author={post.author} />
             </Link>
             <CardTitle>
@@ -163,36 +120,36 @@ class Post extends Component {
                   interval={600}
                   timeout={250}
                 >
-                  <b onClick={this.handleBlogModal}>{this.props.post.author}</b>
+                  <b onClick={this.handleBlogModal}>{post.author}</b>
                 </HoverIntet>
                 {post.platform === "steem" && (
                   <FormattedRelative
                     {...this.props}
-                    value={this.props.post.created + "Z"}
+                    value={post.created + "Z"}
                   />
                 )}
               </UsernameContainer>
 
               <p>
-                {this.props.post.is_reblogged && (
+                {post.is_reblogged && (
                   <span>
                     <Icon icon={ic_repeat} size={20} />
                     <b>
                       <Link
-                        to={`/post/@${this.props.post.reblogged_post.author}/${
-                          this.props.post.reblogged_post.permlink
+                        to={`/post/@${post.reblogged_post.author}/${
+                          post.reblogged_post.permlink
                         }`}
                       >
-                        {this.props.post.reblogged_post.author}
+                        {post.reblogged_post.author}
                       </Link>
                     </b>
                   </span>
                 )}{" "}
-                {this.props.post.title}
+                {post.title}
               </p>
               {this.state.isHover ? (
                 <ProfileHover
-                  author={this.props.post.author}
+                  author={post.author}
                   handleProfileDivHover={this.handleProfileDivHover}
                   handleProfileHover={this.handleProfileHover}
                   isFollowing={this.state.isFollowing}
@@ -204,48 +161,33 @@ class Post extends Component {
             </CardTitle>
 
             <BtnContainer>
-              {this.state.isFollowing ||
-              store.getState().steemProfile.profile.user ===
-                this.props.post.author ? (
-                ""
-              ) : (
-                <FollowBtn
-                  onClick={this.handleFollowBtn}
-                  innerWidth={this.state.innerWidth}
-                  componentLocation={this.props.componentLocation}
-                >
-                  Follow
-                </FollowBtn>
-              )}
+              <FollowBtn author={post.author} platform={post.platform} />
             </BtnContainer>
           </CardHeader>
-          {this.props.post.is_reblogged && (
+          {post.is_reblogged && (
             <CardContent
-              post={post}
+              post={post.reblogged_post}
               isReblogged={true}
-              post_type={this.props.post.reblogged_post.post_type}
+              post_type={post.reblogged_post.post_type}
               section={this.props.section}
               text={
-                this.props.post.reblogged_post.steemblr_body === undefined
-                  ? this.props.post.reblogged_post.body
-                  : this.props.post.reblogged_post.steemblr_body
+                post.reblogged_post.steemblr_body === undefined
+                  ? post.reblogged_post.body
+                  : post.reblogged_post.steemblr_body
               }
-              json_metadata={this.props.post.reblogged_post.json_metadata}
+              json_metadata={post.reblogged_post.json_metadata}
             />
           )}
-
           <CardContent
             post={post}
             platform={post.platform}
             isReblogged={false}
-            post_type={this.props.post.post_type}
+            post_type={post.post_type}
             section={this.props.section}
             text={
-              this.props.post.steemblr_body === undefined
-                ? this.props.post.body
-                : this.props.post.steemblr_body
+              post.steemblr_body === undefined ? post.body : post.steemblr_body
             }
-            json_metadata={this.props.post.json_metadata}
+            json_metadata={post.json_metadata}
           />
 
           <CardFooter

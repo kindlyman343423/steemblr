@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import isUpvotedSteem from "Functions/Steem/isUpvoted";
 import isUpvotedFirebase from "Functions/Firebase/isUpvoted";
 import upvotePost from "Functions/Firebase/upvotePost";
+import upvoteSteemPost from "Functions/Firebase/upvoteSteemPost";
 import steemVote from "Functions/Steem/steemVote";
 import { postVoteToState, removeVoteFromState } from "actions/stateActions";
 import PropTypes from "prop-types";
@@ -86,12 +87,17 @@ export default class UpvoteButton extends Component {
             weight: 1
           });
         } else if (platform === "steem") {
+          //voting on steem blockchain posts
           await steemVote(
             login.username,
             author,
             permlink,
             store.getState().votePower.power
           );
+          await upvoteSteemPost({
+            permlink: permlink,
+            weight: store.getState().votePower.power
+          });
           this.props.updateValue(store.getState().votePower.power);
           this.updateVotingState(
             {
@@ -113,7 +119,12 @@ export default class UpvoteButton extends Component {
             weight: 0
           });
         } else if (platform === "steem") {
+          //unvoting steem blockchain post
           await steemVote(login.username, author, permlink, 0);
+          await upvoteSteemPost({
+            permlink: permlink,
+            weight: 0
+          });
           this.props.updateValue(0);
           this.updateVotingState(
             {

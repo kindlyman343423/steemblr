@@ -1,6 +1,6 @@
 import { GET_USER_SETTINGS, EDIT_USER_SETTINGS } from "../actions/types";
 
-const initialState = { isNSFWAllowed: false };
+const initialState = { isNSFWAllowed: false, following: [] };
 
 export default function(state = initialState, action) {
   switch (action.type) {

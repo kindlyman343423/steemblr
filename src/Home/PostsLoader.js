@@ -39,19 +39,12 @@ class PostsLoader extends Component {
 
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.updateFollowingState = this.updateFollowingState.bind(this);
-    this.updateVotingState = this.updateVotingState.bind(this);
     this.renderWaypoint = this.renderWaypoint.bind(this);
   }
   async updateFollowingState(props) {
     await this.props.postFollowingToState(props);
   }
-  updateVotingState = (props, action) => {
-    if (action === true) {
-      this.props.postVoteToState(props);
-    } else if (action === false) {
-      this.props.removeVoteFromState(props);
-    }
-  };
+
   async loadMorePosts() {
     if (
       Object.keys(this.props.steemPosts.posts).length === 0 ||
@@ -120,7 +113,11 @@ class PostsLoader extends Component {
   renderWaypoint() {
     if (this.state.hasMorePosts) {
       return (
-        <Waypoint scrollableAncestor={window} onEnter={this.loadMorePosts}>
+        <Waypoint
+          scrollableAncestor={window}
+          onEnter={this.loadMorePosts}
+          bottomOffset="-777px"
+        >
           <span style={{ color: "transparent" }}>Loading...</span>
         </Waypoint>
       );
@@ -156,7 +153,6 @@ class PostsLoader extends Component {
             isFollowing={this.props.following.users.includes(post.author)}
             key={post.id}
             updateFollowingState={this.updateFollowingState}
-            updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
             homeComponent={true}
@@ -173,7 +169,6 @@ class PostsLoader extends Component {
             isFollowing={this.props.following.users.includes(post.author)}
             key={post.id}
             updateFollowingState={this.updateFollowingState}
-            updateVotingState={this.updateVotingState}
             voteStatus={this.checkVoteStatus(fullPermlink)}
             fullPermlink={fullPermlink}
             homeComponent={true}

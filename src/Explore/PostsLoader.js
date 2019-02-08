@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { hot } from "react-hot-loader";
 import Post from ".././Components/Post/";
-import steemVote from ".././Functions/Steem/steemVote";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
 import Masonry from "react-masonry-css";
 import Spinner from ".././Components/Spinner";
@@ -19,7 +18,6 @@ import {
 } from "../actions/stateActions";
 import getNewPosts from ".././actions/getNewPosts";
 import getTrendingPosts from ".././actions/getTrendingPosts";
-import store from ".././store";
 const Container = styled.div`
   box-sizing: border-box;
   padding-left: 7%;
@@ -55,7 +53,6 @@ class PostsLoader extends Component {
       hasMorePosts: true
     };
 
-    this.updateVotingState = this.updateVotingState.bind(this);
     this.loadMorePosts = this.loadMorePosts.bind(this);
     this.updateDimensions = this.updateDimensions.bind(this);
     this.renderWaypoint = this.renderWaypoint.bind(this);
@@ -149,7 +146,7 @@ class PostsLoader extends Component {
   renderWaypoint() {
     if (this.state.hasMorePosts) {
       return (
-        <Waypoint onEnter={this.loadMorePosts}>
+        <Waypoint onEnter={this.loadMorePosts} bottomOffset="-777px">
           <span style={{ width: "50px", height: "50px" }}>Loading...</span>
         </Waypoint>
       );
@@ -158,13 +155,6 @@ class PostsLoader extends Component {
     }
   }
 
-  async updateVotingState(props, action) {
-    if (action === true) {
-      this.props.postVoteToState(props);
-    } else if (action === false) {
-      this.props.removeVoteFromState(props);
-    }
-  }
   renderPosts() {
     const filtered = this.props.steemPosts.posts.filter(post => {
       return post.author !== undefined;
@@ -179,7 +169,6 @@ class PostsLoader extends Component {
           username={this.props.steemProfile.profile._id}
           isFollowing={this.props.following.users.includes(post.author)}
           key={post.id}
-          updateVotingState={this.updateVotingState}
           voteStatus={this.checkVoteStatus(fullPermlink)}
           fullPermlink={fullPermlink}
           width={width}

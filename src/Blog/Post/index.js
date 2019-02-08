@@ -9,11 +9,9 @@ import {
   CardTitle,
   UsernameContainer
 } from "./Post.styles";
-import getVoteWorth from "../../Functions/getVoteWorth";
 import CardContent from "../../Components/Post/CardContent";
 import Icon from "react-icons-kit";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
-import store from "../../store";
 import { injectIntl } from "react-intl";
 import CardFooter from "./Footer/";
 class Post extends Component {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import store from "../store";
 
 import SideMenu from "../Header/SideMenu";
-import FollowBtn from "../Components/Post/FollowBtn";
+import FollowBtn from "Components/Post/FollowBtn";
 import Spinner from "../Components/Spinner";
 import { getAccounts } from "../actions/getAccounts";
 import PostsLoader from "./PostsLoader";
@@ -185,13 +185,10 @@ export default class Blog extends Component {
                 <img src={logo} alt="logo" />
               </Link>
             </span>
-            {this.props.isFollowing ||
-            store.getState().steemProfile.profile.user ===
-              this.props.match.params.username ? (
-              void 0
-            ) : (
-              <FollowBtn onClick={this.props.handleFollowBtn}>Follow</FollowBtn>
-            )}
+            <FollowBtn
+              author={this.props.match.params.username}
+              platform={account.platform}
+            />
           </BannerActions>
 
           {account.show_header_image ? (

@@ -188,13 +188,10 @@ export default class ProfileHover extends Component {
 
             <HeaderActions>
               <Link to={"/@" + this.props.author}>{this.props.author}</Link>
-              {this.props.isFollowing ? (
-                void 0
-              ) : (
-                <FollowBtn onClick={this.props.handleFollowBtn}>
-                  Follow
-                </FollowBtn>
-              )}
+              <FollowBtn
+                author={this.props.author}
+                platform={account.platform}
+              />
             </HeaderActions>
 
             <Content

@@ -27,6 +27,8 @@ import Loadable from "react-loadable";
 import Terms from "./Components/Terms";
 import CookieConsent from "react-cookie-consent";
 import GPDRModal from "./Components/GPDRModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 Modal.setAppElement("#root");
 function Loading(props) {
   if (props.error) {
@@ -181,6 +183,7 @@ class App extends Component {
     await getFirebaseToken(this.props.steemProfile.profile._id);
     firebaseAuth();
   }
+  notify = props => toast.info(props);
   render() {
     const { login, gpdrAccepted } = this.state;
     if (this.state.fetchingData) {
@@ -243,6 +246,7 @@ class App extends Component {
               >
                 This website uses cookies to enhance the user experience.
               </CookieConsent>
+              <ToastContainer autoClose={8000} />
             </div>
           </Router>
         </IntlProvider>

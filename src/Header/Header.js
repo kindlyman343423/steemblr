@@ -5,7 +5,6 @@ import Dashboard from "./Dashboard";
 import Register from "../Components/RegisterBtn";
 import { hot } from "react-hot-loader";
 import "./Header.css";
-import SearchInputMobile from "./SearchInputMobile";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import SearchInput from "./SearchInput";
@@ -94,10 +93,10 @@ const BtnContainer = styled.div`
   @media (max-width: 768px) {
   }
   @media (max-width: 425px) {
-    padding-left: 10px;
+    padding-left: 20px;
     button {
       font-size: 8px;
-      width: 50px;
+      width: 60px;
       height: 30px;
       margin-right: 0px;
       transform: scale(0.85, 0.85);
@@ -116,9 +115,7 @@ class Header extends Component {
             <Logo />
           </Link>
         </LogoContainer>
-
-        {window.innerWidth > 425 ? <SearchInput /> : <SearchInputMobile />}
-
+        <SearchInput />
         {login.status === true ? (
           <Dashboard />
         ) : (

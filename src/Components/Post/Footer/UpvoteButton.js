@@ -139,7 +139,7 @@ export default class UpvoteButton extends Component {
         }
       }
     } else if (login.status && login.platform === "email") {
-      //If user logged in with steem account
+      //If user logged in with email account
       if (weight === 0) {
         //upvoting the post
         await upvotePost({

@@ -5,7 +5,13 @@ const makePost = () => {
   const state = gStore.newPost;
 
   if (state.type === "text") {
-    return state;
+    return {
+      type: state.type,
+      body: state.body,
+      steemblr_body: state.body,
+      tags: state.tags,
+      title: state.title
+    };
   } else if (state.type === "photos" || state.type === "gifs") {
     const img = `![](${state.photo})`;
     return {

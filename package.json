@@ -10,17 +10,16 @@
     "font-picker-react": "^2.0.4",
     "history": "^4.7.2",
     "image-compressor.js": "^1.1.4",
-    "immutable": "^3.8.2",
     "lodash": "^4.17.10",
     "medium-draft": "^0.6.0-beta1",
     "prop-types": "^15.6.2",
-    "react": "^16.3.2",
+    "react": "^16.8.3",
     "react-anchor-link-smooth-scroll": "^1.0.11",
-    "react-app-rewire-hot-loader": "^1.0.1",
-    "react-app-rewired": "^1.5.0",
+    "react-app-rewire-hot-loader": "^2.0.1",
+    "react-app-rewired": "^2.1.0",
     "react-color": "^2.14.1",
     "react-cookie-consent": "^2.1.0",
-    "react-dom": "^16.3.2",
+    "react-dom": "^16.8.3",
     "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.1.2",
     "react-hoverintent": "^0.0.10",
@@ -59,8 +58,14 @@
     "eslint-plugin-prettier": "^2.6.0",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
-    "react-scripts": "^1.1.1",
+    "react-scripts": "^2.1.5",
     "redux-devtools-extension": "^2.13.2",
     "uuid": "^3.2.1"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

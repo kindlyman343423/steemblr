@@ -194,5 +194,5 @@ UpvoteButton.propTypes = {
   activeVotes: PropTypes.array,
   upvotes: PropTypes.array,
   permlink: PropTypes.string,
-  author: PropTypes.author
+  author: PropTypes.string
 };

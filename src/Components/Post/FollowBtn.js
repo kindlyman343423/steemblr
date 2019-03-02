@@ -4,7 +4,6 @@ import store from "../../store";
 import follow from "Functions/Firebase/follow";
 import getUserSettings from "actions/getUserSettings";
 import { connect } from "react-redux";
-import { is } from "immutable";
 const Button = styled.button`
   cursor: pointer;
   font-family: "Roboto", sans-serif;

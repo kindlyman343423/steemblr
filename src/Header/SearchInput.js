@@ -77,7 +77,7 @@ class SearchInput extends Component {
     const search = this.state.search.replace(/[^a-zA-Z0-9]/g, "");
     if (search.length === 0) {
       toast.warning(
-        "You can't search without input or with special characters only."
+        "You can't perform empty search or with special characters."
       );
       this.setState({
         search: search

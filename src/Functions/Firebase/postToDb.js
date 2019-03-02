@@ -11,40 +11,53 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
   const batch = defaultApp.firestore().batch();
   const isReblogged = store.getState().newPostInterface.isReblogged;
   const newPost = store.getState().newPost;
-  batch.set(dbRef, { permlink: permlink });
-
-  batch.update(dbRef, {
-    uid: store.getState().profile.uid,
-    isNSFW: isNSFW,
-    post_type: postType,
-    timestamp: firestore.FieldValue.serverTimestamp(),
-    tags: tags,
-    video: newPost.video,
-    audio: newPost.audio,
-    quote: newPost.quote,
-    photo: [newPost.photo],
-    quoteSource: newPost.quoteSource,
-    steemblr_body: postBody,
-    platform: platform,
-    trending: false,
-    rating: 0,
-    author: username,
-    children: 0,
-    active_votes: [],
-    title: newPost.title,
-    comments: [],
-    upvotes: [],
-    rebloggs: []
-  });
-  if (isReblogged) {
+  const isEditing = store.getState().newPostInterface.editingExistingPost;
+  if (isEditing) {
     batch.update(dbRef, {
-      reblogged_post: newPost.reblogged_post,
-      is_reblogged: true
+      tags: tags,
+      video: newPost.video,
+      audio: newPost.audio,
+      quote: newPost.quote,
+      photo: Array.isArray(newPost.photo) ? newPost.photo : [newPost.photo],
+      quoteSource: newPost.quoteSource,
+      steemblr_body: postBody,
+      title: newPost.title
     });
   } else {
+    batch.set(dbRef, { permlink: permlink });
     batch.update(dbRef, {
-      is_reblogged: false
+      uid: store.getState().profile.uid,
+      isNSFW: isNSFW,
+      post_type: postType,
+      timestamp: firestore.FieldValue.serverTimestamp(),
+      tags: tags,
+      video: newPost.video,
+      audio: newPost.audio,
+      quote: newPost.quote,
+      photo: [newPost.photo],
+      quoteSource: newPost.quoteSource,
+      steemblr_body: postBody,
+      platform: platform,
+      trending: false,
+      rating: 0,
+      author: username,
+      children: 0,
+      active_votes: [],
+      title: newPost.title,
+      comments: [],
+      upvotes: [],
+      rebloggs: []
     });
+    if (isReblogged) {
+      batch.update(dbRef, {
+        reblogged_post: newPost.reblogged_post,
+        is_reblogged: true
+      });
+    } else {
+      batch.update(dbRef, {
+        is_reblogged: false
+      });
+    }
   }
 
   batch

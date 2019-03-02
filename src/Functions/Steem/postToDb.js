@@ -11,6 +11,8 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
   let bucket = [];
   let bucket2 = [];
   const platform = store.getState().login.platform;
+  const isEditing = store.getState().newPostInterface.editingExistingPost;
+
   if (platform === "steem") {
     await steem.api
       .getContentAsync(author, permlink)
@@ -36,41 +38,52 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
           console.log(error);
         });
     }
-
     const post = bucket2[0];
     const batch = defaultApp.firestore().batch();
     const isReblogged = store.getState().newPostInterface.isReblogged;
     const newPost = store.getState().newPost;
-    batch.set(dbRef, post);
-
-    batch.update(dbRef, {
-      uid: store.getState().profile.uid,
-      isNSFW: isNSFW,
-      post_type: postType,
-      timestamp: firestore.FieldValue.serverTimestamp(),
-      tags: tags,
-      video: store.getState().newPost.video,
-      audio: store.getState().newPost.audio,
-      quote: store.getState().newPost.quote,
-      quoteSource: store.getState().newPost.quoteSource,
-      steemblr_body: postBody,
-      platform: platform,
-      photo: [newPost.photo],
-      trending: false,
-      comments: [],
-      upvotes: [],
-      rebloggs: []
-    });
-
-    if (isReblogged) {
+    if (isEditing) {
       batch.update(dbRef, {
-        reblogged_post: newPost.reblogged_post,
-        is_reblogged: true
+        tags: tags,
+        video: newPost.video,
+        audio: newPost.audio,
+        quote: newPost.quote,
+        photo: Array.isArray(newPost.photo) ? newPost.photo : [newPost.photo],
+        quoteSource: newPost.quoteSource,
+        steemblr_body: postBody,
+        title: newPost.title
       });
     } else {
+      batch.set(dbRef, post);
       batch.update(dbRef, {
-        is_reblogged: false
+        uid: store.getState().profile.uid,
+        isNSFW: isNSFW,
+        post_type: postType,
+        timestamp: firestore.FieldValue.serverTimestamp(),
+        tags: tags,
+        video: store.getState().newPost.video,
+        audio: store.getState().newPost.audio,
+        quote: store.getState().newPost.quote,
+        quoteSource: store.getState().newPost.quoteSource,
+        steemblr_body: postBody,
+        platform: platform,
+        photo: [newPost.photo],
+        trending: false,
+        comments: [],
+        upvotes: [],
+        rebloggs: []
       });
+
+      if (isReblogged) {
+        batch.update(dbRef, {
+          reblogged_post: newPost.reblogged_post,
+          is_reblogged: true
+        });
+      } else {
+        batch.update(dbRef, {
+          is_reblogged: false
+        });
+      }
     }
     batch
       .commit()

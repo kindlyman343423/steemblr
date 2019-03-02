@@ -26,11 +26,12 @@ const FileInputLabel = styled.label`
   border: 2px dashed black;
   border-left: 0;
   flex-direction: column;
-  padding: 50px;
   cursor: pointer;
+  height: 200px;
   width: 100%;
   transition: 500ms ease;
   margin-bottom: 10px;
+
   &:hover {
     transition: 500ms ease;
     border-color: ${colors.events.hover};
@@ -48,8 +49,8 @@ const UrlInputLabel = styled.label`
   border-left: 0;
   border-right: 0;
   flex-direction: column;
-  padding: 50px;
   cursor: pointer;
+  height: 200px;
   width: 100%;
   transition: 500ms ease;
   margin-bottom: 10px;
@@ -75,21 +76,17 @@ const Container = styled.form`
   img {
     width: 100%;
   }
-  input {
-    padding-left: 30px;
-  }
 `;
 const UploadContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 50% 50%;
   @media (max-width: 425px) {
     flex-direction: column;
   }
 `;
 const FileInput = styled.input`
-  display: none;
   opacity: 0;
-  outline: none;
+  display: none;
   cursor: pointer;
 `;
 const ClosePhotoBtn = styled.button`
@@ -106,6 +103,7 @@ const ClosePhotoBtn = styled.button`
     color: red;
   }
 `;
+const FileInputContainer = styled.div``;
 export default class Photo extends Component {
   constructor(props) {
     super(props);
@@ -219,16 +217,19 @@ export default class Photo extends Component {
         {this.state.fromWeb === false &&
           this.state.isUploaded === false && (
             <UploadContainer>
-              <FileInputLabel for="file">
-                <Icon icon={ic_insert_photo} size={50} />
-                Upload photo
+              <FileInputContainer>
                 <FileInput
+                  id="file"
                   type="file"
                   name="file"
                   onChange={this.handleUpload}
                 />
-              </FileInputLabel>
-              <UrlInputLabel for="file" onClick={this.handleOpenTextArea}>
+                <FileInputLabel htmlFor="file">
+                  <Icon icon={ic_insert_photo} size={50} />
+                  Upload photo
+                </FileInputLabel>
+              </FileInputContainer>
+              <UrlInputLabel htmlFor="file" onClick={this.handleOpenTextArea}>
                 <Icon icon={ic_public} size={50} />
                 Add photo from web
                 <UrlButton name="file" />

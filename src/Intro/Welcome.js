@@ -6,7 +6,7 @@ import LoginBtn from "../Components/LoginBtn";
 import RegisterBtn from "../Components/RegisterBtn";
 import logo from "../icons/logo.svg";
 import Logo from "../Components/Logo";
-import Waypoint from "react-waypoint";
+import { Waypoint } from "react-waypoint";
 import Register from "./Register/";
 import Login from "./Login/";
 const Container = styled.section`

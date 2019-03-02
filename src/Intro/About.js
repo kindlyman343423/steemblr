@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Waypoint from "react-waypoint";
+import { Waypoint } from "react-waypoint";
 import styled from "styled-components";
 import colors from "../styles/colors";
 import Icon from "react-icons-kit";

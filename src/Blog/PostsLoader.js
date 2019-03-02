@@ -14,7 +14,7 @@ import {
   removeVoteFromState,
   removeAuthorPostsFromState
 } from "../actions/stateActions";
-import Waypoint from "react-waypoint";
+import { Waypoint } from "react-waypoint";
 import store from ".././store";
 const Container = styled.div`
   margin-top: 25px;

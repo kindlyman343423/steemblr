@@ -1,0 +1,7 @@
+.md-editor-toolbar {
+  margin-left: 120px;
+}
+.title:focus {
+  outline: none;
+  border: 0;
+}

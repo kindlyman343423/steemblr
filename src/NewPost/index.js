@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import CustomImageSideButton from "./ImageSideButton";
-import { injectGlobal } from "styled-components";
 import Modal from "react-modal";
 import { hot } from "react-hot-loader";
 import store from "../store";
@@ -15,16 +14,7 @@ import Video from "./Video/";
 import PostForm from "./Form";
 import Errors from "./Errors";
 import { newPostForm, newPostModal } from "../actions/newPostInterface";
-
-injectGlobal`
-  .md-editor-toolbar {
-    margin-left: 120px;
-  }
-  .title:focus {
-    outline: none;
-    border: 0;
-  }
-`;
+import "./index.css";
 
 class PostCreator extends Component {
   constructor(props) {

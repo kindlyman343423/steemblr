@@ -19,7 +19,7 @@ import {
   removePostsFromState
 } from "../actions/stateActions";
 import getNewPosts from ".././actions/getNewPosts";
-import Waypoint from "react-waypoint";
+import { Waypoint } from "react-waypoint";
 import store from ".././store";
 const Container = styled.div`
   margin-top: 25px;

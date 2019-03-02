@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import styled from "styled-components";
-import Waypoint from "react-waypoint";
+import { Waypoint } from "react-waypoint";
 import Footer from "./Footer";
 const Container = styled.section`
   color: #fff;

@@ -4,7 +4,7 @@ import Post from ".././Components/Post/";
 //import getTrendingPosts from '.././Functions/getTrendingPosts'
 import Masonry from "react-masonry-css";
 import Spinner from ".././Components/Spinner";
-import Waypoint from "react-waypoint";
+import { Waypoint } from "react-waypoint";
 
 import styled from "styled-components";
 //REDUX

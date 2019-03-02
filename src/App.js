@@ -19,9 +19,7 @@ import {
 import { changeLoginStatus, getLoggedProfile } from "./actions/stateActions";
 import getUserSettings from "./actions/getUserSettings";
 import Modal from "react-modal";
-import colors from "./styles/colors";
 
-import { injectGlobal } from "styled-components";
 import { IntlProvider } from "react-intl";
 import Loadable from "react-loadable";
 import Terms from "./Components/Terms";
@@ -88,11 +86,7 @@ const RedirectLoginToken = Loadable({
   loading: Loading,
   delay: 400
 });
-injectGlobal`
-  body {
-    background-color:${colors.background}
-  }
-`;
+
 class App extends Component {
   constructor(props) {
     super(props);

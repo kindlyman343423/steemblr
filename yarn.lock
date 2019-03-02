@@ -8769,13 +8769,13 @@ react-icons-kit@^1.2.1:
     camel-case "^3.0.0"
     prop-types "^15.5.8"
 
-react-image-lightbox@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/react-image-lightbox/-/react-image-lightbox-5.1.0.tgz#b47b904b027c918acdd9efa94dc0a0ddd8125c86"
-  integrity sha512-R46QvffoDBscLQgTl4s3kFxVbnP7a+nIh7AXJNS0EXVeDaa6zKDKtIT+jFeEvs+F9oUHtZfenG1NHhTkO4hEOA==
+react-image-lightbox@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-image-lightbox/-/react-image-lightbox-4.6.0.tgz#14b823a1aaf914f471613dc4ca59d8ce4c3dbf97"
+  integrity sha512-77nhT4D90z1lK8ztR40EiiXp0H/Py7dIccNT993Nq1HT168WXKqVSCmjB6IEA1uxjpkseal/tptTU7eVWoFH1A==
   dependencies:
-    prop-types "^15.6.2"
-    react-modal "^3.6.1"
+    prop-types "^15.5.8"
+    react-modal "^3.1.10"
 
 react-intl@^2.8.0:
   version "2.8.0"
@@ -8814,19 +8814,19 @@ react-masonry-css@^1.0.12:
   resolved "https://registry.yarnpkg.com/react-masonry-css/-/react-masonry-css-1.0.12.tgz#e252a74c0e6d5272f759588232487d707608298a"
   integrity sha512-tDO4dJugSLorlsqZ7WD/yW+OGIWFhUdrSv3VeGYOaFwqwwYwdcXOHh/rsu1PItb/kkmA8iQmpVcweKcZ6RIjmQ==
 
-react-modal@^3.3.2:
-  version "3.4.5"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.4.5.tgz#75a7eefb8f4c8247278d5ce1c41249d7785d9f69"
+react-modal@^3.1.10:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.8.1.tgz#7300f94a6f92a2e17994de0be6ccb61734464c9e"
+  integrity sha512-aLKeZM9pgXpIKVwopRHMuvqKWiBajkqisDA8UzocdCF6S4fyKVfLWmZR5G1Q0ODBxxxxf2XIwiCP8G/11GJAuw==
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.10"
     react-lifecycles-compat "^3.0.0"
     warning "^3.0.0"
 
-react-modal@^3.6.1:
-  version "3.8.1"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.8.1.tgz#7300f94a6f92a2e17994de0be6ccb61734464c9e"
-  integrity sha512-aLKeZM9pgXpIKVwopRHMuvqKWiBajkqisDA8UzocdCF6S4fyKVfLWmZR5G1Q0ODBxxxxf2XIwiCP8G/11GJAuw==
+react-modal@^3.3.2:
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.4.5.tgz#75a7eefb8f4c8247278d5ce1c41249d7785d9f69"
   dependencies:
     exenv "^1.2.0"
     prop-types "^15.5.10"

@@ -11,13 +11,10 @@ import "firebase/auth";
 //REACT ROUTER
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  getUserProfile,
-  getUserFollowing,
-  getSteemTrendingPosts
-} from "./actions/steemActions";
+import { getUserProfile, getSteemTrendingPosts } from "./actions/steemActions";
 import { changeLoginStatus, getLoggedProfile } from "./actions/stateActions";
 import getUserSettings from "./actions/getUserSettings";
+import getFollowing from "./actions/getFollowing";
 import Modal from "react-modal";
 
 import { IntlProvider } from "react-intl";
@@ -95,7 +92,6 @@ class App extends Component {
       steemToken: localStorage.getItem("steemToken") !== null ? true : false,
       googleToken: localStorage.getItem("googleToken") !== null ? true : false,
       steemProfile: [],
-      followings: "",
       fetchingData: true,
       gpdrAccepted: localStorage.getItem("gpdrAccepted") !== null ? true : false
     };
@@ -105,6 +101,7 @@ class App extends Component {
       if (user.displayName !== null) {
         this.handleEmailLogin(user);
         this.props.getLoggedProfile(user);
+        this.props.getFollowing();
       }
     });
 
@@ -132,11 +129,10 @@ class App extends Component {
       });
 
       const profile = await this.props.steemProfile;
-      const followingBucket = await this.props.following.users;
       this.setState({
-        steemProfile: profile,
-        followings: followingBucket
+        steemProfile: profile
       });
+      getFollowing();
     } else {
       this.setState({
         fetchingData: false
@@ -258,14 +254,11 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    getUserProfile,
-    getUserFollowing,
-    changeLoginStatus,
-    getSteemTrendingPosts,
-    getUserSettings,
-    getLoggedProfile
-  }
-)(hot(module)(App));
+export default connect(mapStateToProps, {
+  getUserProfile,
+  changeLoginStatus,
+  getSteemTrendingPosts,
+  getUserSettings,
+  getLoggedProfile,
+  getFollowing
+})(hot(module)(App));

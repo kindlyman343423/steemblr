@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader";
 
 const colors = {
-  background: "#263238",
+  background: "#06162b",
 
   font: {
     normal: "grey",

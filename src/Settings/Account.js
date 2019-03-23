@@ -5,7 +5,8 @@ import styled from "styled-components";
 import colors from "../styles/colors";
 import { connect } from "react-redux";
 import editUserSettings from "../actions/editUserSettings";
-import saveUserSettings from "../Functions/saveUserSettings";
+import saveUserSettings from "../Functions/Firebase/saveUserSettings";
+import { toast } from "react-toastify";
 const Container = styled.div`
   position: relative;
   text-align: left;
@@ -57,8 +58,9 @@ class Account extends Component {
     };
     this.props.editUserSettings(props);
   };
-  save = () => {
-    saveUserSettings();
+  save = async () => {
+    await saveUserSettings();
+    toast.info("Successfully saved!");
   };
   render() {
     return (
@@ -90,7 +92,4 @@ const mapStateToProps = state => ({
   userSettings: state.userSettings
 });
 
-export default connect(
-  mapStateToProps,
-  { editUserSettings }
-)(Account);
+export default connect(mapStateToProps, { editUserSettings })(Account);

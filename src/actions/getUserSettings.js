@@ -20,7 +20,7 @@ const getUserSettings = props => async dispatch => {
       if (doc.exists) {
         dispatch({
           type: GET_USER_SETTINGS,
-          payload: doc.data()
+          payload: doc.data().settings
         });
       } else {
         if (platform === "email") {

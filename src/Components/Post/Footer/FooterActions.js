@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ShareMenu from "./ShareMenu";
 import Reblog from "./Reblog";
 import CommentsModal from "./CommentsModal";
+import ActionsModal from "./ActionsModal";
 import { FooterActionsContainer } from "../Post.styles";
 import Icon from "react-icons-kit";
 import { ic_message } from "react-icons-kit/md/ic_message";
@@ -24,7 +25,9 @@ export default class FooterActions extends Component {
       value: 0,
       weight: 0,
       userPlatform: store.getState().login.platform,
-      allowEdit: false
+      allowEdit: false,
+      shouldOpenComments: false,
+      shouldOpenActions: true
     };
   }
   componentDidMount() {
@@ -79,22 +82,39 @@ export default class FooterActions extends Component {
 
   render() {
     const { post, username, votePercent } = this.props;
-    const { value } = this.state;
+    const {
+      value,
+      allowEdit,
+      shouldOpenActions,
+      shouldOpenComments
+    } = this.state;
 
     return (
       <FooterActionsContainer>
         {post.platform === "steem" ? (
-          <span>${Number(value).toFixed(2)}</span>
+          <span>
+            {shouldOpenActions ? (
+              <ActionsModal post={post} steemValue={value} />
+            ) : (
+              Number(value).toFixed(2)
+            )}
+          </span>
         ) : (
-          <Actions>{countActions(post)}</Actions>
+          <Actions>
+            {shouldOpenActions ? (
+              <ActionsModal post={post} />
+            ) : (
+              countActions(post)
+            )}
+          </Actions>
         )}
         <span>
-          {this.state.allowEdit && <EditPost post={post} />}
+          {allowEdit && <EditPost post={post} />}
           <ShareMenu postAuthor={post.author} postPermlink={post.permlink} />
           {post.platform === "steem" && (
             <Reblog permlink={post.permlink} post={post} />
           )}
-          {this.state.shouldOpenComments ? (
+          {shouldOpenComments ? (
             <CommentsModal
               likesNumber={post.net_votes}
               postAuthor={post.author}

@@ -10,10 +10,12 @@ import {
   UsernameContainer
 } from "./Post.styles";
 import CardContent from "../../Components/Post/CardContent";
+import NSFWOverlay from "../../Components/Post/NSFWOverlay";
 import Icon from "react-icons-kit";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
 import { injectIntl } from "react-intl";
 import CardFooter from "./Footer/";
+import { connect } from "react-redux";
 class Post extends Component {
   constructor(props) {
     super(props);
@@ -31,11 +33,20 @@ class Post extends Component {
       username: this.props.username
     });
   }
+  handleNSFWOverlay = () => {
+    const { login, userSettings, post } = this.props;
+    if (userSettings.isNSFWAllowed) {
+      return void 0;
+    } else if (post.isNSFW && userSettings.isNSFWAllowed === false) {
+      return <NSFWOverlay login={login} />;
+    }
+  };
   render() {
     const { post } = this.props;
     const { username, votePercent } = this.state;
     return (
       <Container>
+        {this.handleNSFWOverlay()}
         {post.is_reblogged && (
           <ReblogHeader>
             <CardTitle>
@@ -105,4 +116,8 @@ class Post extends Component {
     );
   }
 }
-export default hot(module)(injectIntl(Post));
+const mapStateToProps = state => ({
+  login: state.login,
+  userSettings: state.userSettings
+});
+export default connect(mapStateToProps, {})(hot(module)(injectIntl(Post)));

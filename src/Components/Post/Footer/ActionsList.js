@@ -53,6 +53,9 @@ export default class ActionsList extends Component {
     const { post } = this.props;
     const { platformToShow, actions } = this.state;
     if (platformToShow === "steem" && post.platform === "steem") {
+      if (post.active_votes === 0) {
+        return "Empty";
+      }
       return post.active_votes.map(action => {
         action.action = "upvote";
         action.username = action.voter;

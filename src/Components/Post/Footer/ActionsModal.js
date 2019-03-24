@@ -2,24 +2,8 @@ import React, { Component } from "react";
 import countActions from "Functions/countActions";
 import Modal from "react-modal";
 import ActionsList from "./ActionsList";
-import styled from "styled-components";
+import ActionBtn from "Components/ActionBtn";
 
-const ActionBtn = styled.button`
-  outline: none;
-  background-color: #fff;
-  cursor: pointer;
-  width: 50px;
-  height: 25px;
-  color: #000;
-  border: none;
-  :hover {
-    transition: 0.2s;
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  :active {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-`;
 export default class ActionsModal extends Component {
   constructor(props) {
     super(props);
@@ -55,7 +39,7 @@ export default class ActionsModal extends Component {
         maxHeight: "60vh",
         width:
           innerWidth > 768
-            ? "20vw"
+            ? "25vw"
             : innerWidth <= 768 && innerWidth > 425
               ? "40vw"
               : "65vw"

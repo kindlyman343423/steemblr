@@ -15,7 +15,8 @@ import {
   DEL_NEW_POST_AUDIO,
   PUT_EXISTING_POST_PERMLINK,
   PUT_EXISTING_POST_PARENT_PERMLINK,
-  PUT_REBLOGGED_POST_BODY
+  PUT_REBLOGGED_POST_BODY,
+  PUT_NEW_POST_NSFW_STATUS
 } from "../actions/types";
 
 const initialState = {
@@ -32,7 +33,8 @@ const initialState = {
   photo: "",
   permlink: "",
   parent_permlink: "",
-  reblogged_post: {}
+  reblogged_post: {},
+  isNSFW: false
 };
 
 export default function(state = initialState, action) {
@@ -121,6 +123,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         reblogged_post: action.payload
+      };
+    case PUT_NEW_POST_NSFW_STATUS:
+      return {
+        ...state,
+        isNSFW: action.payload
       };
     default:
       return {

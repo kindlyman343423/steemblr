@@ -15,6 +15,7 @@ export const Container = styled.div`
   padding: 0px !important;
   border-radius: 2px;
   text-align: left;
+  position: relative;
   a {
     text-decoration: none;
   }

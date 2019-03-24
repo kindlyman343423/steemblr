@@ -2,7 +2,7 @@ import styled from "styled-components";
 import React, { Component } from "react";
 import store from "../../store";
 import follow from "Functions/Firebase/follow";
-import getUserSettings from "actions/getUserSettings";
+import getFollowing from "actions/getFollowing";
 import { connect } from "react-redux";
 const Button = styled.button`
   cursor: pointer;
@@ -44,8 +44,7 @@ class FollowBtn extends Component {
   }
   checkFollowing = () => {
     const { author, following } = this.props;
-    const state = following;
-    const find = state.find(obj => obj.username === author);
+    const find = following.users.find(obj => obj.username === author);
     if (find) {
       this.setState({ isFollowing: true });
     } else {
@@ -59,7 +58,7 @@ class FollowBtn extends Component {
     if (login) {
       const { author, platform, following } = this.props;
       const { isFollowing } = this.state;
-      if (following.length === 100 && isFollowing === false) {
+      if (following.users.length === 100 && isFollowing === false) {
         return alert("You can't follow more than 100 people.");
       }
       await follow({
@@ -67,7 +66,7 @@ class FollowBtn extends Component {
         platform: platform,
         action: isFollowing ? "unfollow" : "follow"
       });
-      await store.dispatch(getUserSettings());
+      await store.dispatch(getFollowing());
       this.checkFollowing();
     } else {
       alert("You have to login first");
@@ -88,10 +87,7 @@ class FollowBtn extends Component {
 }
 
 const mapStateToProps = state => ({
-  following: state.userSettings.following
+  following: state.following
 });
 
-export default connect(
-  mapStateToProps,
-  {}
-)(FollowBtn);
+export default connect(mapStateToProps, {})(FollowBtn);

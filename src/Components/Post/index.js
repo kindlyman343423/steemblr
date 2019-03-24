@@ -22,9 +22,9 @@ import { FormattedRelative } from "react-intl";
 
 import Icon from "react-icons-kit";
 import { ic_repeat } from "react-icons-kit/md/ic_repeat";
-import store from "../../store";
 import BlogModal from "../../Blog/BlogModal";
-
+import NSFWOverlay from "./NSFWOverlay";
+import { connect } from "react-redux";
 class Post extends Component {
   constructor(props) {
     super(props);
@@ -90,11 +90,17 @@ class Post extends Component {
       isOverHoverDivHover: false
     });
   }
-
+  handleNSFWOverlay = () => {
+    const { login, userSettings, post } = this.props;
+    if (userSettings.isNSFWAllowed) {
+      return void 0;
+    } else if (post.isNSFW && userSettings.isNSFWAllowed === false) {
+      return <NSFWOverlay login={login} />;
+    }
+  };
   render() {
     const { post } = this.props;
     const { username, votePercent } = this.state;
-
     return (
       <LazyLoad height={600}>
         {this.state.isBlogModalOpen ? (
@@ -107,6 +113,7 @@ class Post extends Component {
           void 0
         )}
         <Container>
+          {this.handleNSFWOverlay()}
           <CardHeader>
             <Link to={`/post/@${post.author}/${post.permlink}`} target="_blank">
               <CardAvatar platform={post.platform} author={post.author} />
@@ -200,4 +207,8 @@ class Post extends Component {
     );
   }
 }
-export default hot(module)(Post);
+const mapStateToProps = state => ({
+  login: state.login,
+  userSettings: state.userSettings
+});
+export default connect(mapStateToProps, {})(hot(module)(Post));

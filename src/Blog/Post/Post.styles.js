@@ -16,6 +16,7 @@ export const Container = styled.div`
   margin-bottom: 20px;
   border-radius: 2px;
   text-align: left;
+  position: relative;
   a {
     text-decoration: none;
   }

@@ -27,7 +27,7 @@ const postToDb = async (author, permlink, isNSFW, postType, tags, postBody) => {
     batch.set(dbRef, { permlink: permlink });
     batch.update(dbRef, {
       uid: store.getState().profile.uid,
-      isNSFW: isNSFW,
+      isNSFW: store.getState().newPost.isNSFW,
       post_type: postType,
       timestamp: firestore.FieldValue.serverTimestamp(),
       tags: tags,

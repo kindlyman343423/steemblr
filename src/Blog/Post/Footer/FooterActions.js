@@ -6,8 +6,6 @@ import { ic_message } from "react-icons-kit/md/ic_message";
 import EditPost from "Components/Post/Footer/EditPost";
 import checkValueState from "Functions/checkValueState";
 import store from "../../../store";
-import steemVote from "Functions/Steem/steemVote";
-import { postVoteToState, removeVoteFromState } from "actions/stateActions";
 import getVoteWorth from "Functions/getVoteWorth";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -16,6 +14,8 @@ import { FooterActionsContainer, FooterItem } from "../Post.styles";
 import { FormattedRelative } from "react-intl";
 import UpvoteButton from "Components/Post/Footer/UpvoteButton";
 import countActions from "Functions/countActions";
+import ActionsContainer from "./ActionsContainer";
+import ActionBtn from "Components/ActionBtn";
 const Actions = styled.span`
   display: flex;
   align-items: center;
@@ -27,6 +27,7 @@ export default class FooterActions extends Component {
       value: 0,
       userPlatform: store.getState().login.platform,
       shouldOpenComments: false,
+      shouldOpenActions: false,
       allowEdit: false
     };
   }
@@ -65,52 +66,6 @@ export default class FooterActions extends Component {
       });
     }
   }
-  handleVoting = async (username, author, permlink, votePercent) => {
-    //casting a vote to the blockchain and dispatching to redux store
-    const login = store.getState().login;
-    if (login.status && login.platform === "steem") {
-      if (votePercent === 0) {
-        await steemVote(
-          username,
-          author,
-          permlink,
-          store.getState().votePower.power
-        );
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: store.getState().votePower.power
-          },
-          true
-        );
-        this.setState({
-          weight: store.getState().votePower.power
-        });
-      } else if (votePercent > 0) {
-        await steemVote(username, author, permlink, 0);
-
-        this.updateVotingState(
-          {
-            permlink: author + "/" + permlink,
-            percent: 0
-          },
-          false
-        );
-        this.setState({
-          weight: 0
-        });
-      }
-    } else {
-      alert("You have to login first");
-    }
-  };
-  updateVotingState = (props, action) => {
-    if (action === true) {
-      store.dispatch(postVoteToState(props));
-    } else if (action === false) {
-      store.dispatch(removeVoteFromState(props));
-    }
-  };
   updateValue = async props => {
     const { value } = this.state;
     const { post } = this.props;
@@ -125,23 +80,39 @@ export default class FooterActions extends Component {
       });
     }
   };
+  toggleActions = () => {
+    this.setState({
+      shouldOpenActions: !this.state.shouldOpenActions,
+      shouldOpenComments: false
+    });
+  };
+  toggleComments = () => {
+    this.setState({
+      shouldOpenComments: !this.state.shouldOpenComments,
+      shouldOpenActions: false
+    });
+  };
   render() {
     const { post, username, votePercent } = this.props;
-    const { value, shouldOpenComments } = this.state;
+    const { value, shouldOpenComments, shouldOpenActions } = this.state;
 
     return (
       <FooterActionsContainer>
         <FooterItem>
           {post.platform === "steem" ? (
             <FooterItem>
-              <span>${Number(value).toFixed(2) + " "}</span>
+              <ActionBtn onClick={this.toggleActions}>
+                ${Number(value).toFixed(2) + " "}
+              </ActionBtn>
               <span>Posted</span>
               <span>
                 <FormattedRelative value={post.created + "Z"} />
               </span>
             </FooterItem>
           ) : (
-            <Actions>{countActions(post)}</Actions>
+            <ActionBtn onClick={this.toggleActions}>
+              {countActions(post)}
+            </ActionBtn>
           )}
           <FooterItem>
             {this.state.allowEdit && <EditPost post={post} />}
@@ -153,11 +124,7 @@ export default class FooterActions extends Component {
               icon={ic_message}
               size={30}
               style={{ cursor: "pointer" }}
-              onClick={() =>
-                this.setState({
-                  shouldOpenComments: !shouldOpenComments
-                })
-              }
+              onClick={this.toggleComments}
             />
             <UpvoteButton
               platform={post.platform}
@@ -171,6 +138,9 @@ export default class FooterActions extends Component {
             />
           </FooterItem>
         </FooterItem>
+        {shouldOpenActions && (
+          <ActionsContainer post={post} steemValue={value} />
+        )}
         {shouldOpenComments && (
           <CommentsContainer
             likesNumber={post.net_votes}

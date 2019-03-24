@@ -112,6 +112,14 @@ export default class AddNew extends Component {
     this.handleNewModal = this.handleNewModal.bind(this);
     this.unMountChildren = this.unMountChildren.bind(this);
   }
+  componentDidMount() {
+    if (window.innerWidth <= 425) {
+      this.handleOpen();
+    }
+  }
+  componentWillUnmount() {
+    this.handleClose();
+  }
   handleOpen() {
     store.dispatch(newPostIsError(false));
     this.setState({
@@ -144,6 +152,7 @@ export default class AddNew extends Component {
       postCreator: false
     });
   }
+
   render() {
     return (
       <div>
@@ -155,9 +164,7 @@ export default class AddNew extends Component {
             onClick={this.handleOpen}
           />
         ) : (
-          <span style={{ width: "100%" }} onClick={this.handleOpen}>
-            Create new post
-          </span>
+          ""
         )}
 
         {this.state.postCreator === true && (

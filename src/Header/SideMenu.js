@@ -75,7 +75,8 @@ class SideMenu extends Component {
 
     this.state = {
       open: false,
-      votingWeight: 100
+      votingWeight: 100,
+      openPostCreator: false
     };
     this.handleVotingSlider = this.handleVotingSlider.bind(this);
     this.handleVotingSliderDragStop = this.handleVotingSliderDragStop.bind(
@@ -87,7 +88,8 @@ class SideMenu extends Component {
       [side]: open
     });
   };
-  handleToggle = () => this.setState({ open: !this.state.open });
+  handleToggle = () =>
+    this.setState({ open: !this.state.open, openPostCreator: false });
   handleClose = () => this.setState({ open: false });
   handleVotingSlider(e, value) {
     this.setState({
@@ -97,9 +99,15 @@ class SideMenu extends Component {
   handleVotingSliderDragStop() {
     this.props.changeVotePower(Number(this.state.votingWeight * 100));
   }
-
+  handleNewPost = () => {
+    this.handleClose();
+    this.setState({
+      openPostCreator: true
+    });
+  };
   render() {
     const { login } = this.props;
+    const { openPostCreator } = this.state;
     return (
       <StyledDiv>
         <Icon
@@ -108,7 +116,7 @@ class SideMenu extends Component {
           onClick={this.handleToggle}
           className="dashboardIcon"
         />
-
+        {openPostCreator && <AddNew newPostInDrawer={this.handleNewPost} />}
         <Drawer
           anchor="right"
           open={this.state.open}
@@ -127,9 +135,7 @@ class SideMenu extends Component {
                 <MenuItem>Explore</MenuItem>
               </NavLink>
 
-              <MenuItem>
-                <AddNew />
-              </MenuItem>
+              <MenuItem onClick={this.handleNewPost}>New post</MenuItem>
             </span>
           )}
           <NavLink to="/settings/account">
@@ -171,7 +177,6 @@ const mapStateToProps = state => ({
   votePower: state.votePower,
   login: state.login
 });
-export default connect(
-  mapStateToProps,
-  { changeVotePower }
-)(withStyles(styles)(SideMenu));
+export default connect(mapStateToProps, { changeVotePower })(
+  withStyles(styles)(SideMenu)
+);

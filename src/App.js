@@ -97,13 +97,15 @@ class App extends Component {
     };
   }
   async componentDidMount() {
-    await defaultApp.auth().onAuthStateChanged(user => {
-      if (user.displayName !== null) {
-        this.handleEmailLogin(user);
-        this.props.getLoggedProfile(user);
-        this.props.getFollowing();
-      }
-    });
+    if (this.state.googleToken === "firebase") {
+      await defaultApp.auth().onAuthStateChanged(user => {
+        if (user.displayName !== null) {
+          this.handleEmailLogin(user);
+          this.props.getLoggedProfile(user);
+          this.props.getFollowing();
+        }
+      });
+    }
 
     if (this.state.steemToken) {
       Promise.all([
@@ -112,7 +114,6 @@ class App extends Component {
           platform: "steem"
         }),
         await this.props.getUserProfile(),
-        await this.props.getUserFollowing(this.props.steemProfile.profile._id),
         await this.handleFirebaseLogin(),
         await this.props.getUserSettings()
       ]).then(() => {
@@ -121,7 +122,7 @@ class App extends Component {
         });
       });
       const username = this.props.steemProfile.profile._id;
-      this.props.changeLoginStatus({
+      await this.props.changeLoginStatus({
         status: true,
         platform: "steem",
         username: username,
@@ -132,7 +133,7 @@ class App extends Component {
       this.setState({
         steemProfile: profile
       });
-      getFollowing();
+      //getFollowing();
     } else {
       this.setState({
         fetchingData: false

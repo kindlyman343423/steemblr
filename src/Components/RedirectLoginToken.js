@@ -6,9 +6,9 @@ export default class RedirectLoginToken extends Component {
 
     const url = window.location.href;
 
-    if (url.includes("access_token")) {
+    if (url.includes("code")) {
       const accessToken = url
-        .split("access_token=")
+        .split("code=")
         .pop()
         .split("&")
         .shift();
@@ -18,6 +18,7 @@ export default class RedirectLoginToken extends Component {
   }
 
   render() {
+    console.log("redirect login token", this.props);
     return <span />;
   }
 }

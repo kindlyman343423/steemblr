@@ -57,14 +57,14 @@ const Input = styled.input`
   margin-bottom: 10px;
 `;
 const FileInput = styled.input`
-  display: none;
-  opacity: 0;
-  outline: none;
+  width: 50%;
+  &::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+  &::before {
+    content: "Upload";
+  }
   cursor: pointer;
-`;
-const FileInputLabel = styled.label`
-  cursor: pointer;
-  transition: 500ms ease;
 `;
 const PickerContainer = styled.div`
   position: fixed;
@@ -243,26 +243,20 @@ class AppearanceOptions extends Component {
           </OptionContainer>
           <OptionContainerRow>
             <span>Header image</span>
-            <FileInputLabel for="file">
-              Upload
-              <FileInput
-                type="file"
-                name="upload_header_image"
-                onChange={this.handleUpload}
-              />
-            </FileInputLabel>
+            <FileInput
+              type="file"
+              name="upload_header_image"
+              onChange={this.handleUpload}
+            />
           </OptionContainerRow>
           {login.platform === "email" && (
             <OptionContainerRow>
               <span>Avatar image</span>
-              <FileInputLabel for="file">
-                Upload
-                <FileInput
-                  type="file"
-                  name="upload_avatar_image"
-                  onChange={this.handleAvatarUpload}
-                />
-              </FileInputLabel>
+              <FileInput
+                type="file"
+                name="upload_avatar_image"
+                onChange={this.handleAvatarUpload}
+              />
             </OptionContainerRow>
           )}
 
@@ -372,7 +366,4 @@ const mapStateToProps = state => ({
   login: state.login,
   steemAccounts: state.steemAccounts
 });
-export default connect(
-  mapStateToProps,
-  {}
-)(AppearanceOptions);
+export default connect(mapStateToProps, {})(AppearanceOptions);

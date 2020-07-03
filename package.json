@@ -9,7 +9,7 @@
     "font-picker-react": "^2.3.0",
     "history": "^4.7.2",
     "image-compressor.js": "^1.1.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "medium-draft": "^0.6.0-beta1",
     "prop-types": "^15.7.2",
     "react": "^16.8.3",
